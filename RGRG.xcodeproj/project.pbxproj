@@ -159,6 +159,7 @@
 				4E8B85042AD8120E009BCF4B /* Profile */,
 				4E8B84F42AD8120D009BCF4B /* EditProfile */,
 				4E8B84FA2AD8120D009BCF4B /* Notification */,
+				4E8B84F62AD8120D009BCF4B /* ChatList */,
 				4E8B85062AD8120E009BCF4B /* ChatDetail */,
 				4E8B85432AD815C8009BCF4B /* Setting */,
 			);
@@ -216,7 +217,6 @@
 		4E8B85062AD8120E009BCF4B /* ChatDetail */ = {
 			isa = PBXGroup;
 			children = (
-				4E8B84F62AD8120D009BCF4B /* ChatList */,
 				4E8B85072AD8120E009BCF4B /* ChatDetailViewController.swift */,
 			);
 			path = ChatDetail;
