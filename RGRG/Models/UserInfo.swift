@@ -1,6 +1,6 @@
 //
 //  UserInfo.swift
-//  BTB
+//  RGRG
 //
 //  Created by (^ㅗ^)7 iMac on 2023/10/11.
 //
