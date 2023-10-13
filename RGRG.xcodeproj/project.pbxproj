@@ -35,6 +35,8 @@
 		4E8B853C2AD814E6009BCF4B /* PartyListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8B853B2AD814E6009BCF4B /* PartyListViewController.swift */; };
 		4E8B853E2AD81515009BCF4B /* RecuitmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8B853D2AD81515009BCF4B /* RecuitmentViewController.swift */; };
 		4E8B85422AD815B6009BCF4B /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8B85412AD815B6009BCF4B /* SettingViewController.swift */; };
+		96A7B3FA2AD9365D00B218EB /* CtaLageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A7B3F92AD9365D00B218EB /* CtaLageButton.swift */; };
+		96A7B3FC2AD936E800B218EB /* CustomLoginCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A7B3FB2AD936E800B218EB /* CustomLoginCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +63,8 @@
 		4E8B853B2AD814E6009BCF4B /* PartyListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyListViewController.swift; sourceTree = "<group>"; };
 		4E8B853D2AD81515009BCF4B /* RecuitmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecuitmentViewController.swift; sourceTree = "<group>"; };
 		4E8B85412AD815B6009BCF4B /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		96A7B3F92AD9365D00B218EB /* CtaLageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CtaLageButton.swift; sourceTree = "<group>"; };
+		96A7B3FB2AD936E800B218EB /* CustomLoginCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLoginCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -234,6 +238,8 @@
 			isa = PBXGroup;
 			children = (
 				4E8B850D2AD8120E009BCF4B /* LoginViewController.swift */,
+				96A7B3FB2AD936E800B218EB /* CustomLoginCell.swift */,
+				96A7B3F92AD9365D00B218EB /* CtaLageButton.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -347,6 +353,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4E8B85132AD8120E009BCF4B /* EditProfileViewController.swift in Sources */,
+				96A7B3FC2AD936E800B218EB /* CustomLoginCell.swift in Sources */,
 				4E8B85162AD8120E009BCF4B /* NotificationViewController.swift in Sources */,
 				4E8B850F2AD8120E009BCF4B /* UserInfo.swift in Sources */,
 				4E8B85112AD8120E009BCF4B /* ChatInfo.swift in Sources */,
@@ -354,6 +361,7 @@
 				4E8B851B2AD8120E009BCF4B /* ProfileViewController.swift in Sources */,
 				4E8B853E2AD81515009BCF4B /* RecuitmentViewController.swift in Sources */,
 				4E8B85352AD81411009BCF4B /* Extension.swift in Sources */,
+				96A7B3FA2AD9365D00B218EB /* CtaLageButton.swift in Sources */,
 				4E8B851F2AD8120E009BCF4B /* LoginViewController.swift in Sources */,
 				4E8B85172AD8120E009BCF4B /* SignUpViewController.swift in Sources */,
 				4E8B84D92AD81184009BCF4B /* SceneDelegate.swift in Sources */,

@@ -9,36 +9,136 @@ import SnapKit
 import UIKit
 
 class LoginViewController: UIViewController {
-    let testButton = CustomButton(frame: .zero)
-
-    deinit {
-        print("### NotificationViewController deinitialized")
-    }
-}
-
-extension LoginViewController {
+    
+    let bodyContainer = {
+        let stactview = UIView()
+        return stactview
+    }()
+    
+    let mainImage = {
+        let title = UIImageView()
+        return title
+    }()
+    
+    let idLine = {
+        let line = CustomLoginCell(frame: CGRect(), placeHolder: "ID")
+        return line
+    }()
+    
+    let passwordLine = {
+        let line = CustomLoginCell(frame: CGRect(), placeHolder: "Password")
+        line.checkIcon.isHidden = true
+        return line
+    }()
+    
+    
+    let loginButton = {
+        //00인데 왜 나오는걸까 ... ?!
+        let button = CtaLargeButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0), titleText: "로그인")
+        return button
+    }()
+    
+    let signupButton = {
+        let button = UIButton()
+        return button
+    }()
+    
+    let apiLoginArea = {
+        let view = UIView()
+        return view
+    }()
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        setupButton()
+        setupUI()
+        
     }
+    
+    @objc func gotoSignupPage(){
+        print("오잉??")
+        let signupVC = SignUpViewController()
+        self.navigationController?.pushViewController(signupVC, animated: true)
+        //        self.present(signupVC, animated: true)
+    }
+    
+    
 }
 
-extension LoginViewController {
-    func setupButton() {
-        view.addSubview(testButton)
-        testButton.configureButton(title: "TEST", cornerValue: 10, backgroundColor: .systemBlue)
-        testButton.addTarget(self, action: #selector(tappedButton), for: .touchUpInside)
-        testButton.snp.makeConstraints { make in
-            make.centerX.centerY.equalToSuperview()
-            make.width.equalTo(150)
-            make.height.equalTo(60)
-        }
-    }
 
-    @objc func tappedButton(_ sender: UIButton) {
-        let vc = TabBarController()
-        navigationController?.pushViewController(vc, animated: true)
-        print("### \(#function)")
+extension LoginViewController {
+    func setupUI(){
+        
+        view.addSubview(bodyContainer)
+        //        bodyStackContainer.axis = .vertical
+        bodyContainer.layer.borderColor = UIColor.systemBlue.cgColor
+        //        bodyStackContainer.layer.borderWidth = 1
+        bodyContainer.layer.cornerRadius = 10
+        bodyContainer.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.left.equalToSuperview().offset(40)
+            make.right.equalToSuperview().offset(-40)
+            
+        }
+        
+        
+        bodyContainer.addSubview(mainImage)
+        mainImage.image = UIImage(named: "LoginMain")
+        //        mainImage.layer.borderWidth = 1
+        mainImage.contentMode = .scaleAspectFill
+        mainImage.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(100)
+            make.height.equalTo(200)
+            make.left.right.equalToSuperview()
+            make.centerX.equalToSuperview()
+        }
+        
+        bodyContainer.addSubview(idLine)
+        idLine.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.top.equalTo(mainImage.snp.bottom).offset(20)
+        }
+        
+        bodyContainer.addSubview(passwordLine)
+        //        passwordLine.backgroundColor = UIColor.blue
+        passwordLine.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.top.equalTo(idLine.snp.bottom).offset(20)
+        }
+        
+        bodyContainer.addSubview(loginButton)
+        loginButton.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.top.equalTo(passwordLine.snp.bottom).offset(20)
+        }
+        
+        bodyContainer.addSubview(signupButton)
+        signupButton.setTitle("회원가입", for: .normal)
+        signupButton.setTitleColor(UIColor.black, for: .normal)
+        signupButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        signupButton.addTarget(self, action: #selector(gotoSignupPage), for: .touchUpInside)
+        signupButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(loginButton.snp.bottom).offset(15)
+        }
+        
+        bodyContainer.addSubview(apiLoginArea)
+//                apiLoginArea.layer.borderWidth = 1
+        apiLoginArea.layer.cornerRadius = 10
+        apiLoginArea.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(signupButton.snp.bottom).offset(15)
+            make.width.equalTo(200)
+            make.height.equalTo(50)
+        }
+        
     }
+    
+    
+    
+    
 }
