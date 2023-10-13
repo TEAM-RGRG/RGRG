@@ -14,7 +14,6 @@ class ProfileViewController: UIViewController {
         return tableView
     }()
 
-
     deinit {
         print("### NotificationViewController deinitialized")
     }
@@ -47,7 +46,8 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     func configureTable() {
         profileTableView.delegate = self
         profileTableView.dataSource = self
-        profileTableView.register(ProfileTableViewCell_Profile.self, forCellReuseIdentifier: "ProfileCell")
+        profileTableView.register(ProfileCell.self, forCellReuseIdentifier: "ProfileCell")
+        profileTableView.register(ProfileSettingCell.self, forCellReuseIdentifier: "ProfileSettingCell")
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -55,9 +55,11 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+        let cell: UITableViewCell
         if indexPath.row == 0 {
-            let cell = profileTableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as? ProfileTableViewCell_Profile
+            cell = profileTableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
+        } else {
+            cell = profileTableView.dequeueReusableCell(withIdentifier: "ProfileSettingCell", for: indexPath) as! ProfileSettingCell
         }
         return cell
     }

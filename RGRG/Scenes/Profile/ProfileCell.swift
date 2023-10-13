@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class ProfileTableViewCell_Profile: UITableViewCell {
+class ProfileCell: UITableViewCell {
     let profileImage: UIImageView = {
         let imageView = UIImageView()
         return imageView
@@ -37,7 +37,7 @@ class ProfileTableViewCell_Profile: UITableViewCell {
     }
 }
 
-extension ProfileTableViewCell_Profile {
+extension ProfileCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -50,7 +50,7 @@ extension ProfileTableViewCell_Profile {
     }
 }
 
-extension ProfileTableViewCell_Profile {
+extension ProfileCell {
     func configureCellUI() {
         setProfileImageView()
         setLabelStackView()

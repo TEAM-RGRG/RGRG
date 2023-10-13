@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1DD4B8FC2AD940EF001F6761 /* ProfileTableViewCell_Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD4B8FB2AD940EF001F6761 /* ProfileTableViewCell_Profile.swift */; };
+		1DD4B8FC2AD940EF001F6761 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD4B8FB2AD940EF001F6761 /* ProfileCell.swift */; };
 		1DD4B8FE2AD94277001F6761 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD4B8FD2AD94277001F6761 /* CustomLabel.swift */; };
+		1DD4B9022AD953EF001F6761 /* ProfileSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD4B9012AD953EF001F6761 /* ProfileSettingCell.swift */; };
 		4E8B84D72AD81184009BCF4B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8B84D62AD81184009BCF4B /* AppDelegate.swift */; };
 		4E8B84D92AD81184009BCF4B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8B84D82AD81184009BCF4B /* SceneDelegate.swift */; };
 		4E8B84E02AD81187009BCF4B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4E8B84DF2AD81187009BCF4B /* Assets.xcassets */; };
@@ -41,8 +42,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1DD4B8FB2AD940EF001F6761 /* ProfileTableViewCell_Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell_Profile.swift; sourceTree = "<group>"; };
+		1DD4B8FB2AD940EF001F6761 /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		1DD4B8FD2AD94277001F6761 /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
+		1DD4B9012AD953EF001F6761 /* ProfileSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingCell.swift; sourceTree = "<group>"; };
 		4E8B84D32AD81184009BCF4B /* RGRG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RGRG.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E8B84D62AD81184009BCF4B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4E8B84D82AD81184009BCF4B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -218,7 +220,8 @@
 			isa = PBXGroup;
 			children = (
 				4E8B85052AD8120E009BCF4B /* ProfileViewController.swift */,
-				1DD4B8FB2AD940EF001F6761 /* ProfileTableViewCell_Profile.swift */,
+				1DD4B8FB2AD940EF001F6761 /* ProfileCell.swift */,
+				1DD4B9012AD953EF001F6761 /* ProfileSettingCell.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -361,6 +364,7 @@
 				4E8B85112AD8120E009BCF4B /* ChatInfo.swift in Sources */,
 				4E8B84D72AD81184009BCF4B /* AppDelegate.swift in Sources */,
 				4E8B851B2AD8120E009BCF4B /* ProfileViewController.swift in Sources */,
+				1DD4B9022AD953EF001F6761 /* ProfileSettingCell.swift in Sources */,
 				4E8B853E2AD81515009BCF4B /* RecuitmentViewController.swift in Sources */,
 				4E8B85352AD81411009BCF4B /* Extension.swift in Sources */,
 				4E8B851F2AD8120E009BCF4B /* LoginViewController.swift in Sources */,
@@ -373,7 +377,7 @@
 				4E8B85372AD81416009BCF4B /* Utilie.swift in Sources */,
 				4E8B85192AD8120E009BCF4B /* TabBarController.swift in Sources */,
 				4E8B85422AD815B6009BCF4B /* SettingViewController.swift in Sources */,
-				1DD4B8FC2AD940EF001F6761 /* ProfileTableViewCell_Profile.swift in Sources */,
+				1DD4B8FC2AD940EF001F6761 /* ProfileCell.swift in Sources */,
 				4E8B851C2AD8120E009BCF4B /* ChatDetailViewController.swift in Sources */,
 				4E8B851D2AD8120E009BCF4B /* MainViewController.swift in Sources */,
 				CB1768212AD933F5009DF2C1 /* UIColor+Extension.swift in Sources */,
