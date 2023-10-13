@@ -35,6 +35,7 @@
 		4E8B853C2AD814E6009BCF4B /* PartyListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8B853B2AD814E6009BCF4B /* PartyListViewController.swift */; };
 		4E8B853E2AD81515009BCF4B /* RecuitmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8B853D2AD81515009BCF4B /* RecuitmentViewController.swift */; };
 		4E8B85422AD815B6009BCF4B /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8B85412AD815B6009BCF4B /* SettingViewController.swift */; };
+		CB1768212AD933F5009DF2C1 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1768202AD933F5009DF2C1 /* UIColor+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,7 @@
 		4E8B853B2AD814E6009BCF4B /* PartyListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyListViewController.swift; sourceTree = "<group>"; };
 		4E8B853D2AD81515009BCF4B /* RecuitmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecuitmentViewController.swift; sourceTree = "<group>"; };
 		4E8B85412AD815B6009BCF4B /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		CB1768202AD933F5009DF2C1 /* UIColor+Extension.swift */ = {isa = PBXFileReference; indentWidth = 5; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 				4E8B84D62AD81184009BCF4B /* AppDelegate.swift */,
 				4E8B84D82AD81184009BCF4B /* SceneDelegate.swift */,
 				4E8B85342AD81411009BCF4B /* Extension.swift */,
+				CB1768202AD933F5009DF2C1 /* UIColor+Extension.swift */,
 				4E8B85362AD81416009BCF4B /* Utilie.swift */,
 				4E8B84E12AD81187009BCF4B /* LaunchScreen.storyboard */,
 			);
@@ -365,6 +368,7 @@
 				4E8B85422AD815B6009BCF4B /* SettingViewController.swift in Sources */,
 				4E8B851C2AD8120E009BCF4B /* ChatDetailViewController.swift in Sources */,
 				4E8B851D2AD8120E009BCF4B /* MainViewController.swift in Sources */,
+				CB1768212AD933F5009DF2C1 /* UIColor+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
