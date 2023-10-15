@@ -8,7 +8,7 @@
 import SnapKit
 import UIKit
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, ProfileCellDelegate {
     let profileTableView: UITableView = {
         let tableView = UITableView()
         return tableView
@@ -40,6 +40,12 @@ extension ProfileViewController {
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }
     }
+
+    func editProfileButtonPressed() {
+        print("button pressed")
+        let editProfileVC = EditProfileViewController()
+        self.navigationController?.pushViewController(editProfileVC, animated: true)
+    }
 }
 
 extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
@@ -55,13 +61,17 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell
+        
         if indexPath.row == 0 {
-            cell = profileTableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
-        } else {
-            cell = profileTableView.dequeueReusableCell(withIdentifier: "ProfileSettingCell", for: indexPath) as! ProfileSettingCell
+            let cell = profileTableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
+            cell.delegate = self
+            return cell
         }
-        return cell
+        else {
+            let cell = profileTableView.dequeueReusableCell(withIdentifier: "ProfileSettingCell", for: indexPath) as! ProfileSettingCell
+            return cell
+        }
+        
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

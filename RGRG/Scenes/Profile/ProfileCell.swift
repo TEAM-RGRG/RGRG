@@ -8,7 +8,14 @@
 import UIKit
 import SnapKit
 
+protocol ProfileCellDelegate: ProfileViewController {
+    
+    func editProfileButtonPressed()
+}
+
 class ProfileCell: UITableViewCell {
+    weak var delegate: ProfileCellDelegate?
+    
     let profileImage: UIImageView = {
         let imageView = UIImageView()
         return imageView
@@ -93,5 +100,11 @@ extension ProfileCell {
     
     func setEditButton() {
         editProfileButton.configureButton(title: "프로필 수정", cornerValue: 3, backgroundColor: .rgrgColor1)
+        editProfileButton.addTarget(self, action: #selector(editProfileButtonPressed(_:)), for: .touchUpInside)
     }
+    
+    @objc func editProfileButtonPressed(_ sender: UIButton) {
+        delegate?.editProfileButtonPressed()
+    }
+
 }
