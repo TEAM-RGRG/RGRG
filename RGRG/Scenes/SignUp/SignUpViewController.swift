@@ -21,31 +21,31 @@ class SignUpViewController: UIViewController {
     }()
     
     let idLine = {
-        let line = CustomLoginCell(frame: CGRect(), placeHolder: "ID")
+        let line = CustomLoginCell(placeHolder: "ID", condition:"^[a-zA-Z0-9]{3,}$")
         return line
     }()
     
     let passwordLine = {
-        let line = CustomLoginCell(frame: CGRect(), placeHolder: "Password")
-        line.checkIcon.isHidden = true
+        let line = CustomLoginCell(placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$")
+//        line.checkIcon.isHidden = true
         return line
     }()
     
     let passwordCheckLine = {
-        let line = CustomLoginCell(frame: CGRect(), placeHolder: "Password Check")
-        line.checkIcon.isHidden = true
+        let line = CustomLoginCell( placeHolder: "Password Check", condition:"^[a-zA-Z0-9]{7,}$")
+//        line.checkIcon.isHidden = true
         return line
     }()
     
     let nickNameLine = {
-        let line = CustomLoginCell(frame: CGRect(), placeHolder: "닉네임")
-        line.checkIcon.isHidden = true
+        let line = CustomLoginCell(placeHolder: "닉네임", condition:"^[a-zA-Z0-9가-힣]{2,}$")
+//        line.checkIcon.isHidden = true
         return line
     }()
     
     
     let signupButton = {
-        let button = CtaLargeButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0), titleText: "회원가입")
+        let button = CtaLargeButton(titleText: "회원가입")
         return button
     }()
     

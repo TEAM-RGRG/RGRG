@@ -21,20 +21,19 @@ class LoginViewController: UIViewController {
     }()
     
     let idLine = {
-        let line = CustomLoginCell(frame: CGRect(), placeHolder: "ID")
+        let line = CustomLoginCell( placeHolder: "ID", condition:"^[a-zA-Z0-9]{3,}$")
         return line
     }()
     
     let passwordLine = {
-        let line = CustomLoginCell(frame: CGRect(), placeHolder: "Password")
-        line.checkIcon.isHidden = true
+        let line = CustomLoginCell( placeHolder: "Password", condition:"^[a-zA-Z0-9]{3,}$")
+        //        line.checkIcon.isHidden = true
         return line
     }()
     
     
     let loginButton = {
-        //00인데 왜 나오는걸까 ... ?!
-        let button = CtaLargeButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0), titleText: "로그인")
+        let button = CtaLargeButton(titleText: "로그인")
         return button
     }()
     
@@ -59,7 +58,6 @@ class LoginViewController: UIViewController {
     }
     
     @objc func gotoSignupPage(){
-        print("오잉??")
         let signupVC = SignUpViewController()
         self.navigationController?.pushViewController(signupVC, animated: true)
         //        self.present(signupVC, animated: true)
@@ -127,7 +125,7 @@ extension LoginViewController {
         }
         
         bodyContainer.addSubview(apiLoginArea)
-//                apiLoginArea.layer.borderWidth = 1
+        //                apiLoginArea.layer.borderWidth = 1
         apiLoginArea.layer.cornerRadius = 10
         apiLoginArea.snp.makeConstraints { make in
             make.centerX.equalToSuperview()

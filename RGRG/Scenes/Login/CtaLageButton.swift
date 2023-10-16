@@ -16,8 +16,8 @@ class CtaLargeButton : UIView {
         return label
     }()
     
-    init(frame: CGRect, titleText: String) {
-        super.init(frame: frame)
+    init(titleText: String) {
+        super.init(frame:  CGRect())
         setupUI()
         title.text = titleText
 
