@@ -21,25 +21,23 @@ class SignUpViewController: UIViewController {
     }()
     
     let idLine = {
-        let line = CustomLoginCell(placeHolder: "ID", condition:"^[a-zA-Z0-9]{3,}$")
+        let line = CustomLoginCell(placeHolder: "ID", condition:"^[a-zA-Z0-9]{3,}$", cellHeight:60)
         return line
     }()
     
     let passwordLine = {
-        let line = CustomLoginCell(placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$")
-//        line.checkIcon.isHidden = true
+        let line = CustomLoginCell(placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$", cellHeight:100)
+
         return line
     }()
     
     let passwordCheckLine = {
-        let line = CustomLoginCell( placeHolder: "Password Check", condition:"^[a-zA-Z0-9]{7,}$")
-//        line.checkIcon.isHidden = true
+        let line = CustomLoginCell( placeHolder: "Password Check", condition:"^[a-zA-Z0-9]{7,}$", cellHeight:60)
         return line
     }()
     
     let nickNameLine = {
-        let line = CustomLoginCell(placeHolder: "닉네임", condition:"^[a-zA-Z0-9가-힣]{2,}$")
-//        line.checkIcon.isHidden = true
+        let line = CustomLoginCell(placeHolder: "닉네임", condition:"^[a-zA-Z0-9가-힣]{2,}$", cellHeight:60)
         return line
     }()
     

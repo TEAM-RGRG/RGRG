@@ -12,6 +12,7 @@ import SnapKit
 class CustomLoginCell : UIView {
     
     var useConditon = ""
+    var cellHeight = 70
     
     let stackView = {
         let view = UIStackView()
@@ -31,11 +32,12 @@ class CustomLoginCell : UIView {
         
     }()
     
-    init(placeHolder: String, condition: String) {
+    init(placeHolder: String, condition: String, cellHeight:Int? = nil) {
         super.init(frame: CGRect())
         setupUI()
         self.useConditon = condition
         inputBox.placeholder = placeHolder
+        self.cellHeight = cellHeight ?? 70
         
     }
     
@@ -65,8 +67,9 @@ class CustomLoginCell : UIView {
     func setupUI(){
         self.layer.borderWidth = 1
         self.layer.cornerRadius = 10
+            //cellHeight값이 변하지 않는 Bug
         self.snp.makeConstraints { make in
-            make.height.equalTo(70)
+            make.height.equalTo(cellHeight)
             
         }
         
