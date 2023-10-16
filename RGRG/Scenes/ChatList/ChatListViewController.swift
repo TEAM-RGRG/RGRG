@@ -9,7 +9,7 @@ import SnapKit
 import UIKit
 
 class ChatListViewController: UIViewController {
-    let testButton = CustomButton(frame: .zero)
+    let tableView = CustomTableView(frame: .zero)
 
     deinit {
         print("### NotificationViewController deinitialized")
@@ -19,24 +19,22 @@ class ChatListViewController: UIViewController {
 extension ChatListViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        setupButton()
+        setupUI()
     }
 }
 
 extension ChatListViewController {
-    func setupButton() {
-        view.addSubview(testButton)
-        testButton.configureButton(title: "TEST", cornerValue: 10, backgroundColor: .systemBlue)
-        testButton.addTarget(self, action: #selector(tappedButton), for: .touchUpInside)
-        testButton.snp.makeConstraints { make in
-            make.centerX.centerY.equalToSuperview()
-            make.width.equalTo(150)
-            make.height.equalTo(60)
-        }
+    func setupUI() {
+        view.backgroundColor = .systemBackground
+        confirmTableView()
     }
 
-    @objc func tappedButton(_ sender: UIButton) {
-        print("### \(#function)")
+    func confirmTableView() {
+        view.addSubview(tableView)
+        tableView.backgroundColor = .systemOrange
+        tableView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(10)
+        }
     }
 }

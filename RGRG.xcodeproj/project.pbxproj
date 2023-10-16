@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E8195EA2ADD299000881C88 /* CustomTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8195E92ADD299000881C88 /* CustomTableView.swift */; };
+		4E8195EC2ADD3E4600881C88 /* ChatListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8195EB2ADD3E4600881C88 /* ChatListCell.swift */; };
 		4E8B84D72AD81184009BCF4B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8B84D62AD81184009BCF4B /* AppDelegate.swift */; };
 		4E8B84D92AD81184009BCF4B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8B84D82AD81184009BCF4B /* SceneDelegate.swift */; };
 		4E8B84E02AD81187009BCF4B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4E8B84DF2AD81187009BCF4B /* Assets.xcassets */; };
@@ -38,6 +40,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4E8195E92ADD299000881C88 /* CustomTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableView.swift; sourceTree = "<group>"; };
+		4E8195EB2ADD3E4600881C88 /* ChatListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListCell.swift; sourceTree = "<group>"; };
 		4E8B84D32AD81184009BCF4B /* RGRG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RGRG.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E8B84D62AD81184009BCF4B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4E8B84D82AD81184009BCF4B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -134,6 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				4E8B84ED2AD8120D009BCF4B /* CustomButton.swift */,
+				4E8195E92ADD299000881C88 /* CustomTableView.swift */,
 			);
 			path = Subcomponents;
 			sourceTree = "<group>";
@@ -178,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				4E8B84F72AD8120D009BCF4B /* ChatListViewController.swift */,
+				4E8195EB2ADD3E4600881C88 /* ChatListCell.swift */,
 			);
 			path = ChatList;
 			sourceTree = "<group>";
@@ -349,6 +355,7 @@
 				4E8B85132AD8120E009BCF4B /* EditProfileViewController.swift in Sources */,
 				4E8B85162AD8120E009BCF4B /* NotificationViewController.swift in Sources */,
 				4E8B850F2AD8120E009BCF4B /* UserInfo.swift in Sources */,
+				4E8195EC2ADD3E4600881C88 /* ChatListCell.swift in Sources */,
 				4E8B85112AD8120E009BCF4B /* ChatInfo.swift in Sources */,
 				4E8B84D72AD81184009BCF4B /* AppDelegate.swift in Sources */,
 				4E8B851B2AD8120E009BCF4B /* ProfileViewController.swift in Sources */,
@@ -356,6 +363,7 @@
 				4E8B85352AD81411009BCF4B /* Extension.swift in Sources */,
 				4E8B851F2AD8120E009BCF4B /* LoginViewController.swift in Sources */,
 				4E8B85172AD8120E009BCF4B /* SignUpViewController.swift in Sources */,
+				4E8195EA2ADD299000881C88 /* CustomTableView.swift in Sources */,
 				4E8B84D92AD81184009BCF4B /* SceneDelegate.swift in Sources */,
 				4E8B853C2AD814E6009BCF4B /* PartyListViewController.swift in Sources */,
 				4E8B85142AD8120E009BCF4B /* ChatListViewController.swift in Sources */,
