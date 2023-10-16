@@ -25,12 +25,16 @@ extension ProfileViewController {
         configureTable()
         configureUI()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = true
+    }
 }
 
 extension ProfileViewController {
     func configureUI() {
         view.backgroundColor = .systemBackground
-        navigationController?.navigationBar.isHidden = true
+        
         configureProfileTable()
     }
 
@@ -79,6 +83,13 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             return 321
         } else {
             return 57
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 1 {
+            let settingVC = SettingViewController()
+            self.navigationController?.pushViewController(settingVC, animated: true)
         }
     }
 }
