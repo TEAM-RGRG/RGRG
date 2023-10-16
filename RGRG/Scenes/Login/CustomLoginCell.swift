@@ -25,6 +25,12 @@ class CustomLoginCell : UIView {
         return box
     }()
     
+    let infoText = {
+        let text = UILabel()
+        text.isHidden = true
+        return text
+    }()
+    
     let checkIcon = {
         let icon = UIImageView()
         icon.isHidden = true
@@ -32,9 +38,10 @@ class CustomLoginCell : UIView {
         
     }()
     
-    init(placeHolder: String, condition: String, cellHeight:Int? = nil) {
+    init(info:String? = nil, placeHolder: String, condition: String, cellHeight:Int? = nil) {
         super.init(frame: CGRect())
         setupUI()
+        infoText.text = info
         self.useConditon = condition
         inputBox.placeholder = placeHolder
         self.cellHeight = cellHeight ?? 70
@@ -53,7 +60,14 @@ class CustomLoginCell : UIView {
     @objc func checkContents(){
         let text = inputBox.text ?? ""
         let check = isValid(text: text, condition: useConditon)
-        check ? ( checkIcon.isHidden = false):(  checkIcon.isHidden = true)
+        if check {
+            checkIcon.isHidden = false
+            infoText.isHidden = true
+        } else {
+            checkIcon.isHidden = true
+            infoText.isHidden = false
+        }
+
     }
     
     func isValid(text:String, condition:String) -> Bool {
@@ -84,6 +98,11 @@ class CustomLoginCell : UIView {
         
         stackView.addArrangedSubview(inputBox)
         inputBox.addTarget(self, action: #selector(checkContents), for: .editingChanged)
+        
+        stackView.addArrangedSubview(infoText)
+        infoText.textColor = UIColor.red
+//        infoText.text = "ddddd"
+        
         
         stackView.addArrangedSubview(checkIcon)
         checkIcon.image = UIImage(systemName: "checkmark")
