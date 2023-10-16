@@ -27,12 +27,14 @@ class SignUpViewController: UIViewController {
     
     let passwordLine = {
         let line = CustomLoginCell(info: "영문 숫자 7자 이상",placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$", cellHeight:100)
+        line.inputBox.isSecureTextEntry = true
 
         return line
     }()
     
     let passwordCheckLine = {
         let line = CustomLoginCell(info: "영문 숫자 7자 이상", placeHolder: "Password Check", condition:"^[a-zA-Z0-9]{7,}$", cellHeight:60)
+        line.inputBox.isSecureTextEntry = true
         return line
     }()
     

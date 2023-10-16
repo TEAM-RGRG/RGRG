@@ -27,7 +27,7 @@ class LoginViewController: UIViewController {
     
     let passwordLine = {
         let line = CustomLoginCell( placeHolder: "Password", condition:"^[a-zA-Z0-9]{3,}$")
-        //        line.checkIcon.isHidden = true
+        line.inputBox.isSecureTextEntry = true
         return line
     }()
     
