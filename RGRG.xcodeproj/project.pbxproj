@@ -45,6 +45,7 @@
 		CB4B0BC62ADFAB7F0077AB3A /* NoticePageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC52ADFAB7F0077AB3A /* NoticePageVC.swift */; };
 		CB4B0BC82ADFAB970077AB3A /* SearchOptionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC72ADFAB970077AB3A /* SearchOptionVC.swift */; };
 		4EC170CC2ADFB1FC0049B23D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4EC170CB2ADFB1FC0049B23D /* GoogleService-Info.plist */; };
+		4ECD01E52ADE6C15003EA65C /* CustomPopupButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECD01E42ADE6C15003EA65C /* CustomPopupButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,6 +82,7 @@
 		CB4B0BC52ADFAB7F0077AB3A /* NoticePageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticePageVC.swift; sourceTree = "<group>"; };
 		CB4B0BC72ADFAB970077AB3A /* SearchOptionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOptionVC.swift; sourceTree = "<group>"; };
 		4EC170CB2ADFB1FC0049B23D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4ECD01E42ADE6C15003EA65C /* CustomPopupButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPopupButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +162,7 @@
 				4E8195ED2ADD404000881C88 /* CustomImageView.swift */,
 				4E8195EF2ADD407600881C88 /* CustomLabel.swift */,
 				4E8195F12ADD428A00881C88 /* CustomStackView.swift */,
+				4ECD01E42ADE6C15003EA65C /* CustomPopupButton.swift */,
 			);
 			path = Subcomponents;
 			sourceTree = "<group>";
@@ -401,6 +404,7 @@
 				4E8B85372AD81416009BCF4B /* Utilie.swift in Sources */,
 				4E8B85192AD8120E009BCF4B /* TabBarController.swift in Sources */,
 				CB4B0BC62ADFAB7F0077AB3A /* NoticePageVC.swift in Sources */,
+				4ECD01E52ADE6C15003EA65C /* CustomPopupButton.swift in Sources */,
 				4E8B85422AD815B6009BCF4B /* SettingViewController.swift in Sources */,
 				4E8B851C2AD8120E009BCF4B /* ChatDetailViewController.swift in Sources */,
 				4E8B851D2AD8120E009BCF4B /* MainViewController.swift in Sources */,
