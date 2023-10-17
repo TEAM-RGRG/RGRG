@@ -14,6 +14,8 @@ class ChatDetailViewController: UIViewController {
     let tableView = CustomTableView(frame: .zero, style: .plain)
     let rightBarButtonItem = CustomBarButton()
 
+    let model = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+
     deinit {
         print("### NotificationViewController deinitialized")
     }
@@ -33,6 +35,7 @@ extension ChatDetailViewController {
         view.backgroundColor = .systemBackground
         confirmTableView()
         makeRightBarButton()
+        registerCell()
     }
 }
 
@@ -41,6 +44,8 @@ extension ChatDetailViewController {
 extension ChatDetailViewController {
     func confirmTableView() {
         tableView.dataSource = self
+        tableView.delegate = self
+
         view.addSubview(tableView)
         tableView.backgroundColor = .systemOrange
 
@@ -52,7 +57,10 @@ extension ChatDetailViewController {
         }
     }
 
-    func registerCell() {}
+    func registerCell() {
+        tableView.register(MyFeedCell.self, forCellReuseIdentifier: MyFeedCell.identifier)
+        tableView.register(YourFeedCell.self, forCellReuseIdentifier: YourFeedCell.identifier)
+    }
 }
 
 // MARK: - Making RightBarButtonItem
@@ -71,11 +79,31 @@ extension ChatDetailViewController {
 
 extension ChatDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return model.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let index = model[indexPath.row]
+
+        if index % 2 == 0 {
+            print("### \(index)")
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: MyFeedCell.identifier, for: indexPath) as? MyFeedCell else { return UITableViewCell() }
+            cell.backgroundColor = .white
+            return cell
+        } else {
+            print("### \(index)::")
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: YourFeedCell.identifier, for: indexPath) as? YourFeedCell else { return UITableViewCell() }
+            cell.backgroundColor = .systemYellow
+            return cell
+        }
+    }
+}
+
+// MARK: - TableView Delegate
+
+extension ChatDetailViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
     }
 }
 

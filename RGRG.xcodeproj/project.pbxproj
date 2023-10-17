@@ -44,6 +44,7 @@
 		4ECD01E92ADE9405003EA65C /* MyFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECD01E82ADE9405003EA65C /* MyFeedCell.swift */; };
 		4ECD01EB2ADE9413003EA65C /* YourFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECD01EA2ADE9413003EA65C /* YourFeedCell.swift */; };
 		4ECD01ED2ADE9B6C003EA65C /* ChatSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECD01EC2ADE9B6C003EA65C /* ChatSettingViewController.swift */; };
+		4ECD01EF2ADEE151003EA65C /* ChatSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECD01EE2ADEE151003EA65C /* ChatSettingCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,6 +80,7 @@
 		4ECD01E82ADE9405003EA65C /* MyFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedCell.swift; sourceTree = "<group>"; };
 		4ECD01EA2ADE9413003EA65C /* YourFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourFeedCell.swift; sourceTree = "<group>"; };
 		4ECD01EC2ADE9B6C003EA65C /* ChatSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettingViewController.swift; sourceTree = "<group>"; };
+		4ECD01EE2ADEE151003EA65C /* ChatSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettingCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -243,6 +245,7 @@
 			children = (
 				4E8B85072AD8120E009BCF4B /* ChatDetailViewController.swift */,
 				4ECD01EC2ADE9B6C003EA65C /* ChatSettingViewController.swift */,
+				4ECD01EE2ADEE151003EA65C /* ChatSettingCell.swift */,
 				4ECD01E82ADE9405003EA65C /* MyFeedCell.swift */,
 				4ECD01EA2ADE9413003EA65C /* YourFeedCell.swift */,
 			);
@@ -398,6 +401,7 @@
 				4E8B85372AD81416009BCF4B /* Utilie.swift in Sources */,
 				4E8B85192AD8120E009BCF4B /* TabBarController.swift in Sources */,
 				4ECD01E52ADE6C15003EA65C /* CustomBarButton.swift in Sources */,
+				4ECD01EF2ADEE151003EA65C /* ChatSettingCell.swift in Sources */,
 				4E8B85422AD815B6009BCF4B /* SettingViewController.swift in Sources */,
 				4E8B851C2AD8120E009BCF4B /* ChatDetailViewController.swift in Sources */,
 				4E8B851D2AD8120E009BCF4B /* MainViewController.swift in Sources */,

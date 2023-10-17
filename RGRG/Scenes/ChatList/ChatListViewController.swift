@@ -10,7 +10,7 @@ import SwiftUI
 import UIKit
 
 class ChatListViewController: UIViewController {
-    let tableView = CustomTableView(frame: .zero, style: .insetGrouped)
+    let tableView = CustomTableView(frame: .zero, style: .grouped)
     let rightBarButtonItem = CustomBarButton()
 
     deinit {
