@@ -9,10 +9,12 @@ import Foundation
 import UIKit
 import SnapKit
 
+var pwBringValue: String = ""
+
 class CustomLoginCell : UIView {
-    
-    var useConditon = ""
-    var cellHeight = 70
+    //저장속성
+    var conditon : String
+    var cellHeightValue : Int
     
     let stackView = {
         let view = UIStackView()
@@ -38,14 +40,20 @@ class CustomLoginCell : UIView {
         
     }()
     
-    init(info:String? = nil, placeHolder: String, condition: String, cellHeight:Int? = nil) {
+
+    
+    
+  
+    init(id:String, infoText:String? = nil, placeHolder: String, condition: String, cellHeight:Int = 60) {
+        
+        self.conditon = condition
+        self.cellHeightValue = cellHeight //200
+        self.infoText.text = infoText
+        self.inputBox.placeholder = placeHolder
+        self.cellID = id
+        //super.init ? override 랑 다른점
         super.init(frame: CGRect())
         setupUI()
-        infoText.text = info
-        self.useConditon = condition
-        inputBox.placeholder = placeHolder
-        self.cellHeight = cellHeight ?? 70
-        
     }
     
     
@@ -56,34 +64,80 @@ class CustomLoginCell : UIView {
     
     //MARK: Action
     
-    //PWcheck의 경우 다르게 처리해주기
-    @objc func checkContents(){
-        let text = inputBox.text ?? ""
-        let check = isValid(text: text, condition: useConditon)
-        if check {
-            checkIcon.isHidden = false
-            infoText.isHidden = true
-        } else {
-            checkIcon.isHidden = true
-            infoText.isHidden = false
-        }
-
-    }
+    var cellID: String = ""
+//    var pwBringValue: String = ""
     
+    //PWcheck의 경우 다르게 처리해주기
+    @objc func checkContents() {
+        // 선언한 변수들을 왜 함수 밖으로 뺄 수 없는걸까
+        let inputText = inputBox.text ?? ""
+        let cellID = self.cellID
+        let validationCheck = isValid(text: inputText, condition: conditon)
+           
+       
+  
+        
+        switch cellID {
+        case "ID","nickName" :
+            if validationCheck {
+                checkIcon.isHidden = false
+                infoText.isHidden = true
+                    
+            } else {
+                checkIcon.isHidden = true
+                infoText.isHidden = false
+            }
+        case "PW":
+            if validationCheck {
+                checkIcon.isHidden = false
+                infoText.isHidden = true
+
+                savePasswordValue()
+                
+            } else {
+                checkIcon.isHidden = true
+                infoText.isHidden = false
+            }
+        case "PWcheck":
+            let pwCheckInputValue = inputBox.text
+            let pwCheckValue = pwBringValue == pwCheckInputValue
+            if pwCheckValue {
+                checkIcon.isHidden = false
+                infoText.isHidden = true
+                    
+            } else {
+                checkIcon.isHidden = true
+                infoText.isHidden = false
+            }
+
+        default : break
+        }
+        
+    }
     func isValid(text:String, condition:String) -> Bool {
         let  condition = condition
         let compare = NSPredicate(format:"SELF MATCHES %@",  condition)
         return compare.evaluate(with: text)
     }
     
+    func savePasswordValue (){
+        // pw 일치 여부 확인
+        if cellID == "PW" {
+            let pwValue = inputBox.text
+            pwBringValue = pwValue ?? ""
+            print("pwBringValue확인",pwBringValue)
+        }
+    }
+
+    
     
     //MARK: UI
     func setupUI(){
         self.layer.borderWidth = 1
         self.layer.cornerRadius = 10
-            //cellHeight값이 변하지 않는 Bug
+        //cellHeight값이 변하지 않는 Bug
         self.snp.makeConstraints { make in
-            make.height.equalTo(cellHeight)
+            make.height.equalTo(cellHeightValue)
             
         }
         
@@ -101,7 +155,7 @@ class CustomLoginCell : UIView {
         
         stackView.addArrangedSubview(infoText)
         infoText.textColor = UIColor.red
-//        infoText.text = "ddddd"
+        //        infoText.text = "ddddd"
         
         
         stackView.addArrangedSubview(checkIcon)

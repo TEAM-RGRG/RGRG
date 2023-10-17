@@ -8,7 +8,11 @@
 import SnapKit
 import UIKit
 
+
+
 class SignUpViewController: UIViewController {
+    
+    
     
     let bodyContainer = {
         let stactview = UIView()
@@ -21,25 +25,25 @@ class SignUpViewController: UIViewController {
     }()
     
     let idLine = {
-        let line = CustomLoginCell(info: "영문 숫자 3자 이상",placeHolder: "ID", condition:"^[a-zA-Z0-9]{3,}$", cellHeight:60)
+        let line = CustomLoginCell(id:"ID",infoText: "영문 숫자 3자 이상",placeHolder: "ID", condition:"^[a-zA-Z0-9]{3,}$")
         return line
     }()
     
     let passwordLine = {
-        let line = CustomLoginCell(info: "영문 숫자 7자 이상",placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$", cellHeight:100)
+        let line = CustomLoginCell(id:"PW",infoText: "영문 숫자 7자 이상",placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$")
         line.inputBox.isSecureTextEntry = true
-
         return line
     }()
     
+    
     let passwordCheckLine = {
-        let line = CustomLoginCell(info: "영문 숫자 7자 이상", placeHolder: "Password Check", condition:"^[a-zA-Z0-9]{7,}$", cellHeight:60)
+        let line = CustomLoginCell(id:"PWcheck",infoText: "다시 확인해주세요", placeHolder: "Password Check", condition:"^[a-zA-Z0-9]{7,}$")
         line.inputBox.isSecureTextEntry = true
         return line
     }()
     
     let nickNameLine = {
-        let line = CustomLoginCell(info: "영문 숫자 한글 2자 이상",placeHolder: "닉네임", condition:"^[a-zA-Z0-9가-힣]{2,}$", cellHeight:60)
+        let line = CustomLoginCell(id:"nickName",infoText: "영문 숫자 한글 2자 이상",placeHolder: "닉네임", condition:"^[a-zA-Z0-9가-힣]{2,}$")
         return line
     }()
     
@@ -50,6 +54,7 @@ class SignUpViewController: UIViewController {
     }()
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setupUI()
@@ -63,7 +68,7 @@ extension SignUpViewController {
         view.addSubview(bodyContainer)
         //        bodyStackContainer.axis = .vertical
         bodyContainer.layer.borderColor = UIColor.systemBlue.cgColor
-//        bodyContainer.layer.borderWidth = 1
+        //        bodyContainer.layer.borderWidth = 1
         bodyContainer.layer.cornerRadius = 10
         bodyContainer.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
@@ -78,7 +83,7 @@ extension SignUpViewController {
         mainImage.contentMode = .scaleAspectFill
         mainImage.snp.makeConstraints { make in
             make.top.left.right.equalToSuperview()
-                    }
+        }
         
         bodyContainer.addSubview(idLine)
         idLine.snp.makeConstraints { make in
@@ -99,7 +104,7 @@ extension SignUpViewController {
             make.left.right.equalToSuperview()
             make.top.equalTo(passwordLine.snp.bottom).offset(20)
         }
-
+        
         bodyContainer.addSubview(nickNameLine)
         nickNameLine.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
@@ -111,6 +116,6 @@ extension SignUpViewController {
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview().offset(-20)
         }
-    
-        }
+        
     }
+}
