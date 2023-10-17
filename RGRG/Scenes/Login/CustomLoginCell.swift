@@ -72,8 +72,10 @@ class CustomLoginCell : UIView {
         let cellID = self.cellID
         let validationCheck = isValid(text: inputText, condition: conditon)
         
-        func updateUI(validation: Bool) {
-            if validationCheck {
+        func updateUIvalid(validation: Bool) {
+            if inputText.isEmpty {
+                infoText.isHidden = true
+            }else if validationCheck == true {
                 checkIcon.isHidden = false
                 infoText.isHidden = true
             } else {
@@ -81,17 +83,34 @@ class CustomLoginCell : UIView {
                 infoText.isHidden = false
             }
         }
+        
+        func updateUIcheckPW(validation: Bool){
+            if inputText.isEmpty {
+                infoText.isHidden = true
+            }else if validation {
+                checkIcon.isHidden = false
+                infoText.isHidden = true
+            } else {
+                checkIcon.isHidden = true
+                infoText.isHidden = false
+            }
+        }
+        
 
         switch cellID {
         case "ID", "nickName":
-            updateUI(validation: validationCheck)
+            updateUIvalid(validation: validationCheck)
         case "PW":
-            updateUI(validation: validationCheck)
+            updateUIvalid(validation: validationCheck)
             savePasswordValue()
         case "PWcheck":
             let pwCheckInputValue = inputBox.text
             let pwCheckValue = pwBringValue == pwCheckInputValue
-            updateUI(validation: pwCheckValue)
+            updateUIcheckPW(validation: pwCheckValue)
+//            print("pwBringValue",pwBringValue)
+//            print("InputValue",pwCheckInputValue)
+//            print("pwCheckValue",pwCheckValue)
+            
         default:
             break
         }
@@ -105,11 +124,9 @@ class CustomLoginCell : UIView {
     }
     
     func savePasswordValue (){
-        // pw 일치 여부 확인
         if cellID == "PW" {
             let pwValue = inputBox.text
             pwBringValue = pwValue ?? ""
-            print("pwBringValue확인",pwBringValue)
         }
     }
 

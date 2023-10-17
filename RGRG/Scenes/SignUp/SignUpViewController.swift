@@ -37,7 +37,7 @@ class SignUpViewController: UIViewController {
     
     
     let passwordCheckLine = {
-        let line = CustomLoginCell(id:"PWcheck",infoText: "다시 확인해주세요", placeHolder: "Password Check", condition:"^[a-zA-Z0-9]{7,}$")
+        let line = CustomLoginCell(id:"PWcheck",infoText: "다시 확인해주세요", placeHolder: "Password Check", condition:"")
         line.inputBox.isSecureTextEntry = true
         return line
     }()
