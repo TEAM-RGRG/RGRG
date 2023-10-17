@@ -11,6 +11,7 @@ import UIKit
 
 class ChatListViewController: UIViewController {
     let tableView = CustomTableView(frame: .zero, style: .insetGrouped)
+    let rightBarButtonItem = CustomBarButton()
 
     deinit {
         print("### NotificationViewController deinitialized")
@@ -27,6 +28,7 @@ extension ChatListViewController {
 extension ChatListViewController {
     func setupUI() {
         view.backgroundColor = .systemBackground
+        makeRightBarButton()
         confirmTableView()
         registerCell()
     }
@@ -45,6 +47,29 @@ extension ChatListViewController {
 
     func registerCell() {
         tableView.register(ChatListCell.self, forCellReuseIdentifier: ChatListCell.identifier)
+    }
+}
+
+// MARK: - RightBarButtonItem
+
+extension ChatListViewController {
+    func makeRightBarButton() {
+        // 액션 만들기 >> 메뉴 만들기 >> UIBarButtonItem 만들기
+        let latestSortAction = rightBarButtonItem.makeSingleAction(title: "최신 메시지 순", state: .off) { _ in
+            print("### 최신순으로 정렬하기 알파입니다.")
+        }
+
+        let bookMarkAction = rightBarButtonItem.makeSingleAction(title: "즐겨찾기 순", state: .off) { _ in
+            print("### 즐겨찾기으로 정렬하기 알파입니다.")
+        }
+
+        let menu = [latestSortAction, bookMarkAction]
+
+        let uiMenu = rightBarButtonItem.makeUIMenu(title: "채팅방 정렬", opetions: .displayInline, uiActions: menu)
+
+        navigationItem.rightBarButtonItem?.changesSelectionAsPrimaryAction = false
+
+        tabBarController?.navigationItem.rightBarButtonItem = rightBarButtonItem.makeBarButtonItem(imageName: "ellipsis.circle", menu: uiMenu)
     }
 }
 
@@ -67,7 +92,8 @@ extension ChatListViewController: UITableViewDataSource {
 
 extension ChatListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("### \(indexPath.row)")
+        let vc = ChatDetailViewController()
+        tabBarController?.navigationController?.pushViewController(vc, animated: true)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -75,18 +101,17 @@ extension ChatListViewController: UITableViewDelegate {
     }
 }
 
-//MARK: - SwiftUI Preview
+// MARK: - SwiftUI Preview
 
- @available(iOS 13.0, *)
- struct ChatListViewControllerRepresentble: UIViewRepresentable {
-    func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<ChatListViewControllerRepresentble>) {
-    }
+@available(iOS 13.0, *)
+struct ChatListViewControllerRepresentble: UIViewRepresentable {
+    func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<ChatListViewControllerRepresentble>) {}
 
     func makeUIView(context: Context) -> UIView { ChatListViewController().view }
- }
+}
 
- @available(iOS 13.0, *)
- struct ChatListVCPreview: PreviewProvider {
+@available(iOS 13.0, *)
+struct ChatListVCPreview: PreviewProvider {
     static var previews: some View { ChatListViewControllerRepresentble()
     }
- }
+}

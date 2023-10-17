@@ -40,6 +40,7 @@
 		4E8B853C2AD814E6009BCF4B /* PartyListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8B853B2AD814E6009BCF4B /* PartyListViewController.swift */; };
 		4E8B853E2AD81515009BCF4B /* RecuitmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8B853D2AD81515009BCF4B /* RecuitmentViewController.swift */; };
 		4E8B85422AD815B6009BCF4B /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8B85412AD815B6009BCF4B /* SettingViewController.swift */; };
+		4ECD01E52ADE6C15003EA65C /* CustomPopupButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECD01E42ADE6C15003EA65C /* CustomPopupButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,6 +72,7 @@
 		4E8B853B2AD814E6009BCF4B /* PartyListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyListViewController.swift; sourceTree = "<group>"; };
 		4E8B853D2AD81515009BCF4B /* RecuitmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecuitmentViewController.swift; sourceTree = "<group>"; };
 		4E8B85412AD815B6009BCF4B /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		4ECD01E42ADE6C15003EA65C /* CustomPopupButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPopupButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +150,7 @@
 				4E8195ED2ADD404000881C88 /* CustomImageView.swift */,
 				4E8195EF2ADD407600881C88 /* CustomLabel.swift */,
 				4E8195F12ADD428A00881C88 /* CustomStackView.swift */,
+				4ECD01E42ADE6C15003EA65C /* CustomPopupButton.swift */,
 			);
 			path = Subcomponents;
 			sourceTree = "<group>";
@@ -382,6 +385,7 @@
 				4E8B850E2AD8120E009BCF4B /* CustomButton.swift in Sources */,
 				4E8B85372AD81416009BCF4B /* Utilie.swift in Sources */,
 				4E8B85192AD8120E009BCF4B /* TabBarController.swift in Sources */,
+				4ECD01E52ADE6C15003EA65C /* CustomPopupButton.swift in Sources */,
 				4E8B85422AD815B6009BCF4B /* SettingViewController.swift in Sources */,
 				4E8B851C2AD8120E009BCF4B /* ChatDetailViewController.swift in Sources */,
 				4E8B851D2AD8120E009BCF4B /* MainViewController.swift in Sources */,

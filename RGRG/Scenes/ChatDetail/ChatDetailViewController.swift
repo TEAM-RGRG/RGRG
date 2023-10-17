@@ -7,6 +7,7 @@
 
 import SnapKit
 import UIKit
+import SwiftUI
 
 class ChatDetailViewController: UIViewController {
     let testButton = CustomButton(frame: .zero)
@@ -38,5 +39,20 @@ extension ChatDetailViewController {
 
     @objc func tappedButton(_ sender: UIButton) {
         print("### \(#function)")
+    }
+}
+
+// MARK: - SwiftUI Preview
+
+@available(iOS 13.0, *)
+struct ChatDetailViewControllerRepresentble: UIViewRepresentable {
+    func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<ChatDetailViewControllerRepresentble>) {}
+
+    func makeUIView(context: Context) -> UIView { ChatDetailViewController().view }
+}
+
+@available(iOS 13.0, *)
+struct ChatDetailVCPreview: PreviewProvider {
+    static var previews: some View { ChatDetailViewControllerRepresentble()
     }
 }
