@@ -9,9 +9,15 @@ import SnapKit
 import UIKit
 
 class EditProfileViewController: UIViewController {
+    let sampleUserName = "sampleUser"
+
     let profileImage: UIImageView = {
         let imageView = UIImageView()
+        imageView.frame = CGRect(x: 0, y: 0, width: 165, height: 165)
         imageView.image = UIImage(systemName: "photo")
+        imageView.layer.cornerRadius = imageView.frame.height / 2
+        imageView.layer.borderWidth = 1
+        imageView.clipsToBounds = true
         return imageView
     }()
 
@@ -53,8 +59,14 @@ extension EditProfileViewController {
         noticeLabel.setupLabelColor(color: .red)
     }
 
+    func setupUserNameTextField() {
+        userNameTextField.text = sampleUserName
+    }
+
     func configureUI() {
+
         setupLabel()
+        setupUserNameTextField()
 
         [profileImage, userNameTextFieldTitle, userNameTextField, noticeLabel].forEach { view.addSubview($0) }
 
@@ -79,6 +91,8 @@ extension EditProfileViewController {
             make.left.equalToSuperview().offset(35)
             make.top.equalTo(userNameTextField.snp.bottom).offset(11)
         }
+        
+
     }
 }
 

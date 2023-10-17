@@ -16,8 +16,16 @@ protocol ProfileCellDelegate: ProfileViewController {
 class ProfileCell: UITableViewCell {
     weak var delegate: ProfileCellDelegate?
     
+    let sampleUserName = "sampleUser"
+    let sampleEmail = "xxxxxxxx@xxxxx.xxx"
+    
     let profileImage: UIImageView = {
         let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "photo")
+        imageView.frame = CGRect(x: 0, y: 0, width: 93, height: 93)
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.borderWidth = 1
+        imageView.layer.cornerRadius = imageView.frame.height/2
         return imageView
     }()
 
@@ -59,7 +67,6 @@ extension ProfileCell {
 
 extension ProfileCell {
     func configureCellUI() {
-        setProfileImageView()
         setLabelStackView()
         setEditButton()
         
@@ -83,19 +90,12 @@ extension ProfileCell {
         })
     }
     
-    func setProfileImageView() {
-        profileImage.image = UIImage(systemName: "photo")
-        profileImage.contentMode = .scaleAspectFit
-        profileImage.layer.borderWidth = 1
-        profileImage.layer.borderColor = UIColor.black.cgColor
-        profileImage.layer.cornerRadius = profileImage.frame.height/2
-    }
     
     func setLabelStackView() {
         [profileUserNameLabel, profileEmailLabel].forEach({labelStackView.addArrangedSubview($0)})
         
-        profileUserNameLabel.text = "유저 이름"
-        profileEmailLabel.text = "xxxxxxxx@xxxxx.xxx"
+        profileUserNameLabel.text = sampleUserName
+        profileEmailLabel.text = sampleEmail
     }
     
     func setEditButton() {
