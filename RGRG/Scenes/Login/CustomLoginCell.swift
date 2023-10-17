@@ -65,53 +65,37 @@ class CustomLoginCell : UIView {
     //MARK: Action
     
     var cellID: String = ""
-//    var pwBringValue: String = ""
+
     
-    //PWcheck의 경우 다르게 처리해주기
     @objc func checkContents() {
-        // 선언한 변수들을 왜 함수 밖으로 뺄 수 없는걸까
         let inputText = inputBox.text ?? ""
         let cellID = self.cellID
         let validationCheck = isValid(text: inputText, condition: conditon)
-           
-       
-  
         
-        switch cellID {
-        case "ID","nickName" :
+        func updateUI(validation: Bool) {
             if validationCheck {
                 checkIcon.isHidden = false
                 infoText.isHidden = true
-                    
             } else {
                 checkIcon.isHidden = true
                 infoText.isHidden = false
             }
-        case "PW":
-            if validationCheck {
-                checkIcon.isHidden = false
-                infoText.isHidden = true
+        }
 
-                savePasswordValue()
-                
-            } else {
-                checkIcon.isHidden = true
-                infoText.isHidden = false
-            }
+        switch cellID {
+        case "ID", "nickName":
+            updateUI(validation: validationCheck)
+        case "PW":
+            updateUI(validation: validationCheck)
+            savePasswordValue()
         case "PWcheck":
             let pwCheckInputValue = inputBox.text
             let pwCheckValue = pwBringValue == pwCheckInputValue
-            if pwCheckValue {
-                checkIcon.isHidden = false
-                infoText.isHidden = true
-                    
-            } else {
-                checkIcon.isHidden = true
-                infoText.isHidden = false
-            }
-
-        default : break
+            updateUI(validation: pwCheckValue)
+        default:
+            break
         }
+
         
     }
     func isValid(text:String, condition:String) -> Bool {
