@@ -44,10 +44,10 @@ class CustomLoginCell : UIView {
         
     }()
     
-
     
     
-  
+    
+    
     init(id:String, infoText:String? = nil, placeHolder: String, condition: String, cellHeight:Int = 60) {
         
         self.conditon = condition
@@ -68,8 +68,8 @@ class CustomLoginCell : UIView {
     
     //MARK: Action
     
-   
-
+    
+    
     @objc func checkContents() {
         let inputText = inputBox.text ?? ""
         let cellID = self.cellID
@@ -88,7 +88,7 @@ class CustomLoginCell : UIView {
                 infoText.isHidden = false
             }
         }
-
+        
         switch cellID {
         case "ID", "nickName":
             updateUIvalid(validation: validationCheck)
@@ -102,11 +102,13 @@ class CustomLoginCell : UIView {
             print("pwBringValue",pwBringValue)
             print("InputValue",pwCheckInputValue)
             print("pwCheckValue",pwCheckValue)
+        case "LoginID","LoginPW" :
+            updateUIvalid(validation: validationCheck)
             
         default:
             break
         }
-
+        
         
     }
     func isValid(text:String, condition:String) -> Bool {
@@ -121,14 +123,13 @@ class CustomLoginCell : UIView {
             pwBringValue = pwValue ?? ""
         }
     }
-
+    
     
     
     //MARK: UI
     func setupUI(){
         self.layer.borderWidth = 1
         self.layer.cornerRadius = 10
-        //cellHeight값이 변하지 않는 Bug
         self.snp.makeConstraints { make in
             make.height.equalTo(cellHeightValue)
             

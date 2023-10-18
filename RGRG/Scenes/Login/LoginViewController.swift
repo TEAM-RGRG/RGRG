@@ -10,6 +10,9 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
+    var loginIdPass:Bool = false
+    var loginPwPass:Bool = false
+    
     let bodyContainer = {
         let stactview = UIView()
         return stactview
@@ -26,7 +29,7 @@ class LoginViewController: UIViewController {
     }()
     
     let passwordLine = {
-        let line = CustomLoginCell( id:"LoginPW",placeHolder: "Password", condition:"^[a-zA-Z0-9]{3,}$", cellHeight:70)
+        let line = CustomLoginCell( id:"LoginPW",placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$", cellHeight:70)
         line.inputBox.isSecureTextEntry = true
         return line
     }()
@@ -47,14 +50,35 @@ class LoginViewController: UIViewController {
         return view
     }()
     
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setupUI()
+        passValueCheck()
         
+    }
+}
+
+
+extension LoginViewController {
+    
+    func passValueCheck(){
+        func updateUI(){
+            guard self.loginIdPass && self.loginPwPass else {
+                return
+            }
+            loginButton.backgroundColor = UIColor.black
+        }
+        idLine.passHandler = { pass in
+            self.loginIdPass = pass
+            updateUI()
+        }
+        passwordLine.passHandler = { pass in
+            self.loginPwPass = pass
+            updateUI()
+        }
+  
     }
     
     @objc func gotoSignupPage(){
@@ -63,11 +87,6 @@ class LoginViewController: UIViewController {
         //        self.present(signupVC, animated: true)
     }
     
-    
-}
-
-
-extension LoginViewController {
     func setupUI(){
         
         view.addSubview(bodyContainer)

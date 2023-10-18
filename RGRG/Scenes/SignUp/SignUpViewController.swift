@@ -47,7 +47,7 @@ class SignUpViewController: UIViewController {
     
     let nickNameLine = {
         let line = CustomLoginCell(id:"nickName",infoText: "영문 숫자 한글 2자 이상",placeHolder: "닉네임", condition:"^[a-zA-Z0-9가-힣]{2,}$")
-
+        
         return line
     }()
     
@@ -57,16 +57,15 @@ class SignUpViewController: UIViewController {
         return button
     }()
     
- 
- 
+    
+    
     //한번만 불림, 이미 실행됨
     override func viewDidLoad() {
-   
+        
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setupUI()
         passValueCheck()
-        print("idPass original", self.idPass)
     }
     
 }
@@ -74,13 +73,13 @@ class SignUpViewController: UIViewController {
 
 extension SignUpViewController {
     func passValueCheck(){
-       
+        
         func updateUI(){
-         
-          guard self.idPass && self.pwPass && pwCheckPass && self.nickNamePass else{
-               return
+            
+            guard self.idPass && self.pwPass && pwCheckPass && self.nickNamePass else{
+                return
             }
-                signupButton.backgroundColor = UIColor.black
+            signupButton.backgroundColor = UIColor.black
         }
         
         //idPass값이 안바뀌는 것처럼 보이는건, ViewDidLoad에서 이미 그려졌기 때문
@@ -100,19 +99,19 @@ extension SignUpViewController {
         nickNameLine.passHandler = { pass in
             self.nickNamePass = pass
             updateUI()
-           
+            
         }
         
-     
+        
     }
     
-  
+    
     
     func setupUI() {
         view.addSubview(bodyContainer)
         //        bodyStackContainer.axis = .vertical
         bodyContainer.layer.borderColor = UIColor.systemBlue.cgColor
-//                bodyContainer.layer.borderWidth = 1
+        //                bodyContainer.layer.borderWidth = 1
         bodyContainer.layer.cornerRadius = 10
         bodyContainer.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
