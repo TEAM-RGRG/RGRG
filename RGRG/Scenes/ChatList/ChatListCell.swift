@@ -17,7 +17,6 @@ class ChatListCell: UITableViewCell {
 
     let profileIconImageView = CustomImageView(frame: .zero)
     let chatAlertIconView = UIView(frame: .zero)
-    
 
     let profileNameLabel = CustomLabel(frame: .zero)
     let chatDescriptionLabel = CustomLabel(frame: .zero)
@@ -41,7 +40,6 @@ extension ChatListCell {
         confirmStackView()
         confirmProfileNameLabel()
         confirmChatDescriptionLabel()
-        
         confirmTrailingStackView()
         confirmTimeLabel()
         confirmAlertIcon()
@@ -107,7 +105,6 @@ extension ChatListCell {
         [timeLabel, chatAlertIconView].forEach {
             trailingStackView.addArrangedSubview($0)
         }
-        
         trailingStackView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalTo(superStackView.snp.trailing).offset(5)
@@ -129,16 +126,15 @@ extension ChatListCell {
         chatAlertIconView.addSubview(alertCountLabel)
         chatAlertIconView.backgroundColor = .systemRed
         chatAlertIconView.layer.cornerRadius = 15
-        
         alertCountLabel.text = "0"
         alertCountLabel.setupLabelColor(color: .white)
         alertCountLabel.textAlignment = .center
         alertCountLabel.font = .systemFont(ofSize: 12, weight: .bold)
-        
+
         chatAlertIconView.snp.makeConstraints { make in
             make.width.height.equalTo(30)
         }
-        
+
         alertCountLabel.snp.makeConstraints { make in
             make.centerX.centerY.equalToSuperview()
             make.width.equalTo(10)
