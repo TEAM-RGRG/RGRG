@@ -6,11 +6,13 @@
 //
 
 import SnapKit
-import UIKit
 import SwiftUI
+import UIKit
 
 class ChatDetailViewController: UIViewController {
-    let testButton = CustomButton(frame: .zero)
+    let vc = ChatSettingViewController()
+    let tableView = CustomTableView(frame: .zero, style: .plain)
+    let rightBarButtonItem = CustomBarButton()
 
     deinit {
         print("### NotificationViewController deinitialized")
@@ -20,25 +22,60 @@ class ChatDetailViewController: UIViewController {
 extension ChatDetailViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        setupButton()
+        setupUI()
     }
 }
 
+// MARK: - SetUp UI
+
 extension ChatDetailViewController {
-    func setupButton() {
-        view.addSubview(testButton)
-        testButton.configureButton(title: "TEST", cornerValue: 10, backgroundColor: .systemBlue)
-        testButton.addTarget(self, action: #selector(tappedButton), for: .touchUpInside)
-        testButton.snp.makeConstraints { make in
-            make.centerX.centerY.equalToSuperview()
-            make.width.equalTo(150)
-            make.height.equalTo(60)
+    func setupUI() {
+        view.backgroundColor = .systemBackground
+        confirmTableView()
+        makeRightBarButton()
+    }
+}
+
+// MARK: - Making TableView
+
+extension ChatDetailViewController {
+    func confirmTableView() {
+        tableView.dataSource = self
+        view.addSubview(tableView)
+        tableView.backgroundColor = .systemOrange
+
+        tableView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.leading.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(10)
         }
     }
 
-    @objc func tappedButton(_ sender: UIButton) {
-        print("### \(#function)")
+    func registerCell() {}
+}
+
+// MARK: - Making RightBarButtonItem
+
+extension ChatDetailViewController {
+    func makeRightBarButton() {
+        navigationItem.rightBarButtonItem = rightBarButtonItem.makeBarButtonItem(imageName: "gearshape", target: self, action: #selector(tappedSettingButton))
+    }
+
+    @objc func tappedSettingButton(_ sender: UIBarButtonItem) {
+        present(vc, animated: true)
+    }
+}
+
+// MARK: - TableView DataSource
+
+extension ChatDetailViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell()
     }
 }
 
