@@ -72,19 +72,8 @@ class CustomLoginCell : UIView {
         let cellID = self.cellID
         let validationCheck = isValid(text: inputText, condition: conditon)
         
-        func updateUIvalid(validation: Bool) {
-            if inputText.isEmpty {
-                infoText.isHidden = true
-            }else if validationCheck == true {
-                checkIcon.isHidden = false
-                infoText.isHidden = true
-            } else {
-                checkIcon.isHidden = true
-                infoText.isHidden = false
-            }
-        }
         
-        func updateUIcheckPW(validation: Bool){
+        func updateUIvalid(validation: Bool) {
             if inputText.isEmpty {
                 infoText.isHidden = true
             }else if validation {
@@ -95,7 +84,6 @@ class CustomLoginCell : UIView {
                 infoText.isHidden = false
             }
         }
-        
 
         switch cellID {
         case "ID", "nickName":
@@ -106,10 +94,10 @@ class CustomLoginCell : UIView {
         case "PWcheck":
             let pwCheckInputValue = inputBox.text
             let pwCheckValue = pwBringValue == pwCheckInputValue
-            updateUIcheckPW(validation: pwCheckValue)
-//            print("pwBringValue",pwBringValue)
-//            print("InputValue",pwCheckInputValue)
-//            print("pwCheckValue",pwCheckValue)
+            updateUIvalid(validation: pwCheckValue)
+            print("pwBringValue",pwBringValue)
+            print("InputValue",pwCheckInputValue)
+            print("pwCheckValue",pwCheckValue)
             
         default:
             break
@@ -147,15 +135,15 @@ class CustomLoginCell : UIView {
         stackView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(10)
             make.left.equalToSuperview().offset(25)
-            make.bottom.equalToSuperview().offset(-10)
-            make.right.equalToSuperview().offset(-25)
+            make.bottom.equalToSuperview().inset(10)
+            make.right.equalToSuperview().inset(25)
         }
         
         stackView.addArrangedSubview(inputBox)
         inputBox.addTarget(self, action: #selector(checkContents), for: .editingChanged)
         
         stackView.addArrangedSubview(infoText)
-        infoText.textColor = UIColor.red
+        infoText.textColor = UIColor.systemRed
         //        infoText.text = "ddddd"
         
         

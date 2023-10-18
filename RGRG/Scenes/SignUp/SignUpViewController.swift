@@ -68,13 +68,13 @@ extension SignUpViewController {
         view.addSubview(bodyContainer)
         //        bodyStackContainer.axis = .vertical
         bodyContainer.layer.borderColor = UIColor.systemBlue.cgColor
-        //        bodyContainer.layer.borderWidth = 1
+//                bodyContainer.layer.borderWidth = 1
         bodyContainer.layer.cornerRadius = 10
         bodyContainer.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.bottom.equalTo(view.safeAreaLayoutGuide)
             make.left.equalToSuperview().offset(40)
-            make.right.equalToSuperview().offset(-40)
+            make.right.equalToSuperview().inset(40)
             
         }
         
@@ -114,7 +114,7 @@ extension SignUpViewController {
         bodyContainer.addSubview(signupButton)
         signupButton.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-20)
+            make.bottom.equalToSuperview().inset(20)
         }
         
     }
