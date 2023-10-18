@@ -80,9 +80,14 @@ class CustomLoginCell : UIView {
             if inputText.isEmpty {
                 infoText.isHidden = true
             }else if validation {
-                checkIcon.isHidden = false
-                infoText.isHidden = true
-                passHandler?(true)
+                if ["LoginID","LoginPW"].contains(cellID){
+                    passHandler?(true)
+                }
+                else{
+                    checkIcon.isHidden = false
+                    infoText.isHidden = true
+                    passHandler?(true)
+                }
             } else {
                 checkIcon.isHidden = true
                 infoText.isHidden = false
