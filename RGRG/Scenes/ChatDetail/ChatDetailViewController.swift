@@ -12,10 +12,15 @@ import UIKit
 class ChatDetailViewController: UIViewController {
     let vc = ChatSettingViewController()
     let tableView = CustomTableView(frame: .zero, style: .plain)
+
     let rightBarButtonItem = CustomBarButton()
+    let sendMessageButton = CustomButton(frame: .zero)
+    let textField = CustomTextField(frame: .zero)
+
+    let model = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
     deinit {
-        print("### NotificationViewController deinitialized")
+        print("### ChatDetailViewController deinitialized")
     }
 }
 
@@ -33,6 +38,9 @@ extension ChatDetailViewController {
         view.backgroundColor = .systemBackground
         confirmTableView()
         makeRightBarButton()
+        registerCell()
+        confirmTextField()
+        confirmMessageButton()
     }
 }
 
@@ -41,6 +49,8 @@ extension ChatDetailViewController {
 extension ChatDetailViewController {
     func confirmTableView() {
         tableView.dataSource = self
+        tableView.delegate = self
+
         view.addSubview(tableView)
         tableView.backgroundColor = .systemOrange
 
@@ -48,11 +58,14 @@ extension ChatDetailViewController {
             make.centerX.equalToSuperview()
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.leading.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(10)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-60)
         }
     }
 
-    func registerCell() {}
+    func registerCell() {
+        tableView.register(MyFeedCell.self, forCellReuseIdentifier: MyFeedCell.identifier)
+        tableView.register(YourFeedCell.self, forCellReuseIdentifier: YourFeedCell.identifier)
+    }
 }
 
 // MARK: - Making RightBarButtonItem
@@ -67,29 +80,78 @@ extension ChatDetailViewController {
     }
 }
 
+// MARK: - TextField
+
+extension ChatDetailViewController {
+    func confirmTextField() {
+        view.addSubview(textField)
+        textField.settingCornerRadius(radius: 10)
+        textField.settingBorder(borderWidth: 1, borderColor: .black)
+        textField.settingPlaceholder(description: "내용을 입력해주세요")
+        textField.settingLeftPadding()
+
+        textField.snp.makeConstraints { make in
+            make.centerX.equalTo(view)
+            make.leading.equalTo(view).offset(55)
+            make.top.equalTo(tableView.snp.bottom).offset(10)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+    }
+}
+
+// MARK: -
+
+extension ChatDetailViewController {
+    func confirmMessageButton() {
+        view.addSubview(sendMessageButton)
+        sendMessageButton.configureButton(image: "paperplane")
+        sendMessageButton.layer.cornerRadius = 10
+        sendMessageButton.backgroundColor = .systemBlue
+        sendMessageButton.tintColor = .white
+        sendMessageButton.addTarget(self, action: #selector(tappedSendMessageButton), for: .touchUpInside)
+
+        sendMessageButton.snp.makeConstraints { make in
+            make.centerY.equalTo(textField)
+            make.leading.equalTo(textField.snp.trailing).offset(5)
+            make.trailing.equalToSuperview().inset(5)
+            make.top.equalTo(tableView.snp.bottom).offset(10)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+    }
+
+    @objc func tappedSendMessageButton(_ sender: UIButton) {
+        print("### \(#function)")
+    }
+}
+
 // MARK: - TableView DataSource
 
 extension ChatDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return model.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let index = model[indexPath.row]
+
+        if index % 2 == 0 {
+            print("### \(index)")
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: MyFeedCell.identifier, for: indexPath) as? MyFeedCell else { return UITableViewCell() }
+            cell.backgroundColor = .white
+            return cell
+        } else {
+            print("### \(index)::")
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: YourFeedCell.identifier, for: indexPath) as? YourFeedCell else { return UITableViewCell() }
+            cell.backgroundColor = .systemYellow
+            return cell
+        }
     }
 }
 
-// MARK: - SwiftUI Preview
+// MARK: - TableView Delegate
 
-@available(iOS 13.0, *)
-struct ChatDetailViewControllerRepresentble: UIViewRepresentable {
-    func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<ChatDetailViewControllerRepresentble>) {}
-
-    func makeUIView(context: Context) -> UIView { ChatDetailViewController().view }
-}
-
-@available(iOS 13.0, *)
-struct ChatDetailVCPreview: PreviewProvider {
-    static var previews: some View { ChatDetailViewControllerRepresentble()
+extension ChatDetailViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
     }
 }

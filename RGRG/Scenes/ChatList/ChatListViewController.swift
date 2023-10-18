@@ -10,7 +10,7 @@ import SwiftUI
 import UIKit
 
 class ChatListViewController: UIViewController {
-    let tableView = CustomTableView(frame: .zero, style: .insetGrouped)
+    let tableView = CustomTableView(frame: .zero, style: .plain)
     let rightBarButtonItem = CustomBarButton()
 
     deinit {
@@ -39,8 +39,11 @@ extension ChatListViewController {
 
         view.addSubview(tableView)
         tableView.backgroundColor = .systemOrange
+        
         tableView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            make.centerX.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.leading.equalToSuperview()
             make.bottom.equalTo(view.safeAreaLayoutGuide).offset(10)
         }
     }
@@ -98,20 +101,5 @@ extension ChatListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         80
-    }
-}
-
-// MARK: - SwiftUI Preview
-
-@available(iOS 13.0, *)
-struct ChatListViewControllerRepresentble: UIViewRepresentable {
-    func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<ChatListViewControllerRepresentble>) {}
-
-    func makeUIView(context: Context) -> UIView { ChatListViewController().view }
-}
-
-@available(iOS 13.0, *)
-struct ChatListVCPreview: PreviewProvider {
-    static var previews: some View { ChatListViewControllerRepresentble()
     }
 }
