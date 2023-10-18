@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		1DB2B70C2ADFC39E008788AE /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB2B70B2ADFC39E008788AE /* SettingCell.swift */; };
+		1DB2B70E2ADFCC10008788AE /* createPartyPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB2B70D2ADFCC10008788AE /* createPartyPageVC.swift */; };
+		1DB2B7112ADFCC21008788AE /* SearchOptionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB2B70F2ADFCC21008788AE /* SearchOptionVC.swift */; };
+		1DB2B7122ADFCC21008788AE /* NoticePageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB2B7102ADFCC21008788AE /* NoticePageVC.swift */; };
+		1DB2B7142ADFCCA2008788AE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1DB2B7132ADFCCA2008788AE /* GoogleService-Info.plist */; };
 		1DD4B8FC2AD940EF001F6761 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD4B8FB2AD940EF001F6761 /* ProfileCell.swift */; };
 		1DD4B8FE2AD94277001F6761 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD4B8FD2AD94277001F6761 /* CustomLabel.swift */; };
 		1DD4B9022AD953EF001F6761 /* ProfileSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD4B9012AD953EF001F6761 /* ProfileSettingCell.swift */; };
@@ -44,6 +48,10 @@
 
 /* Begin PBXFileReference section */
 		1DB2B70B2ADFC39E008788AE /* SettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
+		1DB2B70D2ADFCC10008788AE /* createPartyPageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = createPartyPageVC.swift; sourceTree = "<group>"; };
+		1DB2B70F2ADFCC21008788AE /* SearchOptionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchOptionVC.swift; sourceTree = "<group>"; };
+		1DB2B7102ADFCC21008788AE /* NoticePageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoticePageVC.swift; sourceTree = "<group>"; };
+		1DB2B7132ADFCCA2008788AE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1DD4B8FB2AD940EF001F6761 /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		1DD4B8FD2AD94277001F6761 /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
 		1DD4B9012AD953EF001F6761 /* ProfileSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingCell.swift; sourceTree = "<group>"; };
@@ -110,6 +118,7 @@
 		4E8B84D52AD81184009BCF4B /* RGRG */ = {
 			isa = PBXGroup;
 			children = (
+				1DB2B7132ADFCCA2008788AE /* GoogleService-Info.plist */,
 				4E8B84DF2AD81187009BCF4B /* Assets.xcassets */,
 				4E8B84E42AD81187009BCF4B /* Info.plist */,
 				4E8B84EA2AD811AA009BCF4B /* Resources */,
@@ -239,6 +248,9 @@
 		4E8B85082AD8120E009BCF4B /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				1DB2B7102ADFCC21008788AE /* NoticePageVC.swift */,
+				1DB2B70F2ADFCC21008788AE /* SearchOptionVC.swift */,
+				1DB2B70D2ADFCC10008788AE /* createPartyPageVC.swift */,
 				4E8B85092AD8120E009BCF4B /* MainViewController.swift */,
 			);
 			path = Main;
@@ -351,6 +363,7 @@
 			files = (
 				4E8B84E32AD81187009BCF4B /* LaunchScreen.storyboard in Resources */,
 				4E8B84E02AD81187009BCF4B /* Assets.xcassets in Resources */,
+				1DB2B7142ADFCCA2008788AE /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,6 +375,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4E8B85132AD8120E009BCF4B /* EditProfileViewController.swift in Sources */,
+				1DB2B7122ADFCC21008788AE /* NoticePageVC.swift in Sources */,
 				4E8B85162AD8120E009BCF4B /* NotificationViewController.swift in Sources */,
 				1DB2B70C2ADFC39E008788AE /* SettingCell.swift in Sources */,
 				4E8B850F2AD8120E009BCF4B /* UserInfo.swift in Sources */,
@@ -369,6 +383,7 @@
 				4E8B84D72AD81184009BCF4B /* AppDelegate.swift in Sources */,
 				4E8B851B2AD8120E009BCF4B /* ProfileViewController.swift in Sources */,
 				1DD4B9022AD953EF001F6761 /* ProfileSettingCell.swift in Sources */,
+				1DB2B70E2ADFCC10008788AE /* createPartyPageVC.swift in Sources */,
 				4E8B853E2AD81515009BCF4B /* RecuitmentViewController.swift in Sources */,
 				4E8B85352AD81411009BCF4B /* Extension.swift in Sources */,
 				4E8B851F2AD8120E009BCF4B /* LoginViewController.swift in Sources */,
@@ -385,6 +400,7 @@
 				4E8B851C2AD8120E009BCF4B /* ChatDetailViewController.swift in Sources */,
 				4E8B851D2AD8120E009BCF4B /* MainViewController.swift in Sources */,
 				CB1768212AD933F5009DF2C1 /* UIColor+Extension.swift in Sources */,
+				1DB2B7112ADFCC21008788AE /* SearchOptionVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
