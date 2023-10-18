@@ -6,15 +6,16 @@
 //
 
 import SnapKit
-import SwiftUI
 import UIKit
 
 class ChatDetailViewController: UIViewController {
     let vc = ChatSettingViewController()
     let tableView = CustomTableView(frame: .zero, style: .plain)
+    
     let rightBarButtonItem = CustomBarButton()
+    let textField = CustomTextField(frame: .zero)
 
-    let model = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    let model = [0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8]
 
     deinit {
         print("### NotificationViewController deinitialized")
@@ -36,6 +37,7 @@ extension ChatDetailViewController {
         confirmTableView()
         makeRightBarButton()
         registerCell()
+        confirmTextField()
     }
 }
 
@@ -53,7 +55,7 @@ extension ChatDetailViewController {
             make.centerX.equalToSuperview()
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.leading.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(10)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-50)
         }
     }
 
@@ -74,6 +76,22 @@ extension ChatDetailViewController {
         present(vc, animated: true)
     }
 }
+
+//MARK: - TextField
+extension ChatDetailViewController {
+    func confirmTextField() {
+        view.addSubview(textField)
+        textField.backgroundColor = .systemOrange
+        textField.placeholder = "내용을 입력해주세요"
+        textField.snp.makeConstraints { make in
+            make.centerX.equalTo(view)
+            make.leading.equalTo(view).offset(60)
+            make.top.equalTo(tableView.snp.bottom).offset(10)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+    }
+}
+
 
 // MARK: - TableView DataSource
 
@@ -104,20 +122,5 @@ extension ChatDetailViewController: UITableViewDataSource {
 extension ChatDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
-    }
-}
-
-// MARK: - SwiftUI Preview
-
-@available(iOS 13.0, *)
-struct ChatDetailViewControllerRepresentble: UIViewRepresentable {
-    func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<ChatDetailViewControllerRepresentble>) {}
-
-    func makeUIView(context: Context) -> UIView { ChatDetailViewController().view }
-}
-
-@available(iOS 13.0, *)
-struct ChatDetailVCPreview: PreviewProvider {
-    static var previews: some View { ChatDetailViewControllerRepresentble()
     }
 }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E1264BE2ADF6E2700A4E602 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1264BD2ADF6E2700A4E602 /* CustomTextField.swift */; };
+		4E1264C22ADF701300A4E602 /* ChatSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1264C12ADF701300A4E602 /* ChatSettingCell.swift */; };
 		4E8195EA2ADD299000881C88 /* CustomTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8195E92ADD299000881C88 /* CustomTableView.swift */; };
 		4E8195EC2ADD3E4600881C88 /* ChatListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8195EB2ADD3E4600881C88 /* ChatListCell.swift */; };
 		4E8195EE2ADD404000881C88 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8195ED2ADD404000881C88 /* CustomImageView.swift */; };
@@ -44,10 +46,11 @@
 		4ECD01E92ADE9405003EA65C /* MyFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECD01E82ADE9405003EA65C /* MyFeedCell.swift */; };
 		4ECD01EB2ADE9413003EA65C /* YourFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECD01EA2ADE9413003EA65C /* YourFeedCell.swift */; };
 		4ECD01ED2ADE9B6C003EA65C /* ChatSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECD01EC2ADE9B6C003EA65C /* ChatSettingViewController.swift */; };
-		4ECD01EF2ADEE151003EA65C /* ChatSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECD01EE2ADEE151003EA65C /* ChatSettingCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4E1264BD2ADF6E2700A4E602 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		4E1264C12ADF701300A4E602 /* ChatSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettingCell.swift; sourceTree = "<group>"; };
 		4E8195E92ADD299000881C88 /* CustomTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableView.swift; sourceTree = "<group>"; };
 		4E8195EB2ADD3E4600881C88 /* ChatListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListCell.swift; sourceTree = "<group>"; };
 		4E8195ED2ADD404000881C88 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
@@ -80,7 +83,6 @@
 		4ECD01E82ADE9405003EA65C /* MyFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedCell.swift; sourceTree = "<group>"; };
 		4ECD01EA2ADE9413003EA65C /* YourFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourFeedCell.swift; sourceTree = "<group>"; };
 		4ECD01EC2ADE9B6C003EA65C /* ChatSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettingViewController.swift; sourceTree = "<group>"; };
-		4ECD01EE2ADEE151003EA65C /* ChatSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettingCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4E1264BC2ADF6DF300A4E602 /* ChatSetting */ = {
+			isa = PBXGroup;
+			children = (
+				4ECD01EC2ADE9B6C003EA65C /* ChatSettingViewController.swift */,
+				4E1264C12ADF701300A4E602 /* ChatSettingCell.swift */,
+			);
+			path = ChatSetting;
+			sourceTree = "<group>";
+		};
 		4E8B84CA2AD81184009BCF4B = {
 			isa = PBXGroup;
 			children = (
@@ -159,6 +170,7 @@
 				4E8195EF2ADD407600881C88 /* CustomLabel.swift */,
 				4E8195F12ADD428A00881C88 /* CustomStackView.swift */,
 				4ECD01E42ADE6C15003EA65C /* CustomBarButton.swift */,
+				4E1264BD2ADF6E2700A4E602 /* CustomTextField.swift */,
 			);
 			path = Subcomponents;
 			sourceTree = "<group>";
@@ -244,10 +256,9 @@
 			isa = PBXGroup;
 			children = (
 				4E8B85072AD8120E009BCF4B /* ChatDetailViewController.swift */,
-				4ECD01EC2ADE9B6C003EA65C /* ChatSettingViewController.swift */,
-				4ECD01EE2ADEE151003EA65C /* ChatSettingCell.swift */,
 				4ECD01E82ADE9405003EA65C /* MyFeedCell.swift */,
 				4ECD01EA2ADE9413003EA65C /* YourFeedCell.swift */,
+				4E1264BC2ADF6DF300A4E602 /* ChatSetting */,
 			);
 			path = ChatDetail;
 			sourceTree = "<group>";
@@ -384,12 +395,14 @@
 				4E8B85112AD8120E009BCF4B /* ChatInfo.swift in Sources */,
 				4E8B84D72AD81184009BCF4B /* AppDelegate.swift in Sources */,
 				4E8B851B2AD8120E009BCF4B /* ProfileViewController.swift in Sources */,
+				4E1264C22ADF701300A4E602 /* ChatSettingCell.swift in Sources */,
 				4E8195EE2ADD404000881C88 /* CustomImageView.swift in Sources */,
 				4E8B853E2AD81515009BCF4B /* RecuitmentViewController.swift in Sources */,
 				4E8B85352AD81411009BCF4B /* Extension.swift in Sources */,
 				4ECD01ED2ADE9B6C003EA65C /* ChatSettingViewController.swift in Sources */,
 				4E8B851F2AD8120E009BCF4B /* LoginViewController.swift in Sources */,
 				4E8B85172AD8120E009BCF4B /* SignUpViewController.swift in Sources */,
+				4E1264BE2ADF6E2700A4E602 /* CustomTextField.swift in Sources */,
 				4E8195F22ADD428A00881C88 /* CustomStackView.swift in Sources */,
 				4E8195EA2ADD299000881C88 /* CustomTableView.swift in Sources */,
 				4E8B84D92AD81184009BCF4B /* SceneDelegate.swift in Sources */,
@@ -401,7 +414,6 @@
 				4E8B85372AD81416009BCF4B /* Utilie.swift in Sources */,
 				4E8B85192AD8120E009BCF4B /* TabBarController.swift in Sources */,
 				4ECD01E52ADE6C15003EA65C /* CustomBarButton.swift in Sources */,
-				4ECD01EF2ADEE151003EA65C /* ChatSettingCell.swift in Sources */,
 				4E8B85422AD815B6009BCF4B /* SettingViewController.swift in Sources */,
 				4E8B851C2AD8120E009BCF4B /* ChatDetailViewController.swift in Sources */,
 				4E8B851D2AD8120E009BCF4B /* MainViewController.swift in Sources */,

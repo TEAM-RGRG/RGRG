@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SwiftUI
 import SnapKit
 
 class ChatSettingViewController: UIViewController {
@@ -75,17 +74,3 @@ extension ChatSettingViewController: UITableViewDelegate {
 }
 
 
-// MARK: - SwiftUI Preview
-
-@available(iOS 13.0, *)
-struct ChatSettingViewControllerRepresentble: UIViewRepresentable {
-    func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<ChatSettingViewControllerRepresentble>) {}
-
-    func makeUIView(context: Context) -> UIView { ChatSettingViewController().view }
-}
-
-@available(iOS 13.0, *)
-struct ChatSettingVCPreview: PreviewProvider {
-    static var previews: some View { ChatSettingViewControllerRepresentble()
-    }
-}

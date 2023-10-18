@@ -6,7 +6,6 @@
 //
 
 import SnapKit
-import SwiftUI
 import UIKit
 
 class ChatSettingCell: UITableViewCell {
@@ -48,7 +47,7 @@ extension ChatSettingCell {
             make.width.equalTo(60)
         }
     }
-    
+
     func confirmSettingTitle() {
         contentView.addSubview(settingTitleLabel)
         settingTitleLabel.text = "나가기"
@@ -57,20 +56,5 @@ extension ChatSettingCell {
         settingTitleLabel.snp.makeConstraints { make in
             make.centerX.centerY.equalToSuperview()
         }
-    }
-}
-
-// MARK: - SwiftUI Preview
-
-@available(iOS 13.0, *)
-struct ChatSettingCellRepresentble: UIViewRepresentable {
-    func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<ChatSettingCellRepresentble>) {}
-
-    func makeUIView(context: Context) -> UIView { ChatSettingCell().contentView }
-}
-
-@available(iOS 13.0, *)
-struct ChatSettingCellPreview: PreviewProvider {
-    static var previews: some View { ChatSettingCellRepresentble().frame(height: 80)
     }
 }

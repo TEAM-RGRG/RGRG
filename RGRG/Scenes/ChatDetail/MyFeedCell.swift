@@ -6,7 +6,6 @@
 //
 
 import SnapKit
-import SwiftUI
 import UIKit
 
 class MyFeedCell: UITableViewCell {
@@ -76,17 +75,3 @@ extension MyFeedCell {
     }
 }
 
-// MARK: - SwiftUI Preview
-
-@available(iOS 13.0, *)
-struct MyFeedCellRepresentble: UIViewRepresentable {
-    func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<MyFeedCellRepresentble>) {}
-
-    func makeUIView(context: Context) -> UIView { MyFeedCell().contentView }
-}
-
-@available(iOS 13.0, *)
-struct MyFeedCellPreview: PreviewProvider {
-    static var previews: some View { MyFeedCellRepresentble().frame(height: 80)
-    }
-}
