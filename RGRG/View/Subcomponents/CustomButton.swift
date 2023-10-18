@@ -16,13 +16,15 @@ final class CustomButton: UIButton {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+}
+
+extension CustomButton {
     func configureButton(title: String, cornerValue: CGFloat, backgroundColor: UIColor) {
         self.setTitle(title, for: .normal)
         self.backgroundColor = backgroundColor
         self.layer.cornerRadius = cornerValue
     }
-    
+
     func configureButton(image name: String) {
         setImage(UIImage(systemName: name), for: .normal)
     }
