@@ -34,11 +34,10 @@ extension ChatSettingCell {
 
     func confirmSettingIcon() {
         contentView.addSubview(settingIconImageView)
-        settingIconImageView.image = UIImage(systemName: "bell")
-        settingIconImageView.backgroundColor = .systemBlue
-        settingIconImageView.tintColor = .white
-        settingIconImageView.layer.cornerRadius = 30
-        settingIconImageView.contentMode = .scaleAspectFit
+        settingIconImageView.settingImageView(image: "bell")
+        settingIconImageView.changeColor(tintColor: .white, backgroundColor: .systemBlue)
+        settingIconImageView.configurelayer(corner: 30)
+        settingIconImageView.settingContentMode(contentMode: .scaleAspectFit)
 
         settingIconImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
@@ -50,8 +49,8 @@ extension ChatSettingCell {
 
     func confirmSettingTitle() {
         contentView.addSubview(settingTitleLabel)
-        settingTitleLabel.text = "나가기"
-        settingTitleLabel.font = .systemFont(ofSize: 30, weight: .bold)
+        settingTitleLabel.settingText("나가기")
+        settingTitleLabel.settingTextFont(size: 30, weight: .bold)
         settingTitleLabel.setupLabelColor(color: .systemRed)
         settingTitleLabel.snp.makeConstraints { make in
             make.centerX.centerY.equalToSuperview()

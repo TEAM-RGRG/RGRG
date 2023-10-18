@@ -52,9 +52,9 @@ extension MyFeedCell {
 
     func confirmChatLabel() {
         contentView.addSubview(myChatLabel)
-        myChatLabel.text = "Hello WorldHello WorldHello WorldHello WorldHello"
+        myChatLabel.settingText("Hello WorldHello WorldHello WorldHello WorldHello")
         myChatLabel.numberOfLines = 0
-        myChatLabel.backgroundColor = .white
+        myChatLabel.settingBackgroundColor(color: .white)
 
         myChatLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
@@ -63,10 +63,10 @@ extension MyFeedCell {
             make.trailing.equalTo(contentView).offset(-60)
         }
     }
-    
+
     func confirmTimeLabel() {
         contentView.addSubview(timeLabel)
-        timeLabel.text = "12:18"
+        timeLabel.settingText("12:18")
         timeLabel.setupLabelColor(color: .systemGray6)
         timeLabel.snp.makeConstraints { make in
             make.leading.equalTo(myChatLabel.snp.trailing).offset(10)
@@ -74,4 +74,3 @@ extension MyFeedCell {
         }
     }
 }
-

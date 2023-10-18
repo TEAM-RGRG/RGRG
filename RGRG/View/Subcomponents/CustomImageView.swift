@@ -23,4 +23,17 @@ extension CustomImageView {
         layer.cornerRadius = radius
         layer.masksToBounds = true
     }
+    
+    func settingImageView(image name: String) {
+        image = UIImage(systemName: name)
+    }
+    
+    func settingContentMode(contentMode: UIView.ContentMode) {
+        self.contentMode = contentMode
+    }
+    
+    func changeColor(tintColor: UIColor, backgroundColor: UIColor) {
+        self.tintColor = tintColor
+        self.backgroundColor = backgroundColor
+    }
 }

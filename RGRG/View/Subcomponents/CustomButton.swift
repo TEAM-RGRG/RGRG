@@ -22,4 +22,8 @@ final class CustomButton: UIButton {
         self.backgroundColor = backgroundColor
         self.layer.cornerRadius = cornerValue
     }
+    
+    func configureButton(image name: String) {
+        setImage(UIImage(systemName: name), for: .normal)
+    }
 }

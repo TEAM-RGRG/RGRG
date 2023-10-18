@@ -18,4 +18,22 @@ final class CustomTextField: UITextField {
     }
 }
 
-extension CustomTextField {}
+extension CustomTextField {
+    func settingCornerRadius(radius: CGFloat) {
+        layer.cornerRadius = radius
+    }
+    
+    func settingBorder(borderWidth: CGFloat, borderColor: UIColor) {
+        layer.borderWidth = borderWidth
+        layer.borderColor = borderColor.cgColor
+    }
+    
+    func settingPlaceholder(description: String) {
+        placeholder = description
+    }
+    
+    func settingLeftPadding() {
+        leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 16.0, height: 0.0))
+        leftViewMode = .always
+    }
+}

@@ -11,14 +11,15 @@ import UIKit
 class ChatDetailViewController: UIViewController {
     let vc = ChatSettingViewController()
     let tableView = CustomTableView(frame: .zero, style: .plain)
-    
+
     let rightBarButtonItem = CustomBarButton()
+    let sendMessageButton = CustomButton(frame: .zero)
     let textField = CustomTextField(frame: .zero)
 
-    let model = [0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8]
+    let model = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
     deinit {
-        print("### NotificationViewController deinitialized")
+        print("### ChatDetailViewController deinitialized")
     }
 }
 
@@ -38,6 +39,7 @@ extension ChatDetailViewController {
         makeRightBarButton()
         registerCell()
         confirmTextField()
+        confirmMessageButton()
     }
 }
 
@@ -55,7 +57,7 @@ extension ChatDetailViewController {
             make.centerX.equalToSuperview()
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.leading.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-50)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-60)
         }
     }
 
@@ -77,21 +79,47 @@ extension ChatDetailViewController {
     }
 }
 
-//MARK: - TextField
+// MARK: - TextField
+
 extension ChatDetailViewController {
     func confirmTextField() {
         view.addSubview(textField)
-        textField.backgroundColor = .systemOrange
-        textField.placeholder = "내용을 입력해주세요"
+        textField.settingCornerRadius(radius: 10)
+        textField.settingBorder(borderWidth: 1, borderColor: .black)
+        textField.settingPlaceholder(description: "내용을 입력해주세요")
+        textField.settingLeftPadding()
+
         textField.snp.makeConstraints { make in
             make.centerX.equalTo(view)
-            make.leading.equalTo(view).offset(60)
+            make.leading.equalTo(view).offset(55)
             make.top.equalTo(tableView.snp.bottom).offset(10)
             make.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
 }
 
+extension ChatDetailViewController {
+    func confirmMessageButton() {
+        view.addSubview(sendMessageButton)
+        sendMessageButton.configureButton(image: "paperplane")
+        sendMessageButton.layer.cornerRadius = 10
+        sendMessageButton.backgroundColor = .systemBlue
+        sendMessageButton.tintColor = .white
+        sendMessageButton.addTarget(self, action: #selector(tappedSendMessageButton), for: .touchUpInside)
+
+        sendMessageButton.snp.makeConstraints { make in
+            make.centerY.equalTo(textField)
+            make.leading.equalTo(textField.snp.trailing).offset(5)
+            make.trailing.equalToSuperview().inset(5)
+            make.top.equalTo(tableView.snp.bottom).offset(10)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+    }
+
+    @objc func tappedSendMessageButton(_ sender: UIButton) {
+        print("### \(#function)")
+    }
+}
 
 // MARK: - TableView DataSource
 
