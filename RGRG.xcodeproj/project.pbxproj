@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1DB2B70C2ADFC39E008788AE /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB2B70B2ADFC39E008788AE /* SettingCell.swift */; };
 		1DD4B8FC2AD940EF001F6761 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD4B8FB2AD940EF001F6761 /* ProfileCell.swift */; };
 		1DD4B8FE2AD94277001F6761 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD4B8FD2AD94277001F6761 /* CustomLabel.swift */; };
 		1DD4B9022AD953EF001F6761 /* ProfileSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD4B9012AD953EF001F6761 /* ProfileSettingCell.swift */; };
@@ -42,6 +43,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1DB2B70B2ADFC39E008788AE /* SettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 		1DD4B8FB2AD940EF001F6761 /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		1DD4B8FD2AD94277001F6761 /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
 		1DD4B9012AD953EF001F6761 /* ProfileSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingCell.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 			isa = PBXGroup;
 			children = (
 				4E8B85412AD815B6009BCF4B /* SettingViewController.swift */,
+				1DB2B70B2ADFC39E008788AE /* SettingCell.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -360,6 +363,7 @@
 			files = (
 				4E8B85132AD8120E009BCF4B /* EditProfileViewController.swift in Sources */,
 				4E8B85162AD8120E009BCF4B /* NotificationViewController.swift in Sources */,
+				1DB2B70C2ADFC39E008788AE /* SettingCell.swift in Sources */,
 				4E8B850F2AD8120E009BCF4B /* UserInfo.swift in Sources */,
 				4E8B85112AD8120E009BCF4B /* ChatInfo.swift in Sources */,
 				4E8B84D72AD81184009BCF4B /* AppDelegate.swift in Sources */,

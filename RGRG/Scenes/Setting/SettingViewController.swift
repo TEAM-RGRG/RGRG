@@ -9,7 +9,14 @@ import SnapKit
 import UIKit
 
 class SettingViewController: UIViewController {
-    let testButton = CustomButton(frame: .zero)
+    let settingList = [
+        "알림 설정", "차단 목록", "테마 설정" , "앱 아이콘 설정"
+    ]
+    
+    let settingTable : UITableView = {
+        let tableView = UITableView()
+        return tableView
+    }()
 
     deinit {
         print("### NotificationViewController deinitialized")
@@ -19,27 +26,45 @@ class SettingViewController: UIViewController {
 extension SettingViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        
         navigationController?.navigationBar.isHidden = false
-        setupButton()
+        configureUI()
+        setupSettingTable()
     }
 }
 
 extension SettingViewController {
-    func setupButton() {
-        view.addSubview(testButton)
-        testButton.configureButton(title: "TEST", cornerValue: 10, backgroundColor: .systemBlue)
-        testButton.addTarget(self, action: #selector(tappedButton), for: .touchUpInside)
-        testButton.snp.makeConstraints { make in
-            make.centerX.centerY.equalToSuperview()
-            make.width.equalTo(150)
-            make.height.equalTo(60)
-        }
+    func configureUI() {
+        setupNavigationBar()
+        view.backgroundColor = .systemBackground
+        view.addSubview(settingTable)
+        
+        settingTable.snp.makeConstraints({make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+        })
     }
+    
+    func setupNavigationBar() {
+        self.navigationItem.title = "환경 설정"
+    }
+    
+}
 
-    @objc func tappedButton(_ sender: UIButton) {
-        let vc = TabBarController()
-        navigationController?.pushViewController(vc, animated: true)
-        print("### \(#function)")
+extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
+    func setupSettingTable() {
+        settingTable.delegate = self
+        settingTable.dataSource = self
+        settingTable.register(SettingCell.self, forCellReuseIdentifier: "SettingCell")
     }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return settingList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath) as! SettingCell
+        cell.textLabel?.text = settingList[indexPath.row]
+        return cell
+    }
+    
+    
 }
