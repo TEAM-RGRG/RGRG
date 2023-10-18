@@ -12,7 +12,10 @@ import UIKit
 
 class SignUpViewController: UIViewController {
     
-    
+    var idPass:Bool = false
+    var pwPass:Bool = false
+    var pwCheckPass:Bool = false
+    var nickNamePass:Bool = false
     
     let bodyContainer = {
         let stactview = UIView()
@@ -44,6 +47,7 @@ class SignUpViewController: UIViewController {
     
     let nickNameLine = {
         let line = CustomLoginCell(id:"nickName",infoText: "영문 숫자 한글 2자 이상",placeHolder: "닉네임", condition:"^[a-zA-Z0-9가-힣]{2,}$")
+
         return line
     }()
     
@@ -53,17 +57,57 @@ class SignUpViewController: UIViewController {
         return button
     }()
     
+ 
+ 
+    //한번만 불림, 이미 실행됨
     override func viewDidLoad() {
-        
+   
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setupUI()
+        passValueCheck()
+        print("idPass original", self.idPass)
     }
     
 }
 
 
 extension SignUpViewController {
+    func passValueCheck(){
+       
+        func updateUI(){
+         
+          guard self.idPass && self.pwPass && pwCheckPass && self.nickNamePass else{
+               return
+            }
+                signupButton.backgroundColor = UIColor.black
+        }
+        
+        //idPass값이 안바뀌는 것처럼 보이는건, ViewDidLoad에서 이미 그려졌기 때문
+        //클로져는 독립젹인 코드블럭이기에 이 안에서는 업데이트가 가능
+        idLine.passHandler = { pass in
+            self.idPass = pass
+            updateUI()
+        }
+        passwordLine.passHandler = { pass in
+            self.pwPass = pass
+            updateUI()
+        }
+        passwordCheckLine.passHandler = { pass in
+            self.pwCheckPass = pass
+            updateUI()
+        }
+        nickNameLine.passHandler = { pass in
+            self.nickNamePass = pass
+            updateUI()
+           
+        }
+        
+     
+    }
+    
+  
+    
     func setupUI() {
         view.addSubview(bodyContainer)
         //        bodyStackContainer.axis = .vertical

@@ -17,9 +17,10 @@ class CtaLargeButton : UIView {
     }()
     
     init(titleText: String) {
+        self.title.text = titleText
         super.init(frame:  CGRect())
         setupUI()
-        title.text = titleText
+    
 
     }
     
@@ -28,9 +29,9 @@ class CtaLargeButton : UIView {
     }
     
     func setupUI(){
-        self.layer.borderWidth = 1
+//        self.layer.borderWidth = 1
         self.layer.cornerRadius = 10
-        self.backgroundColor = UIColor.black
+        self.backgroundColor = UIColor.systemGray
         self.snp.makeConstraints { make in
             make.height.equalTo(70)
         }

@@ -9,12 +9,16 @@ import Foundation
 import UIKit
 import SnapKit
 
+
 var pwBringValue: String = ""
+
 
 class CustomLoginCell : UIView {
     //저장속성
+    var passHandler:((Bool)->Void)?
     var conditon : String
     var cellHeightValue : Int
+    var cellID: String = ""
     
     let stackView = {
         let view = UIStackView()
@@ -64,9 +68,8 @@ class CustomLoginCell : UIView {
     
     //MARK: Action
     
-    var cellID: String = ""
+   
 
-    
     @objc func checkContents() {
         let inputText = inputBox.text ?? ""
         let cellID = self.cellID
@@ -79,6 +82,7 @@ class CustomLoginCell : UIView {
             }else if validation {
                 checkIcon.isHidden = false
                 infoText.isHidden = true
+                passHandler?(true)
             } else {
                 checkIcon.isHidden = true
                 infoText.isHidden = false
