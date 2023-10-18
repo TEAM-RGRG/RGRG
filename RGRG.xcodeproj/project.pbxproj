@@ -99,6 +99,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1DB2B7152ADFF11B008788AE /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				1DD4B9012AD953EF001F6761 /* ProfileSettingCell.swift */,
+				1DD4B8FB2AD940EF001F6761 /* ProfileCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		1DB2B7162ADFF12E008788AE /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				1DB2B70B2ADFC39E008788AE /* SettingCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		4E8B84CA2AD81184009BCF4B = {
 			isa = PBXGroup;
 			children = (
@@ -231,8 +248,7 @@
 			isa = PBXGroup;
 			children = (
 				4E8B85052AD8120E009BCF4B /* ProfileViewController.swift */,
-				1DD4B8FB2AD940EF001F6761 /* ProfileCell.swift */,
-				1DD4B9012AD953EF001F6761 /* ProfileSettingCell.swift */,
+				1DB2B7152ADFF11B008788AE /* Cell */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -283,8 +299,8 @@
 		4E8B85432AD815C8009BCF4B /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				1DB2B7162ADFF12E008788AE /* Cell */,
 				4E8B85412AD815B6009BCF4B /* SettingViewController.swift */,
-				1DB2B70B2ADFC39E008788AE /* SettingCell.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
