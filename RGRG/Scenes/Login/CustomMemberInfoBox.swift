@@ -12,8 +12,8 @@ import SnapKit
 
 var pwBringValue: String = ""
 
-
-class CustomLoginCell : UIView {
+ //이름변경
+class CustomMemberInfoBox : UIView {
     //저장속성
     var passHandler:((Bool)->Void)?
     var conditon : String

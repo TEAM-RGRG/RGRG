@@ -24,12 +24,12 @@ class LoginViewController: UIViewController {
     }()
     
     let idLine = {
-        let line = CustomLoginCell(id:"LoginID", placeHolder: "ID", condition:"^[a-zA-Z0-9]{3,}$", cellHeight:70)
+        let line = CustomMemberInfoBox(id:"LoginID", placeHolder: "ID", condition:"^[a-zA-Z0-9]{3,}$", cellHeight:70)
         return line
     }()
     
     let passwordLine = {
-        let line = CustomLoginCell( id:"LoginPW",placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$", cellHeight:70)
+        let line = CustomMemberInfoBox( id:"LoginPW",placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$", cellHeight:70)
         line.inputBox.isSecureTextEntry = true
         return line
     }()
