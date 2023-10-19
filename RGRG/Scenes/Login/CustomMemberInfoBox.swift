@@ -14,7 +14,7 @@ var pwBringValue: String = ""
 
  //이름변경
 class CustomMemberInfoBox : UIView {
-    //저장속성
+    //저장속성, stored property
     var passHandler:((Bool)->Void)?
     var conditon : String
     var cellHeightValue : Int

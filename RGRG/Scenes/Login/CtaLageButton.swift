@@ -16,8 +16,9 @@ class CtaLargeButton : UIButton {
         return label
     }()
         
-    init(titleText: String) {
+ init(titleText: String) {
         self.title.text = titleText
+        //상위 클래스에 있는 init을 호출   .. 한다는게 어떤 의미이지 ?
         super.init(frame:  CGRect())
         setupUI()
     }
