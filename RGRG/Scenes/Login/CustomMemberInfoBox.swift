@@ -12,9 +12,9 @@ import SnapKit
 
 var pwBringValue: String = ""
 
-
-class CustomLoginCell : UIView {
-    //저장속성
+ //이름변경
+class CustomMemberInfoBox : UIView {
+    //저장속성, stored property
     var passHandler:((Bool)->Void)?
     var conditon : String
     var cellHeightValue : Int

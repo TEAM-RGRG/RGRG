@@ -28,25 +28,25 @@ class SignUpViewController: UIViewController {
     }()
     
     let idLine = {
-        let line = CustomLoginCell(id:"ID",infoText: "영문 숫자 3자 이상",placeHolder: "ID", condition:"^[a-zA-Z0-9]{3,}$")
+        let line = CustomMemberInfoBox(id:"ID",infoText: "영문 숫자 3자 이상",placeHolder: "ID", condition:"^[a-zA-Z0-9]{3,}$")
         return line
     }()
     
     let passwordLine = {
-        let line = CustomLoginCell(id:"PW",infoText: "영문 숫자 7자 이상",placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$")
+        let line = CustomMemberInfoBox(id:"PW",infoText: "영문 숫자 7자 이상",placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$")
         line.inputBox.isSecureTextEntry = true
         return line
     }()
     
     
     let passwordCheckLine = {
-        let line = CustomLoginCell(id:"PWcheck",infoText: "다시 확인해주세요", placeHolder: "Password Check", condition:"")
+        let line = CustomMemberInfoBox(id:"PWcheck",infoText: "다시 확인해주세요", placeHolder: "Password Check", condition:"")
         line.inputBox.isSecureTextEntry = true
         return line
     }()
     
     let nickNameLine = {
-        let line = CustomLoginCell(id:"nickName",infoText: "영문 숫자 한글 2자 이상",placeHolder: "닉네임", condition:"^[a-zA-Z0-9가-힣]{2,}$")
+        let line = CustomMemberInfoBox(id:"nickName",infoText: "영문 숫자 한글 2자 이상",placeHolder: "닉네임", condition:"^[a-zA-Z0-9가-힣]{2,}$")
         
         return line
     }()
