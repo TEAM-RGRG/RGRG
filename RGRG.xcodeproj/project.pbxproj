@@ -430,6 +430,7 @@
 				4E8195EE2ADD404000881C88 /* CustomImageView.swift in Sources */,
 				4E8B853E2AD81515009BCF4B /* RecuitmentViewController.swift in Sources */,
 				4E8B85352AD81411009BCF4B /* Extension.swift in Sources */,
+				96A7B3FA2AD9365D00B218EB /* CtaLageButton.swift in Sources */,
 				4E8B851F2AD8120E009BCF4B /* LoginViewController.swift in Sources */,
 				4E8B85172AD8120E009BCF4B /* SignUpViewController.swift in Sources */,
 				4E1264BE2ADF6E2700A4E602 /* CustomTextField.swift in Sources */,

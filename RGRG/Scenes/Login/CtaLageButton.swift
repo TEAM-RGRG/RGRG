@@ -9,19 +9,17 @@ import Foundation
 import UIKit
 import SnapKit
 
-class CtaLargeButton : UIView {
+class CtaLargeButton : UIButton {
     
     let title: UILabel = {
         let label = UILabel()
         return label
     }()
-    
+        
     init(titleText: String) {
         self.title.text = titleText
         super.init(frame:  CGRect())
         setupUI()
-    
-
     }
     
     required init?(coder: NSCoder) {
@@ -29,9 +27,9 @@ class CtaLargeButton : UIView {
     }
     
     func setupUI(){
-//        self.layer.borderWidth = 1
         self.layer.cornerRadius = 10
         self.backgroundColor = UIColor.systemGray
+
         self.snp.makeConstraints { make in
             make.height.equalTo(70)
         }

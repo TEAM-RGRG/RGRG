@@ -2,7 +2,7 @@
 //  SignUpViewController.swift
 //  RGRG
 //
-//  Created by (^ㅗ^)7 iMac on 2023/10/11.
+//  Created by kiakim on 2023/10/11.
 //
 
 import SnapKit
@@ -72,6 +72,11 @@ class SignUpViewController: UIViewController {
 
 
 extension SignUpViewController {
+    @objc func movetoLogin(){
+        let movePage = LoginViewController()
+        self.navigationController?.pushViewController(movePage, animated: true)
+    }
+    
     func passValueCheck(){
         
         func updateUI(){
@@ -155,6 +160,7 @@ extension SignUpViewController {
         }
         
         bodyContainer.addSubview(signupButton)
+        signupButton.addTarget(self, action: #selector(movetoLogin), for: .touchUpInside)
         signupButton.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview().inset(20)
