@@ -72,6 +72,11 @@ class SignUpViewController: UIViewController {
 
 
 extension SignUpViewController {
+    @objc func movetoLogin(){
+        let movePage = LoginViewController()
+        self.navigationController?.pushViewController(movePage, animated: true)
+    }
+    
     func passValueCheck(){
         
         func updateUI(){
@@ -155,6 +160,7 @@ extension SignUpViewController {
         }
         
         bodyContainer.addSubview(signupButton)
+        signupButton.addTarget(self, action: #selector(movetoLogin), for: .touchUpInside)
         signupButton.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview().inset(20)

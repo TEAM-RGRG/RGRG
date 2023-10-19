@@ -34,12 +34,11 @@ class LoginViewController: UIViewController {
         return line
     }()
     
-    
     let loginButton = {
         let button = CtaLargeButton(titleText: "로그인")
         return button
     }()
-    
+
     let signupButton = {
         let button = UIButton()
         return button
@@ -56,12 +55,21 @@ class LoginViewController: UIViewController {
         view.backgroundColor = .systemBackground
         setupUI()
         passValueCheck()
-        
     }
 }
 
 
 extension LoginViewController {
+    
+    @objc func gotoSignupPage(){
+        let signupVC = SignUpViewController()
+        self.navigationController?.pushViewController(signupVC, animated: true)
+    }
+    
+    @objc func moveToMain(){
+      let movePage = MainViewController()
+        self.navigationController?.pushViewController(movePage, animated: true)
+    }
     
     func passValueCheck(){
         func updateUI(){
@@ -78,28 +86,21 @@ extension LoginViewController {
             self.loginPwPass = pass
             updateUI()
         }
-  
+        
     }
     
-    @objc func gotoSignupPage(){
-        let signupVC = SignUpViewController()
-        self.navigationController?.pushViewController(signupVC, animated: true)
-        //        self.present(signupVC, animated: true)
-    }
+
     
     func setupUI(){
         
         view.addSubview(bodyContainer)
-        //        bodyStackContainer.axis = .vertical
         bodyContainer.layer.borderColor = UIColor.systemBlue.cgColor
-//        bodyContainer.layer.borderWidth = 1
         bodyContainer.layer.cornerRadius = 10
         bodyContainer.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.bottom.equalTo(view.safeAreaLayoutGuide)
             make.left.equalToSuperview().offset(40)
             make.right.equalToSuperview().inset(40)
-            
         }
         
         
@@ -121,13 +122,13 @@ extension LoginViewController {
         }
         
         bodyContainer.addSubview(passwordLine)
-        //        passwordLine.backgroundColor = UIColor.blue
         passwordLine.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.top.equalTo(idLine.snp.bottom).offset(20)
         }
         
         bodyContainer.addSubview(loginButton)
+        loginButton.addTarget(self, action: #selector(moveToMain), for: .touchUpInside)
         loginButton.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.top.equalTo(passwordLine.snp.bottom).offset(20)
@@ -144,7 +145,6 @@ extension LoginViewController {
         }
         
         bodyContainer.addSubview(apiLoginArea)
-        //                apiLoginArea.layer.borderWidth = 1
         apiLoginArea.layer.cornerRadius = 10
         apiLoginArea.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
