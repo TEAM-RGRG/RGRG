@@ -79,9 +79,9 @@ class MainViewController: UIViewController {
 //            button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
 //            button.setTitle("필터", for: .normal)
 //            button.setTitleColor(.black, for: .normal)
-//            button.translatesAutoresizingMaskIntoConstraints = false
-//            button.titleLabel?.adjustsFontForContentSizeCategory = true
-            button.setImage(UIImage(named: "optionIcon"), for: .normal)
+            button.translatesAutoresizingMaskIntoConstraints = false
+            button.titleLabel?.adjustsFontForContentSizeCategory = true
+            button.setImage(UIImage(named: "optionIcon")? .withRenderingMode(.alwaysTemplate), for: .normal)
             button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
             button.tintColor = UIColor.white
 //            button.backgroundColor = .white
@@ -89,18 +89,6 @@ class MainViewController: UIViewController {
             button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
             return button
         }()
-    
-    let searchOptionButtonImage: UIImageView = {
-        var imageView = UIImageView()
-        let image = UIImage(named: "optionIcon")?.withRenderingMode(.alwaysTemplate)
-        imageView.image = image
-//        imageView.backgroundColor = .white
-        imageView.tintColor = UIColor.white
-//        imageView.contentMode = .scaleAspectFit
-//        imageView.layer.cornerRadius = 0
-//        imageView.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        return imageView
-    }()
     
     let timeOptionLable1: UILabel = {
         let label = UILabel()
@@ -234,7 +222,6 @@ class MainViewController: UIViewController {
         //        optionFrame.addArrangedSubview(emptyViewForOption)
         view.addSubview(listTitleLabel)
         view.addSubview(searchOptionButton)
-        searchOptionButton.addSubview(searchOptionButtonImage)
         view.addSubview(listUnderline)
         view.addSubview(optionFrame)
         optionFrame.addSubview(timeOptionLable1)
@@ -291,11 +278,6 @@ class MainViewController: UIViewController {
             $0.height.equalTo(28)
             $0.width.equalTo(28)
         }
-        
-        searchOptionButtonImage.snp.makeConstraints{
-            $0.top.bottom.leading.trailing.equalTo(searchOptionButton).offset(0)
-        }
-        
         
         listUnderline.snp.makeConstraints {
             $0.top.equalTo(listTitleLabel.snp.bottom).offset(4)
