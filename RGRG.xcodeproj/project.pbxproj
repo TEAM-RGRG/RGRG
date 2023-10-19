@@ -53,6 +53,7 @@
 		CB4B0BC42ADFAB600077AB3A /* createPartyPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC32ADFAB600077AB3A /* createPartyPageVC.swift */; };
 		CB4B0BC62ADFAB7F0077AB3A /* NoticePageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC52ADFAB7F0077AB3A /* NoticePageVC.swift */; };
 		CB4B0BC82ADFAB970077AB3A /* SearchOptionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC72ADFAB970077AB3A /* SearchOptionVC.swift */; };
+		CBECDD392AE174320097C7CF /* PartyInfoDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBECDD382AE174320097C7CF /* PartyInfoDetailVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -97,6 +98,7 @@
 		CB4B0BC32ADFAB600077AB3A /* createPartyPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = createPartyPageVC.swift; sourceTree = "<group>"; };
 		CB4B0BC52ADFAB7F0077AB3A /* NoticePageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticePageVC.swift; sourceTree = "<group>"; };
 		CB4B0BC72ADFAB970077AB3A /* SearchOptionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOptionVC.swift; sourceTree = "<group>"; };
+		CBECDD382AE174320097C7CF /* PartyInfoDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyInfoDetailVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -286,6 +288,7 @@
 				CB4B0BC32ADFAB600077AB3A /* createPartyPageVC.swift */,
 				CB4B0BC52ADFAB7F0077AB3A /* NoticePageVC.swift */,
 				CB4B0BC72ADFAB970077AB3A /* SearchOptionVC.swift */,
+				CBECDD382AE174320097C7CF /* PartyInfoDetailVC.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -409,9 +412,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBECDD392AE174320097C7CF /* PartyInfoDetailVC.swift in Sources */,
 				4E8B85132AD8120E009BCF4B /* EditProfileViewController.swift in Sources */,
 				96A7B3FC2AD936E800B218EB /* CustomMemberInfoBox.swift in Sources */,
-				96A7B3FC2AD936E800B218EB /* CustomLoginCell.swift in Sources */,
+				96A7B3FC2AD936E800B218EB /* CustomMemberInfoBox.swift in Sources */,
 				4ECD01EB2ADE9413003EA65C /* YourFeedCell.swift in Sources */,
 				4E8B85162AD8120E009BCF4B /* NotificationViewController.swift in Sources */,
 				CB4B0BC42ADFAB600077AB3A /* createPartyPageVC.swift in Sources */,
