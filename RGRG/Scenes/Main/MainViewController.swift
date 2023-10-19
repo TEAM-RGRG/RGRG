@@ -82,8 +82,8 @@ class MainViewController: UIViewController {
             button.translatesAutoresizingMaskIntoConstraints = false
             button.titleLabel?.adjustsFontForContentSizeCategory = true
             button.setImage(UIImage(named: "optionIcon")? .withRenderingMode(.alwaysTemplate), for: .normal)
-            button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
-            button.tintColor = UIColor.white
+//            button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
+            button.tintColor = .white
 //            button.backgroundColor = .white
 //            button.layer.cornerRadius = (8)
             button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
@@ -373,7 +373,17 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+
+        // PartyInfoDetailVC 클래스의 초기화 메서드가 옵셔널을 반환하지 않는 경우
+        let detailController = PartyInfoDetailVC()
+        detailController.modalPresentationStyle = .fullScreen
+        self.present(detailController, animated: true, completion: nil)
+    }
 }
+
 
 
 

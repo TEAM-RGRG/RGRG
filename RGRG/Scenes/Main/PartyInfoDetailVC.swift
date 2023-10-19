@@ -1,10 +1,9 @@
 //
-//  createPartyPageVC.swift
+//  PartyInfoDetailVC.swift
 //  RGRG
 //
-//  Created by t2023-m0064 on 2023/10/18.
+//  Created by t2023-m0064 on 2023/10/19.
 //
-
 
 import Foundation
 import SnapKit
@@ -12,7 +11,7 @@ import UIKit
 
 
 
-class CreatePartyVC: UIViewController {
+class PartyInfoDetailVC: UIViewController {
     
     
     
@@ -329,7 +328,7 @@ class CreatePartyVC: UIViewController {
         partyNameTextField.snp.makeConstraints{
             $0.top.equalTo(pageTitleLabel.snp.bottom).offset(40)
             $0.height.equalTo(25)
-            $0.width.equalTo(150)
+            $0.width.equalTo(120)
             $0.leading.equalTo(partyNameLabel.snp.trailing).offset(15)
         }
         
@@ -396,4 +395,3 @@ class CreatePartyVC: UIViewController {
         }
     }
 }
-

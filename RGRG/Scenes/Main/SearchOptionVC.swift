@@ -508,12 +508,12 @@ class SearchOptionVC: UIViewController {
         tierButtonSecondFrame.addArrangedSubview(platinumTierbutton)
         tierButtonSecondFrame.addArrangedSubview(emeraldTierbutton)
         tierButtonSecondFrame.addArrangedSubview(diamondTierbutton)
-        tierButtonSecondFrame.addArrangedSubview(masterTierbutton)
-        view.addSubview(tierButtonthirdFrame)
-        tierButtonthirdFrame.addArrangedSubview(grandMasterTierbutton)
-        tierButtonthirdFrame.addArrangedSubview(challengerTierbutton)
-        tierButtonthirdFrame.addArrangedSubview(firstEmptyViewInTierFrame)
-        tierButtonthirdFrame.addArrangedSubview(secondEmptyViewInTierFrame)
+        tierButtonSecondFrame.addArrangedSubview(firstEmptyViewInTierFrame)
+//        view.addSubview(tierButtonthirdFrame)
+//        tierButtonthirdFrame.addArrangedSubview(grandMasterTierbutton)
+//        tierButtonthirdFrame.addArrangedSubview(challengerTierbutton)
+//        tierButtonthirdFrame.addArrangedSubview(firstEmptyViewInTierFrame)
+//        tierButtonthirdFrame.addArrangedSubview(secondEmptyViewInTierFrame)
         
         view.addSubview(positionLabel)
         view.addSubview(positionButtonFrame)
@@ -592,12 +592,12 @@ class SearchOptionVC: UIViewController {
             $0.trailing.equalToSuperview().offset(-10)
         }
         
-        tierButtonthirdFrame.snp.makeConstraints{
-            $0.top.equalTo(tierButtonSecondFrame.snp.bottom).offset(3)
-            $0.height.equalTo(65)
-            $0.leading.equalToSuperview().offset(10)
-            $0.trailing.equalToSuperview().offset(-10)
-        }
+//        tierButtonthirdFrame.snp.makeConstraints{
+//            $0.top.equalTo(tierButtonSecondFrame.snp.bottom).offset(3)
+//            $0.height.equalTo(65)
+//            $0.leading.equalToSuperview().offset(10)
+//            $0.trailing.equalToSuperview().offset(-10)
+//        }
         
 //        fourthButtonthirdFrame.snp.makeConstraints{
 //            $0.top.equalTo(tierButtonthirdFrame.snp.bottom).offset(5)
@@ -608,7 +608,7 @@ class SearchOptionVC: UIViewController {
         
         // 포지션 옵션
         positionLabel.snp.makeConstraints{
-            $0.top.equalTo(tierButtonthirdFrame.snp.bottom).offset(30)
+            $0.top.equalTo(tierButtonSecondFrame.snp.bottom).offset(30)
             $0.leading.equalToSuperview().offset(15)
         }
         
@@ -626,7 +626,6 @@ class SearchOptionVC: UIViewController {
             $0.leading.equalToSuperview().offset(10)
             $0.trailing.equalToSuperview().offset(-10)
             $0.height.equalTo(50)
-//            $0.width.equalTo(160)
             $0.centerX.equalTo(view)
         }
         
