@@ -49,6 +49,7 @@
 		4ECD01EB2ADE9413003EA65C /* YourFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECD01EA2ADE9413003EA65C /* YourFeedCell.swift */; };
 		96A7B3FA2AD9365D00B218EB /* CtaLageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A7B3F92AD9365D00B218EB /* CtaLageButton.swift */; };
 		96A7B3FC2AD936E800B218EB /* CustomMemberInfoBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A7B3FB2AD936E800B218EB /* CustomMemberInfoBox.swift */; };
+		96F690652AE20DA200667F35 /* UIcolor+CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F690642AE20DA200667F35 /* UIcolor+CALayer.swift */; };
 		CB1768212AD933F5009DF2C1 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1768202AD933F5009DF2C1 /* UIColor+Extension.swift */; };
 		CB4B0BC42ADFAB600077AB3A /* createPartyPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC32ADFAB600077AB3A /* createPartyPageVC.swift */; };
 		CB4B0BC62ADFAB7F0077AB3A /* NoticePageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC52ADFAB7F0077AB3A /* NoticePageVC.swift */; };
@@ -94,6 +95,7 @@
 		4ECD01EA2ADE9413003EA65C /* YourFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourFeedCell.swift; sourceTree = "<group>"; };
 		96A7B3F92AD9365D00B218EB /* CtaLageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CtaLageButton.swift; sourceTree = "<group>"; };
 		96A7B3FB2AD936E800B218EB /* CustomMemberInfoBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMemberInfoBox.swift; sourceTree = "<group>"; };
+		96F690642AE20DA200667F35 /* UIcolor+CALayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIcolor+CALayer.swift"; sourceTree = "<group>"; };
 		CB1768202AD933F5009DF2C1 /* UIColor+Extension.swift */ = {isa = PBXFileReference; indentWidth = 5; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		CB4B0BC32ADFAB600077AB3A /* createPartyPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = createPartyPageVC.swift; sourceTree = "<group>"; };
 		CB4B0BC52ADFAB7F0077AB3A /* NoticePageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticePageVC.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 				4E8B84D82AD81184009BCF4B /* SceneDelegate.swift */,
 				4E8B85342AD81411009BCF4B /* Extension.swift */,
 				CB1768202AD933F5009DF2C1 /* UIColor+Extension.swift */,
+				96F690642AE20DA200667F35 /* UIcolor+CALayer.swift */,
 				4E8B85362AD81416009BCF4B /* Utilie.swift */,
 				4E8B84E12AD81187009BCF4B /* LaunchScreen.storyboard */,
 			);
@@ -457,6 +460,7 @@
 				4E8B85422AD815B6009BCF4B /* SettingViewController.swift in Sources */,
 				4E8B851C2AD8120E009BCF4B /* ChatDetailViewController.swift in Sources */,
 				4E8B851D2AD8120E009BCF4B /* MainViewController.swift in Sources */,
+				96F690652AE20DA200667F35 /* UIcolor+CALayer.swift in Sources */,
 				CB1768212AD933F5009DF2C1 /* UIColor+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

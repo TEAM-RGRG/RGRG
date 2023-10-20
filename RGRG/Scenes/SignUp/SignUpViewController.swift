@@ -28,7 +28,7 @@ class SignUpViewController: UIViewController {
     }()
     
     let idLine = {
-        let line = CustomMemberInfoBox(id:"ID",infoText: "영문 숫자 3자 이상",placeHolder: "ID", condition:"^[a-zA-Z0-9]{3,}$")
+        let line = CustomMemberInfoBox(id:"Email",infoText: "영문 숫자 3자 이상",placeHolder: "Email", condition:"^[A-Za-z0-9+_.-]+@(.+)$")
         return line
     }()
     
@@ -63,7 +63,7 @@ class SignUpViewController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = UIColor(hex: "D9D9D9")
         setupUI()
         passValueCheck()
     }
