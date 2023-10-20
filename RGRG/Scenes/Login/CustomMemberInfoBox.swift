@@ -12,7 +12,6 @@ import SnapKit
 
 var pwBringValue: String = ""
 
- //이름변경
 class CustomMemberInfoBox : UIView {
     //저장속성, stored property
     var passHandler:((Bool)->Void)?
@@ -43,12 +42,9 @@ class CustomMemberInfoBox : UIView {
         return icon
         
     }()
+
     
-    
-    
-    
-    
-    init(id:String, infoText:String? = nil, placeHolder: String, condition: String, cellHeight:Int = 60) {
+    init(id:String, infoText:String? = nil, placeHolder: String, condition: String, cellHeight:Int = 60 , style: String = "SignUp") {
         
         self.conditon = condition
         self.cellHeightValue = cellHeight //200
@@ -58,6 +54,7 @@ class CustomMemberInfoBox : UIView {
         //super.init ? override 랑 다른점
         super.init(frame: CGRect())
         setupUI()
+        styleCheck(style: style)
     }
     
     
@@ -66,10 +63,7 @@ class CustomMemberInfoBox : UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: Action
-    
-    
-    
+    //MARK: Method
     @objc func checkContents() {
         let inputText = inputBox.text ?? ""
         let cellID = self.cellID
@@ -80,6 +74,7 @@ class CustomMemberInfoBox : UIView {
             if inputText.isEmpty {
                 infoText.isHidden = true
             }else if validation {
+                //style 값 활욜 할수 있지 안을까?
                 if ["LoginID","LoginPW"].contains(cellID){
                     passHandler?(true)
                 }
@@ -95,7 +90,7 @@ class CustomMemberInfoBox : UIView {
         }
         
         switch cellID {
-        case "ID", "nickName":
+        case "Email", "nickName":
             updateUIvalid(validation: validationCheck)
         case "PW":
             updateUIvalid(validation: validationCheck)
@@ -104,10 +99,10 @@ class CustomMemberInfoBox : UIView {
             let pwCheckInputValue = inputBox.text
             let pwCheckValue = pwBringValue == pwCheckInputValue
             updateUIvalid(validation: pwCheckValue)
-            print("pwBringValue",pwBringValue)
-            print("InputValue",pwCheckInputValue)
-            print("pwCheckValue",pwCheckValue)
-        case "LoginID","LoginPW" :
+//            print("pwBringValue",pwBringValue)
+//            print("InputValue",pwCheckInputValue)
+//            print("pwCheckValue",pwCheckValue)
+        case "LoginEmail","LoginPW" :
             updateUIvalid(validation: validationCheck)
             
         default:
@@ -132,8 +127,22 @@ class CustomMemberInfoBox : UIView {
     
     
     //MARK: UI
+
+    func styleCheck (style : String){
+        switch style {
+        case "Login" :
+            self.layer.borderColor = UIColor(hex: "279EFF").cgColor
+
+        case "SignUp":
+            self.layer.borderColor = UIColor.white.cgColor
+        default:
+            break
+        }
+    }
+    
     func setupUI(){
-        self.layer.borderWidth = 1
+
+        self.layer.borderWidth = 2
         self.layer.cornerRadius = 10
         self.snp.makeConstraints { make in
             make.height.equalTo(cellHeightValue)
@@ -141,8 +150,7 @@ class CustomMemberInfoBox : UIView {
         }
         
         self.addSubview(stackView)
-        //        stackView.backgroundColor = UIColor.systemPink
-        stackView.snp.makeConstraints { make in
+            stackView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(10)
             make.left.equalToSuperview().offset(25)
             make.bottom.equalToSuperview().inset(10)
@@ -151,17 +159,17 @@ class CustomMemberInfoBox : UIView {
         
         stackView.addArrangedSubview(inputBox)
         inputBox.addTarget(self, action: #selector(checkContents), for: .editingChanged)
-        
+        inputBox.attributedPlaceholder = NSAttributedString(string: inputBox.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: "ADADAD")])
+        inputBox.textColor = UIColor(hex: "FFFFFF")
         stackView.addArrangedSubview(infoText)
         infoText.textColor = UIColor.systemRed
-        //        infoText.text = "ddddd"
+    
         
         
         stackView.addArrangedSubview(checkIcon)
         checkIcon.image = UIImage(systemName: "checkmark")
         checkIcon.tintColor = UIColor.black
         checkIcon.contentMode = .scaleAspectFit
-        //        checkIcon.layer.borderWidth = 1
         checkIcon.snp.makeConstraints { make in
             make.width.equalTo(20)
         }

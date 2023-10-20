@@ -35,12 +35,12 @@ class LoginViewController: UIViewController {
     }()
     
     let idLine = {
-        let line = CustomMemberInfoBox(id:"LoginID", placeHolder: "ID", condition:"^[a-zA-Z0-9]{3,}$", cellHeight:70)
+        let line = CustomMemberInfoBox(id:"LoginEmail", placeHolder: "Email", condition:"^[A-Za-z0-9+_.-]+@(.+)$", cellHeight:70, style:"Login")
         return line
     }()
     
     let passwordLine = {
-        let line = CustomMemberInfoBox( id:"LoginPW",placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$", cellHeight:70)
+        let line = CustomMemberInfoBox( id:"LoginPW",placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$", cellHeight:70, style:"Login")
         line.inputBox.isSecureTextEntry = true
         return line
     }()
@@ -63,7 +63,7 @@ class LoginViewController: UIViewController {
     //오버라이딩 : 재정의
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = UIColor(hex: "#0B356A")
         setupUI()
         passValueCheck()
     }
@@ -106,11 +106,11 @@ extension LoginViewController {
     func setupUI(){
         
         //bodyContainer의 높이를 알수는 없는걸까 ?
-//        let  screenHeigth = UIScreen.main.bounds.height
-//        let bodyContainerHeigth = bodyContainer.frame.height
-//
-//        print("screenHeigth",screenHeigth)
-//        print("bodyContainerHeigt",bodyContainerHeigth)
+        //        let  screenHeigth = UIScreen.main.bounds.height
+        //        let bodyContainerHeigth = bodyContainer.frame.height
+        //
+        //        print("screenHeigth",screenHeigth)
+        //        print("bodyContainerHeigt",bodyContainerHeigth)
         
         view.addSubview(bodyContainer)
         bodyContainer.addSubview(imageArea)
@@ -123,35 +123,37 @@ extension LoginViewController {
         methodArea.addArrangedSubview(signupButton)
         
         
-//        bodyContainer.layer.borderWidth = 1
-//        bodyContainer.layer.borderColor = UIColor.systemBlue.cgColor
+        //        bodyContainer.layer.borderWidth = 1
+        //        bodyContainer.layer.borderColor = UIColor.systemBlue.cgColor
         bodyContainer.layer.cornerRadius = 10
         bodyContainer.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.bottom.equalTo(view.safeAreaLayoutGuide)
-            make.left.equalToSuperview().offset(40)
-            make.right.equalToSuperview().inset(40)
+            make.left.equalToSuperview().offset(45)
+            make.right.equalToSuperview().inset(45)
         }
         
-        //        imageArea.backgroundColor = UIColor.systemRed
+        //        imageArea.layer.borderWidth = 1
+        imageArea.layer.borderColor = UIColor.systemGray5.cgColor
         imageArea.snp.makeConstraints { make in
             make.left.top.right.equalToSuperview()
             make.height.equalToSuperview().dividedBy(2)
         }
         
         //        mainImage.layer.borderWidth = 1
-        mainImage.backgroundColor = UIColor.systemGray5
+        mainImage.layer.borderColor = UIColor.systemGray5.cgColor
         mainImage.image = UIImage(named: "LoginMain")
-        mainImage.contentMode = .scaleAspectFill
+        mainImage.contentMode = .scaleAspectFit
         mainImage.snp.makeConstraints { make in
             //            make.top.equalToSuperview().offset(100)
             make.height.equalToSuperview().dividedBy(2)
-            make.left.right.equalToSuperview()
-            make.bottom.equalToSuperview().inset(50)
+            make.left.equalToSuperview().offset(60)
+            make.right.equalToSuperview().inset(60)
+            make.centerY.equalToSuperview()
             make.centerX.equalToSuperview()
         }
         
-//        methodArea.backgroundColor = UIColor.systemBlue
+        //        methodArea.backgroundColor = UIColor.systemBlue
         methodArea.snp.makeConstraints { make in
             make.left.bottom.right.equalToSuperview()
             make.height.equalToSuperview().dividedBy(2)
@@ -171,14 +173,13 @@ extension LoginViewController {
             make.bottom.equalTo(signupButton.snp.top)
         }
         
-//        signupButton.layer.borderWidth = 1
         signupButton.setTitle("회원가입", for: .normal)
-        signupButton.setTitleColor(UIColor.black, for: .normal)
+        signupButton.setTitleColor(UIColor.white, for: .normal)
         signupButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         signupButton.addTarget(self, action: #selector(gotoSignupPage), for: .touchUpInside)
         signupButton.snp.makeConstraints { make in
-            make.height.equalToSuperview().dividedBy(6)
-            make.bottom.equalTo(bodyContainer.snp.bottom).offset(-30)
+            make.height.equalToSuperview().dividedBy(10)
+            make.bottom.equalTo(bodyContainer.snp.bottom).offset(-60)
         }
     }
 }
