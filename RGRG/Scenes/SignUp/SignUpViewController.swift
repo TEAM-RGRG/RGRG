@@ -22,13 +22,26 @@ class SignUpViewController: UIViewController {
         return stactview
     }()
     
+    let imageArea = {
+        let view = UIView()
+        return view
+    }()
+    
     let mainImage = {
         let image = UIImageView()
         return image
     }()
     
-    let idLine = {
-        let line = CustomMemberInfoBox(id:"Email",infoText: "영문 숫자 3자 이상",placeHolder: "Email", condition:"^[A-Za-z0-9+_.-]+@(.+)$")
+    
+    let methodArea = {
+        let view = UIStackView()
+        view.axis = .vertical
+        return view
+    }()
+    
+    
+    let emailLine = {
+        let line = CustomMemberInfoBox(id:"Email",infoText: "Email 형식 확인",placeHolder: "Email", condition:"^[A-Za-z0-9+_.-]+@(.+)$")
         return line
     }()
     
@@ -47,7 +60,11 @@ class SignUpViewController: UIViewController {
     
     let nickNameLine = {
         let line = CustomMemberInfoBox(id:"nickName",infoText: "영문 숫자 한글 2자 이상",placeHolder: "닉네임", condition:"^[a-zA-Z0-9가-힣]{2,}$")
-        
+        return line
+    }()
+    
+    let positionLine = {
+        let line = CustomMemberInfoBox(id:"nickName",infoText: "영문 숫자 한글 2자 이상",placeHolder: "Position", condition:"^[a-zA-Z0-9가-힣]{2,}$")
         return line
     }()
     
@@ -57,13 +74,11 @@ class SignUpViewController: UIViewController {
         return button
     }()
     
-    
-    
-    //한번만 불림, 이미 실행됨
+
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        view.backgroundColor = UIColor(hex: "D9D9D9")
+        view.backgroundColor = UIColor(hex: "f1f1f1")
         setupUI()
         passValueCheck()
     }
@@ -89,7 +104,7 @@ extension SignUpViewController {
         
         //idPass값이 안바뀌는 것처럼 보이는건, ViewDidLoad에서 이미 그려졌기 때문
         //클로져는 독립젹인 코드블럭이기에 이 안에서는 업데이트가 가능
-        idLine.passHandler = { pass in
+        emailLine.passHandler = { pass in
             self.idPass = pass
             updateUI()
         }
@@ -104,62 +119,76 @@ extension SignUpViewController {
         nickNameLine.passHandler = { pass in
             self.nickNamePass = pass
             updateUI()
-            
-        }
-        
-        
-    }
+                    }
+            }
     
     
     
     func setupUI() {
         view.addSubview(bodyContainer)
-        //        bodyStackContainer.axis = .vertical
-        bodyContainer.layer.borderColor = UIColor.systemBlue.cgColor
-        //                bodyContainer.layer.borderWidth = 1
+        bodyContainer.addSubview(imageArea)
+        bodyContainer.addSubview(methodArea)
+        imageArea.addSubview(mainImage)
+        methodArea.addArrangedSubview(emailLine)
+        methodArea.addArrangedSubview(passwordLine)
+        methodArea.addArrangedSubview(passwordCheckLine)
+        methodArea.addArrangedSubview(nickNameLine)
+        methodArea.addArrangedSubview(positionLine)
+        methodArea.addArrangedSubview(signupButton)
+               
+            bodyContainer.layer.borderColor = UIColor.systemBlue.cgColor
         bodyContainer.layer.cornerRadius = 10
         bodyContainer.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.bottom.equalTo(view.safeAreaLayoutGuide)
             make.left.equalToSuperview().offset(40)
             make.right.equalToSuperview().inset(40)
-            
+                    }
+ 
+        imageArea.backgroundColor = UIColor(hex: "D9D9D9")
+        imageArea.layer.cornerRadius = 10
+        imageArea.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.left.equalToSuperview().offset(20)
+            make.right.equalToSuperview().inset(20)
+            make.height.equalToSuperview().dividedBy(6)
         }
-        
-        bodyContainer.addSubview(mainImage)
+
         mainImage.image = UIImage(named: "SignupMain")
-        mainImage.contentMode = .scaleAspectFill
+        mainImage.contentMode = .scaleAspectFit
         mainImage.snp.makeConstraints { make in
-            make.top.left.right.equalToSuperview()
+            make.width.equalTo(imageArea.snp.width).multipliedBy(0.8)
+            make.height.equalToSuperview()
+            make.centerX.equalToSuperview()
         }
         
-        bodyContainer.addSubview(idLine)
-        idLine.snp.makeConstraints { make in
+        methodArea.spacing = 15
+        methodArea.distribution = .fillProportionally
+        methodArea.snp.makeConstraints { make in
+            make.top.equalTo(imageArea.snp.bottom).offset(40)
             make.left.right.equalToSuperview()
-            make.top.equalToSuperview().offset(100)
+
         }
-        
-        
-        
-        bodyContainer.addSubview(passwordLine)
+
+        emailLine.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+        }
+
         passwordLine.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
-            make.top.equalTo(idLine.snp.bottom).offset(20)
+            make.top.equalTo(emailLine.snp.bottom).offset(20)
         }
-        
-        bodyContainer.addSubview(passwordCheckLine)
+  
         passwordCheckLine.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.top.equalTo(passwordLine.snp.bottom).offset(20)
         }
-        
-        bodyContainer.addSubview(nickNameLine)
+
         nickNameLine.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.top.equalTo(passwordCheckLine.snp.bottom).offset(20)
         }
         
-        bodyContainer.addSubview(signupButton)
         signupButton.addTarget(self, action: #selector(movetoLogin), for: .touchUpInside)
         signupButton.snp.makeConstraints { make in
             make.left.right.equalToSuperview()

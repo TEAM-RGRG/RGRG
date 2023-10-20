@@ -173,7 +173,13 @@ extension LoginViewController {
             make.bottom.equalTo(signupButton.snp.top)
         }
         
-        signupButton.setTitle("회원가입", for: .normal)
+        let attributedTitle = NSAttributedString(string: "회원가입", attributes: [
+            NSAttributedString.Key.foregroundColor: UIColor.white,
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15),
+            NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue
+        ])
+
+        signupButton.setAttributedTitle(attributedTitle, for: .normal)
         signupButton.setTitleColor(UIColor.white, for: .normal)
         signupButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         signupButton.addTarget(self, action: #selector(gotoSignupPage), for: .touchUpInside)
