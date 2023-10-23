@@ -5,6 +5,8 @@
 //  Created by (^ㅗ^)7 iMac on 2023/10/11.
 //
 
+import FirebaseAuth
+import FirebaseCore
 import SnapKit
 import UIKit
 
@@ -24,10 +26,6 @@ extension ProfileViewController {
         super.viewDidLoad()
         configureTable()
         configureUI()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        navigationController?.navigationBar.isHidden = true
     }
 }
 

@@ -60,6 +60,20 @@ extension SettingViewController {
             print("Error signing out: %@", signOutError)
         }
     }
+
+    func deleteUser() {
+        if let user = Auth.auth().currentUser {
+            user.delete { [self] error in
+                if let error = error {
+                    print("Firebase Error : ", error)
+                } else {
+                    print("회원탈퇴 성공!")
+                }
+            }
+        } else {
+            print("로그인 정보가 존재하지 않습니다")
+        }
+    }
 }
 
 extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
@@ -78,11 +92,15 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         cell.textLabel?.text = settingList[indexPath.row]
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 4 {
             signOut()
-            
+            navigationController?.popToRootViewController(animated: true)
+        }
+        if indexPath.row == 5 {
+            deleteUser()
+            navigationController?.popToRootViewController(animated: true)
         }
     }
 }
