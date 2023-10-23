@@ -30,7 +30,7 @@ extension ChatListViewController {
         setupUI()
 
         if let user = Auth.auth().currentUser {
-            print("### User Info: \(user.email)")
+            print("### User Info: \(user)")
         } else {
             print("### Login : Error")
         }
@@ -95,7 +95,7 @@ extension ChatListViewController {
 extension ChatListViewController {
     func loadChannels() {
         db.collection("channels")
-//            .whereField("writer", isEqualTo: "testUser1@naver.com")
+            .whereField("writer", isEqualTo: "testUser1@naver.com")
             .addSnapshotListener { (querySnapshot, error) in
                 self.channels = []
 
@@ -105,7 +105,7 @@ extension ChatListViewController {
                     if let snapshotDocument = querySnapshot?.documents {
                         for doc in snapshotDocument {
                             let data = doc.data()
-
+                        
                             if let writer = data["writer"] as? String, let channelTitle = data["channelTitle"] as? String, let requester = data["requester"] as? String {
                                 let channel = Channel(channelName: channelTitle, requester: requester, writer: writer)
                                 self.channels.append(channel)
@@ -115,7 +115,7 @@ extension ChatListViewController {
                                 }
                             }
 //                            let thread = doc.documentID
-//                            print("### \(data)")
+                            print("### \(data)")
 //                            print("### \(thread)")
 
                             // MARK: - 채팅 출력
@@ -170,3 +170,4 @@ extension ChatListViewController: UITableViewDelegate {
         80
     }
 }
+
