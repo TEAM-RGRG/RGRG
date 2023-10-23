@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Join us 2.png",
+      "filename" : "WelcometoRGRG(LOGO).png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Join us 1.png",
+      "filename" : "WelcometoRGRG(LOGO) 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Join us.png",
+      "filename" : "WelcometoRGRG(LOGO) 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

@@ -99,7 +99,7 @@ extension ProfileCell {
     }
     
     func setEditButton() {
-        editProfileButton.configureButton(title: "프로필 수정", cornerValue: 3, backgroundColor: .rgrgColor1)
+        editProfileButton.configureButton(title: "프로필 수정", cornerValue: 3, backgroundColor: .RGRGColor1!)
         editProfileButton.addTarget(self, action: #selector(editProfileButtonPressed(_:)), for: .touchUpInside)
     }
     

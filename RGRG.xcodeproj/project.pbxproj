@@ -52,6 +52,8 @@
 		4ECD01EB2ADE9413003EA65C /* YourFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECD01EA2ADE9413003EA65C /* YourFeedCell.swift */; };
 		96A7B3FA2AD9365D00B218EB /* CtaLageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A7B3F92AD9365D00B218EB /* CtaLageButton.swift */; };
 		96A7B3FC2AD936E800B218EB /* CustomMemberInfoBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A7B3FB2AD936E800B218EB /* CustomMemberInfoBox.swift */; };
+		96F690652AE20DA200667F35 /* UIcolor+CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F690642AE20DA200667F35 /* UIcolor+CALayer.swift */; };
+		96FE5FCF2AE61AE800AB84D8 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 96FE5FCE2AE61AE800AB84D8 /* FirebaseAuth */; };
 		CB1768212AD933F5009DF2C1 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1768202AD933F5009DF2C1 /* UIColor+Extension.swift */; };
 		CB4B0BC42ADFAB600077AB3A /* createPartyPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC32ADFAB600077AB3A /* createPartyPageVC.swift */; };
 		CB4B0BC62ADFAB7F0077AB3A /* NoticePageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC52ADFAB7F0077AB3A /* NoticePageVC.swift */; };
@@ -100,6 +102,7 @@
 		4ECD01EA2ADE9413003EA65C /* YourFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourFeedCell.swift; sourceTree = "<group>"; };
 		96A7B3F92AD9365D00B218EB /* CtaLageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CtaLageButton.swift; sourceTree = "<group>"; };
 		96A7B3FB2AD936E800B218EB /* CustomMemberInfoBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMemberInfoBox.swift; sourceTree = "<group>"; };
+		96F690642AE20DA200667F35 /* UIcolor+CALayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIcolor+CALayer.swift"; sourceTree = "<group>"; };
 		CB1768202AD933F5009DF2C1 /* UIColor+Extension.swift */ = {isa = PBXFileReference; indentWidth = 5; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		CB4B0BC32ADFAB600077AB3A /* createPartyPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = createPartyPageVC.swift; sourceTree = "<group>"; };
 		CB4B0BC52ADFAB7F0077AB3A /* NoticePageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticePageVC.swift; sourceTree = "<group>"; };
@@ -119,6 +122,7 @@
 				4E8B85332AD8139D009BCF4B /* FirebaseAppCheck in Frameworks */,
 				4E8B852D2AD8139D009BCF4B /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 				4E8B852F2AD8139D009BCF4B /* FirebaseAnalyticsSwift in Frameworks */,
+				96FE5FCF2AE61AE800AB84D8 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,6 +160,7 @@
 			children = (
 				4E8B84D52AD81184009BCF4B /* RGRG */,
 				4E8B84D42AD81184009BCF4B /* Products */,
+				96FE5FCD2AE61AE800AB84D8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -188,6 +193,7 @@
 				4E8B84D82AD81184009BCF4B /* SceneDelegate.swift */,
 				4E8B85342AD81411009BCF4B /* Extension.swift */,
 				CB1768202AD933F5009DF2C1 /* UIColor+Extension.swift */,
+				96F690642AE20DA200667F35 /* UIcolor+CALayer.swift */,
 				4E8B85362AD81416009BCF4B /* Utilie.swift */,
 				4E8B84E12AD81187009BCF4B /* LaunchScreen.storyboard */,
 			);
@@ -352,6 +358,13 @@
 			path = Setting;
 			sourceTree = "<group>";
 		};
+		96FE5FCD2AE61AE800AB84D8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -376,6 +389,7 @@
 				4E8B852E2AD8139D009BCF4B /* FirebaseAnalyticsSwift */,
 				4E8B85302AD8139D009BCF4B /* FirebaseAnalyticsWithoutAdIdSupport */,
 				4E8B85322AD8139D009BCF4B /* FirebaseAppCheck */,
+				96FE5FCE2AE61AE800AB84D8 /* FirebaseAuth */,
 			);
 			productName = RGRG;
 			productReference = 4E8B84D32AD81184009BCF4B /* RGRG.app */;
@@ -485,6 +499,7 @@
 				4E8B85422AD815B6009BCF4B /* SettingViewController.swift in Sources */,
 				4E8B851C2AD8120E009BCF4B /* ChatDetailViewController.swift in Sources */,
 				4E8B851D2AD8120E009BCF4B /* MainViewController.swift in Sources */,
+				96F690652AE20DA200667F35 /* UIcolor+CALayer.swift in Sources */,
 				CB1768212AD933F5009DF2C1 /* UIColor+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -761,6 +776,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4E8B85292AD8139D009BCF4B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAppCheck;
+		};
+		96FE5FCE2AE61AE800AB84D8 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4E8B85292AD8139D009BCF4B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

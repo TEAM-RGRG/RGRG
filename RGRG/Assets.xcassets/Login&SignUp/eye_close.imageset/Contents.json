@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "RGRG LOGO 2.png",
+      "filename" : "eye_close.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "RGRG LOGO 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "RGRG LOGO.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
