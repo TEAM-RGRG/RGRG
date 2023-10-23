@@ -24,7 +24,7 @@ class ProfileCell: UITableViewCell {
         imageView.image = UIImage(systemName: "photo")
         imageView.frame = CGRect(x: 0, y: 0, width: 93, height: 93)
         imageView.contentMode = .scaleAspectFit
-        imageView.layer.borderWidth = 1
+        imageView.layer.borderWidth = 1.3
         imageView.layer.cornerRadius = imageView.frame.height/2
         return imageView
     }()
@@ -99,7 +99,7 @@ extension ProfileCell {
     }
     
     func setEditButton() {
-        editProfileButton.configureButton(title: "프로필 수정", cornerValue: 3, backgroundColor: .rgrgColor1)
+        editProfileButton.configureButton(title: "프로필 수정", cornerValue: 3, backgroundColor: .RGRGColor1 ?? .red)
         editProfileButton.addTarget(self, action: #selector(editProfileButtonPressed(_:)), for: .touchUpInside)
     }
     
