@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1DB9391B2AE24A8700BD4F41 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB939192AE24A8700BD4F41 /* ProfileCell.swift */; };
+		1DB9391C2AE24A8700BD4F41 /* ProfileSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB9391A2AE24A8700BD4F41 /* ProfileSettingCell.swift */; };
+		1DB9391F2AE24AB300BD4F41 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB9391E2AE24AB300BD4F41 /* SettingCell.swift */; };
 		4E1264BE2ADF6E2700A4E602 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1264BD2ADF6E2700A4E602 /* CustomTextField.swift */; };
 		4E8195EA2ADD299000881C88 /* CustomTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8195E92ADD299000881C88 /* CustomTableView.swift */; };
 		4E8195EC2ADD3E4600881C88 /* ChatListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8195EB2ADD3E4600881C88 /* ChatListCell.swift */; };
@@ -58,6 +61,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1DB939192AE24A8700BD4F41 /* ProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
+		1DB9391A2AE24A8700BD4F41 /* ProfileSettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSettingCell.swift; sourceTree = "<group>"; };
+		1DB9391E2AE24AB300BD4F41 /* SettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 		4E1264BD2ADF6E2700A4E602 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		4E8195E92ADD299000881C88 /* CustomTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableView.swift; sourceTree = "<group>"; };
 		4E8195EB2ADD3E4600881C88 /* ChatListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListCell.swift; sourceTree = "<group>"; };
@@ -121,6 +127,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1DB939182AE24A8700BD4F41 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				1DB939192AE24A8700BD4F41 /* ProfileCell.swift */,
+				1DB9391A2AE24A8700BD4F41 /* ProfileSettingCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		1DB9391D2AE24AB300BD4F41 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				1DB9391E2AE24AB300BD4F41 /* SettingCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		4E1264BC2ADF6DF300A4E602 /* ChatSetting */ = {
 			isa = PBXGroup;
 			children = (
@@ -268,6 +291,7 @@
 		4E8B85042AD8120E009BCF4B /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				1DB939182AE24A8700BD4F41 /* Cell */,
 				4E8B85052AD8120E009BCF4B /* ProfileViewController.swift */,
 			);
 			path = Profile;
@@ -325,6 +349,7 @@
 		4E8B85432AD815C8009BCF4B /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				1DB9391D2AE24AB300BD4F41 /* Cell */,
 				4E8B85412AD815B6009BCF4B /* SettingViewController.swift */,
 			);
 			path = Setting;
@@ -417,6 +442,7 @@
 			files = (
 				CBECDD392AE174320097C7CF /* PartyInfoDetailVC.swift in Sources */,
 				4E8B85132AD8120E009BCF4B /* EditProfileViewController.swift in Sources */,
+				1DB9391C2AE24A8700BD4F41 /* ProfileSettingCell.swift in Sources */,
 				96A7B3FC2AD936E800B218EB /* CustomMemberInfoBox.swift in Sources */,
 				96A7B3FC2AD936E800B218EB /* CustomMemberInfoBox.swift in Sources */,
 				4ECD01EB2ADE9413003EA65C /* YourFeedCell.swift in Sources */,
@@ -433,11 +459,13 @@
 				4E8B853E2AD81515009BCF4B /* RecuitmentViewController.swift in Sources */,
 				4E8B85352AD81411009BCF4B /* Extension.swift in Sources */,
 				96A7B3FA2AD9365D00B218EB /* CtaLageButton.swift in Sources */,
+				1DB9391B2AE24A8700BD4F41 /* ProfileCell.swift in Sources */,
 				4E8B851F2AD8120E009BCF4B /* LoginViewController.swift in Sources */,
 				4E8B85172AD8120E009BCF4B /* SignUpViewController.swift in Sources */,
 				4E8195EE2ADD404000881C88 /* CustomImageView.swift in Sources */,
 				4E8B853E2AD81515009BCF4B /* RecuitmentViewController.swift in Sources */,
 				4E8B85352AD81411009BCF4B /* Extension.swift in Sources */,
+				1DB9391F2AE24AB300BD4F41 /* SettingCell.swift in Sources */,
 				96A7B3FA2AD9365D00B218EB /* CtaLageButton.swift in Sources */,
 				4E8B851F2AD8120E009BCF4B /* LoginViewController.swift in Sources */,
 				4E8B85172AD8120E009BCF4B /* SignUpViewController.swift in Sources */,
