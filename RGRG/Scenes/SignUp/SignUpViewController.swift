@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FirebaseCore
 import FirebaseAuth
+import FirebaseFirestore
 
 
 class SignUpViewController: UIViewController {
@@ -102,18 +103,42 @@ extension SignUpViewController {
         let email = emailLine.inputBox.text
         let password = passwordLine.inputBox.text
         let userName = nickNameLine.inputBox.text
-        print("email",email)
-        print("password",password)
-        print("userName",userName)
-
+        
+        
         Auth.auth().createUser(withEmail: email ?? "", password: password ?? "") {result,error in
             if let error = error {
                 print(error)
             }
             
             if let result = result {
-                print(result)
-                print("use 생성 완료 .. !")
+                print("User created: \(result.user.uid)")
+
+                // Firebase Firestore에 사용자 추가
+                let db = Firestore.firestore()
+
+                // "users" 컬렉션에서 저장된 문서 수를 확인하여 다음 순서 값을 생성
+                db.collection("users").getDocuments { (querySnapshot, error) in
+                    if let error = error {
+                        print("Error getting documents: \(error)")
+                    } else {
+                        let nextOrder = querySnapshot?.documents.count ?? 0
+
+                        // "users" 컬렉션에 새 문서 추가
+                        db.collection("users").document(result.user.uid).setData([
+                            "userID": nextOrder,
+                            "email": email,
+                            "password": password,
+                            "userName": userName
+                            // 기타 사용자 정보 필드 추가
+                        ]) { error in
+                            if let error = error {
+                                print("Error adding user document: \(error)")
+                            } else {
+                                print("User document added with ID: \(result.user.uid)")
+                            }
+                        }
+                    }
+                }
             }
         }
     }
