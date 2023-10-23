@@ -177,6 +177,9 @@
 				1DB94CC82AE61B4D00851A18 /* FirebaseFunctionsCombine-Community in Frameworks */,
 				1DB94CD02AE61B4D00851A18 /* FirebaseMLModelDownloader in Frameworks */,
 				96FE5FCF2AE61AE800AB84D8 /* FirebaseAuth in Frameworks */,
+				1DB94CD22AE61B4D00851A18 /* FirebaseMessaging in Frameworks */,
+				1DB94CC82AE61B4D00851A18 /* FirebaseFunctionsCombine-Community in Frameworks */,
+				1DB94CD02AE61B4D00851A18 /* FirebaseMLModelDownloader in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -471,6 +474,33 @@
 				1DB94CD92AE61B4D00851A18 /* FirebaseStorage */,
 				1DB94CDB2AE61B4D00851A18 /* FirebaseStorageCombine-Community */,
 				96FE5FCE2AE61AE800AB84D8 /* FirebaseAuth */,
+				1DB94CA72AE61B4D00851A18 /* FirebaseAnalytics */,
+				1DB94CA92AE61B4D00851A18 /* FirebaseAnalyticsOnDeviceConversion */,
+				1DB94CAB2AE61B4D00851A18 /* FirebaseAnalyticsSwift */,
+				1DB94CAD2AE61B4D00851A18 /* FirebaseAnalyticsWithoutAdIdSupport */,
+				1DB94CAF2AE61B4D00851A18 /* FirebaseAppCheck */,
+				1DB94CB12AE61B4D00851A18 /* FirebaseAppDistribution-Beta */,
+				1DB94CB32AE61B4D00851A18 /* FirebaseAuth */,
+				1DB94CB52AE61B4D00851A18 /* FirebaseAuthCombine-Community */,
+				1DB94CB72AE61B4D00851A18 /* FirebaseCrashlytics */,
+				1DB94CB92AE61B4D00851A18 /* FirebaseDatabase */,
+				1DB94CBB2AE61B4D00851A18 /* FirebaseDatabaseSwift */,
+				1DB94CBD2AE61B4D00851A18 /* FirebaseDynamicLinks */,
+				1DB94CBF2AE61B4D00851A18 /* FirebaseFirestore */,
+				1DB94CC12AE61B4D00851A18 /* FirebaseFirestoreCombine-Community */,
+				1DB94CC32AE61B4D00851A18 /* FirebaseFirestoreSwift */,
+				1DB94CC52AE61B4D00851A18 /* FirebaseFunctions */,
+				1DB94CC72AE61B4D00851A18 /* FirebaseFunctionsCombine-Community */,
+				1DB94CC92AE61B4D00851A18 /* FirebaseInAppMessaging-Beta */,
+				1DB94CCB2AE61B4D00851A18 /* FirebaseInAppMessagingSwift-Beta */,
+				1DB94CCD2AE61B4D00851A18 /* FirebaseInstallations */,
+				1DB94CCF2AE61B4D00851A18 /* FirebaseMLModelDownloader */,
+				1DB94CD12AE61B4D00851A18 /* FirebaseMessaging */,
+				1DB94CD32AE61B4D00851A18 /* FirebasePerformance */,
+				1DB94CD52AE61B4D00851A18 /* FirebaseRemoteConfig */,
+				1DB94CD72AE61B4D00851A18 /* FirebaseRemoteConfigSwift */,
+				1DB94CD92AE61B4D00851A18 /* FirebaseStorage */,
+				1DB94CDB2AE61B4D00851A18 /* FirebaseStorageCombine-Community */,
 			);
 			productName = RGRG;
 			productReference = 4E8B84D32AD81184009BCF4B /* RGRG.app */;
