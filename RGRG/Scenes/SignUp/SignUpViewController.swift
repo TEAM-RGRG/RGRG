@@ -7,7 +7,9 @@
 
 import SnapKit
 import UIKit
-
+import Firebase
+import FirebaseCore
+import FirebaseAuth
 
 
 class SignUpViewController: UIViewController {
@@ -74,7 +76,7 @@ class SignUpViewController: UIViewController {
         return button
     }()
     
-
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -87,7 +89,36 @@ class SignUpViewController: UIViewController {
 
 
 extension SignUpViewController {
-    @objc func movetoLogin(){
+    @objc func tapSignUP(){
+        // ture 값전달할 수 있도록 변경
+        if self.idPass && self.pwPass && pwCheckPass && self.nickNamePass {
+            createUser()
+            movetoLogin()
+            
+        }
+    }
+    
+    func createUser(){
+        let email = emailLine.inputBox.text
+        let password = passwordLine.inputBox.text
+        let userName = nickNameLine.inputBox.text
+        print("email",email)
+        print("password",password)
+        print("userName",userName)
+
+        Auth.auth().createUser(withEmail: email ?? "", password: password ?? "") {result,error in
+            if let error = error {
+                print(error)
+            }
+            
+            if let result = result {
+                print(result)
+                print("use 생성 완료 .. !")
+            }
+        }
+    }
+    
+    func movetoLogin(){
         let movePage = LoginViewController()
         self.navigationController?.pushViewController(movePage, animated: true)
     }
@@ -100,6 +131,7 @@ extension SignUpViewController {
                 return
             }
             signupButton.backgroundColor = UIColor.black
+            
         }
         
         //idPass값이 안바뀌는 것처럼 보이는건, ViewDidLoad에서 이미 그려졌기 때문
@@ -119,8 +151,8 @@ extension SignUpViewController {
         nickNameLine.passHandler = { pass in
             self.nickNamePass = pass
             updateUI()
-                    }
-            }
+        }
+    }
     
     
     
@@ -135,16 +167,16 @@ extension SignUpViewController {
         methodArea.addArrangedSubview(nickNameLine)
         methodArea.addArrangedSubview(positionLine)
         methodArea.addArrangedSubview(signupButton)
-               
-            bodyContainer.layer.borderColor = UIColor.systemBlue.cgColor
+        
+        bodyContainer.layer.borderColor = UIColor.systemBlue.cgColor
         bodyContainer.layer.cornerRadius = 10
         bodyContainer.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.bottom.equalTo(view.safeAreaLayoutGuide)
             make.left.equalToSuperview().offset(40)
             make.right.equalToSuperview().inset(40)
-                    }
- 
+        }
+        
         imageArea.backgroundColor = UIColor(hex: "D9D9D9")
         imageArea.layer.cornerRadius = 10
         imageArea.snp.makeConstraints { make in
@@ -153,7 +185,7 @@ extension SignUpViewController {
             make.right.equalToSuperview().inset(20)
             make.height.equalToSuperview().dividedBy(6)
         }
-
+        
         mainImage.image = UIImage(named: "SignupMain")
         mainImage.contentMode = .scaleAspectFit
         mainImage.snp.makeConstraints { make in
@@ -167,29 +199,29 @@ extension SignUpViewController {
         methodArea.snp.makeConstraints { make in
             make.top.equalTo(imageArea.snp.bottom).offset(40)
             make.left.right.equalToSuperview()
-
+            
         }
-
+        
         emailLine.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
         }
-
+        
         passwordLine.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.top.equalTo(emailLine.snp.bottom).offset(20)
         }
-  
+        
         passwordCheckLine.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.top.equalTo(passwordLine.snp.bottom).offset(20)
         }
-
+        
         nickNameLine.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.top.equalTo(passwordCheckLine.snp.bottom).offset(20)
         }
         
-        signupButton.addTarget(self, action: #selector(movetoLogin), for: .touchUpInside)
+        signupButton.addTarget(self, action: #selector(tapSignUP), for: .touchUpInside)
         signupButton.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview().inset(20)

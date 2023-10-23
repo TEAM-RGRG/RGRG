@@ -7,6 +7,8 @@
 
 import SnapKit
 import UIKit
+import FirebaseCore
+import FirebaseAuth
 
 class LoginViewController: UIViewController {
     
@@ -34,7 +36,7 @@ class LoginViewController: UIViewController {
         return view
     }()
     
-    let idLine = {
+    let emailLine = {
         let line = CustomMemberInfoBox(id:"LoginEmail", placeHolder: "Email", condition:"^[A-Za-z0-9+_.-]+@(.+)$", cellHeight:70, style:"Login")
         return line
     }()
@@ -77,8 +79,30 @@ extension LoginViewController {
         self.navigationController?.pushViewController(signupVC, animated: true)
     }
     
-    @objc func moveToMain(){
-        //tapbar 보이도록 수정 .. !
+    @objc func tapLogin(){
+      signInUser()
+
+    }
+    
+    func signInUser(){
+        let email = emailLine.inputBox.text ?? ""
+        let password = passwordLine.inputBox.text ?? ""
+        
+        Auth.auth().signIn(withEmail: email, password: password) { [self] authResult, error in
+             if authResult == nil {
+                 print("로그인 실패")
+                 if let errorCode = error {
+                     print(errorCode)
+                 }
+             }else if authResult != nil {
+                 moveToMain()
+                 print("로그인 성공")
+             }
+         }
+        
+    }
+    
+    func moveToMain(){
         let movePage = TabBarController()
         self.navigationController?.pushViewController(movePage, animated: true)
     }
@@ -90,7 +114,7 @@ extension LoginViewController {
             }
             loginButton.backgroundColor = UIColor.black
         }
-        idLine.passHandler = { pass in
+        emailLine.passHandler = { pass in
             self.loginIdPass = pass
             updateUI()
         }
@@ -116,9 +140,9 @@ extension LoginViewController {
         bodyContainer.addSubview(imageArea)
         imageArea.addSubview(mainImage)
         bodyContainer.addSubview(methodArea)
-        methodArea.addArrangedSubview(idLine)
+        methodArea.addArrangedSubview(emailLine)
         methodArea.addArrangedSubview(passwordLine)
-        loginButton.addTarget(self, action: #selector(moveToMain), for: .touchUpInside)
+        loginButton.addTarget(self, action: #selector(tapLogin), for: .touchUpInside)
         methodArea.addArrangedSubview(loginButton)
         methodArea.addArrangedSubview(signupButton)
         
@@ -158,7 +182,7 @@ extension LoginViewController {
             make.left.bottom.right.equalToSuperview()
             make.height.equalToSuperview().dividedBy(2)
         }
-        idLine.snp.makeConstraints { make in
+        emailLine.snp.makeConstraints { make in
             make.height.equalToSuperview().dividedBy(5)
             make.bottom.equalTo(passwordLine.snp.top).offset(-20)
         }
