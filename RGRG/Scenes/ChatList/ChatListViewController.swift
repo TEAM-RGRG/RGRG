@@ -5,13 +5,19 @@
 //  Created by (^ㅗ^)7 iMac on 2023/10/11.
 //
 
+import Firebase
+import FirebaseAuth
+import FirebaseFirestore
 import SnapKit
-import SwiftUI
 import UIKit
 
 class ChatListViewController: UIViewController {
     let tableView = CustomTableView(frame: .zero, style: .plain)
     let rightBarButtonItem = CustomBarButton()
+
+    let db = Firestore.firestore()
+
+    var channels: [Channel] = []
 
     deinit {
         print("### NotificationViewController deinitialized")
@@ -22,6 +28,16 @@ extension ChatListViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+
+        if let user = Auth.auth().currentUser {
+            print("### User Info: \(user.email)")
+        } else {
+            print("### Login : Error")
+        }
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        loadChannels()
     }
 }
 
@@ -39,7 +55,7 @@ extension ChatListViewController {
 
         view.addSubview(tableView)
         tableView.backgroundColor = .systemOrange
-        
+
         tableView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(view.safeAreaLayoutGuide)
@@ -76,16 +92,67 @@ extension ChatListViewController {
     }
 }
 
+extension ChatListViewController {
+    func loadChannels() {
+        db.collection("channels")
+//            .whereField("writer", isEqualTo: "testUser1@naver.com")
+            .addSnapshotListener { (querySnapshot, error) in
+                self.channels = []
+
+                if let e = error {
+                    print("There was an issue retrieving data from Firestore. \(e)")
+                } else {
+                    if let snapshotDocument = querySnapshot?.documents {
+                        for doc in snapshotDocument {
+                            let data = doc.data()
+
+                            if let writer = data["writer"] as? String, let channelTitle = data["channelTitle"] as? String, let requester = data["requester"] as? String {
+                                let channel = Channel(channelName: channelTitle, requester: requester, writer: writer)
+                                self.channels.append(channel)
+
+                                DispatchQueue.main.async {
+                                    self.tableView.reloadData()
+                                }
+                            }
+//                            let thread = doc.documentID
+//                            print("### \(data)")
+//                            print("### \(thread)")
+
+                            // MARK: - 채팅 출력
+
+//                            self.db.collection("channels/\(thread)/thread")
+//                                .addSnapshotListener { (querySnapshot, error) in
+//                                    if let e = error {
+//                                        print("There was an issue retrieving data from Firestore. \(e)")
+//
+//                                    } else {
+//                                        if let snapshotDocument = querySnapshot?.documents {
+//                                            for doc in snapshotDocument {
+//                                                let data = doc.data()
+//                                                print("### \(data)")
+//                                            }
+//                                        }
+//                                    }
+//
+//                                }
+                        }
+                    }
+                }
+            }
+    }
+}
+
 // MARK: - TableView Datasource
 
 extension ChatListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 8
+        return channels.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatListCell.identifier, for: indexPath) as? ChatListCell else { return UITableViewCell() }
-
+        let item = channels[indexPath.row]
+        cell.chatDescriptionLabel.text = item.writer
         cell.backgroundColor = .white
         return cell
     }
