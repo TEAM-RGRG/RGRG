@@ -173,6 +173,7 @@
 				1DB94CB82AE61B4D00851A18 /* FirebaseCrashlytics in Frameworks */,
 				4E8B852D2AD8139D009BCF4B /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 				4E8B852F2AD8139D009BCF4B /* FirebaseAnalyticsSwift in Frameworks */,
+
 				1DB94CD22AE61B4D00851A18 /* FirebaseMessaging in Frameworks */,
 				1DB94CC82AE61B4D00851A18 /* FirebaseFunctionsCombine-Community in Frameworks */,
 				1DB94CD02AE61B4D00851A18 /* FirebaseMLModelDownloader in Frameworks */,
@@ -446,6 +447,7 @@
 				4E8B852E2AD8139D009BCF4B /* FirebaseAnalyticsSwift */,
 				4E8B85302AD8139D009BCF4B /* FirebaseAnalyticsWithoutAdIdSupport */,
 				4E8B85322AD8139D009BCF4B /* FirebaseAppCheck */,
+
 				1DB94CA72AE61B4D00851A18 /* FirebaseAnalytics */,
 				1DB94CA92AE61B4D00851A18 /* FirebaseAnalyticsOnDeviceConversion */,
 				1DB94CAB2AE61B4D00851A18 /* FirebaseAnalyticsSwift */,
@@ -501,6 +503,7 @@
 				1DB94CD72AE61B4D00851A18 /* FirebaseRemoteConfigSwift */,
 				1DB94CD92AE61B4D00851A18 /* FirebaseStorage */,
 				1DB94CDB2AE61B4D00851A18 /* FirebaseStorageCombine-Community */,
+
 			);
 			productName = RGRG;
 			productReference = 4E8B84D32AD81184009BCF4B /* RGRG.app */;
