@@ -9,7 +9,7 @@ final class TabBarController: UITabBarController {
         super.viewDidLayoutSubviews()
 
         view.tintColor = .label
-
+//        self.navigationController?.navigationBar.isHidden = true;
         let paddingTop: CGFloat = 10.0
         tabBar.frame = .init(
             x: tabBar.frame.origin.x,

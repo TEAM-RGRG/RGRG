@@ -69,7 +69,7 @@ class PartyInfoDetailVC: UIViewController {
     
     let tierLabel: UILabel = {
         let label = UILabel()
-        label.text = "티어 선택"
+        label.text = "티어"
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         label.textColor = UIColor.RGRGColor2
         return label
@@ -114,7 +114,7 @@ class PartyInfoDetailVC: UIViewController {
     
     let positionLabel: UILabel = {
         let label = UILabel()
-        label.text = "포지션 선택"
+        label.text = "포지션"
         label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         label.textColor = UIColor.RGRGColor2
         return label
@@ -161,7 +161,7 @@ class PartyInfoDetailVC: UIViewController {
     let confirmationButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 22, weight: .bold)
-        button.setTitle("확 인", for: .normal)
+        button.setTitle("파티신청", for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
         button.backgroundColor = UIColor.RGRGColor4
         button.layer.cornerRadius = (10)
