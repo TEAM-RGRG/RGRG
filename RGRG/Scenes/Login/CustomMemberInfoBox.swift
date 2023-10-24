@@ -13,10 +13,13 @@ import SnapKit
 var pwBringValue: String = ""
 
 class CustomMemberInfoBox : UIView {
+    
+    
+    
     var passHandler:((Bool)->Void)?
     var conditon : String
     var cellHeightValue : Int
-    var cellID: String = ""
+    var cellID: MemberInfoBox
     
     let stackView = {
         let view = UIStackView()
@@ -43,8 +46,19 @@ class CustomMemberInfoBox : UIView {
         
     }()
     
+    let isSecureControllView = {
+        let view = UIButton()
+        view.isHidden = true
+        return view
+    }()
     
-    init(id:String, infoText:String? = nil, placeHolder: String, condition: String, cellHeight:Int = 60 , style: String = "SignUp") {
+    let eyesIcon = {
+        let icon = UIImageView()
+        return icon
+    }()
+    
+    
+    init(id:MemberInfoBox, infoText:String? = nil, placeHolder: String, condition: String, cellHeight:Int = 60 , style: String = "SignUp") {
         
         self.conditon = condition
         self.cellHeightValue = cellHeight
@@ -72,8 +86,7 @@ class CustomMemberInfoBox : UIView {
             if inputText.isEmpty {
                 infoText.isHidden = true
             }else if validation {
-                //[Login]에서 사용하는 경우를 구분
-                if ["LoginEmail","LoginPW"].contains(cellID){
+                if [.loginEmail ,  .loginPW].contains(cellID){
                     passHandler?(true)
                 }
                 else{
@@ -88,20 +101,24 @@ class CustomMemberInfoBox : UIView {
         }
         
         switch cellID {
-        case "Email", "nickName":
+        case .loginEmail :
             updateUIvalid(validation: validationCheck)
-        case "PW":
+        case .loginPW :
+            self.inputBox.isSecureTextEntry = true
+            isSecureControllView.isHidden = false
+            updateUIvalid(validation: validationCheck)
+        case .email, .userName:
+            updateUIvalid(validation: validationCheck)
+        case .pw:
             updateUIvalid(validation: validationCheck)
             savePasswordValue()
-        case "PWcheck":
+        case .pwCheck:
             let pwCheckInputValue = inputBox.text
             let pwCheckValue = pwBringValue == pwCheckInputValue
             updateUIvalid(validation: pwCheckValue)
             //            print("pwBringValue",pwBringValue)
             //            print("InputValue",pwCheckInputValue)
             //            print("pwCheckValue",pwCheckValue)
-        case "LoginEmail","LoginPW" :
-            updateUIvalid(validation: validationCheck)
             
         default:
             break
@@ -115,12 +132,26 @@ class CustomMemberInfoBox : UIView {
     }
     
     func savePasswordValue (){
-        if cellID == "PW" {
+        if cellID == .pw {
             let pwValue = inputBox.text
             pwBringValue = pwValue ?? ""
         }
     }
     
+    @objc func switchisSecure (){
+        self.inputBox.isSecureTextEntry.toggle()
+        
+        self.eyesIcon.image = self.inputBox.isSecureTextEntry ? UIImage(systemName: "eye.slash") :            UIImage(systemName: "eye")
+        
+//        if self.inputBox.isSecureTextEntry == true {
+//            self.inputBox.isSecureTextEntry = false
+//            self.eyesIcon.image = UIImage(systemName: "eye")
+//        } else {
+//            self.inputBox.isSecureTextEntry = true
+//            self.eyesIcon.image = UIImage(systemName: "eye.slash")
+//        }
+      
+    }
     
     func styleSort(style : String){
         switch style {
@@ -131,7 +162,7 @@ class CustomMemberInfoBox : UIView {
             self.layer.borderColor = UIColor.white.cgColor
             self.backgroundColor = UIColor.white
             self.inputBox.textColor = UIColor(hex: "505050")
-         
+            
             
         default:
             break
@@ -168,5 +199,19 @@ class CustomMemberInfoBox : UIView {
         checkIcon.snp.makeConstraints { make in
             make.width.equalTo(20)
         }
+        
+        stackView.addArrangedSubview(isSecureControllView)
+        isSecureControllView.addTarget(self, action: #selector(switchisSecure), for: .touchUpInside)
+        isSecureControllView.addSubview(eyesIcon)
+        
+        eyesIcon.image = UIImage(systemName: "eye.slash")
+        eyesIcon.tintColor = UIColor.white
+        eyesIcon.contentMode = .scaleAspectFit
+        eyesIcon.snp.makeConstraints { make in
+            make.width.equalTo(30)
+            make.centerY.equalToSuperview()
+        }
+        
+        
     }
 }
