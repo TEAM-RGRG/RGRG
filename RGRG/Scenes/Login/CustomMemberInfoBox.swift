@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 import SnapKit
+import Firebase
+import FirebaseFirestore
 
 
 var pwBringValue: String = ""
@@ -55,6 +57,12 @@ class CustomMemberInfoBox : UIView {
     let eyesIcon = {
         let icon = UIImageView()
         return icon
+    }()
+    
+    let duplicationLabel = {
+        let button = UIButton()
+        button.isHidden = true
+        return button
     }()
     
     
@@ -107,8 +115,10 @@ class CustomMemberInfoBox : UIView {
             self.inputBox.isSecureTextEntry = true
             isSecureControllView.isHidden = false
             updateUIvalid(validation: validationCheck)
-        case .email, .userName:
+        case .email:
             updateUIvalid(validation: validationCheck)
+            checkIcon.isHidden = true
+            duplicationLabel.isHidden = false
         case .pw:
             updateUIvalid(validation: validationCheck)
             savePasswordValue()
@@ -116,12 +126,8 @@ class CustomMemberInfoBox : UIView {
             let pwCheckInputValue = inputBox.text
             let pwCheckValue = pwBringValue == pwCheckInputValue
             updateUIvalid(validation: pwCheckValue)
-            //            print("pwBringValue",pwBringValue)
-            //            print("InputValue",pwCheckInputValue)
-            //            print("pwCheckValue",pwCheckValue)
-            
-        default:
-            break
+        case .userName:
+            updateUIvalid(validation: validationCheck)
         }
     }
     
@@ -129,6 +135,31 @@ class CustomMemberInfoBox : UIView {
         let  condition = condition
         let compare = NSPredicate(format:"SELF MATCHES %@",  condition)
         return compare.evaluate(with: text)
+    }
+    
+    
+    @objc func duplicationCheck() {
+        let email = inputBox.text ?? ""
+        
+        let db = Firestore.firestore()
+        let usersCollection = db.collection("users")
+        
+        usersCollection.whereField("email", isEqualTo: email).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("오류 발생: \(error.localizedDescription)")
+            } else {
+                if let querySnapshot = querySnapshot {
+                    let isDuplicate = !querySnapshot.isEmpty
+                    if isDuplicate {
+                        print("중복된 이메일이 이미 존재합니다.")
+                    } else {
+                        print("중복된 이메일이 없습니다. 사용 가능한 이메일입니다.")
+                    }
+                } else {
+                    print("쿼리 스냅샷이 nil입니다.")
+                }
+            }
+        }
     }
     
     func savePasswordValue (){
@@ -142,14 +173,6 @@ class CustomMemberInfoBox : UIView {
         self.inputBox.isSecureTextEntry.toggle()
         
         self.eyesIcon.image = self.inputBox.isSecureTextEntry ? UIImage(systemName: "eye.slash") :            UIImage(systemName: "eye")
-        
-//        if self.inputBox.isSecureTextEntry == true {
-//            self.inputBox.isSecureTextEntry = false
-//            self.eyesIcon.image = UIImage(systemName: "eye")
-//        } else {
-//            self.inputBox.isSecureTextEntry = true
-//            self.eyesIcon.image = UIImage(systemName: "eye.slash")
-//        }
       
     }
     
@@ -212,6 +235,11 @@ class CustomMemberInfoBox : UIView {
             make.centerY.equalToSuperview()
         }
         
+        stackView.addArrangedSubview(duplicationLabel)
+        duplicationLabel.setTitle("중복확인", for: .normal)
+        duplicationLabel.backgroundColor = UIColor.blue
+        duplicationLabel.addTarget(self, action: #selector(duplicationCheck), for: .touchUpInside)
+
         
     }
 }
