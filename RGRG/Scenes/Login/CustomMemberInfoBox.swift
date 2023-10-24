@@ -35,7 +35,7 @@ class CustomMemberInfoBox : UIView {
         return box
     }()
     
-    let infoText = {
+    let conditionText = {
         let text = UILabel()
         text.isHidden = true
         return text
@@ -59,6 +59,12 @@ class CustomMemberInfoBox : UIView {
         return icon
     }()
     
+    let passMessage = {
+        let text = UILabel()
+        text.isHidden = true
+        return text
+        
+    }()
     let duplicationLabel = {
         let button = UIButton()
         button.isHidden = true
@@ -66,11 +72,12 @@ class CustomMemberInfoBox : UIView {
     }()
     
     
-    init(id:MemberInfoBox, infoText:String? = nil, placeHolder: String, condition: String, cellHeight:Int = 60 , style: String = "SignUp") {
+    init(id:MemberInfoBox, conditionText:String? = nil, passText:String? = nil, placeHolder: String, condition: String, cellHeight:Int = 60 , style: String = "SignUp") {
         
         self.conditon = condition
         self.cellHeightValue = cellHeight
-        self.infoText.text = infoText
+        self.conditionText.text = conditionText
+        self.passMessage.text = passText
         self.inputBox.placeholder = placeHolder
         self.cellID = id
         super.init(frame: CGRect())
@@ -92,19 +99,20 @@ class CustomMemberInfoBox : UIView {
         
         func updateUIvalid(validation: Bool) {
             if inputText.isEmpty {
-                infoText.isHidden = true
+                conditionText.isHidden = true
             }else if validation {
+                //login page에서는 UIupdate 없이 true값만 전달해주기 .. !
                 if [.loginEmail ,  .loginPW].contains(cellID){
                     passHandler?(true)
                 }
                 else{
                     checkIcon.isHidden = false
-                    infoText.isHidden = true
+                    conditionText.isHidden = true
                     passHandler?(true)
                 }
             } else {
                 checkIcon.isHidden = true
-                infoText.isHidden = false
+                conditionText.isHidden = false
             }
         }
         
@@ -128,6 +136,7 @@ class CustomMemberInfoBox : UIView {
             updateUIvalid(validation: pwCheckValue)
         case .userName:
             updateUIvalid(validation: validationCheck)
+            duplicationCheckUserName()
         }
     }
     
@@ -137,10 +146,9 @@ class CustomMemberInfoBox : UIView {
         return compare.evaluate(with: text)
     }
     
-    
-    @objc func duplicationCheck() {
+    //email 중복확인
+    @objc func duplicationCheckEmail() {
         let email = inputBox.text ?? ""
-        
         let db = Firestore.firestore()
         let usersCollection = db.collection("users")
         
@@ -162,6 +170,31 @@ class CustomMemberInfoBox : UIView {
         }
     }
     
+    func duplicationCheckUserName(){
+        let userName = inputBox.text ?? ""
+        let db = Firestore.firestore()
+        let usersCollection = db.collection("users")
+        
+        usersCollection.whereField("userName", isEqualTo: userName).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("오류 발생: \(error.localizedDescription)")
+            } else {
+                if let querySnapshot = querySnapshot {
+                    let isDuplicate = !querySnapshot.isEmpty
+                    if isDuplicate {
+                        print("중복된 닉네임 이미 존재합니다.")
+                    } else {
+                        print("중복된 닉네임 없습니다. 사용 가능한 닉네임입니다.")
+                        self.passMessage.isHidden = false
+                        self.checkIcon.isHidden = true
+                    }
+                } else {
+                    print("쿼리 스냅샷이 nil입니다.")
+                }
+            }
+        }
+    }
+    
     func savePasswordValue (){
         if cellID == .pw {
             let pwValue = inputBox.text
@@ -173,7 +206,7 @@ class CustomMemberInfoBox : UIView {
         self.inputBox.isSecureTextEntry.toggle()
         
         self.eyesIcon.image = self.inputBox.isSecureTextEntry ? UIImage(systemName: "eye.slash") :            UIImage(systemName: "eye")
-      
+        
     }
     
     func styleSort(style : String){
@@ -212,8 +245,8 @@ class CustomMemberInfoBox : UIView {
         inputBox.addTarget(self, action: #selector(checkInputValue), for: .editingChanged)
         inputBox.attributedPlaceholder = NSAttributedString(string: inputBox.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: "ADADAD")])
         inputBox.textColor = UIColor(hex: "FFFFFF")
-        stackView.addArrangedSubview(infoText)
-        infoText.textColor = UIColor.systemRed
+        stackView.addArrangedSubview(conditionText)
+        conditionText.textColor = UIColor.systemRed
         
         stackView.addArrangedSubview(checkIcon)
         checkIcon.image = UIImage(systemName: "checkmark")
@@ -238,8 +271,12 @@ class CustomMemberInfoBox : UIView {
         stackView.addArrangedSubview(duplicationLabel)
         duplicationLabel.setTitle("중복확인", for: .normal)
         duplicationLabel.backgroundColor = UIColor.blue
-        duplicationLabel.addTarget(self, action: #selector(duplicationCheck), for: .touchUpInside)
-
+        duplicationLabel.addTarget(self, action: #selector(duplicationCheckEmail), for: .touchUpInside)
         
+        stackView.addArrangedSubview(passMessage)
+        passMessage.textColor = UIColor.systemBlue
     }
+    
+    
+    
 }

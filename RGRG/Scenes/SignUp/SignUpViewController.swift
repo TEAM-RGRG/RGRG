@@ -44,30 +44,30 @@ class SignUpViewController: UIViewController {
     
     
     let emailLine = {
-        let line = CustomMemberInfoBox(id:.email,infoText: "Email 형식 확인",placeHolder: "Email", condition:"^[A-Za-z0-9+_.-]+@(.+)$")
+        let line = CustomMemberInfoBox(id:.email,conditionText: "Email 형식 확인",passText: "사용가능 한 email입니다.",placeHolder: "Email", condition:"^[A-Za-z0-9+_.-]+@(.+)$")
         return line
     }()
     
     let passwordLine = {
-        let line = CustomMemberInfoBox(id:.pw,infoText: "영문 숫자 7자 이상",placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$")
+        let line = CustomMemberInfoBox(id:.pw,conditionText: "영문 숫자 7자 이상",placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$")
         line.inputBox.isSecureTextEntry = true
         return line
     }()
     
     
     let passwordCheckLine = {
-        let line = CustomMemberInfoBox(id:.pwCheck,infoText: "다시 확인해주세요", placeHolder: "Password Check", condition:"")
+        let line = CustomMemberInfoBox(id:.pwCheck,conditionText: "다시 확인해주세요", placeHolder: "Password Check", condition:"")
         line.inputBox.isSecureTextEntry = true
         return line
     }()
     
     let nickNameLine = {
-        let line = CustomMemberInfoBox(id:.userName,infoText: "영문 숫자 한글 2자 이상",placeHolder: "닉네임", condition:"^[a-zA-Z0-9가-힣]{2,}$")
+        let line = CustomMemberInfoBox(id:.userName,conditionText: "영문 숫자 한글 2자 이상",passText:"사용가능한 닉네임입니다.",placeHolder: "닉네임", condition:"^[a-zA-Z0-9가-힣]{2,}$")
         return line
     }()
     
     let positionLine = {
-        let line = CustomMemberInfoBox(id:.userName,infoText: "영문 숫자 한글 2자 이상",placeHolder: "Position", condition:"^[a-zA-Z0-9가-힣]{2,}$")
+        let line = CustomMemberInfoBox(id:.userName,conditionText: "영문 숫자 한글 2자 이상",placeHolder: "Position", condition:"^[a-zA-Z0-9가-힣]{2,}$")
         return line
     }()
     
