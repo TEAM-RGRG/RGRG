@@ -37,6 +37,7 @@
 		1DB94CD82AE61B4D00851A18 /* FirebaseRemoteConfigSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1DB94CD72AE61B4D00851A18 /* FirebaseRemoteConfigSwift */; };
 		1DB94CDA2AE61B4D00851A18 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 1DB94CD92AE61B4D00851A18 /* FirebaseStorage */; };
 		1DB94CDC2AE61B4D00851A18 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 1DB94CDB2AE61B4D00851A18 /* FirebaseStorageCombine-Community */; };
+		1DB94CDE2AE760AB00851A18 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB94CDD2AE760AB00851A18 /* StorageManager.swift */; };
 		4E1264BE2ADF6E2700A4E602 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1264BD2ADF6E2700A4E602 /* CustomTextField.swift */; };
 		4E8195EA2ADD299000881C88 /* CustomTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8195E92ADD299000881C88 /* CustomTableView.swift */; };
 		4E8195EC2ADD3E4600881C88 /* ChatListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8195EB2ADD3E4600881C88 /* ChatListCell.swift */; };
@@ -93,6 +94,7 @@
 		1DB939192AE24A8700BD4F41 /* ProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		1DB9391A2AE24A8700BD4F41 /* ProfileSettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSettingCell.swift; sourceTree = "<group>"; };
 		1DB9391E2AE24AB300BD4F41 /* SettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
+		1DB94CDD2AE760AB00851A18 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		4E1264BD2ADF6E2700A4E602 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		4E8195E92ADD299000881C88 /* CustomTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableView.swift; sourceTree = "<group>"; };
 		4E8195EB2ADD3E4600881C88 /* ChatListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListCell.swift; sourceTree = "<group>"; };
@@ -175,7 +177,6 @@
 				1DB94CB82AE61B4D00851A18 /* FirebaseCrashlytics in Frameworks */,
 				4E8B852D2AD8139D009BCF4B /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 				4E8B852F2AD8139D009BCF4B /* FirebaseAnalyticsSwift in Frameworks */,
-
 				1DB94CD22AE61B4D00851A18 /* FirebaseMessaging in Frameworks */,
 				1DB94CC82AE61B4D00851A18 /* FirebaseFunctionsCombine-Community in Frameworks */,
 				1DB94CD02AE61B4D00851A18 /* FirebaseMLModelDownloader in Frameworks */,
@@ -287,6 +288,7 @@
 			children = (
 				4E8B84EF2AD8120D009BCF4B /* UserInfo.swift */,
 				4E8B84F12AD8120D009BCF4B /* ChatInfo.swift */,
+				1DB94CDD2AE760AB00851A18 /* StorageManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -449,7 +451,6 @@
 				4E8B852E2AD8139D009BCF4B /* FirebaseAnalyticsSwift */,
 				4E8B85302AD8139D009BCF4B /* FirebaseAnalyticsWithoutAdIdSupport */,
 				4E8B85322AD8139D009BCF4B /* FirebaseAppCheck */,
-
 				1DB94CA72AE61B4D00851A18 /* FirebaseAnalytics */,
 				1DB94CA92AE61B4D00851A18 /* FirebaseAnalyticsOnDeviceConversion */,
 				1DB94CAB2AE61B4D00851A18 /* FirebaseAnalyticsSwift */,
@@ -566,6 +567,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DB94CDE2AE760AB00851A18 /* StorageManager.swift in Sources */,
 				CBECDD392AE174320097C7CF /* PartyInfoDetailVC.swift in Sources */,
 				4E8B85132AD8120E009BCF4B /* EditProfileViewController.swift in Sources */,
 				1DB9391C2AE24A8700BD4F41 /* ProfileSettingCell.swift in Sources */,
