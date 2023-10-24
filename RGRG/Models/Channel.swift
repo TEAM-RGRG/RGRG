@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Channel {
+struct Channel: Hashable {
     var channelName: String
     var requester: String
     var writer: String

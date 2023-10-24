@@ -17,7 +17,9 @@ class ChatDetailViewController: UIViewController {
     let sendMessageButton = CustomButton(frame: .zero)
     let textField = CustomTextField(frame: .zero)
 
-    let model = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    let db = FireStoreManager.db
+
+    var chats: [ChatInfo] = []
 
     deinit {
         print("### ChatDetailViewController deinitialized")
@@ -28,6 +30,17 @@ extension ChatDetailViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        FireStoreManager.shared.loadChatting(channelName: "channels") { data in
+            print("### \(data)")
+            self.chats.append(data)
+            print("### \(self.chats)")
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
     }
 }
 
@@ -128,21 +141,23 @@ extension ChatDetailViewController {
 
 extension ChatDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return model.count
+        return chats.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let index = model[indexPath.row]
+        let item = chats[indexPath.row]
 
-        if index % 2 == 0 {
-            print("### \(index)")
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: MyFeedCell.identifier, for: indexPath) as? MyFeedCell else { return UITableViewCell() }
-            cell.backgroundColor = .white
+        if item.sender != "testUser1@naver.com" {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: YourFeedCell.identifier, for: indexPath) as? YourFeedCell else { return UITableViewCell() }
+            cell.yourChatLabel.text = item.content
+            cell.timeLabel.text = dateFormatter(value: item.date.seconds)
+            cell.backgroundColor = .rgrgColor1
             return cell
         } else {
-            print("### \(index)::")
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: YourFeedCell.identifier, for: indexPath) as? YourFeedCell else { return UITableViewCell() }
-            cell.backgroundColor = .systemYellow
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: MyFeedCell.identifier, for: indexPath) as? MyFeedCell else { return UITableViewCell() }
+            cell.myChatLabel.text = item.content
+            cell.timeLabel.text = dateFormatter(value: item.date.seconds)
+            cell.backgroundColor = .rgrgColor2
             return cell
         }
     }
@@ -153,5 +168,15 @@ extension ChatDetailViewController: UITableViewDataSource {
 extension ChatDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
+    }
+}
+
+extension ChatDetailViewController {
+    func dateFormatter(value: Int64) -> String {
+        let date = NSDate(timeIntervalSince1970: TimeInterval(value))
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM.dd"
+        let result = formatter.string(from: date as Date)
+        return result
     }
 }
