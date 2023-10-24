@@ -15,7 +15,7 @@ class ChatListViewController: UIViewController {
     let tableView = CustomTableView(frame: .zero, style: .plain)
     let rightBarButtonItem = CustomBarButton()
 
-    let db = Firestore.firestore()
+    let db = FireStoreManager.db
 
     var channels: [Channel] = []
 
@@ -28,7 +28,6 @@ extension ChatListViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-
         if let user = Auth.auth().currentUser {
             print("### User Info: \(user)")
         } else {
@@ -37,7 +36,23 @@ extension ChatListViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        loadChannels()
+        FireStoreManager.shared.loadChannels(collectionName: "channels", writerName: "testUser1@naver.com") { channel in
+            self.channels.append(channel)
+            self.channels = self.removeDuplication(in: self.channels)
+
+            DispatchQueue.main.async {
+                print("### \(self.channels)")
+                self.tableView.reloadData()
+            }
+        }
+    }
+}
+
+extension ChatListViewController {
+    func removeDuplication(in array: [Channel]) -> [Channel] {
+        let set = Set(array)
+        let duplicationRemovedArray = Array(set)
+        return duplicationRemovedArray
     }
 }
 
@@ -45,6 +60,7 @@ extension ChatListViewController {
     func setupUI() {
         view.backgroundColor = .systemBackground
         makeRightBarButton()
+        makeBackButton()
         confirmTableView()
         registerCell()
     }
@@ -93,33 +109,33 @@ extension ChatListViewController {
 }
 
 extension ChatListViewController {
-    func loadChannels() {
-        db.collection("channels")
-            .whereField("writer", isEqualTo: "testUser1@naver.com")
-            .addSnapshotListener { (querySnapshot, error) in
-                self.channels = []
-
-                if let e = error {
-                    print("There was an issue retrieving data from Firestore. \(e)")
-                } else {
-                    if let snapshotDocument = querySnapshot?.documents {
-                        for doc in snapshotDocument {
-                            let data = doc.data()
-                        
-                            if let writer = data["writer"] as? String, let channelTitle = data["channelTitle"] as? String, let requester = data["requester"] as? String {
-                                let channel = Channel(channelName: channelTitle, requester: requester, writer: writer)
-                                self.channels.append(channel)
-
-                                DispatchQueue.main.async {
-                                    self.tableView.reloadData()
-                                }
-                            }
+//    func loadChannels() {
+//        db.collection("channels")
+//            .whereField("writer", isEqualTo: "testUser1@naver.com")
+//            .addSnapshotListener { (querySnapshot, error) in
+//                self.channels = []
+//
+//                if let e = error {
+//                    print("There was an issue retrieving data from Firestore. \(e)")
+//                } else {
+//                    if let snapshotDocument = querySnapshot?.documents {
+//                        for doc in snapshotDocument {
+//                            let data = doc.data()
+//
+//                            if let writer = data["writer"] as? String, let channelTitle = data["channelTitle"] as? String, let requester = data["requester"] as? String {
+//                                let channel = Channel(channelName: channelTitle, requester: requester, writer: writer)
+//                                self.channels.append(channel)
+//
+//                                DispatchQueue.main.async {
+//                                    self.tableView.reloadData()
+//                                }
+//                            }
 //                            let thread = doc.documentID
-                            print("### \(data)")
+//                            print("### \(data)")
 //                            print("### \(thread)")
-
-                            // MARK: - 채팅 출력
-
+//
+//                            // MARK: - 채팅 출력
+//
 //                            self.db.collection("channels/\(thread)/thread")
 //                                .addSnapshotListener { (querySnapshot, error) in
 //                                    if let e = error {
@@ -135,11 +151,11 @@ extension ChatListViewController {
 //                                    }
 //
 //                                }
-                        }
-                    }
-                }
-            }
-    }
+//                        }
+//                    }
+//                }
+//            }
+//    }
 }
 
 // MARK: - TableView Datasource
@@ -171,3 +187,13 @@ extension ChatListViewController: UITableViewDelegate {
     }
 }
 
+extension ChatListViewController {
+    func makeBackButton() {
+        let backButton = CustomBackButton(title: "Back", style: .plain, target: self, action: #selector(tappedBackButton))
+        tabBarController?.navigationItem.backBarButtonItem = backButton
+    }
+
+    @objc func tappedBackButton(_ sender: UIBarButtonItem) {
+        navigationController?.popViewController(animated: true)
+    }
+}
