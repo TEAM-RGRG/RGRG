@@ -120,7 +120,6 @@ extension SignUpViewController {
                     "email": email,
                     "password": password,
                     "userName": userName
-                
                 ]) { error in
                     if let error = error {
                         print("Error saving user data: \(error.localizedDescription)")
