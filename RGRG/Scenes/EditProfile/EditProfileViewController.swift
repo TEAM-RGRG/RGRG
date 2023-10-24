@@ -43,6 +43,10 @@ extension EditProfileViewController {
         setNaviGationContorller()
         configureUI()
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        setImage()
+    }
 }
 
 extension EditProfileViewController {
@@ -98,3 +102,15 @@ extension EditProfileViewController {
         navigationController?.popViewController(animated: true)
     }
 }
+
+extension EditProfileViewController {
+    func setImage() {
+        StorageManager.shared.getImage("icons", "2") { [weak self] image in
+            self?.profileImage.image = image
+        }
+    }
+}
+
+// 페이징 네이션
+
+// 인디케이터 뷰
