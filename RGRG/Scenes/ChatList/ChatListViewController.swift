@@ -124,7 +124,12 @@ extension ChatListViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatListCell.identifier, for: indexPath) as? ChatListCell else { return UITableViewCell() }
         let item = channels[indexPath.row]
         cell.chatDescriptionLabel.text = item.writer
-        cell.profileNameLabel.text = item.requester
+        if item.requester == currentUserEmail {
+            cell.profileNameLabel.text = item.writer
+        } else {
+            cell.profileNameLabel.text = item.requester
+        }
+
         cell.backgroundColor = .white
         return cell
     }

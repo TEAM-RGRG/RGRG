@@ -39,12 +39,13 @@ final class FireStoreManager {
             }
     }
 
-    func loadChatting(channelName: String, thread: String, limit: Int , completion: @escaping ([ChatInfo]) -> Void) {
+    func loadChatting(channelName: String, thread: String, startIndex: Int, completion: @escaping ([ChatInfo]) -> Void) {
         FireStoreManager.db.collection("channels/\(thread)/thread")
             .order(by: "date", descending: false)
-            .limit(to: limit)
+            
             .addSnapshotListener { (querySnapshot, error) in
                 var messages: [ChatInfo] = []
+                print("&&& FireStoreIndex::: \(startIndex)")
                 if let e = error {
                     print("There was an issue retrieving data from Firestore. \(e)")
 

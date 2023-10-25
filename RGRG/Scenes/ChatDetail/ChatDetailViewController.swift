@@ -27,7 +27,7 @@ class ChatDetailViewController: UIViewController {
     }
 
     var fetchingMore = false
-    var count = 5
+    var count = 1
 
     var currentUserEmail = ""
     deinit {
@@ -45,19 +45,22 @@ extension ChatDetailViewController {
         } else {
             print("### Login : Error")
         }
-        setupUI()
-    }
 
-    override func viewWillAppear(_ animated: Bool) {
-        FireStoreManager.shared.loadChatting(channelName: "channels", thread: thread, limit: 30) { [weak self] data in
+        FireStoreManager.shared.loadChatting(channelName: "channels", thread: thread, startIndex: count) { [weak self] data in
             guard let self = self else { return }
             self.chats = data
 
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                let endexIndex = IndexPath(row: self.chats.count - 1, section: 0)
+                self.tableView.scrollToRow(at: endexIndex, at: .bottom, animated: true)
             }
         }
+
+        setupUI()
     }
+
+    override func viewWillAppear(_ animated: Bool) {}
 
 //    override func viewDidAppear(_ animated: Bool) {
 //        chats = []
@@ -177,13 +180,13 @@ extension ChatDetailViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MyFeedCell.identifier, for: indexPath) as? MyFeedCell else { return UITableViewCell() }
             cell.myChatLabel.text = item.content
             cell.timeLabel.text = item.date
-            cell.backgroundColor = .rgrgColor1
+            cell.backgroundColor = .RGRGColor1
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: YourFeedCell.identifier, for: indexPath) as? YourFeedCell else { return UITableViewCell() }
             cell.yourChatLabel.text = item.content
             cell.timeLabel.text = item.date
-            cell.backgroundColor = .rgrgColor2
+            cell.backgroundColor = .RGRGColor2
             return cell
         }
     }
@@ -210,11 +213,11 @@ extension ChatDetailViewController: UITableViewDelegate {
     func beginBatchFetch() {
         fetchingMore = true
         tableView.reloadSections(IndexSet(integer: 0), with: .none)
-        FireStoreManager.shared.loadChatting(channelName: "channels", thread: thread, limit: count) { _ in
+        count += 10
+        FireStoreManager.shared.loadChatting(channelName: "channels", thread: thread, startIndex: count) { chat in
+            self.chats += chat
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-                let newItems = (self.chats.count ... self.chats.count + 10).map { index in index }
-                print("&&& \(newItems)")
-
+                print("&&& \(self.count)")
                 self.fetchingMore = false
                 self.tableView.reloadData()
             }
