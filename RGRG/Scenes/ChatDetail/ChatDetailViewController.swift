@@ -5,6 +5,7 @@
 //  Created by (^ㅗ^)7 iMac on 2023/10/11.
 //
 
+import FirebaseAuth
 import SnapKit
 import SwiftUI
 import UIKit
@@ -18,9 +19,17 @@ class ChatDetailViewController: UIViewController {
     let textField = CustomTextField(frame: .zero)
 
     let db = FireStoreManager.db
+    var thread = ""
+    var chats: [ChatInfo] = [] {
+        didSet {
+            print("### 지금 현재 :: \(chats)")
+        }
+    }
 
-    var chats: [ChatInfo] = []
+    var fetchingMore = false
+    var count = 5
 
+    var currentUserEmail = ""
     deinit {
         print("### ChatDetailViewController deinitialized")
     }
@@ -29,19 +38,30 @@ class ChatDetailViewController: UIViewController {
 extension ChatDetailViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = thread
+        if let user = Auth.auth().currentUser {
+            print("### User Info: \(user.email)")
+            currentUserEmail = user.email ?? "n/a"
+        } else {
+            print("### Login : Error")
+        }
         setupUI()
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        FireStoreManager.shared.loadChatting(channelName: "channels") { data in
-            print("### \(data)")
-            self.chats.append(data)
-            print("### \(self.chats)")
+        FireStoreManager.shared.loadChatting(channelName: "channels", thread: thread, limit: 30) { [weak self] data in
+            guard let self = self else { return }
+            self.chats = data
+
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
         }
     }
+
+//    override func viewDidAppear(_ animated: Bool) {
+//        chats = []
+//    }
 }
 
 // MARK: - SetUp UI
@@ -133,7 +153,13 @@ extension ChatDetailViewController {
     }
 
     @objc func tappedSendMessageButton(_ sender: UIButton) {
-        print("### \(#function)")
+        FireStoreManager.shared.addChat(thread: thread, sender: currentUserEmail, date: FireStoreManager.shared.dateFormatter(value: Date.now), read: false, content: textField.text ?? "n/a") { chat in
+            self.chats.append(chat)
+
+            DispatchQueue.main.async {
+                self.textField.text = ""
+            }
+        }
     }
 }
 
@@ -147,16 +173,16 @@ extension ChatDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = chats[indexPath.row]
 
-        if item.sender != "testUser1@naver.com" {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: YourFeedCell.identifier, for: indexPath) as? YourFeedCell else { return UITableViewCell() }
-            cell.yourChatLabel.text = item.content
-            cell.timeLabel.text = dateFormatter(value: item.date.seconds)
+        if item.sender == currentUserEmail {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: MyFeedCell.identifier, for: indexPath) as? MyFeedCell else { return UITableViewCell() }
+            cell.myChatLabel.text = item.content
+            cell.timeLabel.text = item.date
             cell.backgroundColor = .rgrgColor1
             return cell
         } else {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: MyFeedCell.identifier, for: indexPath) as? MyFeedCell else { return UITableViewCell() }
-            cell.myChatLabel.text = item.content
-            cell.timeLabel.text = dateFormatter(value: item.date.seconds)
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: YourFeedCell.identifier, for: indexPath) as? YourFeedCell else { return UITableViewCell() }
+            cell.yourChatLabel.text = item.content
+            cell.timeLabel.text = item.date
             cell.backgroundColor = .rgrgColor2
             return cell
         }
@@ -169,14 +195,29 @@ extension ChatDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
-}
 
-extension ChatDetailViewController {
-    func dateFormatter(value: Int64) -> String {
-        let date = NSDate(timeIntervalSince1970: TimeInterval(value))
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM.dd"
-        let result = formatter.string(from: date as Date)
-        return result
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+
+        if offsetY > contentHeight - scrollView.frame.height {
+            if !fetchingMore {
+//                beginBatchFetch()
+            }
+        }
+    }
+
+    func beginBatchFetch() {
+        fetchingMore = true
+        tableView.reloadSections(IndexSet(integer: 0), with: .none)
+        FireStoreManager.shared.loadChatting(channelName: "channels", thread: thread, limit: count) { _ in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                let newItems = (self.chats.count ... self.chats.count + 10).map { index in index }
+                print("&&& \(newItems)")
+
+                self.fetchingMore = false
+                self.tableView.reloadData()
+            }
+        }
     }
 }

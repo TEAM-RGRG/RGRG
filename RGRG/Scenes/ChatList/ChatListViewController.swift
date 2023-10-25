@@ -16,8 +16,8 @@ class ChatListViewController: UIViewController {
     let rightBarButtonItem = CustomBarButton()
 
     let db = FireStoreManager.db
-
     var channels: [Channel] = []
+    var currentUserEmail = ""
 
     deinit {
         print("### NotificationViewController deinitialized")
@@ -28,16 +28,17 @@ extension ChatListViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        if let user = Auth.auth().currentUser {
-            print("### User Info: \(user)")
+        if let currentUser = Auth.auth().currentUser {
+            currentUserEmail = currentUser.email ?? "n/a"
+            print("### Current ::: \(currentUserEmail)")
         } else {
-            print("### Login : Error")
+            print("### 유저를 몰라")
         }
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        FireStoreManager.shared.loadChannels(collectionName: "channels", writerName: "testUser1@naver.com") { channel in
-            self.channels.append(channel)
+        FireStoreManager.shared.loadChannels(collectionName: "channels", writerName: currentUserEmail, filter: currentUserEmail) { channel in
+            self.channels = channel
             self.channels = self.removeDuplication(in: self.channels)
 
             DispatchQueue.main.async {
@@ -91,6 +92,10 @@ extension ChatListViewController {
     func makeRightBarButton() {
         // 액션 만들기 >> 메뉴 만들기 >> UIBarButtonItem 만들기
         let latestSortAction = rightBarButtonItem.makeSingleAction(title: "최신 메시지 순", state: .off) { _ in
+            FireStoreManager.shared.addChannel(channelTitle: "테스트1", requester: "testuser1@naver.com", writer: self.currentUserEmail, channelID: UUID().uuidString, date: FireStoreManager.shared.dateFormatter(value: Date.now), users: [self.currentUserEmail, "testuser1@naver.com"]) { channel in
+                print("### 성공적으로 저장됨.")
+                self.channels.append(channel)
+            }
             print("### 최신순으로 정렬하기 알파입니다.")
         }
 
@@ -108,56 +113,6 @@ extension ChatListViewController {
     }
 }
 
-extension ChatListViewController {
-//    func loadChannels() {
-//        db.collection("channels")
-//            .whereField("writer", isEqualTo: "testUser1@naver.com")
-//            .addSnapshotListener { (querySnapshot, error) in
-//                self.channels = []
-//
-//                if let e = error {
-//                    print("There was an issue retrieving data from Firestore. \(e)")
-//                } else {
-//                    if let snapshotDocument = querySnapshot?.documents {
-//                        for doc in snapshotDocument {
-//                            let data = doc.data()
-//
-//                            if let writer = data["writer"] as? String, let channelTitle = data["channelTitle"] as? String, let requester = data["requester"] as? String {
-//                                let channel = Channel(channelName: channelTitle, requester: requester, writer: writer)
-//                                self.channels.append(channel)
-//
-//                                DispatchQueue.main.async {
-//                                    self.tableView.reloadData()
-//                                }
-//                            }
-//                            let thread = doc.documentID
-//                            print("### \(data)")
-//                            print("### \(thread)")
-//
-//                            // MARK: - 채팅 출력
-//
-//                            self.db.collection("channels/\(thread)/thread")
-//                                .addSnapshotListener { (querySnapshot, error) in
-//                                    if let e = error {
-//                                        print("There was an issue retrieving data from Firestore. \(e)")
-//
-//                                    } else {
-//                                        if let snapshotDocument = querySnapshot?.documents {
-//                                            for doc in snapshotDocument {
-//                                                let data = doc.data()
-//                                                print("### \(data)")
-//                                            }
-//                                        }
-//                                    }
-//
-//                                }
-//                        }
-//                    }
-//                }
-//            }
-//    }
-}
-
 // MARK: - TableView Datasource
 
 extension ChatListViewController: UITableViewDataSource {
@@ -169,6 +124,7 @@ extension ChatListViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatListCell.identifier, for: indexPath) as? ChatListCell else { return UITableViewCell() }
         let item = channels[indexPath.row]
         cell.chatDescriptionLabel.text = item.writer
+        cell.profileNameLabel.text = item.requester
         cell.backgroundColor = .white
         return cell
     }
@@ -178,7 +134,9 @@ extension ChatListViewController: UITableViewDataSource {
 
 extension ChatListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = channels[indexPath.row]
         let vc = ChatDetailViewController()
+        vc.thread = item.channelID
         tabBarController?.navigationController?.pushViewController(vc, animated: true)
     }
 
