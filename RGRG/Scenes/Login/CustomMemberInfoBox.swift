@@ -41,7 +41,7 @@ class CustomMemberInfoBox : UIView {
         return text
     }()
     
-    let checkIcon = {
+    lazy var checkIcon = {
         let icon = UIImageView()
         icon.isHidden = true
         return icon
@@ -54,7 +54,7 @@ class CustomMemberInfoBox : UIView {
         return view
     }()
     
-    let eyesIcon = {
+    lazy var eyesIcon = {
         let icon = UIImageView()
         return icon
     }()
@@ -65,7 +65,7 @@ class CustomMemberInfoBox : UIView {
         return text
         
     }()
-    let duplicationLabel = {
+    lazy var duplicationLabel = {
         let button = UIButton()
         button.isHidden = true
         return button
@@ -95,48 +95,56 @@ class CustomMemberInfoBox : UIView {
     @objc func checkInputValue() {
         let inputText = inputBox.text ?? ""
         let cellID = self.cellID
+        //유효성검사 [1]
         let validationCheck = isValid(text: inputText, condition: conditon)
         
-        func updateUIvalid(validation: Bool) {
+        //유효성 검사값이 true이면 passHandler로 값을 저장 [3]
+        func updateUIvalid(validation: Bool = validationCheck, passView: UIView, nonPassView:UIView? = nil) {
             if inputText.isEmpty {
                 conditionText.isHidden = true
+                passView.isHidden = true
             }else if validation {
-                //login page에서는 UIupdate 없이 true값만 전달해주기 .. !
-                if [.loginEmail ,  .loginPW].contains(cellID){
-                    passHandler?(true)
-                }
-                else{
-                    checkIcon.isHidden = false
-                    conditionText.isHidden = true
-                    passHandler?(true)
-                }
+                //pass하면
+                passView.isHidden = false
+                nonPassView?.isHidden = true
+                passHandler?(true)
+                
             } else {
-                checkIcon.isHidden = true
-                conditionText.isHidden = false
+                passView.isHidden = true
+                nonPassView?.isHidden = false
             }
         }
         
         switch cellID {
         case .loginEmail :
-            updateUIvalid(validation: validationCheck)
+            duplicationCheckEmail() { completion in
+                if validationCheck && completion {
+                    updateUIvalid(passView: self.checkIcon)
+                }
+            }
         case .loginPW :
             self.inputBox.isSecureTextEntry = true
             isSecureControllView.isHidden = false
-            updateUIvalid(validation: validationCheck)
+            updateUIvalid(passView: checkIcon)
         case .email:
-            updateUIvalid(validation: validationCheck)
-            checkIcon.isHidden = true
-            duplicationLabel.isHidden = false
+            updateUIvalid(passView: duplicationLabel, nonPassView: self.conditionText)
         case .pw:
-            updateUIvalid(validation: validationCheck)
+            updateUIvalid(passView: checkIcon, nonPassView: conditionText)
             savePasswordValue()
         case .pwCheck:
             let pwCheckInputValue = inputBox.text
             let pwCheckValue = pwBringValue == pwCheckInputValue
-            updateUIvalid(validation: pwCheckValue)
+            updateUIvalid(validation: pwCheckValue, passView: checkIcon, nonPassView: conditionText)
         case .userName:
-            updateUIvalid(validation: validationCheck)
-            duplicationCheckUserName()
+            //중복확인을 통과하고 나서 보여주기.
+            //[Bug]중복된 닉네임이 있다는걸 왜 잡아내지 못할까🔥
+            duplicationCheckUserName { [self] completion in
+                if !completion {
+                    self.conditionText.text = "사용중인 닉네임"
+                } else {
+                    updateUIvalid(passView: passMessage, nonPassView: self.conditionText)
+                }
+            }
         }
     }
     
@@ -146,8 +154,8 @@ class CustomMemberInfoBox : UIView {
         return compare.evaluate(with: text)
     }
     
-    //email 중복확인
-    @objc func duplicationCheckEmail() {
+    //email 중복확인 [2]
+    @objc func duplicationCheckEmail(completion: @escaping (Bool) -> Void) {
         let email = inputBox.text ?? ""
         let db = Firestore.firestore()
         let usersCollection = db.collection("users")
@@ -155,22 +163,26 @@ class CustomMemberInfoBox : UIView {
         usersCollection.whereField("email", isEqualTo: email).getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("오류 발생: \(error.localizedDescription)")
+                completion(false) // 에러가 발생한 경우 false 반환
             } else {
                 if let querySnapshot = querySnapshot {
                     let isDuplicate = !querySnapshot.isEmpty
                     if isDuplicate {
                         print("중복된 이메일이 이미 존재합니다.")
+                        completion(false) // 중복된 이메일이 있는 경우 false 반환
                     } else {
                         print("중복된 이메일이 없습니다. 사용 가능한 이메일입니다.")
+                        completion(true) // 중복된 이메일이 없는 경우
                     }
                 } else {
                     print("쿼리 스냅샷이 nil입니다.")
+                    completion(false) // 쿼리 스냅샷이 nil인 경우 false 반환
                 }
             }
         }
     }
     
-    func duplicationCheckUserName(){
+    func duplicationCheckUserName(completion: @escaping (Bool) -> Void) {
         let userName = inputBox.text ?? ""
         let db = Firestore.firestore()
         let usersCollection = db.collection("users")
@@ -178,22 +190,26 @@ class CustomMemberInfoBox : UIView {
         usersCollection.whereField("userName", isEqualTo: userName).getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("오류 발생: \(error.localizedDescription)")
+                completion(false) // 에러가 발생한 경우 false 반환
             } else {
                 if let querySnapshot = querySnapshot {
                     let isDuplicate = !querySnapshot.isEmpty
                     if isDuplicate {
                         print("중복된 닉네임 이미 존재합니다.")
+                        completion(false) // 중복된 이메일이 있는 경우 false 반환
                     } else {
-                        print("중복된 닉네임 없습니다. 사용 가능한 닉네임입니다.")
-                        self.passMessage.isHidden = false
-                        self.checkIcon.isHidden = true
+                        print("중복된 닉네임이 없습니다. 사용 가능한 이메일입니다.")
+                        completion(true) // 중복된 이메일이 없는 경우
                     }
                 } else {
                     print("쿼리 스냅샷이 nil입니다.")
+                    completion(false) // 쿼리 스냅샷이 nil인 경우 false 반환
                 }
             }
         }
     }
+    
+    
     
     func savePasswordValue (){
         if cellID == .pw {
@@ -213,6 +229,7 @@ class CustomMemberInfoBox : UIView {
         switch style {
         case "Login" :
             self.layer.borderColor = UIColor(hex: "279EFF").cgColor
+            self.checkIcon.tintColor = UIColor.white
             
         case "SignUp":
             self.layer.borderColor = UIColor.white.cgColor
@@ -248,13 +265,7 @@ class CustomMemberInfoBox : UIView {
         stackView.addArrangedSubview(conditionText)
         conditionText.textColor = UIColor.systemRed
         
-        stackView.addArrangedSubview(checkIcon)
-        checkIcon.image = UIImage(systemName: "checkmark")
-        checkIcon.tintColor = UIColor.black
-        checkIcon.contentMode = .scaleAspectFit
-        checkIcon.snp.makeConstraints { make in
-            make.width.equalTo(20)
-        }
+        
         
         stackView.addArrangedSubview(isSecureControllView)
         isSecureControllView.addTarget(self, action: #selector(switchisSecure), for: .touchUpInside)
@@ -266,6 +277,14 @@ class CustomMemberInfoBox : UIView {
         eyesIcon.snp.makeConstraints { make in
             make.width.equalTo(30)
             make.centerY.equalToSuperview()
+        }
+        
+        stackView.addArrangedSubview(checkIcon)
+        checkIcon.image = UIImage(systemName: "checkmark")
+        checkIcon.tintColor = UIColor.black
+        checkIcon.contentMode = .scaleAspectFit
+        checkIcon.snp.makeConstraints { make in
+            make.width.equalTo(20)
         }
         
         stackView.addArrangedSubview(duplicationLabel)
