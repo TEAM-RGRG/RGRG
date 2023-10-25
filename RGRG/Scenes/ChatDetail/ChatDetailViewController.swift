@@ -38,6 +38,7 @@ class ChatDetailViewController: UIViewController {
 extension ChatDetailViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+
         navigationItem.title = thread
         if let user = Auth.auth().currentUser {
             print("### User Info: \(user.email)")
@@ -45,6 +46,8 @@ extension ChatDetailViewController {
         } else {
             print("### Login : Error")
         }
+
+        FireStoreManager.shared.updateReadChat(thread: thread, currentUser: currentUserEmail)
 
         FireStoreManager.shared.loadChatting(channelName: "channels", thread: thread, startIndex: count) { [weak self] data in
             guard let self = self else { return }

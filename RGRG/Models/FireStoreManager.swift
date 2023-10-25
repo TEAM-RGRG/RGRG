@@ -8,7 +8,6 @@
 import FirebaseFirestore
 import Foundation
 
-// 콜렉션 속 하위 콜렉션 생성
 // 문서 id -> 채널 id 같을 수 있도록 생성
 
 final class FireStoreManager {
@@ -42,7 +41,7 @@ final class FireStoreManager {
     func loadChatting(channelName: String, thread: String, startIndex: Int, completion: @escaping ([ChatInfo]) -> Void) {
         FireStoreManager.db.collection("channels/\(thread)/thread")
             .order(by: "date", descending: false)
-            
+
             .addSnapshotListener { (querySnapshot, error) in
                 var messages: [ChatInfo] = []
                 print("&&& FireStoreIndex::: \(startIndex)")
@@ -103,6 +102,31 @@ final class FireStoreManager {
                     print("Successfully saved data.")
                     let chat = ChatInfo(sender: sender, date: date, read: read, content: content)
                     completion(chat)
+                }
+            }
+    }
+
+    func updateReadChat(thread: String, currentUser: String) {
+        let path = FireStoreManager.db.collection("channels/\(thread)/thread")
+        FireStoreManager.db
+            .collection("channels/\(thread)/thread")
+            .whereField("sender", isNotEqualTo: currentUser)
+            .getDocuments { (querySnapshot, error) in
+                var temp: [String] = []
+                if let error = error {
+                    print("### \(error)")
+                } else {
+                    if let snapshotDocument = querySnapshot?.documents {
+                        for doc in snapshotDocument {
+                            let data = doc.data()
+                            let docID = doc.documentID
+                            guard let item = data["sender"] as? String else { return }
+
+                            if item != currentUser {
+                                path.document(docID).updateData(["read": true])
+                            }
+                        }
+                    }
                 }
             }
     }
