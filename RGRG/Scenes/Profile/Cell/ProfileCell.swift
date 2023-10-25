@@ -7,7 +7,6 @@
 
 import FirebaseAuth
 import FirebaseCore
-import FirebaseStorage
 import SnapKit
 import UIKit
 
@@ -17,9 +16,6 @@ protocol ProfileCellDelegate: ProfileViewController {
 
 class ProfileCell: UITableViewCell {
     weak var delegate: ProfileCellDelegate?
-
-    let sampleUserName = "sampleUser"
-    let sampleEmail = "xxxxxxxx@xxxxx.xxx"
 
     let profileImage: UIImageView = {
         let imageView = UIImageView()
@@ -95,8 +91,6 @@ extension ProfileCell {
     func setLabelStackView() {
         [profileUserNameLabel, profileEmailLabel].forEach { labelStackView.addArrangedSubview($0) }
 
-        profileUserNameLabel.text = sampleUserName
-        profileEmailLabel.text = sampleEmail
     }
 
     func setEditButton() {
@@ -107,4 +101,6 @@ extension ProfileCell {
     @objc func editProfileButtonPressed(_ sender: UIButton) {
         delegate?.editProfileButtonPressed()
     }
+    
+
 }
