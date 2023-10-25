@@ -46,22 +46,13 @@ class LoginViewController: UIViewController {
         
     
     let emailLine = {
-<<<<<<< HEAD
         let line = CustomMemberInfoBox(id:.loginEmail, placeHolder: "Email", condition:"^[A-Za-z0-9+_.-]+@(.+)$", cellHeight:70, style:"Login")
-=======
-        let line = CustomMemberInfoBox(id: "LoginEmail", placeHolder: "Email", condition: "^[A-Za-z0-9+_.-]+@(.+)$", cellHeight: 70, style: "Login")
->>>>>>> 0e9a6c1 ([FEAT]: back button menu 비활성화 코드 추가)
         return line
     }()
     
     let passwordLine = {
-<<<<<<< HEAD
         let line = CustomMemberInfoBox( id:.loginPW,placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$", cellHeight:70, style:"Login")
 //        line.inputBox.isSecureTextEntry = true
-=======
-        let line = CustomMemberInfoBox(id: "LoginPW", placeHolder: "Password", condition: "^[a-zA-Z0-9]{7,}$", cellHeight: 70, style: "Login")
-        line.inputBox.isSecureTextEntry = true
->>>>>>> 0e9a6c1 ([FEAT]: back button menu 비활성화 코드 추가)
         return line
     }()
     
