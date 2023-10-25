@@ -15,20 +15,27 @@ class PartyInfoDetailVC: UIViewController {
     
     
     
+    let topFrame: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
+
+    
     
     let pageTitleLabel: UILabel = {
         var label = UILabel()
-        label.text = "RGRG"
-        label.font = UIFont.systemFont(ofSize: 45, weight: .bold)
-        label.textColor = .white
+        label.text = ""
+        label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        label.textColor = .black
         return label
     }()
     
     let backButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
+        button.titleLabel?.font = .systemFont(ofSize: 17, weight: .bold)
         button.setTitle("Back", for: .normal)
-        button.setTitleColor(UIColor.RGRGColor2, for: .normal)
+        button.setTitleColor(UIColor.black, for: .normal)
 //        button.backgroundColor = UIColor.RGRGColor2
 //        button.layer.cornerRadius = (10)
         button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
@@ -36,236 +43,234 @@ class PartyInfoDetailVC: UIViewController {
     }()
     
     
-    let partyNameLabel: UILabel = {
+    
+    
+    lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        return scrollView
+    }()
+    
+    lazy var contentView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
+        return stackView
+    }()
+    
+    
+    
+    
+    let topframeView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    let midframeView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    let bottomframeView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    
+    
+    let profileImage: UIImageView = {
+        var imageView = UIImageView()
+        if let image = UIImage(named: "4") {
+            imageView.image = image
+        }
+        imageView.clipsToBounds = true
+        imageView.backgroundColor = .white
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.cornerRadius = 26
+        return imageView
+    }()
+    
+
+    
+    
+    let positionImageFrame: UIView = {
+        let view = UIView()
+        view.clipsToBounds = true
+        view.backgroundColor = .gray
+        view.contentMode = .scaleToFill
+        view.layer.cornerRadius = 8.5
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.black.cgColor
+        view.frame = CGRect(x: 0, y: 0, width: 5, height: 5)
+        return view
+    }()
+    
+    let positionImage: UIImageView = {
+        var imageView = UIImageView()
+        if let image = UIImage(named: "미드w") {
+            imageView.image = image
+        }
+        imageView.clipsToBounds = true
+        imageView.backgroundColor = .gray
+        imageView.contentMode = .scaleToFill
+        return imageView
+    }()
+
+    
+    let userNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "제목"
+        label.text = "페이커짱"
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
-        label.textColor = UIColor.RGRGColor2
+        label.textColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 1)
+        label.textAlignment = .center
         return label
     }()
     
     
-    let partyNameTextField: UITextField = {
-        let textField = UITextField()
-        textField.backgroundColor = .white
-        textField.layer.cornerRadius = 3
-        return textField
+    let tierLabelFrame: UIView = {
+        let View = UIView()
+        View.translatesAutoresizingMaskIntoConstraints = false
+        View.layer.borderColor = UIColor.systemGray2.cgColor
+        View.layer.borderWidth = 2
+        View.layer.cornerRadius = 13
+        return View
     }()
-    
-//    let timeLabel: UILabel = {
-//        let label = UILabel()
-//        label.text = "시간"
-//        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
-//        label.textColor = UIColor.RGRGColor2
-//        return label
-//    }()
-//
-//    let timeTextField: UITextField = {
-//        let textField = UITextField()
-//        textField.backgroundColor = .white
-//        textField.layer.cornerRadius = 3
-//        return textField
-//    }()
     
     let tierLabel: UILabel = {
         let label = UILabel()
-        label.text = "티어"
-        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        label.textColor = UIColor.RGRGColor2
+        label.text = "bronze"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .lightGray
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+//        label.layer.borderColor = UIColor.systemGray2.cgColor
+//        label.layer.borderWidth = 2
+//        label.layer.cornerRadius = 12
         return label
     }()
     
-    let tierFramView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.distribution = .fillEqually
-        stackView.spacing = 10
-        return stackView
-    }()
-    
-    let tierPopupButton: UIButton = {
-        let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .medium)
-        button.setTitle("", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .white
-        button.layer.cornerRadius = (4)
-        button.addTarget(self, action: #selector(configPopUpButton), for: .touchUpInside)
-        return button
-    }()
     
     
-//    let tierTextField: UITextField = {
-//        let textField = UITextField()
-//        textField.backgroundColor = .white
-//        textField.layer.cornerRadius = 3
-//        return textField
-//    }()
     
-    let positionFramView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.distribution = .fillEqually
-        stackView.spacing = 10
-        return stackView
-    }()
     
-    let positionLabel: UILabel = {
+    let textTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "포지션"
+        label.text = "국밥탑 등반 듀오구합니다@@  • • •"
         label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
-        label.textColor = UIColor.RGRGColor2
+        label.textColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 1)
+        label.textAlignment = .left
         return label
     }()
     
-    let positionPopupButton: UIButton = {
-        let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .medium)
-        button.setTitle("", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .white
-        button.layer.cornerRadius = (4)
-        button.addTarget(self, action: #selector(positionPopUpButton), for: .touchUpInside)
-        return button
-    }()
-    
-    
-//    let positionTextField: UITextField = {
-//        let textField = UITextField()
-//        textField.backgroundColor = .white
-//        textField.layer.cornerRadius = 3
-//        return textField
-//    }()
-    
-    let infoTextLabel: UILabel = {
+    let timeLabel: UILabel = {
         let label = UILabel()
-        label.text = "소개글"
+        label.text = "3분 전"
+        label.font = UIFont.systemFont(ofSize: 10, weight: .bold)
+        label.textColor = UIColor(red: 0.76, green: 0.76, blue: 0.76, alpha: 1)
+        return label
+    }()
+
+    
+    let textView: UITextView = {
+        let textView = UITextView()
+        textView.text = "듀오 하실 분 구합니다!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        textView.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        textView.textColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 1)
+        return textView
+    }()
+    
+    let championLabel: UILabel = {
+        let label = UILabel()
+        label.text = "주 챔피언"
         label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
-        label.textColor = UIColor.RGRGColor2
+        label.textColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 1)
         return label
     }()
     
-    let infoTextField: UITextField = {
-        let textField = UITextField()
-//        textField.backgroundColor = UIColor.RGRGColor2
-        textField.backgroundColor = .white
-        textField.layer.cornerRadius = 5
-        textField.placeholder = "간단한 파티 소개글을 입력해 주세요"
-        textField.clearButtonMode = .always
-        textField.contentVerticalAlignment = UIControl.ContentVerticalAlignment.top
-        return textField
+    
+    let mostChampionFrame: UIView = {
+        let View = UIView()
+        return View
     }()
+    
+    let firstMostChampionImage: UIImageView = {
+        var imageView = UIImageView()
+        if let image = UIImage(named: "4") {
+            imageView.image = image
+        }
+        imageView.clipsToBounds = true
+        imageView.backgroundColor = .white
+        imageView.contentMode = .scaleToFill
+        imageView.layer.cornerRadius = 12
+        imageView.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
+        return imageView
+    }()
+    
+    let secondMostChampionImage: UIImageView = {
+        var imageView = UIImageView()
+        if let image = UIImage(named: "4") {
+            imageView.image = image
+        }
+        imageView.clipsToBounds = true
+        imageView.backgroundColor = .white
+        imageView.contentMode = .scaleToFill
+        imageView.layer.cornerRadius = 12
+        imageView.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
+        return imageView
+    }()
+    
+    let thirdMostChampionImage: UIImageView = {
+        var imageView = UIImageView()
+        if let image = UIImage(named: "4") {
+            imageView.image = image
+        }
+        imageView.clipsToBounds = true
+        imageView.backgroundColor = .white
+        imageView.contentMode = .scaleToFill
+        imageView.layer.cornerRadius = 12
+        imageView.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
+        return imageView
+    }()
+    
+    
+    
+    
+    let requiredPositionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "듀오 희망 포지션"
+        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        label.textColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 1)
+        return label
+    }()
+    
+    let requiredPositionImage: UIImageView = {
+        var imageView = UIImageView()
+        if let image = UIImage(named: "4") {
+            imageView.image = image
+        }
+        imageView.clipsToBounds = true
+        imageView.backgroundColor = .white
+        imageView.contentMode = .scaleToFill
+        imageView.layer.cornerRadius = 12
+        imageView.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
+        return imageView
+    }()
+    
+    
     
     let confirmationButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 22, weight: .bold)
-        button.setTitle("파티신청", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
+        button.setTitle("듀오 신청하기", for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
         button.backgroundColor = UIColor.RGRGColor4
         button.layer.cornerRadius = (10)
 //        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return button
     }()
-    
-//    let listUnderline: UIView = {
-//        let view = UIView()
-//        view.backgroundColor = UIColor.RGRGColor2
-//        return view
-//    }()
-//
-//    let buttonFrame: UIStackView = {
-//        let stackView = UIStackView()
-//        stackView.axis = .horizontal
-//        stackView.alignment = .center
-//        stackView.distribution = .fillEqually
-//        stackView.spacing = 10
-//        return stackView
-//    }()
-    
-    
-    
-    @objc private func configPopUpButton() {
-            let popUpButtonClosure = { (action: UIAction) in
-                if action.title == "아이언" {
-                    self.tierPopupButton.setTitle("아이언", for: .normal)
-                }
-                else if action.title == "브론즈" {
-                    self.tierPopupButton.setTitle("브론즈", for: .normal)
-                }
-                else if action.title == "실버" {
-                    self.tierPopupButton.setTitle("실버", for: .normal)
-                }
-                else if action.title == "골드" {
-                    self.tierPopupButton.setTitle("골드", for: .normal)
-                }
-                else if action.title == "플레티넘" {
-                    self.tierPopupButton.setTitle("플레티넘", for: .normal)
-                }
-                else if action.title == "에메랄드" {
-                    self.tierPopupButton.setTitle("에메랄드", for: .normal)
-                }
-                else if action.title == "다이아" {
-                    self.tierPopupButton.setTitle("다이아", for: .normal)
-                }
-                else {
-                }
-                
-                return
-            }
-            
-        tierPopupButton.menu = UIMenu(title: "티어선택", children: [
-                UIAction(title: "아이언", handler: popUpButtonClosure),
-                UIAction(title: "브론즈", handler: popUpButtonClosure),
-                UIAction(title: "실버", handler: popUpButtonClosure),
-                UIAction(title: "골드", handler: popUpButtonClosure),
-                UIAction(title: "플레티넘", handler: popUpButtonClosure),
-                UIAction(title: "에메랄드", handler: popUpButtonClosure),
-                UIAction(title: "다이아", handler: popUpButtonClosure)
-            ])
-            
-        tierPopupButton.showsMenuAsPrimaryAction = true
-        }
-    
-    
-    @objc private func positionPopUpButton() {
-            let popUpButtonClosure = { (action: UIAction) in
-                if action.title == "탑" {
-                    self.positionPopupButton.setTitle("탑", for: .normal)
-                }
-                else if action.title == "정글" {
-                    self.positionPopupButton.setTitle("정글", for: .normal)
-                }
-                else if action.title == "미드" {
-                    self.positionPopupButton.setTitle("미드", for: .normal)
-                }
-                else if action.title == "바텀" {
-                    self.positionPopupButton.setTitle("바텀", for: .normal)
-                }
-                else if action.title == "서폿" {
-                    self.positionPopupButton.setTitle("서폿", for: .normal)
-                }
-                else if action.title == "무관" {
-                    self.positionPopupButton.setTitle("무관", for: .normal)
-                }
-                else {
-                }
-                
-                return
-            }
-            
-        positionPopupButton.menu = UIMenu(title: "포지션선택", children: [
-                UIAction(title: "탑", handler: popUpButtonClosure),
-                UIAction(title: "정글", handler: popUpButtonClosure),
-                UIAction(title: "미드", handler: popUpButtonClosure),
-                UIAction(title: "바텀", handler: popUpButtonClosure),
-                UIAction(title: "서폿", handler: popUpButtonClosure),
-                UIAction(title: "무관", handler: popUpButtonClosure)
-            ])
-            
-        positionPopupButton.showsMenuAsPrimaryAction = true
-        }
     
     
     
@@ -286,112 +291,203 @@ class PartyInfoDetailVC: UIViewController {
     
     
     func configureUI() {
-        view.backgroundColor = .black
+        view.backgroundColor = .systemGray5
         
-        view.addSubview(pageTitleLabel)
-        view.addSubview(backButton)
-        view.addSubview(partyNameLabel)
-        view.addSubview(partyNameTextField)
-        view.addSubview(tierFramView)
-        tierFramView.addArrangedSubview(tierLabel)
-        tierFramView.addArrangedSubview(tierPopupButton)
-        view.addSubview(positionFramView)
-        positionFramView.addArrangedSubview(positionLabel)
-        positionFramView.addArrangedSubview(positionPopupButton)
-        view.addSubview(infoTextLabel)
-        view.addSubview(infoTextField)
-        view.addSubview(confirmationButton)
+        view.addSubview(topFrame)
+        topFrame.addSubview(pageTitleLabel)
+        topFrame.addSubview(backButton)
+        
+        view.addSubview(contentView)
+        
+        contentView.addSubview(topframeView)
+        topframeView.addSubview(profileImage)
+        topframeView.addSubview(positionImageFrame)
+        positionImageFrame.addSubview(positionImage)
+        topframeView.addSubview(userNameLabel)
+        topframeView.addSubview(tierLabelFrame)
+        tierLabelFrame.addSubview(tierLabel)
+        
+        contentView.addSubview(midframeView)
+        midframeView.addSubview(textTitleLabel)
+        midframeView.addSubview(timeLabel)
+        midframeView.addSubview(textView)
+        midframeView.addSubview(championLabel)
+        midframeView.addSubview(mostChampionFrame)
+        mostChampionFrame.addSubview(firstMostChampionImage)
+        mostChampionFrame.addSubview(secondMostChampionImage)
+        mostChampionFrame.addSubview(thirdMostChampionImage)
+        midframeView.addSubview(requiredPositionLabel)
+        midframeView.addSubview(requiredPositionImage)
+        
+        contentView.addSubview(bottomframeView)
+        bottomframeView.addSubview(confirmationButton)
         
         
+        
+        
+        
+        topFrame.snp.makeConstraints{
+            $0.top.leading.equalToSuperview().offset(0)
+            $0.trailing.equalToSuperview().offset(0)
+            $0.height.equalTo(90)
+        }
         
         pageTitleLabel.snp.makeConstraints{
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-//            $0.leading.equalToSuperview().offset(25)
-            $0.centerX.equalTo(view)
+            $0.top.equalTo(topFrame.snp.top).offset(62)
+            $0.centerX.equalTo(topFrame)
         }
         
-        // 버튼 스택 프레임
         backButton.snp.makeConstraints{
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-//            $0.height.equalTo(50)
-            $0.leading.equalToSuperview().offset(25)
-//            $0.trailing.equalTo(pageTitleLabel.snp.leading).offset(-25)
-//            $0.height.equalTo(40)
-        }
-        
-        // 파티명
-        partyNameLabel.snp.makeConstraints{
-            $0.top.equalTo(pageTitleLabel.snp.bottom).offset(40)
-            $0.leading.equalToSuperview().offset(25)
-        }
-        
-        partyNameTextField.snp.makeConstraints{
-            $0.top.equalTo(pageTitleLabel.snp.bottom).offset(40)
-            $0.height.equalTo(25)
-            $0.width.equalTo(120)
-            $0.leading.equalTo(partyNameLabel.snp.trailing).offset(15)
-        }
-        
-        // 티어 옵션
-        tierFramView.snp.makeConstraints{
-            $0.top.equalTo(partyNameLabel.snp.bottom).offset(30)
-            $0.leading.equalToSuperview().offset(25)
+            $0.top.equalTo(topFrame.snp.top).offset(55)
+            $0.leading.equalTo(topFrame.snp.leading).offset(25)
         }
         
         
-        tierLabel.snp.makeConstraints{
-            $0.top.equalTo(tierFramView.snp.top).offset(0)
-            $0.leading.equalTo(tierFramView.snp.leading).offset(0)
-        }
-        
-        tierPopupButton.snp.makeConstraints{
-            $0.top.equalTo(tierLabel.snp.bottom).offset(10)
-            $0.height.equalTo(25)
-            $0.width.equalTo(120)
-            $0.leading.equalTo(tierFramView.snp.leading).offset(0)
+        contentView.snp.makeConstraints{
+            $0.top.equalTo(topFrame.snp.bottom).offset(10)
+            $0.bottom.equalToSuperview().offset(0)
+            $0.leading.equalToSuperview().offset(5)
+            $0.trailing.equalToSuperview().offset(-5)
         }
         
         
-        // 포지션 옵션
-        
-        positionFramView.snp.makeConstraints{
-            $0.top.equalTo(tierFramView.snp.top).offset(0)
-            $0.leading.equalTo(tierFramView.snp.trailing).offset(15)
+        topframeView.snp.makeConstraints{
+            $0.top.equalTo(contentView.snp.top).offset(0)
+            $0.leading.equalTo(contentView.snp.leading).offset(0)
+            $0.trailing.equalTo(contentView.snp.trailing).offset(0)
+            $0.height.equalTo(95)
+            //            $0.bottom.equalTo(contentView.snp.bottom).offset(0)
         }
         
-        positionLabel.snp.makeConstraints{
-            $0.top.equalTo(positionFramView.snp.top).offset(0)
-            $0.leading.equalTo(positionFramView.snp.leading).offset(0)
+        profileImage.snp.makeConstraints{
+            $0.top.equalTo(topframeView.snp.top).offset(14)
+            $0.leading.equalTo(topframeView.snp.leading).offset(16)
+            $0.height.width.equalTo(52)
+            $0.bottom.equalTo(topframeView.snp.bottom).offset(-14)
         }
         
-        positionPopupButton.snp.makeConstraints{
-            $0.top.equalTo(positionLabel.snp.bottom).offset(10)
-            $0.height.equalTo(25)
-            $0.width.equalTo(120)
-            $0.leading.equalTo(positionFramView.snp.leading).offset(0)
+        positionImageFrame.snp.makeConstraints{
+            //            $0.top.equalTo(cellFrameView.snp.top).offset(14)
+            $0.trailing.equalTo(profileImage.snp.trailing).offset(5)
+            $0.height.width.equalTo(17)
+            $0.bottom.equalTo(profileImage.snp.bottom).offset(0)
+        }
+        
+        positionImage.snp.makeConstraints{
+            //            $0.top.equalTo(cellFrameView.snp.top).offset(14)
+            $0.trailing.equalTo(positionImageFrame.snp.trailing).offset(-2)
+            $0.height.width.equalTo(13)
+            $0.bottom.equalTo(positionImageFrame.snp.bottom).offset(-2)
         }
         
         
-        // 소개글
-        infoTextLabel.snp.makeConstraints{
-            $0.top.equalTo(tierFramView.snp.bottom).offset(30)
-            $0.leading.equalToSuperview().offset(25)
+        userNameLabel.snp.makeConstraints {
+            $0.top.equalTo(topframeView.snp.top).offset(14)
+            $0.leading.equalTo(profileImage.snp.trailing).offset(18)
         }
         
-        infoTextField.snp.makeConstraints{
-            $0.top.equalTo(infoTextLabel.snp.bottom).offset(5)
-            $0.height.equalTo(200)
-//            $0.width.equalTo(80)
-            $0.leading.equalToSuperview().offset(25)
-            $0.trailing.equalToSuperview().offset(-25)
+        tierLabelFrame.snp.makeConstraints {
+            $0.top.equalTo(userNameLabel.snp.bottom).offset(8)
+            $0.leading.equalTo(profileImage.snp.trailing).offset(16)
+            $0.bottom.equalTo(topframeView.snp.bottom).offset(-14)
+        }
+        
+        tierLabel.snp.makeConstraints {
+            $0.top.equalTo(tierLabelFrame.snp.top).offset(4)
+            $0.leading.equalTo(tierLabelFrame.snp.leading).offset(12)
+            $0.trailing.equalTo(tierLabelFrame.snp.trailing).offset(-12)
+            $0.bottom.equalTo(tierLabelFrame.snp.bottom).offset(-4)
+        }
+        
+        
+        
+        midframeView.snp.makeConstraints{
+            $0.top.equalTo(topframeView.snp.bottom).offset(3)
+            $0.leading.equalTo(contentView.snp.leading).offset(0)
+            $0.trailing.equalTo(contentView.snp.trailing).offset(0)
+            $0.height.equalTo(397)
+        }
+        
+        textTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(midframeView.snp.top).offset(13)
+            $0.leading.equalTo(midframeView.snp.leading).offset(14)
+            $0.trailing.equalTo(midframeView.snp.trailing).offset(-14)
+            $0.height.equalTo(31)
+        }
+        
+        timeLabel.snp.makeConstraints {
+            $0.top.equalTo(textTitleLabel.snp.bottom).offset(0)
+            $0.trailing.equalTo(midframeView.snp.trailing).offset(-14)
+        }
+        
+        textView.snp.makeConstraints {
+            $0.top.equalTo(timeLabel.snp.bottom).offset(7)
+            $0.leading.equalTo(midframeView.snp.trailing).offset(14)
+            $0.trailing.equalTo(midframeView.snp.leading).offset(-14)
+        }
+        
+        championLabel.snp.makeConstraints {
+            $0.top.equalTo(textView.snp.bottom).offset(81)
+            $0.height.equalTo(31)
+            $0.width.equalTo(81)
+            $0.leading.equalTo(midframeView.snp.leading).offset(14)
+        }
+        
+        
+        
+        mostChampionFrame.snp.makeConstraints {
+            $0.top.equalTo(championLabel.snp.bottom).offset(12)
+            $0.height.equalTo(45)
+            $0.width.equalTo(165)
+            $0.leading.equalTo(midframeView.snp.leading).offset(14)
+        }
+        
+        firstMostChampionImage.snp.makeConstraints{
+            $0.top.equalTo(mostChampionFrame.snp.top).offset(0)
+            $0.height.width.equalTo(45)
+            $0.leading.equalTo(mostChampionFrame.snp.leading).offset(8)
+        }
+        
+        secondMostChampionImage.snp.makeConstraints{
+            $0.top.equalTo(mostChampionFrame.snp.top).offset(0)
+            $0.height.width.equalTo(45)
+            $0.leading.equalTo(firstMostChampionImage.snp.trailing).offset(11)
+        }
+        
+        thirdMostChampionImage.snp.makeConstraints{
+            $0.top.equalTo(mostChampionFrame.snp.top).offset(0)
+            $0.height.width.equalTo(45)
+            $0.leading.equalTo(secondMostChampionImage.snp.trailing).offset(11)
+        }
+        
+        requiredPositionLabel.snp.makeConstraints {
+            $0.top.equalTo(championLabel.snp.top).offset(0)
+            $0.height.equalTo(31)
+            $0.width.equalTo(139)
+            $0.trailing.equalTo(midframeView.snp.trailing).offset(-14)
+        }
+        
+        requiredPositionImage.snp.makeConstraints{
+            $0.top.equalTo(requiredPositionLabel.snp.bottom).offset(12)
+            $0.height.width.equalTo(45)
+            $0.leading.equalTo(requiredPositionLabel.snp.leading).offset(0)
+        }
+        
+        
+        
+        bottomframeView.snp.makeConstraints{
+            $0.top.equalTo(midframeView.snp.bottom).offset(3)
+            $0.leading.equalTo(contentView.snp.leading).offset(0)
+            $0.trailing.equalTo(contentView.snp.trailing).offset(0)
+            $0.bottom.equalTo(contentView.snp.bottom).offset(0)
         }
         
         confirmationButton.snp.makeConstraints{
-            $0.top.equalTo(infoTextField.snp.bottom).offset(50)
-            $0.leading.equalToSuperview().offset(10)
-            $0.trailing.equalToSuperview().offset(-10)
-            $0.height.equalTo(50)
-            $0.centerX.equalTo(view)
+            $0.leading.equalTo(bottomframeView.snp.leading).offset(17)
+            $0.trailing.equalTo(bottomframeView.snp.trailing).offset(-17)
+            $0.bottom.equalTo(bottomframeView.snp.bottom).offset(-30)
+            $0.height.equalTo(60)
+
         }
     }
 }
