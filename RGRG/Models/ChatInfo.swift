@@ -6,3 +6,11 @@
 //
 
 import Foundation
+import FirebaseFirestore
+
+struct ChatInfo {
+    var sender: String
+    var date: String
+    var read: Bool
+    var content: String
+}

@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FirebaseCore
 import FirebaseAuth
+import FirebaseFirestore
 
 
 class SignUpViewController: UIViewController {
@@ -43,30 +44,30 @@ class SignUpViewController: UIViewController {
     
     
     let emailLine = {
-        let line = CustomMemberInfoBox(id:"Email",infoText: "Email 형식 확인",placeHolder: "Email", condition:"^[A-Za-z0-9+_.-]+@(.+)$")
+        let line = CustomMemberInfoBox(id:.email,conditionText: "Email 형식 확인",passText: "사용가능 한 email입니다.",placeHolder: "Email", condition:"^[A-Za-z0-9+_.-]+@(.+)$")
         return line
     }()
     
     let passwordLine = {
-        let line = CustomMemberInfoBox(id:"PW",infoText: "영문 숫자 7자 이상",placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$")
+        let line = CustomMemberInfoBox(id:.pw,conditionText: "영문 숫자 7자 이상",placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$")
         line.inputBox.isSecureTextEntry = true
         return line
     }()
     
     
     let passwordCheckLine = {
-        let line = CustomMemberInfoBox(id:"PWcheck",infoText: "다시 확인해주세요", placeHolder: "Password Check", condition:"")
+        let line = CustomMemberInfoBox(id:.pwCheck,conditionText: "다시 확인해주세요", placeHolder: "Password Check", condition:"")
         line.inputBox.isSecureTextEntry = true
         return line
     }()
     
     let nickNameLine = {
-        let line = CustomMemberInfoBox(id:"nickName",infoText: "영문 숫자 한글 2자 이상",placeHolder: "닉네임", condition:"^[a-zA-Z0-9가-힣]{2,}$")
+        let line = CustomMemberInfoBox(id:.userName,conditionText: "영문 숫자 한글 2자 이상",passText:"사용가능한 닉네임입니다.",placeHolder: "닉네임", condition:"^[a-zA-Z0-9가-힣]{2,}$")
         return line
     }()
     
     let positionLine = {
-        let line = CustomMemberInfoBox(id:"nickName",infoText: "영문 숫자 한글 2자 이상",placeHolder: "Position", condition:"^[a-zA-Z0-9가-힣]{2,}$")
+        let line = CustomMemberInfoBox(id:.userName,conditionText: "영문 숫자 한글 2자 이상",placeHolder: "Position", condition:"^[a-zA-Z0-9가-힣]{2,}$")
         return line
     }()
     
@@ -102,10 +103,8 @@ extension SignUpViewController {
         let email = emailLine.inputBox.text
         let password = passwordLine.inputBox.text
         let userName = nickNameLine.inputBox.text
-        print("email",email)
-        print("password",password)
-        print("userName",userName)
-
+        
+        
         Auth.auth().createUser(withEmail: email ?? "", password: password ?? "") {result,error in
             if let error = error {
                 print(error)
@@ -113,7 +112,21 @@ extension SignUpViewController {
             
             if let result = result {
                 print(result)
-                print("use 생성 완료 .. !")
+                
+                let db = Firestore.firestore()
+                let userUID = db.collection("users").document(result.user.uid)
+                
+                userUID.setData([
+                    "email": email,
+                    "password": password,
+                    "userName": userName
+                ]) { error in
+                    if let error = error {
+                        print("Error saving user data: \(error.localizedDescription)")
+                    } else {
+                        print("User data saved successfully.")
+                    }
+                }
             }
         }
     }

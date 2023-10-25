@@ -9,10 +9,7 @@ import Foundation
 import SnapKit
 import UIKit
 
-
-
 class SearchOptionVC: UIViewController {
-    
     let infoLabel: UILabel = {
         let label = UILabel()
         label.text = "원하시는 검색 조건을 선택하세요"
@@ -20,7 +17,41 @@ class SearchOptionVC: UIViewController {
         label.textColor = .lightGray
         return label
     }()
-
+    
+    let timeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "시간"
+        label.font = UIFont.systemFont(ofSize: 22, weight: .bold)
+        label.textColor = .white
+        return label
+    }()
+    
+    let timeTextField: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = .white
+        textField.layer.cornerRadius = 0
+        textField.layer.borderWidth = 2
+        textField.layer.borderColor = UIColor.RGRGColor2?.cgColor
+        return textField
+    }()
+    
+    let timeTildeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "~"
+        label.font = UIFont.systemFont(ofSize: 35, weight: .bold)
+        label.textColor = .white
+        return label
+    }()
+    
+    let secondtimeTextField: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = .white
+        textField.layer.cornerRadius = 0
+        textField.layer.borderWidth = 2
+        textField.layer.borderColor = UIColor.RGRGColor2?.cgColor
+        return textField
+    }()
+    
     let tierLabel: UILabel = {
         let label = UILabel()
         label.text = "티어"
@@ -125,7 +156,6 @@ class SearchOptionVC: UIViewController {
         return button
     }()
     
-
     let emeraldTierbutton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
@@ -230,7 +260,6 @@ class SearchOptionVC: UIViewController {
         return view
     }()
 
-    
     let fourthButtonthirdFrame: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -240,16 +269,12 @@ class SearchOptionVC: UIViewController {
         return stackView
     }()
     
-    
     let tierTextField: UITextField = {
         let textField = UITextField()
         textField.backgroundColor = .white
         textField.layer.cornerRadius = 3
         return textField
     }()
-    
-    
-    
     
     let positionLabel: UILabel = {
         let label = UILabel()
@@ -352,7 +377,6 @@ class SearchOptionVC: UIViewController {
         return button
     }()
     
-    
     let confirmationButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 22, weight: .bold)
@@ -364,7 +388,6 @@ class SearchOptionVC: UIViewController {
         return button
     }()
     
-   
 //    let listUnderline: UIView = {
 //        let view = UIView()
 //        view.backgroundColor = UIColor.RGRGColor2
@@ -383,7 +406,6 @@ class SearchOptionVC: UIViewController {
     var tierOptionButtonArry = [UIButton]()
     var positionOptionButtonArry = [UIButton]()
     
-    
     @objc func tierOptionButtonTapped(_ sender: UIButton) {
         for Btn in tierOptionButtonArry {
             if Btn == sender {
@@ -392,11 +414,11 @@ class SearchOptionVC: UIViewController {
                 Btn.backgroundColor = .systemGray5
                 Btn.layer.borderColor = UIColor.RGRGColor3?.cgColor
             }
-                else {
+            else {
                 // 이 함수를 호출한 버튼이 아니라면
                 Btn.isSelected = false
                 Btn.backgroundColor = .white
-                    Btn.layer.borderColor = UIColor.white.cgColor
+                Btn.layer.borderColor = UIColor.white.cgColor
             }
         }
     }
@@ -409,16 +431,14 @@ class SearchOptionVC: UIViewController {
                 Btn.backgroundColor = .systemGray5
                 Btn.layer.borderColor = UIColor.RGRGColor3?.cgColor
             }
-                else {
+            else {
                 // 이 함수를 호출한 버튼이 아니라면
                 Btn.isSelected = false
                 Btn.backgroundColor = .white
-                    Btn.layer.borderColor = UIColor.white.cgColor
+                Btn.layer.borderColor = UIColor.white.cgColor
             }
         }
     }
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -452,14 +472,9 @@ class SearchOptionVC: UIViewController {
         }
     }
     
-    
-    
     @objc func backButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
-    
-    
-    
     
     func configureUI() {
         view.backgroundColor = .white
@@ -487,26 +502,25 @@ class SearchOptionVC: UIViewController {
         positionButtonFrame.addArrangedSubview(supportPositionbutton)
         view.addSubview(confirmationButton)
         
-        
-        infoLabel.snp.makeConstraints{
+        infoLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(15)
             $0.leading.equalToSuperview().offset(15)
         }
         
         // 티어 옵션
-        tierLabel.snp.makeConstraints{
+        tierLabel.snp.makeConstraints {
             $0.top.equalTo(infoLabel.snp.bottom).offset(20)
             $0.leading.equalToSuperview().offset(15)
         }
         
-        tierButtonFirstFrame.snp.makeConstraints{
+        tierButtonFirstFrame.snp.makeConstraints {
             $0.top.equalTo(tierLabel.snp.bottom).offset(5)
             $0.height.equalTo(65)
             $0.leading.equalToSuperview().offset(10)
             $0.trailing.equalToSuperview().offset(-10)
         }
         
-        tierButtonSecondFrame.snp.makeConstraints{
+        tierButtonSecondFrame.snp.makeConstraints {
             $0.top.equalTo(tierButtonFirstFrame.snp.bottom).offset(3)
             $0.height.equalTo(65)
             $0.leading.equalToSuperview().offset(10)
@@ -514,25 +528,29 @@ class SearchOptionVC: UIViewController {
         }
         
         // 포지션 옵션
-        positionLabel.snp.makeConstraints{
+        positionLabel.snp.makeConstraints {
             $0.top.equalTo(tierButtonSecondFrame.snp.bottom).offset(20)
             $0.leading.equalToSuperview().offset(15)
         }
         
-        positionButtonFrame.snp.makeConstraints{
+        positionButtonFrame.snp.makeConstraints {
             $0.top.equalTo(positionLabel.snp.bottom).offset(5)
             $0.leading.equalToSuperview().offset(10)
             $0.trailing.equalToSuperview().offset(-10)
         }
         
-        
-        confirmationButton.snp.makeConstraints{
-            $0.top.equalTo(positionButtonFrame.snp.bottom).offset(40)
+        confirmationButton.snp.makeConstraints {
+            $0.top.equalTo(positionButtonFrame.snp.bottom).offset(60)
             $0.leading.equalToSuperview().offset(10)
             $0.trailing.equalToSuperview().offset(-10)
             $0.height.equalTo(50)
             $0.centerX.equalTo(view)
         }
+        
+        // 소개글
+
+//        patryListTable.snp.makeConstraints{
+//            $0.top.equalTo(contentView.snp.top).offset(10)
+//        }
     }
 }
-
