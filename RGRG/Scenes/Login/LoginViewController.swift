@@ -5,15 +5,14 @@
 //  Created by (^ㅗ^)7 iMac on 2023/10/11.
 //
 
+import FirebaseAuth
+import FirebaseCore
 import SnapKit
 import UIKit
-import FirebaseCore
-import FirebaseAuth
 
 class LoginViewController: UIViewController {
-    
-    var loginIdPass:Bool = false
-    var loginPwPass:Bool = false
+    var loginIdPass: Bool = false
+    var loginPwPass: Bool = false
     
     let bodyContainer = {
         let stactview = UIView()
@@ -37,12 +36,12 @@ class LoginViewController: UIViewController {
     }()
     
     let emailLine = {
-        let line = CustomMemberInfoBox(id:"LoginEmail", placeHolder: "Email", condition:"^[A-Za-z0-9+_.-]+@(.+)$", cellHeight:70, style:"Login")
+        let line = CustomMemberInfoBox(id: "LoginEmail", placeHolder: "Email", condition: "^[A-Za-z0-9+_.-]+@(.+)$", cellHeight: 70, style: "Login")
         return line
     }()
     
     let passwordLine = {
-        let line = CustomMemberInfoBox( id:"LoginPW",placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$", cellHeight:70, style:"Login")
+        let line = CustomMemberInfoBox(id: "LoginPW", placeHolder: "Password", condition: "^[a-zA-Z0-9]{7,}$", cellHeight: 70, style: "Login")
         line.inputBox.isSecureTextEntry = true
         return line
     }()
@@ -62,54 +61,51 @@ class LoginViewController: UIViewController {
         return view
     }()
     
-    //오버라이딩 : 재정의
+    // 오버라이딩 : 재정의
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(hex: "#0B356A")
         setupUI()
         passValueCheck()
+        makeBackButton()
     }
 }
 
-
 extension LoginViewController {
-    
-    @objc func gotoSignupPage(){
+    @objc func gotoSignupPage() {
         let signupVC = SignUpViewController()
-        self.navigationController?.pushViewController(signupVC, animated: true)
+        navigationController?.pushViewController(signupVC, animated: true)
     }
     
-    @objc func tapLogin(){
-      signInUser()
-
+    @objc func tapLogin() {
+        signInUser()
     }
     
-    func signInUser(){
+    func signInUser() {
         let email = emailLine.inputBox.text ?? ""
         let password = passwordLine.inputBox.text ?? ""
         
         Auth.auth().signIn(withEmail: email, password: password) { [self] authResult, error in
-             if authResult == nil {
-                 print("로그인 실패")
-                 if let errorCode = error {
-                     print(errorCode)
-                 }
-             }else if authResult != nil {
-                 moveToMain()
-                 print("로그인 성공")
-             }
-         }
-        
+            if authResult == nil {
+                print("로그인 실패")
+                if let errorCode = error {
+                    print(errorCode)
+                }
+            } else if authResult != nil {
+                moveToMain()
+                print("로그인 성공")
+            }
+        }
     }
     
-    func moveToMain(){
+    func moveToMain() {
         let movePage = TabBarController()
-        self.navigationController?.pushViewController(movePage, animated: true)
+        navigationController?.pushViewController(movePage, animated: true)
     }
     
-    func passValueCheck(){
-        func updateUI(){
-            guard self.loginIdPass && self.loginPwPass else {
+    func passValueCheck() {
+        func updateUI() {
+            guard loginIdPass, loginPwPass else {
                 return
             }
             loginButton.backgroundColor = UIColor.black
@@ -122,14 +118,10 @@ extension LoginViewController {
             self.loginPwPass = pass
             updateUI()
         }
-        
     }
     
-    
-    
-    func setupUI(){
-        
-        //bodyContainer의 높이를 알수는 없는걸까 ?
+    func setupUI() {
+        // bodyContainer의 높이를 알수는 없는걸까 ?
         //        let  screenHeigth = UIScreen.main.bounds.height
         //        let bodyContainerHeigth = bodyContainer.frame.height
         //
@@ -145,7 +137,6 @@ extension LoginViewController {
         loginButton.addTarget(self, action: #selector(tapLogin), for: .touchUpInside)
         methodArea.addArrangedSubview(loginButton)
         methodArea.addArrangedSubview(signupButton)
-        
         
         //        bodyContainer.layer.borderWidth = 1
         //        bodyContainer.layer.borderColor = UIColor.systemBlue.cgColor
@@ -211,5 +202,16 @@ extension LoginViewController {
             make.height.equalToSuperview().dividedBy(10)
             make.bottom.equalTo(bodyContainer.snp.bottom).offset(-60)
         }
+    }
+}
+
+extension LoginViewController {
+    func makeBackButton() {
+        let backButton = CustomBackButton(title: "Back", style: .plain, target: self, action: #selector(tappedBackButton))
+        navigationItem.backBarButtonItem = backButton
+    }
+
+    @objc func tappedBackButton(_ sender: UIBarButtonItem) {
+        navigationController?.popViewController(animated: true)
     }
 }

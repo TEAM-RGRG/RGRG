@@ -18,8 +18,8 @@ class MainViewController: UIViewController {
     let pageTitleLabel: UILabel = {
         var label = UILabel()
         label.text = "RGRG"
-        label.font = UIFont.systemFont(ofSize: 45, weight: .bold)
-        label.textColor = UIColor.RGRGColor2
+        label.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+        label.textColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1)
         return label
     }()
     
@@ -34,45 +34,53 @@ class MainViewController: UIViewController {
     
     let createPartybutton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
-        button.setTitle("파티 만들기", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = UIColor.RGRGColor2
-        button.layer.cornerRadius = 8
+//        button.titleLabel?.font = .systemFont(ofSize: 18, weight: .bold)
+//        button.setTitle("파티 만들기", for: .normal)
+//        button.setTitleColor(.black, for: .normal)
+        button.setImage(UIImage(named: "PlusInCircle2")? .withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = .white
+        button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
+        button.backgroundColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1)
+        button.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
+        button.layer.cornerRadius = 29
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(createPartybuttonTapped), for: .touchUpInside)
         return button
     }()
     
     let noticePagebutton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
-        button.setTitle("알림 확인", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = UIColor.RGRGColor2
+//        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
+        button.setImage(UIImage(systemName: "bell")? .withRenderingMode(.alwaysTemplate), for: .normal)
+        button.imageEdgeInsets = .init(top: -10, left: -10, bottom: -10, right: -10)
+        button.tintColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1)
+//        button.setTitle("알림 확인", for: .normal)
+//        button.setTitleColor(.black, for: .normal)
+//        button.backgroundColor = UIColor.RGRGColor2
         button.layer.cornerRadius = 8
         button.addTarget(self, action: #selector(noticePagebuttonTapped), for: .touchUpInside)
         return button
     }()
     
-    let emptyViewForButton: UIView = {
-        let view = UIView()
-        view.backgroundColor = .black
-        return view
-    }()
+//    let emptyViewForButton: UIView = {
+//        let view = UIView()
+//        view.backgroundColor = .black
+//        return view
+//    }()
     
     let optionFrame: UIView = {
         let view = UIView()
-        view.backgroundColor = .black
+//        view.backgroundColor = .black
         return view
     }()
     
-    let searchOptionLabel: UILabel = {
-        let label = UILabel()
-        label.text = "검색 옵션"
-        label.font = UIFont.systemFont(ofSize: 25, weight: .bold)
-        label.textColor = UIColor.RGRGColor2
-        return label
-    }()
+//    let searchOptionLabel: UILabel = {
+//        let label = UILabel()
+//        label.text = "검색 옵션"
+//        label.font = UIFont.systemFont(ofSize: 25, weight: .bold)
+//        label.textColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1)
+//        return label
+//    }()
     
         let searchOptionButton: UIButton = {
             var button = UIButton()
@@ -83,53 +91,64 @@ class MainViewController: UIViewController {
             button.titleLabel?.adjustsFontForContentSizeCategory = true
             button.setImage(UIImage(named: "optionIcon")? .withRenderingMode(.alwaysTemplate), for: .normal)
 //            button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
-            button.tintColor = .white
+//            button.tintColor = .white
 //            button.backgroundColor = .white
 //            button.layer.cornerRadius = (8)
             button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
             return button
         }()
     
-    let timeOptionLable1: UILabel = {
-        let label = UILabel()
-        label.text = "#시간"
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-        label.textColor = .white
-//        label.backgroundColor = UIColor.RGRGColor2
-        label.clipsToBounds = true
-        label.layer.cornerRadius = 11
-        label.layer.borderWidth = 2
-        label.layer.borderColor = UIColor.RGRGColor2?.cgColor
-        return label
+    let searchOptionButton2: UIButton = {
+        var button = UIButton()
+            button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
+            button.setTitle("티어", for: .normal)
+            button.setTitleColor(.systemGray3, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
+//        button.setImage(UIImage(named: "optionIcon")? .withRenderingMode(.alwaysTemplate), for: .normal)
+//            button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
+//            button.tintColor = .white
+//            button.backgroundColor = .white
+            button.layer.cornerRadius = (13)
+        button.layer.borderColor = UIColor.systemGray4.cgColor
+        button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
+        return button
     }()
     
-    let tierOptionLable1: UILabel = {
-        let label = UILabel()
-        label.text = "#티어"
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-        label.textColor = .white
-//        label.backgroundColor = UIColor.RGRGColor2
-        label.clipsToBounds = true
-        label.layer.cornerRadius = 11
-        label.layer.borderWidth = 2
-        label.layer.borderColor = UIColor.RGRGColor2?.cgColor
-        return label
+    let tierOptionLable1: UIButton = {
+        var button = UIButton()
+            button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
+            button.setTitle("티어", for: .normal)
+            button.setTitleColor(.systemGray3, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
+//        button.setImage(UIImage(named: "optionIcon")? .withRenderingMode(.alwaysTemplate), for: .normal)
+//            button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
+//            button.tintColor = .white
+//            button.backgroundColor = .white
+            button.layer.cornerRadius = (13)
+        button.layer.borderWidth = 2
+        button.layer.borderColor = UIColor.systemGray4.cgColor
+        button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
+        return button
     }()
     
-    let positionOptionLable1: UILabel = {
-        let label = UILabel()
-        label.text = "#포지션"
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-        label.textColor = .white
-//        label.backgroundColor = UIColor.RGRGColor2
-        label.clipsToBounds = true
-        label.layer.cornerRadius = 11
-        label.layer.borderWidth = 2
-        label.layer.borderColor = UIColor.RGRGColor2?.cgColor
-        return label
+    let positionOptionLable1: UIButton = {
+        var button = UIButton()
+            button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
+            button.setTitle("포지션", for: .normal)
+            button.setTitleColor(.systemGray3, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
+//        button.setImage(UIImage(named: "optionIcon")? .withRenderingMode(.alwaysTemplate), for: .normal)
+//            button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
+//            button.tintColor = .white
+//            button.backgroundColor = .white
+            button.layer.cornerRadius = (13)
+        button.layer.borderWidth = 2
+        button.layer.borderColor = UIColor.systemGray4.cgColor
+        button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
+        return button
     }()
     
     let emptyViewForOption: UIView = {
@@ -140,7 +159,7 @@ class MainViewController: UIViewController {
     
     let listUnderline: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.RGRGColor2
+        view.backgroundColor = UIColor(red: 217/255, green: 217/255, blue: 217/255, alpha: 1)
         return view
     }()
     
@@ -148,23 +167,26 @@ class MainViewController: UIViewController {
         var label = UILabel()
         label.text = "파티 목록"
         label.font = UIFont.systemFont(ofSize: 25, weight: .bold)
-        label.textColor = UIColor.RGRGColor2
+        label.textColor = .white
         return label
     }()
     
     let contentView: UIView = {
         let view = UIView()
-        view.backgroundColor = .black
-        view.layer.cornerRadius = 8
+//        view.backgroundColor = .black
+//        view.layer.cornerRadius = 8
         return view
     }()
     
     lazy var patryListTable: UITableView = {
         var tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = .black
+        tableView.backgroundColor = .systemGray6
+        tableView.separatorStyle = .none
         return tableView
     }()
+    
+
     
 //    struct PartyData {
 //        let title: String
@@ -181,7 +203,6 @@ class MainViewController: UIViewController {
     // 더미 데이터
     let partyTitle = ["매너 파티", "같이 할 사람 구해요", "저녁 8시팀 구함", "즐겜유저 콜", "음주롤 모임"]
     let partyInfo = ["즐겜하실 분 구합니다.", "매너겜 하실 분 구합니다.", "아무나 오세요", "트롤링만 하지 마세요", "아무나 콜"]
-    let partyTime = ["#8:00~11:00", "#8:00~11:00", "#8:00~11:00", "#11:00~01:00", "#10:00~12:00"]
     let partyTier = ["#골드", "#플레티넘", "#상관없음", "#마스터", "#실버"]
     let partyPosition = ["#정글", "#서폿", "#상관없음", "#서폿", "#상관없음"]
     
@@ -208,57 +229,53 @@ class MainViewController: UIViewController {
     }
     
     func configureUI() {
-        view.backgroundColor = .black
+        view.backgroundColor = .white
         
         view.addSubview(pageTitleLabel)
-        view.addSubview(buttonFrame)
-        buttonFrame.addArrangedSubview(createPartybutton)
-        buttonFrame.addArrangedSubview(noticePagebutton)
+        view.addSubview(noticePagebutton)
+//        view.addSubview(buttonFrame)
+//        buttonFrame.addArrangedSubview(createPartybutton)
+//        buttonFrame.addArrangedSubview(noticePagebutton)
 //        buttonFrame.addArrangedSubview(emptyViewForButton)
-        view.addSubview(searchOptionLabel)
+//        view.addSubview(searchOptionLabel)
         
         
         
-        //        optionFrame.addArrangedSubview(emptyViewForOption)
-        view.addSubview(listTitleLabel)
-        view.addSubview(searchOptionButton)
+        //        optionFrame.addArrangedSubview(emptyViewForOption
+        
         view.addSubview(listUnderline)
         view.addSubview(optionFrame)
-        optionFrame.addSubview(timeOptionLable1)
+//        optionFrame.addSubview(searchOptionButton)
         optionFrame.addSubview(tierOptionLable1)
         optionFrame.addSubview(positionOptionLable1)
         view.addSubview(contentView)
         contentView.addSubview(patryListTable)
+        view.addSubview(createPartybutton)
         //        contentView.addSubview(patryListTable)
         
         pageTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(10)
             //            $0.leading.equalToSuperview().offset(25)
-            $0.centerX.equalTo(view)
+            $0.leading.equalTo(view.snp.leading).offset(20)
         }
         
         // 버튼 스택 프레임
-        buttonFrame.snp.makeConstraints {
-            $0.top.equalTo(pageTitleLabel.snp.bottom).offset(35)
-            $0.height.equalTo(50)
-            $0.leading.equalToSuperview().offset(30)
-            $0.trailing.equalToSuperview().offset(-30)
-            //            $0.height.equalTo(40)
-        }
+//        buttonFrame.snp.makeConstraints {
+//            $0.top.equalTo(pageTitleLabel.snp.bottom).offset(35)
+//            $0.height.equalTo(50)
+//            $0.leading.equalToSuperview().offset(30)
+//            $0.trailing.equalToSuperview().offset(-30)
+//            //            $0.height.equalTo(40)
+//        }
         
-        createPartybutton.snp.makeConstraints {
-            //            $0.top.equalTo(buttonFrame.snp.top).offset(10)
-            //            $0.leading.equalTo(buttonFrame.snp.leading).offset(15)
-            $0.height.equalTo(50)
-            $0.width.equalTo(70)
-        }
+        
         
         noticePagebutton.snp.makeConstraints {
-            //            $0.top.equalTo(buttonFrame.snp.top).offset(10)
-            $0.leading.equalTo(createPartybutton.snp.trailing).offset(15)
-            $0.trailing.equalTo(buttonFrame.snp.leading).offset(-10)
-            $0.height.equalTo(50)
-            $0.width.equalTo(70)
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(12)
+//            $0.leading.equalTo(createPartybutton.snp.trailing).offset(15)
+            $0.trailing.equalToSuperview().offset(-20)
+            $0.height.equalTo(24)
+            $0.width.equalTo(24)
         }
         
 //        emptyViewForButton.snp.makeConstraints {
@@ -267,67 +284,65 @@ class MainViewController: UIViewController {
 //            $0.width.equalTo(25)
 //        }
         
-        listTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(buttonFrame.snp.bottom).offset(30)
-            $0.leading.equalToSuperview().offset(15)
+        
+        
+        createPartybutton.snp.makeConstraints {
+            $0.bottom.equalToSuperview().offset(-120)
+                        $0.trailing.equalToSuperview().offset(-35)
+            $0.height.equalTo(60)
+            $0.width.equalTo(60)
         }
         
-        searchOptionButton.snp.makeConstraints{
-            $0.top.equalTo(buttonFrame.snp.bottom).offset(29)
-            $0.leading.equalTo(listTitleLabel.snp.trailing).offset(10)
-            $0.height.equalTo(28)
-            $0.width.equalTo(28)
-        }
+       
         
-        listUnderline.snp.makeConstraints {
-            $0.top.equalTo(listTitleLabel.snp.bottom).offset(4)
-            $0.height.equalTo(2)
-            $0.leading.equalTo(view.snp.leading).offset(18)
-            $0.trailing.equalTo(view.snp.trailing).offset(-18)
-        }
+//        listUnderline.snp.makeConstraints {
+//            $0.top.equalTo(listTitleLabel.snp.bottom).offset(4)
+//            $0.height.equalTo(2)
+//            $0.leading.equalTo(view.snp.leading).offset(18)
+//            $0.trailing.equalTo(view.snp.trailing).offset(-18)
+//        }
         
         optionFrame.snp.makeConstraints {
-            $0.top.equalTo(listUnderline.snp.bottom).offset(5)
+            $0.top.equalTo(pageTitleLabel.snp.bottom).offset(15)
             $0.height.equalTo(30)
-            $0.leading.equalToSuperview().offset(15)
+            $0.leading.equalToSuperview().offset(10)
             $0.trailing.equalToSuperview().offset(-15)
             //            $0.height.equalTo(40)
         }
         
-        timeOptionLable1.snp.makeConstraints {
-            $0.top.equalTo(optionFrame.snp.top).offset(5)
-            $0.leading.equalTo(optionFrame.snp.leading).offset(9)
-            $0.height.equalTo(22)
-            $0.width.equalTo(70)
-        }
+//        searchOptionButton.snp.makeConstraints{
+//            $0.top.equalTo(optionFrame.snp.top).offset(4)
+//            $0.leading.equalTo(optionFrame.snp.leading).offset(8)
+//            $0.height.equalTo(28)
+//            $0.width.equalTo(28)
+//        }
         
         tierOptionLable1.snp.makeConstraints {
             $0.top.equalTo(optionFrame.snp.top).offset(5)
-            $0.leading.equalTo(timeOptionLable1.snp.trailing).offset(9)
-            $0.height.equalTo(22)
-            $0.width.equalTo(70)
+            $0.leading.equalTo(optionFrame.snp.leading).offset(10)
+            $0.height.equalTo(29)
+            $0.width.equalTo(76)
         }
         
         positionOptionLable1.snp.makeConstraints {
             $0.top.equalTo(optionFrame.snp.top).offset(5)
-            $0.leading.equalTo(tierOptionLable1.snp.trailing).offset(9)
-            $0.height.equalTo(22)
-            $0.width.equalTo(70)
+            $0.leading.equalTo(tierOptionLable1.snp.trailing).offset(12)
+            $0.height.equalTo(30)
+            $0.width.equalTo(100)
         }
         
         
         contentView.snp.makeConstraints {
             $0.top.equalTo(optionFrame.snp.bottom).offset(10)
             $0.bottom.equalTo(view.snp.bottom).offset(-45)
-            $0.leading.equalToSuperview().offset(5)
-            $0.trailing.equalToSuperview().offset(-5)
-            //            $0.height.equalTo(40)
+            $0.leading.equalToSuperview().offset(0)
+            $0.trailing.equalToSuperview().offset(-0)
         }
         
         patryListTable.snp.makeConstraints {
             $0.top.equalTo(contentView.snp.top).offset(5)
-            $0.leading.equalTo(contentView.snp.leading).offset(5)
-            $0.trailing.equalTo(contentView.snp.trailing).offset(-5)
+            $0.leading.equalTo(contentView.snp.leading).offset(0)
+            $0.trailing.equalTo(contentView.snp.trailing).offset(-0)
             $0.bottom.equalTo(contentView.snp.bottom).offset(-5)
         }
     }
@@ -342,14 +357,13 @@ class MainViewController: UIViewController {
 extension MainViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        
         setupButton()
         
         configureUI()
         
         patryListTable.register(PartyTableViewCell.self, forCellReuseIdentifier: "PartyTableViewCell")
-        
-        
+//        self.navigationController?.navigationBar.isHidden = true;
         patryListTable.delegate = self
         patryListTable.dataSource = self
         
@@ -365,7 +379,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PartyTableViewCell", for: indexPath) as! PartyTableViewCell
         cell.partyTitleLabel.text = partyTitle[indexPath.row]
         cell.partyInfoLabel.text = partyInfo[indexPath.row]
-        cell.partyTimeLabel.text = partyTime[indexPath.row]
         cell.partyTierLabel.text = partyTier[indexPath.row]
         cell.partyPositionLabel.text = partyPosition[indexPath.row]
        
@@ -392,7 +405,7 @@ class PartyTableViewCell: UITableViewCell {
     
     let cellFrameView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.RGRGColor5
+        view.backgroundColor = .white
         view.layer.cornerRadius = 10
         return view
     }()
@@ -404,7 +417,9 @@ class PartyTableViewCell: UITableViewCell {
         }
         imageView.backgroundColor = .white
         imageView.contentMode = .scaleAspectFit
-        imageView.layer.cornerRadius = 30
+        imageView.layer.cornerRadius = 32
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = UIColor.black.cgColor
         imageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         return imageView
     }()
@@ -414,7 +429,7 @@ class PartyTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 15, weight: .bold)
-        label.textColor = .white
+        label.textColor = .black
         label.font = UIFont.boldSystemFont(ofSize: 15)
         return label
     }()
@@ -422,25 +437,15 @@ class PartyTableViewCell: UITableViewCell {
     let partyInfoLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .lightGray
+        label.textColor = .black
         label.font = UIFont.boldSystemFont(ofSize: 12)
-        return label
-    }()
-    
-    let partyTimeLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .lightGray
-        label.font = UIFont.boldSystemFont(ofSize: 12)
-//        label.backgroundColor = .black
-        label.layer.cornerRadius = 20
         return label
     }()
     
     let partyTierLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .lightGray
+        label.textColor = .black
         label.font = UIFont.boldSystemFont(ofSize: 12)
 //        label.backgroundColor = .black
         label.layer.cornerRadius = 20
@@ -450,37 +455,81 @@ class PartyTableViewCell: UITableViewCell {
     let partyPositionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .lightGray
+        label.textColor = .black
         label.font = UIFont.boldSystemFont(ofSize: 12)
 //        label.backgroundColor = .black
         label.layer.cornerRadius = 20
         return label
     }()
     
+    let favoriteChampImageFirstOne: UIImageView = {
+        var imageView = UIImageView()
+        if let image = UIImage(named: "profileImageIcon") {
+            imageView.image = image
+        }
+        imageView.backgroundColor = .white
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.cornerRadius = 17
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = UIColor.black.cgColor
+        imageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        return imageView
+    }()
+    
+    let favoriteChampImageSecondOne: UIImageView = {
+        var imageView = UIImageView()
+        if let image = UIImage(named: "profileImageIcon") {
+            imageView.image = image
+        }
+        imageView.backgroundColor = .white
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.cornerRadius = 17
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = UIColor.black.cgColor
+        imageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        return imageView
+    }()
+    
+    let favoriteChampImageThirdOne: UIImageView = {
+        var imageView = UIImageView()
+        if let image = UIImage(named: "profileImageIcon") {
+            imageView.image = image
+        }
+        imageView.backgroundColor = .white
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.cornerRadius = 17
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = UIColor.black.cgColor
+        imageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        return imageView
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.backgroundColor = .black
+        contentView.backgroundColor = .systemGray6
         
         contentView.addSubview(cellFrameView)
         cellFrameView.addSubview(profileImage)
         cellFrameView.addSubview(partyTitleLabel)
         cellFrameView.addSubview(partyInfoLabel)
-        cellFrameView.addSubview(partyTimeLabel)
         cellFrameView.addSubview(partyTierLabel)
         cellFrameView.addSubview(partyPositionLabel)
+        cellFrameView.addSubview(favoriteChampImageFirstOne)
+        cellFrameView.addSubview(favoriteChampImageSecondOne)
+        cellFrameView.addSubview(favoriteChampImageThirdOne)
         
         
         cellFrameView.snp.makeConstraints{
-            $0.top.equalTo(contentView.snp.top).offset(5)
-            $0.leading.equalTo(contentView.snp.leading).offset(5)
-            $0.trailing.equalTo(contentView.snp.trailing).offset(-5)
-            $0.bottom.equalTo(contentView.snp.bottom).offset(-5)
+            $0.top.equalTo(contentView.snp.top).offset(10)
+            $0.leading.equalTo(contentView.snp.leading).offset(16)
+            $0.trailing.equalTo(contentView.snp.trailing).offset(-16)
+            $0.bottom.equalTo(contentView.snp.bottom).offset(-10)
         }
         
         profileImage.snp.makeConstraints{
             $0.top.equalTo(cellFrameView.snp.top).offset(10)
-            $0.leading.equalTo(cellFrameView.snp.leading).offset(10)
+            $0.leading.equalTo(cellFrameView.snp.leading).offset(15)
             $0.bottom.equalTo(cellFrameView.snp.bottom).offset(-10)
         }
         
@@ -494,15 +543,9 @@ class PartyTableViewCell: UITableViewCell {
             $0.leading.equalTo(profileImage.snp.trailing).offset(15)
         }
         
-        partyTimeLabel.snp.makeConstraints {
-            $0.top.equalTo(partyInfoLabel.snp.bottom).offset(7)
-            $0.leading.equalTo(profileImage.snp.trailing).offset(15)
-            $0.bottom.lessThanOrEqualTo(cellFrameView.snp.bottom).offset(-10)
-        }
-        
         partyTierLabel.snp.makeConstraints {
             $0.top.equalTo(partyInfoLabel.snp.bottom).offset(7)
-            $0.leading.equalTo(partyTimeLabel.snp.trailing).offset(10)
+            $0.leading.equalTo(profileImage.snp.trailing).offset(15)
             $0.bottom.lessThanOrEqualTo(cellFrameView.snp.bottom).offset(-10)
         }
         
@@ -511,6 +554,28 @@ class PartyTableViewCell: UITableViewCell {
             $0.leading.equalTo(partyTierLabel.snp.trailing).offset(10)
             $0.bottom.lessThanOrEqualTo(cellFrameView.snp.bottom).offset(-10)
         }
+        
+        favoriteChampImageFirstOne.snp.makeConstraints {
+            $0.top.equalTo(cellFrameView.snp.top).offset(15)
+            $0.trailing.equalTo(favoriteChampImageSecondOne.snp.leading).offset(-3)
+            $0.height.width.equalTo(35)
+//            $0.bottom.lessThanOrEqualTo(cellFrameView.snp.bottom).offset(-10)
+        }
+        
+        favoriteChampImageSecondOne.snp.makeConstraints {
+            $0.top.equalTo(cellFrameView.snp.top).offset(15)
+            $0.trailing.equalTo(favoriteChampImageThirdOne.snp.leading).offset(-3)
+            $0.height.width.equalTo(35)
+//            $0.bottom.lessThanOrEqualTo(cellFrameView.snp.bottom).offset(-10)
+        }
+        
+        favoriteChampImageThirdOne.snp.makeConstraints {
+            $0.top.equalTo(cellFrameView.snp.top).offset(15)
+            $0.trailing.equalTo(cellFrameView.snp.trailing).offset(-15)
+            $0.height.width.equalTo(35)
+//            $0.bottom.lessThanOrEqualTo(cellFrameView.snp.bottom).offset(-10)
+        }
+        
     }
     
     required init?(coder: NSCoder) {
