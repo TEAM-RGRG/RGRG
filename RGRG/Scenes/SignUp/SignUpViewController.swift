@@ -44,30 +44,30 @@ class SignUpViewController: UIViewController {
     
     
     let emailLine = {
-        let line = CustomMemberInfoBox(id:"Email",infoText: "Email 형식 확인",placeHolder: "Email", condition:"^[A-Za-z0-9+_.-]+@(.+)$")
+        let line = CustomMemberInfoBox(id:.email,conditionText: "Email 형식 확인",passText: "사용가능 한 email입니다.",placeHolder: "Email", condition:"^[A-Za-z0-9+_.-]+@(.+)$")
         return line
     }()
     
     let passwordLine = {
-        let line = CustomMemberInfoBox(id:"PW",infoText: "영문 숫자 7자 이상",placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$")
+        let line = CustomMemberInfoBox(id:.pw,conditionText: "영문 숫자 7자 이상",placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$")
         line.inputBox.isSecureTextEntry = true
         return line
     }()
     
     
     let passwordCheckLine = {
-        let line = CustomMemberInfoBox(id:"PWcheck",infoText: "다시 확인해주세요", placeHolder: "Password Check", condition:"")
+        let line = CustomMemberInfoBox(id:.pwCheck,conditionText: "다시 확인해주세요", placeHolder: "Password Check", condition:"")
         line.inputBox.isSecureTextEntry = true
         return line
     }()
     
     let nickNameLine = {
-        let line = CustomMemberInfoBox(id:"nickName",infoText: "영문 숫자 한글 2자 이상",placeHolder: "닉네임", condition:"^[a-zA-Z0-9가-힣]{2,}$")
+        let line = CustomMemberInfoBox(id:.userName,conditionText: "영문 숫자 한글 2자 이상",passText:"사용가능한 닉네임입니다.",placeHolder: "닉네임", condition:"^[a-zA-Z0-9가-힣]{2,}$")
         return line
     }()
     
     let positionLine = {
-        let line = CustomMemberInfoBox(id:"nickName",infoText: "영문 숫자 한글 2자 이상",placeHolder: "Position", condition:"^[a-zA-Z0-9가-힣]{2,}$")
+        let line = CustomMemberInfoBox(id:.userName,conditionText: "영문 숫자 한글 2자 이상",placeHolder: "Position", condition:"^[a-zA-Z0-9가-힣]{2,}$")
         return line
     }()
     
@@ -111,32 +111,20 @@ extension SignUpViewController {
             }
             
             if let result = result {
-                print("User created: \(result.user.uid)")
-
-                // Firebase Firestore에 사용자 추가
+                print(result)
+                
                 let db = Firestore.firestore()
-
-                // "users" 컬렉션에서 저장된 문서 수를 확인하여 다음 순서 값을 생성
-                db.collection("users").getDocuments { (querySnapshot, error) in
+                let userUID = db.collection("users").document(result.user.uid)
+                
+                userUID.setData([
+                    "email": email,
+                    "password": password,
+                    "userName": userName
+                ]) { error in
                     if let error = error {
-                        print("Error getting documents: \(error)")
+                        print("Error saving user data: \(error.localizedDescription)")
                     } else {
-                        let nextOrder = querySnapshot?.documents.count ?? 0
-
-                        // "users" 컬렉션에 새 문서 추가
-                        db.collection("users").document(result.user.uid).setData([
-                            "userID": nextOrder,
-                            "email": email,
-                            "password": password,
-                            "userName": userName
-                            // 기타 사용자 정보 필드 추가
-                        ]) { error in
-                            if let error = error {
-                                print("Error adding user document: \(error)")
-                            } else {
-                                print("User document added with ID: \(result.user.uid)")
-                            }
-                        }
+                        print("User data saved successfully.")
                     }
                 }
             }
