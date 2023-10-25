@@ -94,22 +94,40 @@ class CustomMemberInfoBox : UIView {
     //MARK: Method
     @objc func checkInputValue() {
         let inputText = inputBox.text ?? ""
-        let cellID = self.cellID
+        var cellID = self.cellID
         //유효성검사 [1]
         let validationCheck = isValid(text: inputText, condition: conditon)
         
         //유효성 검사값이 true이면 passHandler로 값을 저장 [3]
-        func updateUIvalid(validation: Bool = validationCheck, passView: UIView, nonPassView:UIView? = nil) {
+        func updateUIvalid(validation: Bool = validationCheck, passView: UIView, nonPassView:UIView? = nil, duplicationLabel: UIView? = nil) {
             if inputText.isEmpty {
                 conditionText.isHidden = true
                 passView.isHidden = true
             }else if validation {
-                //pass하면
-                passView.isHidden = false
-                nonPassView?.isHidden = true
-                passHandler?(true)
-                
+                //pass
+                switch cellID {
+                case .email:
+                    print("중복확인이 필요해")
+                    // 중복확인 로직 추가 .. !
+                case .userName:
+                    print("중복확인이 필요해")
+                    duplicationCheckUserName { [self] completion in
+                        if completion == true {
+                            passView.isHidden = false
+                            nonPassView?.isHidden = true
+                        } else if completion == false {
+                            //중복값이 있다면
+                            passView.isHidden = true
+                            nonPassView?.isHidden = false
+                            print("completion == false", completion)
+                        }
+                    }                default :
+                    passView.isHidden = false
+                    nonPassView?.isHidden = true
+                    passHandler?(true)
+                }
             } else {
+                //nonPass
                 passView.isHidden = true
                 nonPassView?.isHidden = false
             }
@@ -138,13 +156,7 @@ class CustomMemberInfoBox : UIView {
         case .userName:
             //중복확인을 통과하고 나서 보여주기.
             //[Bug]중복된 닉네임이 있다는걸 왜 잡아내지 못할까🔥
-            duplicationCheckUserName { [self] completion in
-                if !completion {
-                    self.conditionText.text = "사용중인 닉네임"
-                } else {
-                    updateUIvalid(passView: passMessage, nonPassView: self.conditionText)
-                }
-            }
+            updateUIvalid(passView: passMessage, nonPassView: self.conditionText)
         }
     }
     
@@ -198,7 +210,7 @@ class CustomMemberInfoBox : UIView {
                         print("중복된 닉네임 이미 존재합니다.")
                         completion(false) // 중복된 이메일이 있는 경우 false 반환
                     } else {
-                        print("중복된 닉네임이 없습니다. 사용 가능한 이메일입니다.")
+                        print("중복된 닉네임이 없습니다. 사용 가능한 닉네임입니다.")
                         completion(true) // 중복된 이메일이 없는 경우
                     }
                 } else {
