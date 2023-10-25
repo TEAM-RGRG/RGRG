@@ -5,12 +5,11 @@
 //  Created by (^ㅗ^)7 iMac on 2023/10/11.
 //
 
+import FirebaseAuth
 import SnapKit
 import UIKit
 
 class EditProfileViewController: UIViewController {
-    let sampleUserName = "sampleUser"
-
     let profileImage: UIImageView = {
         let imageView = UIImageView()
         imageView.frame = CGRect(x: 0, y: 0, width: 165, height: 165)
@@ -63,9 +62,7 @@ extension EditProfileViewController {
         noticeLabel.setupLabelColor(color: .red)
     }
 
-    func setupUserNameTextField() {
-        userNameTextField.text = sampleUserName
-    }
+    func setupUserNameTextField() {}
 
     func configureUI() {
         setupLabel()

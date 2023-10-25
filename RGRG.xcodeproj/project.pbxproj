@@ -38,6 +38,9 @@
 		1DB94CDA2AE61B4D00851A18 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 1DB94CD92AE61B4D00851A18 /* FirebaseStorage */; };
 		1DB94CDC2AE61B4D00851A18 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 1DB94CDB2AE61B4D00851A18 /* FirebaseStorageCombine-Community */; };
 		1DB94CDE2AE760AB00851A18 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB94CDD2AE760AB00851A18 /* StorageManager.swift */; };
+		1DB94CE02AE8024000851A18 /* FirebaseUserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB94CDF2AE8024000851A18 /* FirebaseUserManager.swift */; };
+		1DB94CE22AE912DD00851A18 /* NotoSansKR-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1DB94CE12AE912DD00851A18 /* NotoSansKR-VariableFont_wght.ttf */; };
+		1DB94CE42AE919E000851A18 /* CustomFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB94CE32AE919DF00851A18 /* CustomFont.swift */; };
 		4E1264BE2ADF6E2700A4E602 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1264BD2ADF6E2700A4E602 /* CustomTextField.swift */; };
 		4E562AB32AE79BCB00E9A916 /* CustomBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E562AB22AE79BCB00E9A916 /* CustomBackButton.swift */; };
 		4E8195EA2ADD299000881C88 /* CustomTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8195E92ADD299000881C88 /* CustomTableView.swift */; };
@@ -109,6 +112,9 @@
 		1DB9391A2AE24A8700BD4F41 /* ProfileSettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSettingCell.swift; sourceTree = "<group>"; };
 		1DB9391E2AE24AB300BD4F41 /* SettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 		1DB94CDD2AE760AB00851A18 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		1DB94CDF2AE8024000851A18 /* FirebaseUserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUserManager.swift; sourceTree = "<group>"; };
+		1DB94CE12AE912DD00851A18 /* NotoSansKR-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-VariableFont_wght.ttf"; sourceTree = "<group>"; };
+		1DB94CE32AE919DF00851A18 /* CustomFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFont.swift; sourceTree = "<group>"; };
 		4E1264BD2ADF6E2700A4E602 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		4E562AB22AE79BCB00E9A916 /* CustomBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBackButton.swift; sourceTree = "<group>"; };
 		4E8195E92ADD299000881C88 /* CustomTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableView.swift; sourceTree = "<group>"; };
@@ -266,6 +272,7 @@
 		4E8B84D52AD81184009BCF4B /* RGRG */ = {
 			isa = PBXGroup;
 			children = (
+				1DB94CE12AE912DD00851A18 /* NotoSansKR-VariableFont_wght.ttf */,
 				4E8B84DF2AD81187009BCF4B /* Assets.xcassets */,
 				4E8B84E42AD81187009BCF4B /* Info.plist */,
 				4EC170CB2ADFB1FC0049B23D /* GoogleService-Info.plist */,
@@ -287,6 +294,7 @@
 				96F690642AE20DA200667F35 /* UIcolor+CALayer.swift */,
 				4E8B85362AD81416009BCF4B /* Utilie.swift */,
 				4E8B84E12AD81187009BCF4B /* LaunchScreen.storyboard */,
+				1DB94CE32AE919DF00851A18 /* CustomFont.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -322,6 +330,7 @@
 				4E8B84F12AD8120D009BCF4B /* ChatInfo.swift */,
 				4EF3A7152AE6510C00A1D32D /* FireStoreManager.swift */,
 				1DB94CDD2AE760AB00851A18 /* StorageManager.swift */,
+				1DB94CDF2AE8024000851A18 /* FirebaseUserManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -600,6 +609,7 @@
 			files = (
 				4E8B84E32AD81187009BCF4B /* LaunchScreen.storyboard in Resources */,
 				4E8B84E02AD81187009BCF4B /* Assets.xcassets in Resources */,
+				1DB94CE22AE912DD00851A18 /* NotoSansKR-VariableFont_wght.ttf in Resources */,
 				4EC170CC2ADFB1FC0049B23D /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -640,10 +650,12 @@
 				4E8B85352AD81411009BCF4B /* Extension.swift in Sources */,
 				1DB9391F2AE24AB300BD4F41 /* SettingCell.swift in Sources */,
 				96A7B3FA2AD9365D00B218EB /* CtaLageButton.swift in Sources */,
+				1DB94CE42AE919E000851A18 /* CustomFont.swift in Sources */,
 				4E8B851F2AD8120E009BCF4B /* LoginViewController.swift in Sources */,
 				4E8B85172AD8120E009BCF4B /* SignUpViewController.swift in Sources */,
 				4EF3A7182AE6511100A1D32D /* Channel.swift in Sources */,
 				4E1264BE2ADF6E2700A4E602 /* CustomTextField.swift in Sources */,
+				1DB94CE02AE8024000851A18 /* FirebaseUserManager.swift in Sources */,
 				4E8195F22ADD428A00881C88 /* CustomStackView.swift in Sources */,
 				4E8195EA2ADD299000881C88 /* CustomTableView.swift in Sources */,
 				4E8B84D92AD81184009BCF4B /* SceneDelegate.swift in Sources */,

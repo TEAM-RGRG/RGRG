@@ -16,6 +16,8 @@ class ProfileViewController: UIViewController, ProfileCellDelegate {
         return tableView
     }()
 
+    var user: User?
+
     deinit {
         print("### NotificationViewController deinitialized")
     }
@@ -27,12 +29,20 @@ extension ProfileViewController {
         configureTable()
         configureUI()
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        FirebaseUserManager.shared.getUserInfo { user in
+            self.user = user
+            DispatchQueue.main.async {
+                self.profileTableView.reloadData()
+            }
+        }
+    }
 }
 
 extension ProfileViewController {
     func configureUI() {
         view.backgroundColor = .systemBackground
-
         configureProfileTable()
     }
 
@@ -66,6 +76,10 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.row == 0 {
             let cell = profileTableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
             cell.delegate = self
+
+            cell.profileEmailLabel.text = user?.email
+            cell.profileEmailLabel.font = .mySystemFont(ofSize: 16)
+            cell.profileUserNameLabel.text = user?.userName
             return cell
         } else {
             let cell = profileTableView.dequeueReusableCell(withIdentifier: "ProfileSettingCell", for: indexPath) as! ProfileSettingCell

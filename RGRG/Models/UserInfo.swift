@@ -8,13 +8,10 @@
 import Foundation
 
 struct User {
-    let userID: Int
     let email: String
-    let password: String
     let userName: String
     let tier: String
     let position: String
     let profilePhoto: String = "Default"
     let mostChampion: [String] = []
 }
-
