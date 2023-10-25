@@ -10,7 +10,7 @@ import FirebaseFirestore
 
 struct ChatInfo {
     var sender: String
-    var date: Timestamp
+    var date: String
     var read: Bool
     var content: String
 }
