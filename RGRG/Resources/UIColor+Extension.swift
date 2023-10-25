@@ -7,6 +7,7 @@
 
 import UIKit
 
+// 앱컬러 수정 (10.23)
 extension UIColor {
     /// RGRGrColor1 - (151, 223, 252, 100%)
     class var RGRGColor1: UIColor? { return UIColor(named: "RGRGColor1") }
@@ -16,6 +17,4 @@ extension UIColor {
     class var RGRGColor3: UIColor? { return UIColor(named: "RGRGColor3") }
     /// RGRGrColor4 - (78, 20, 140, 100%)
     class var RGRGColor4: UIColor? { return UIColor(named: "RGRGColor4") }
-    /// RGRGrColor5 - (44, 7, 53, 100%)
-    class var RGRGColor5: UIColor? { return UIColor(named: "RGRGColor5") }
 }
