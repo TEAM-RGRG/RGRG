@@ -10,7 +10,7 @@ import FirebaseCore
 import SnapKit
 import UIKit
 
-enum MemberInfoBox: String{
+enum MemberInfoBox: String {
     case loginEmail
     case loginPW
     case email
@@ -44,14 +44,13 @@ class LoginViewController: UIViewController {
         return view
     }()
         
-    
     let emailLine = {
-        let line = CustomMemberInfoBox(id:.loginEmail, placeHolder: "Email", condition:"^[A-Za-z0-9+_.-]+@(.+)$", cellHeight:70, style:"Login")
+        let line = CustomMemberInfoBox(id: .loginEmail, placeHolder: "Email", condition: "^[A-Za-z0-9+_.-]+@(.+)$", cellHeight: 70, style: "Login")
         return line
     }()
     
     let passwordLine = {
-        let line = CustomMemberInfoBox( id:.loginPW,placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$", cellHeight:70, style:"Login")
+        let line = CustomMemberInfoBox(id: .loginPW, placeHolder: "Password", condition: "^[a-zA-Z0-9]{7,}$", cellHeight: 70, style: "Login")
 //        line.inputBox.isSecureTextEntry = true
         return line
     }()
@@ -75,7 +74,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        emailLine.inputBox.text = "testuser1@naver.com"
+        emailLine.inputBox.text = "testuser3@naver.com"
         passwordLine.inputBox.text = "123123123"
         
         view.backgroundColor = UIColor(hex: "#0B356A")

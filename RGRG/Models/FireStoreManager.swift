@@ -19,6 +19,7 @@ final class FireStoreManager {
             .whereField("users", arrayContains: filter)
             .addSnapshotListener { (querySnapshot, error) in
                 var channels: [Channel] = []
+
                 if let e = error {
                     print("There was an issue retrieving data from Firestore. \(e)")
                 } else {
@@ -27,8 +28,9 @@ final class FireStoreManager {
                         for doc in snapshotDocument {
                             let data = doc.data()
                             let thread = doc.documentID
-                            if let writer = data["writer"] as? String, let channelTitle = data["channelTitle"] as? String, let requester = data["requester"] as? String, let channelID = data["channelID"] as? String {
-                                let channel = Channel(channelName: channelTitle, requester: requester, writer: writer, channelID: thread)
+
+                            if let writer = data["writer"] as? String, let channelTitle = data["channelTitle"] as? String, let requester = data["requester"] as? String, let channelID = data["channelID"] as? String, let currentMessage = data["currentMessage"] as? String{
+                                let channel = Channel(channelName: channelTitle, requester: requester, writer: writer, channelID: thread, currentMessage: currentMessage)
                                 channels.append(channel)
                             }
                         }
@@ -41,10 +43,8 @@ final class FireStoreManager {
     func loadChatting(channelName: String, thread: String, startIndex: Int, completion: @escaping ([ChatInfo]) -> Void) {
         FireStoreManager.db.collection("channels/\(thread)/thread")
             .order(by: "date", descending: false)
-
             .addSnapshotListener { (querySnapshot, error) in
                 var messages: [ChatInfo] = []
-                print("&&& FireStoreIndex::: \(startIndex)")
                 if let e = error {
                     print("There was an issue retrieving data from Firestore. \(e)")
 
@@ -52,12 +52,10 @@ final class FireStoreManager {
                     if let snapshotDocument = querySnapshot?.documents {
                         for doc in snapshotDocument {
                             let data = doc.data()
-                            print("&&& \(data)")
 
                             if let date = data["date"] as? String, let read = data["read"] as? Bool, let content = data["content"] as? String, let sender = data["sender"] as? String {
                                 let item = ChatInfo(sender: sender, date: date, read: read, content: content)
                                 messages.append(item)
-                                print("### messages:::: \(messages)")
                             }
                         }
                         completion(messages)
@@ -75,13 +73,14 @@ final class FireStoreManager {
                 "channelTitle": channelTitle,
                 "requester": requester,
                 "writer": writer,
-                "users": users
+                "users": users,
+                "currentMessage": ""
             ]) { (error) in
                 if let e = error {
                     print("There was an issue saving data to firestore, \(e)")
                 } else {
                     print("Successfully saved data.")
-                    let channel = Channel(channelName: channelTitle, requester: requester, writer: writer, channelID: channelID)
+                    let channel = Channel(channelName: channelTitle, requester: requester, writer: writer, channelID: channelID, currentMessage: "")
                     completion(channel)
                 }
             }
@@ -101,8 +100,31 @@ final class FireStoreManager {
                 } else {
                     print("Successfully saved data.")
                     let chat = ChatInfo(sender: sender, date: date, read: read, content: content)
+
                     completion(chat)
                 }
+            }
+    }
+
+    func updateChannel(currentMessage: String) {
+        let path = FireStoreManager.db.collection("channels")
+        FireStoreManager.db.collection("channels")
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("### \(error)")
+                } else {
+                    if let snapshowDocument = querySnapshot?.documents {
+                        for doc in snapshowDocument {
+                            let data = doc.data()
+                            let docID = doc.documentID
+                            
+                            guard let item = data["currentMessage"] as? String else { return }
+                            
+                            path.document(docID).updateData(["currentMessage": currentMessage])
+                        }
+                    }
+                }
+                
             }
     }
 
@@ -135,7 +157,7 @@ final class FireStoreManager {
 extension FireStoreManager {
     func dateFormatter(value: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm:ss"
+        formatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
         let result = formatter.string(from: value)
         return result
     }

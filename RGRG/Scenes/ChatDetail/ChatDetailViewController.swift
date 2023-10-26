@@ -30,6 +30,8 @@ class ChatDetailViewController: UIViewController {
     var count = 1
 
     var currentUserEmail = ""
+    var currentMessageHandler: ((String) -> Void)?
+
     deinit {
         print("### ChatDetailViewController deinitialized")
     }
@@ -38,8 +40,6 @@ class ChatDetailViewController: UIViewController {
 extension ChatDetailViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        navigationItem.title = thread
         if let user = Auth.auth().currentUser {
             print("### User Info: \(user.email)")
             currentUserEmail = user.email ?? "n/a"
@@ -49,25 +49,27 @@ extension ChatDetailViewController {
 
         FireStoreManager.shared.updateReadChat(thread: thread, currentUser: currentUserEmail)
 
-        FireStoreManager.shared.loadChatting(channelName: "channels", thread: thread, startIndex: count) { [weak self] data in
-            guard let self = self else { return }
-            self.chats = data
-
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-                let endexIndex = IndexPath(row: self.chats.count - 1, section: 0)
-                self.tableView.scrollToRow(at: endexIndex, at: .bottom, animated: true)
-            }
-        }
-
         setupUI()
     }
 
-    override func viewWillAppear(_ animated: Bool) {}
+    override func viewWillAppear(_ animated: Bool) {
+        FireStoreManager.shared.loadChatting(channelName: "channels", thread: thread, startIndex: count) { [weak self] data in
+            guard let self = self else { return }
+            self.chats = data
+            self.currentMessageHandler?(chats.last?.content ?? "n/a")
 
-//    override func viewDidAppear(_ animated: Bool) {
-//        chats = []
-//    }
+            FireStoreManager.shared.updateChannel(currentMessage: self.chats.last?.content ?? "n/a")
+            print("^^^ \(self.chats.last?.content)")
+
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                if self.chats.isEmpty != true {
+                    let endexIndex = IndexPath(row: self.chats.count - 1, section: 0)
+                    self.tableView.scrollToRow(at: endexIndex, at: .bottom, animated: true)
+                }
+            }
+        }
+    }
 }
 
 // MARK: - SetUp UI

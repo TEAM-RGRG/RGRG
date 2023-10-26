@@ -12,11 +12,13 @@ import SnapKit
 import UIKit
 
 class ChatListViewController: UIViewController {
+    let vc = ChatDetailViewController()
     let tableView = CustomTableView(frame: .zero, style: .plain)
     let rightBarButtonItem = CustomBarButton()
 
     let db = FireStoreManager.db
     var channels: [Channel] = []
+
     var currentUserEmail = ""
 
     deinit {
@@ -27,6 +29,7 @@ class ChatListViewController: UIViewController {
 extension ChatListViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+
         setupUI()
         if let currentUser = Auth.auth().currentUser {
             currentUserEmail = currentUser.email ?? "n/a"
@@ -39,10 +42,10 @@ extension ChatListViewController {
     override func viewWillAppear(_ animated: Bool) {
         FireStoreManager.shared.loadChannels(collectionName: "channels", writerName: currentUserEmail, filter: currentUserEmail) { channel in
             self.channels = channel
+
             self.channels = self.removeDuplication(in: self.channels)
 
             DispatchQueue.main.async {
-                print("### \(self.channels)")
                 self.tableView.reloadData()
             }
         }
@@ -96,6 +99,10 @@ extension ChatListViewController {
                 print("### 성공적으로 저장됨.")
                 self.channels.append(channel)
             }
+
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
             print("### 최신순으로 정렬하기 알파입니다.")
         }
 
@@ -123,7 +130,9 @@ extension ChatListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatListCell.identifier, for: indexPath) as? ChatListCell else { return UITableViewCell() }
         let item = channels[indexPath.row]
-        cell.chatDescriptionLabel.text = item.writer
+
+        cell.chatDescriptionLabel.text = item.currentMessage
+
         if item.requester == currentUserEmail {
             cell.profileNameLabel.text = item.writer
         } else {
@@ -140,8 +149,8 @@ extension ChatListViewController: UITableViewDataSource {
 extension ChatListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = channels[indexPath.row]
-        let vc = ChatDetailViewController()
         vc.thread = item.channelID
+        vc.navigationItem.title = item.requester
         tabBarController?.navigationController?.pushViewController(vc, animated: true)
     }
 
