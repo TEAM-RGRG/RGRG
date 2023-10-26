@@ -72,12 +72,12 @@ class CustomMemberInfoBox : UIView {
         return text
     }()
     
-//    lazy var duplicationLabel = {
-//        let button = UIButton()
-//        button.isHidden = true
-//        return button
-//    }()
-//
+    //    lazy var duplicationLabel = {
+    //        let button = UIButton()
+    //        button.isHidden = true
+    //        return button
+    //    }()
+    //
     
     init(id:MemberInfoBox, conditionText:String? = nil, passText:String? = nil, placeHolder: String, condition: String, cellHeight:Int = 60 , style: String = "SignUp") {
         
@@ -120,7 +120,7 @@ class CustomMemberInfoBox : UIView {
                             nonPassView?.isHidden = true
                             passHandler?(true)
                         } else {
-                            //중복값이 있다면
+                            
                             passView.isHidden = true
                             duplicationMessage.isHidden = false
                             duplicationMessage.text = "사용중인 이메일"
@@ -135,7 +135,6 @@ class CustomMemberInfoBox : UIView {
                             nonPassView?.isHidden = true
                             passHandler?(true)
                         } else  {
-                            //중복값이 있다면
                             passView.isHidden = true
                             duplicationMessage.isHidden = false
                             duplicationMessage.text = "사용중인 닉네임"
@@ -320,9 +319,9 @@ class CustomMemberInfoBox : UIView {
             make.width.equalTo(20)
         }
         
-//        stackView.addArrangedSubview(duplicationLabel)
-//        duplicationLabel.setTitle("중복확인", for: .normal)
-//        duplicationLabel.backgroundColor = UIColor.blue
+        //        stackView.addArrangedSubview(duplicationLabel)
+        //        duplicationLabel.setTitle("중복확인", for: .normal)
+        //        duplicationLabel.backgroundColor = UIColor.blue
         //        duplicationLabel.addTarget(self, action: #selector(duplicationCheckEmail), for: .touchUpInside)
         
         stackView.addArrangedSubview(passMessage)
