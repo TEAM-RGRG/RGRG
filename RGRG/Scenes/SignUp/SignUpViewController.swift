@@ -115,11 +115,13 @@ extension SignUpViewController {
                 
                 let db = Firestore.firestore()
                 let userUID = db.collection("users").document(result.user.uid)
+                let documentID = userUID.documentID
                 
                 userUID.setData([
                     "email": email,
-                    "userName": userName
-                    //password 삭제
+                    "userName": userName,
+                    "userUID": documentID
+                    
                 ]) { error in
                     if let error = error {
                         print("Error saving user data: \(error.localizedDescription)")
