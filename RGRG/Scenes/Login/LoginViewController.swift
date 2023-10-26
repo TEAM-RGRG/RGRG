@@ -44,7 +44,7 @@ class LoginViewController: UIViewController {
         view.axis = .vertical
         return view
     }()
-        
+    
     
     let emailLine = {
         let line = CustomMemberInfoBox(id:.loginEmail, placeHolder: "Email", condition:"^[A-Za-z0-9+_.-]+@(.+)$", cellHeight:70, style:"Login")
@@ -53,7 +53,7 @@ class LoginViewController: UIViewController {
     
     let passwordLine = {
         let line = CustomMemberInfoBox( id:.loginPW,placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$", cellHeight:70, style:"Login")
-//        line.inputBox.isSecureTextEntry = true
+        //        line.inputBox.isSecureTextEntry = true
         return line
     }()
     
@@ -90,8 +90,8 @@ extension LoginViewController {
     }
     
     @objc func tapLogin(){
-      signInUser()
-
+        signInUser()
+        
     }
     
     func signInUser(){
@@ -99,16 +99,20 @@ extension LoginViewController {
         let password = passwordLine.inputBox.text ?? ""
         
         Auth.auth().signIn(withEmail: email, password: password) { [self] authResult, error in
-             if authResult == nil {
-                 print("로그인 실패")
-                 if let errorCode = error {
-                     print(errorCode)
-                 }
-             }else if authResult != nil {
-                 moveToMain()
-                 print("로그인 성공")
-             }
-         }
+            if authResult == nil {
+                
+                if self.loginIdPass && self.loginPwPass {
+                    showAlert(title: "로그인 실패", message: "일치하는 회원정보가 없습니다.")
+                }else {
+                    showAlert(title: "", message: "작성 형식을 확인해주세요")
+                }
+                if let errorCode = error {
+                    print(errorCode)
+                }
+            }else if authResult != nil {
+                moveToMain()
+            }
+        }
         
     }
     
@@ -118,21 +122,23 @@ extension LoginViewController {
     }
     
     func passValueCheck(){
-        func updateUI(){
-            guard self.loginIdPass && self.loginPwPass else {
-                return
-            }
-            loginButton.backgroundColor = UIColor.black
-        }
         emailLine.passHandler = { pass in
             self.loginIdPass = pass
-            updateUI()
+            print("loginIdPass", self.loginIdPass)
         }
         passwordLine.passHandler = { pass in
             self.loginPwPass = pass
-            updateUI()
+            print("loginPwPass", self.loginPwPass)
         }
+    }
+    
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
+        let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+        alertController.addAction(okAction)
+    
+        present(alertController, animated: true, completion: nil)
     }
     
     
@@ -212,7 +218,7 @@ extension LoginViewController {
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15),
             NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue
         ])
-
+        
         signupButton.setAttributedTitle(attributedTitle, for: .normal)
         signupButton.setTitleColor(UIColor.white, for: .normal)
         signupButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)

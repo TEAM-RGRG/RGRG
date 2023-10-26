@@ -105,6 +105,7 @@ class CustomMemberInfoBox : UIView {
                 passView?.isHidden = true
                 nonPassView?.isHidden = true
                 duplicationMessage.isHidden = true
+                passHandler?(false)
             }else if validation {
                 //pass
                 switch cellID {
@@ -150,6 +151,7 @@ class CustomMemberInfoBox : UIView {
                 //nonPass
                 passView?.isHidden = true
                 nonPassView?.isHidden = false
+                passHandler?(false)
             }
         }
         
