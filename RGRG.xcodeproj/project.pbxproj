@@ -101,7 +101,6 @@
 		96F690652AE20DA200667F35 /* UIcolor+CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F690642AE20DA200667F35 /* UIcolor+CALayer.swift */; };
 		96FE5FCF2AE61AE800AB84D8 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 96FE5FCE2AE61AE800AB84D8 /* FirebaseAuth */; };
 		96FE5FD12AE6622700AB84D8 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 96FE5FD02AE6622700AB84D8 /* FirebaseFirestore */; };
-		CB1768212AD933F5009DF2C1 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1768202AD933F5009DF2C1 /* UIColor+Extension.swift */; };
 		CB4B0BC42ADFAB600077AB3A /* createPartyPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC32ADFAB600077AB3A /* createPartyPageVC.swift */; };
 		CB4B0BC62ADFAB7F0077AB3A /* NoticePageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC52ADFAB7F0077AB3A /* NoticePageVC.swift */; };
 		CB4B0BC82ADFAB970077AB3A /* SearchOptionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC72ADFAB970077AB3A /* SearchOptionVC.swift */; };
@@ -158,7 +157,6 @@
 		96A7B3F92AD9365D00B218EB /* CtaLageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CtaLageButton.swift; sourceTree = "<group>"; };
 		96A7B3FB2AD936E800B218EB /* CustomMemberInfoBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMemberInfoBox.swift; sourceTree = "<group>"; };
 		96F690642AE20DA200667F35 /* UIcolor+CALayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIcolor+CALayer.swift"; sourceTree = "<group>"; };
-		CB1768202AD933F5009DF2C1 /* UIColor+Extension.swift */ = {isa = PBXFileReference; indentWidth = 5; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		CB4B0BC32ADFAB600077AB3A /* createPartyPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = createPartyPageVC.swift; sourceTree = "<group>"; };
 		CB4B0BC52ADFAB7F0077AB3A /* NoticePageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticePageVC.swift; sourceTree = "<group>"; };
 		CB4B0BC72ADFAB970077AB3A /* SearchOptionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOptionVC.swift; sourceTree = "<group>"; };
@@ -242,7 +240,6 @@
 				1DB94CF32AEA398500851A18 /* Roboto-Bold.ttf */,
 				1DB94CED2AEA398400851A18 /* Roboto-Medium.ttf */,
 				1DB94CEF2AEA398400851A18 /* Roboto-Regular.ttf */,
-				1DB94CE12AE912DD00851A18 /* NotoSansKR-VariableFont_wght.ttf */,
 			);
 			path = Font;
 			sourceTree = "<group>";
@@ -295,7 +292,6 @@
 				4E8B84D62AD81184009BCF4B /* AppDelegate.swift */,
 				4E8B84D82AD81184009BCF4B /* SceneDelegate.swift */,
 				4E8B85342AD81411009BCF4B /* Extension.swift */,
-				CB1768202AD933F5009DF2C1 /* UIColor+Extension.swift */,
 				96F690642AE20DA200667F35 /* UIcolor+CALayer.swift */,
 				4E8B85362AD81416009BCF4B /* Utilie.swift */,
 				4E8B84E12AD81187009BCF4B /* LaunchScreen.storyboard */,
@@ -681,7 +677,6 @@
 				4E8B851C2AD8120E009BCF4B /* ChatDetailViewController.swift in Sources */,
 				4E8B851D2AD8120E009BCF4B /* MainViewController.swift in Sources */,
 				96F690652AE20DA200667F35 /* UIcolor+CALayer.swift in Sources */,
-				CB1768212AD933F5009DF2C1 /* UIColor+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
