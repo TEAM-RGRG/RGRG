@@ -75,7 +75,7 @@ class LoginViewController: UIViewController {
     //오버라이딩 : 재정의
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(hex: "#0B356A")
+        view.backgroundColor = UIColor.RGRGColor4
         setupUI()
         passValueCheck()
     }
