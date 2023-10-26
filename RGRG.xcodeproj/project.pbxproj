@@ -104,6 +104,7 @@
 		CB4B0BC42ADFAB600077AB3A /* createPartyPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC32ADFAB600077AB3A /* createPartyPageVC.swift */; };
 		CB4B0BC62ADFAB7F0077AB3A /* NoticePageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC52ADFAB7F0077AB3A /* NoticePageVC.swift */; };
 		CB4B0BC82ADFAB970077AB3A /* SearchOptionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC72ADFAB970077AB3A /* SearchOptionVC.swift */; };
+		CBBE1E932AEA4B65003EA884 /* UIColoer_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBBE1E922AEA4B65003EA884 /* UIColoer_Extension.swift */; };
 		CBECDD392AE174320097C7CF /* PartyInfoDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBECDD382AE174320097C7CF /* PartyInfoDetailVC.swift */; };
 /* End PBXBuildFile section */
 
@@ -160,6 +161,7 @@
 		CB4B0BC32ADFAB600077AB3A /* createPartyPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = createPartyPageVC.swift; sourceTree = "<group>"; };
 		CB4B0BC52ADFAB7F0077AB3A /* NoticePageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticePageVC.swift; sourceTree = "<group>"; };
 		CB4B0BC72ADFAB970077AB3A /* SearchOptionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOptionVC.swift; sourceTree = "<group>"; };
+		CBBE1E922AEA4B65003EA884 /* UIColoer_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColoer\U0010_Extension.swift"; sourceTree = "<group>"; };
 		CBECDD382AE174320097C7CF /* PartyInfoDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyInfoDetailVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -293,6 +295,7 @@
 				4E8B84D82AD81184009BCF4B /* SceneDelegate.swift */,
 				4E8B85342AD81411009BCF4B /* Extension.swift */,
 				96F690642AE20DA200667F35 /* UIcolor+CALayer.swift */,
+				CBBE1E922AEA4B65003EA884 /* UIColoer_Extension.swift */,
 				4E8B85362AD81416009BCF4B /* Utilie.swift */,
 				4E8B84E12AD81187009BCF4B /* LaunchScreen.storyboard */,
 				1DB94CE32AE919DF00851A18 /* CustomFont.swift */,
@@ -646,6 +649,7 @@
 				96A7B3FA2AD9365D00B218EB /* CtaLageButton.swift in Sources */,
 				4E8B851F2AD8120E009BCF4B /* LoginViewController.swift in Sources */,
 				4E8B85172AD8120E009BCF4B /* SignUpViewController.swift in Sources */,
+				CBBE1E932AEA4B65003EA884 /* UIColoer_Extension.swift in Sources */,
 				4E8195EE2ADD404000881C88 /* CustomImageView.swift in Sources */,
 				4E8B853E2AD81515009BCF4B /* RecuitmentViewController.swift in Sources */,
 				4E8B85352AD81411009BCF4B /* Extension.swift in Sources */,

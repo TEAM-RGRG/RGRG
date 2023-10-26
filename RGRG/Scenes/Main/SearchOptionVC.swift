@@ -331,7 +331,7 @@ class SearchOptionVC: UIViewController {
         button.titleLabel?.font = .systemFont(ofSize: 22, weight: .bold)
         button.setTitle("선택 완료", for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
-        button.backgroundColor = UIColor.rgrgColor4
+        button.backgroundColor = UIColor.RGRGColor4
         button.layer.cornerRadius = (10)
         //        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return button
@@ -349,7 +349,7 @@ class SearchOptionVC: UIViewController {
                 // 만약 현재 버튼이 이 함수를 호출한 버튼이라면
                 Btn.isSelected = true
                 Btn.backgroundColor = .systemGray5
-                Btn.layer.borderColor = UIColor.rgrgColor3.cgColor
+                Btn.layer.borderColor = UIColor.RGRGColor3?.cgColor
             }
             else {
                 // 이 함수를 호출한 버튼이 아니라면
@@ -366,7 +366,7 @@ class SearchOptionVC: UIViewController {
                 // 만약 현재 버튼이 이 함수를 호출한 버튼이라면
                 Btn.isSelected = true
                 Btn.backgroundColor = .systemGray5
-                Btn.layer.borderColor = UIColor.rgrgColor3.cgColor
+                Btn.layer.borderColor = UIColor.RGRGColor3?.cgColor
             }
             else {
                 // 이 함수를 호출한 버튼이 아니라면
