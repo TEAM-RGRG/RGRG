@@ -76,14 +76,6 @@ class LoginViewController: UIViewController {
         view.backgroundColor = UIColor(hex: "#0B356A")
         setupUI()
         passValueCheck()
-        // 폰트 체크 하기
-        UIFont.familyNames.sorted().forEach { familyName in
-            print("*** \(familyName) ***")
-            UIFont.fontNames(forFamilyName: familyName).forEach { fontName in
-                print("\(fontName)")
-            }
-            print("---------------------")
-        }
     }
 }
 
