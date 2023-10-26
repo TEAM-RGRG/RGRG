@@ -14,23 +14,10 @@ import UIKit
 
 class CreatePartyVC: UIViewController, UITextViewDelegate {
     
-    let pageTitleLabel: UILabel = {
-        var label = UILabel()
-        label.text = "RGRG"
-        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
-        label.textColor = .black
-        return label
-    }()
-    
-    let backButton: UIButton = {
-        let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
-        button.setTitle("Back", for: .normal)
-        button.setTitleColor(UIColor.rgrgColor2, for: .normal)
-//        button.backgroundColor = UIColor.RGRGColor2
-//        button.layer.cornerRadius = (10)
-        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        return button
+    let topFrame: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
     }()
     
     let partyNameLabel: UILabel = {
@@ -157,30 +144,6 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         return button
     }()
     
-    
-//    let positionPopupButton: UIButton = {
-//        let button = UIButton()
-//        button.titleLabel?.font = .systemFont(ofSize: 17, weight: .medium)
-//        button.setTitle("포지션 선택", for: .normal)
-//        button.setTitleColor(.black, for: .normal)
-////        button.setImage(UIImage(named: "Position_Top"), for: .normal)
-////        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 40, bottom: 0, right: 40)
-//        button.imageView?.contentMode = .scaleAspectFit
-//        button.backgroundColor = .white
-//        button.layer.cornerRadius = (2)
-//        button.semanticContentAttribute = .forceRightToLeft
-//        button.addTarget(self, action: #selector(positionPopUpButton), for: .touchUpInside)
-//        return button
-//    }()
-    
-    
-//    let positionTextField: UITextField = {
-//        let textField = UITextField()
-//        textField.backgroundColor = .white
-//        textField.layer.cornerRadius = 3
-//        return textField
-//    }()
-    
     let infoTextLabel: UILabel = {
         let label = UILabel()
         label.text = "소개글"
@@ -200,25 +163,6 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         return textView
     }()
     
-    
-//    let infoTextField: UITextField = {
-//        let textField = UITextField()
-////        textField.backgroundColor = UIColor.RGRGColor2
-//        textField.backgroundColor = .white
-//        textField.layer.cornerRadius = 10
-//        textField.placeholder = "간단한 파티 소개글을 입력해 주세요"
-//        textField.clearButtonMode = .always
-//        textField.contentVerticalAlignment = UIControl.ContentVerticalAlignment.top
-//        textField.frame.size.height = 22
-//           let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.size.height))
-//           textField.leftView = leftPaddingView
-//           textField.leftViewMode = .always
-//           let rightPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.size.height))
-//           textField.rightView = rightPaddingView
-//           textField.rightViewMode = .always
-//        return textField
-//    }()
-//
     let confirmationButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
@@ -241,7 +185,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
                 // 만약 현재 버튼이 이 함수를 호출한 버튼이라면
                 Btn.isSelected = true
                 Btn.backgroundColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1)
-                Btn.layer.borderColor = UIColor.rgrgColor3.cgColor
+                Btn.layer.borderColor = UIColor.RGRGColor3?.cgColor
             }
                 else {
                 // 이 함수를 호출한 버튼이 아니라면
@@ -300,6 +244,8 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
     
+        self.title = "RG구하기"
+        
         configureUI()
         addPlaceholderToTextView()
         
@@ -314,7 +260,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     
     
     @objc func backButtonTapped() {
-        dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
     
@@ -323,7 +269,8 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     func configureUI() {
         view.backgroundColor = .systemGray5
         
-        view.addSubview(pageTitleLabel)
+        view.addSubview(topFrame)
+//        view.addSubview(pageTitleLabel)
 //        view.addSubview(backButton)
         view.addSubview(partyNameLabel)
         view.addSubview(partyNameTextField)
@@ -344,25 +291,39 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         view.addSubview(confirmationButton)
         
         
+        // 네비게이션 바 왼쪽 버튼
+        let backButton = UIButton(type: .custom)
+        backButton.setImage(UIImage(systemName: "multiply"), for: .normal)
+//        backButton.
+//        backButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true // 버튼의 가로 크기
+        backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        backButton.imageEdgeInsets = .init(top: -18, left: -18, bottom: -18, right: -18)
         
-        pageTitleLabel.snp.makeConstraints{
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-//            $0.leading.equalToSuperview().offset(25)
-            $0.centerX.equalTo(view)
-        }
+        let customItem = UIBarButtonItem(customView: backButton)
+        navigationItem.leftBarButtonItem = customItem
         
-        // 버튼 스택 프레임
-//        backButton.snp.makeConstraints{
+        
+        
+        // 네비게이션바 오른쪽 버튼
+        let rightButton = UIBarButtonItem(title: "임시 저장", style: .plain, target: self, action: #selector(backButtonTapped))
+        navigationItem.rightBarButtonItem = rightButton
+        
+//        pageTitleLabel.snp.makeConstraints{
 //            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-////            $0.height.equalTo(50)
-//            $0.leading.equalToSuperview().offset(28)
-////            $0.trailing.equalTo(pageTitleLabel.snp.leading).offset(-25)
-////            $0.height.equalTo(40)
+//            $0.centerX.equalTo(view)
 //        }
+        
+        
+        topFrame.snp.makeConstraints{
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(97)
+        }
         
         // 파티명
         partyNameLabel.snp.makeConstraints{
-            $0.top.equalTo(pageTitleLabel.snp.bottom).offset(50)
+            $0.top.equalTo(topFrame.snp.bottom).offset(50)
             $0.leading.equalToSuperview().offset(28)
         }
         
@@ -378,9 +339,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
             $0.top.equalTo(partyNameTextField.snp.bottom).offset(28)
             $0.leading.equalToSuperview().offset(28)
         }
-        
-        
-        // 포지션 옵션
+
         
         positionFramView.snp.makeConstraints{
             $0.top.equalTo(positionLabel.snp.bottom).offset(12)
@@ -389,20 +348,6 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
             $0.trailing.equalToSuperview().offset(-28)
         }
         
-//        positionLabel.snp.makeConstraints{
-//            $0.top.equalTo(positionFramView.snp.top).offset(0)
-//            $0.leading.equalTo(positionFramView.snp.leading).offset(0)
-//        }
-        
-//        positionPopupButton.snp.makeConstraints{
-//            $0.top.equalTo(positionFramView.snp.top).offset(0)
-//            $0.height.equalTo(25)
-//            $0.width.equalTo(120)
-//            $0.leading.equalTo(positionFramView.snp.leading).offset(0)
-//        }
-        
-        
-        // 소개글
         infoTextLabel.snp.makeConstraints{
             $0.top.equalTo(positionFramView.snp.bottom).offset(40)
             $0.leading.equalToSuperview().offset(28)
