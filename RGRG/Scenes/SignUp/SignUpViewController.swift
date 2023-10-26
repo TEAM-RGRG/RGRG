@@ -152,18 +152,22 @@ extension SignUpViewController {
         emailLine.passHandler = { pass in
             self.idPass = pass
             updateUI()
+            print("pass 값 알려줘",self.idPass)
         }
         passwordLine.passHandler = { pass in
             self.pwPass = pass
             updateUI()
+            print("pass 값 알려줘",self.pwPass)
         }
         passwordCheckLine.passHandler = { pass in
             self.pwCheckPass = pass
             updateUI()
+            print("pass 값 알려줘",self.pwCheckPass)
         }
         nickNameLine.passHandler = { pass in
             self.nickNamePass = pass
             updateUI()
+            print("pass 값 알려줘",self.nickNamePass)
         }
     }
     
