@@ -11,6 +11,7 @@ import UIKit
 struct AppFontName {
     static let regular = "NotoSansKR-Thin_Regular"
     static let bold = "NotoSansKR-Thin_Bold"
+    static let medium = "NotoSansKR-Thin_Medium"
 }
 
 extension UIFontDescriptor.AttributeName {
@@ -26,6 +27,10 @@ extension UIFont {
         return UIFont(name: AppFontName.bold, size: size)!
     }
 
+    @objc class func myMediumSystemFont(ofSize size: CGFloat) -> UIFont {
+        return UIFont(name: AppFontName.medium, size: size)!
+    }
+
     @objc convenience init(myCoder aDecoder: NSCoder) {
         if let fontDescriptor = aDecoder.decodeObject(forKey: "UIFontDescriptor") as? UIFontDescriptor {
             if let fontAttribute = fontDescriptor.fontAttributes[.nsctFontUIUsage] as? String {
@@ -35,6 +40,8 @@ extension UIFont {
                     fontName = AppFontName.regular
                 case "CTFontEmphasizedUsage", "CTFontBoldUsage":
                     fontName = AppFontName.bold
+                case "CTFontMediumUsage":
+                    fontName = AppFontName.medium
                 default:
                     fontName = AppFontName.regular
                 }
