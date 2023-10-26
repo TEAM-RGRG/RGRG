@@ -20,8 +20,6 @@ class PartyInfoDetailVC: UIViewController {
         view.backgroundColor = .white
         return view
     }()
-
-    
     
     let pageTitleLabel: UILabel = {
         var label = UILabel()
@@ -63,6 +61,8 @@ class PartyInfoDetailVC: UIViewController {
     let topframeView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
+        view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        view.layer.cornerRadius = 10
         return view
     }()
     
@@ -82,7 +82,7 @@ class PartyInfoDetailVC: UIViewController {
     
     let profileImage: UIImageView = {
         var imageView = UIImageView()
-        if let image = UIImage(named: "4") {
+        if let image = UIImage(named: "profileImageIcon") {
             imageView.image = image
         }
         imageView.clipsToBounds = true
@@ -176,9 +176,10 @@ class PartyInfoDetailVC: UIViewController {
     
     let textView: UITextView = {
         let textView = UITextView()
-        textView.text = "듀오 하실 분 구합니다!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-        textView.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        textView.text = "듀오 하실 분 구합니다!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!@ 현재 플레 1이구요. 든든하게 국밥챔프 위주로만 플레이 합니다,.. 간절하신 분이였으면 좋겠어요\n다이아,,.. 가봅시다요ㅠㅠ 최고 티어는 다이아 3까지 갔었습니다. 같이 다이아 등반 하실 분 구합니다"
+        textView.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         textView.textColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 1)
+//        textView.backgroundColor = .orange
         return textView
     }()
     
@@ -198,39 +199,39 @@ class PartyInfoDetailVC: UIViewController {
     
     let firstMostChampionImage: UIImageView = {
         var imageView = UIImageView()
-        if let image = UIImage(named: "4") {
+        if let image = UIImage(named: "profileImageIcon") {
             imageView.image = image
         }
         imageView.clipsToBounds = true
         imageView.backgroundColor = .white
         imageView.contentMode = .scaleToFill
-        imageView.layer.cornerRadius = 12
+        imageView.layer.cornerRadius = 22.5
         imageView.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
         return imageView
     }()
     
     let secondMostChampionImage: UIImageView = {
         var imageView = UIImageView()
-        if let image = UIImage(named: "4") {
+        if let image = UIImage(named: "profileImageIcon") {
             imageView.image = image
         }
         imageView.clipsToBounds = true
         imageView.backgroundColor = .white
         imageView.contentMode = .scaleToFill
-        imageView.layer.cornerRadius = 12
+        imageView.layer.cornerRadius = 22.5
         imageView.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
         return imageView
     }()
     
     let thirdMostChampionImage: UIImageView = {
         var imageView = UIImageView()
-        if let image = UIImage(named: "4") {
+        if let image = UIImage(named: "profileImageIcon") {
             imageView.image = image
         }
         imageView.clipsToBounds = true
         imageView.backgroundColor = .white
         imageView.contentMode = .scaleToFill
-        imageView.layer.cornerRadius = 12
+        imageView.layer.cornerRadius = 22.5
         imageView.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
         return imageView
     }()
@@ -248,13 +249,13 @@ class PartyInfoDetailVC: UIViewController {
     
     let requiredPositionImage: UIImageView = {
         var imageView = UIImageView()
-        if let image = UIImage(named: "4") {
+        if let image = UIImage(named: "profileImageIcon") {
             imageView.image = image
         }
         imageView.clipsToBounds = true
-        imageView.backgroundColor = .white
+        imageView.backgroundColor = .RGRGColor6
         imageView.contentMode = .scaleToFill
-        imageView.layer.cornerRadius = 12
+        imageView.layer.cornerRadius = 22.5
         imageView.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
         return imageView
     }()
@@ -295,8 +296,9 @@ class PartyInfoDetailVC: UIViewController {
         
         view.addSubview(topFrame)
         topFrame.addSubview(pageTitleLabel)
-        topFrame.addSubview(backButton)
+//        topFrame.addSubview(backButton)
         
+//        view.addSubview(scrollView)
         view.addSubview(contentView)
         
         contentView.addSubview(topframeView)
@@ -337,33 +339,33 @@ class PartyInfoDetailVC: UIViewController {
             $0.centerX.equalTo(topFrame)
         }
         
-        backButton.snp.makeConstraints{
-            $0.top.equalTo(topFrame.snp.top).offset(55)
-            $0.leading.equalTo(topFrame.snp.leading).offset(25)
-        }
+//        backButton.snp.makeConstraints{
+//            $0.top.equalTo(topFrame.snp.top).offset(55)
+//            $0.leading.equalTo(topFrame.snp.leading).offset(25)
+//        }
         
         
         contentView.snp.makeConstraints{
             $0.top.equalTo(topFrame.snp.bottom).offset(10)
             $0.bottom.equalToSuperview().offset(0)
-            $0.leading.equalToSuperview().offset(5)
-            $0.trailing.equalToSuperview().offset(-5)
+            $0.leading.equalToSuperview().offset(0)
+            $0.trailing.equalToSuperview().offset(0)
         }
         
         
         topframeView.snp.makeConstraints{
             $0.top.equalTo(contentView.snp.top).offset(0)
-            $0.leading.equalTo(contentView.snp.leading).offset(0)
-            $0.trailing.equalTo(contentView.snp.trailing).offset(0)
+            $0.leading.equalTo(contentView.snp.leading).offset(5)
+            $0.trailing.equalTo(contentView.snp.trailing).offset(-5)
             $0.height.equalTo(95)
             //            $0.bottom.equalTo(contentView.snp.bottom).offset(0)
         }
         
         profileImage.snp.makeConstraints{
-            $0.top.equalTo(topframeView.snp.top).offset(14)
+            $0.top.equalTo(topframeView.snp.top).offset(20)
             $0.leading.equalTo(topframeView.snp.leading).offset(16)
             $0.height.width.equalTo(52)
-            $0.bottom.equalTo(topframeView.snp.bottom).offset(-14)
+            $0.bottom.equalTo(topframeView.snp.bottom).offset(-24)
         }
         
         positionImageFrame.snp.makeConstraints{
@@ -382,14 +384,14 @@ class PartyInfoDetailVC: UIViewController {
         
         
         userNameLabel.snp.makeConstraints {
-            $0.top.equalTo(topframeView.snp.top).offset(14)
-            $0.leading.equalTo(profileImage.snp.trailing).offset(18)
+            $0.top.equalTo(topframeView.snp.top).offset(17)
+            $0.leading.equalTo(profileImage.snp.trailing).offset(10)
         }
         
         tierLabelFrame.snp.makeConstraints {
             $0.top.equalTo(userNameLabel.snp.bottom).offset(8)
-            $0.leading.equalTo(profileImage.snp.trailing).offset(16)
-            $0.bottom.equalTo(topframeView.snp.bottom).offset(-14)
+            $0.leading.equalTo(profileImage.snp.trailing).offset(10)
+            $0.bottom.equalTo(topframeView.snp.bottom).offset(-22)
         }
         
         tierLabel.snp.makeConstraints {
@@ -403,8 +405,8 @@ class PartyInfoDetailVC: UIViewController {
         
         midframeView.snp.makeConstraints{
             $0.top.equalTo(topframeView.snp.bottom).offset(3)
-            $0.leading.equalTo(contentView.snp.leading).offset(0)
-            $0.trailing.equalTo(contentView.snp.trailing).offset(0)
+            $0.leading.equalTo(contentView.snp.leading).offset(5)
+            $0.trailing.equalTo(contentView.snp.trailing).offset(-5)
             $0.height.equalTo(397)
         }
         
@@ -422,8 +424,9 @@ class PartyInfoDetailVC: UIViewController {
         
         textView.snp.makeConstraints {
             $0.top.equalTo(timeLabel.snp.bottom).offset(7)
-            $0.leading.equalTo(midframeView.snp.trailing).offset(14)
-            $0.trailing.equalTo(midframeView.snp.leading).offset(-14)
+            $0.height.equalTo(132)
+            $0.leading.equalTo(midframeView.snp.leading).offset(14)
+            $0.trailing.equalTo(midframeView.snp.trailing).offset(-14)
         }
         
         championLabel.snp.makeConstraints {
@@ -477,8 +480,8 @@ class PartyInfoDetailVC: UIViewController {
         
         bottomframeView.snp.makeConstraints{
             $0.top.equalTo(midframeView.snp.bottom).offset(3)
-            $0.leading.equalTo(contentView.snp.leading).offset(0)
-            $0.trailing.equalTo(contentView.snp.trailing).offset(0)
+            $0.leading.equalTo(contentView.snp.leading).offset(5)
+            $0.trailing.equalTo(contentView.snp.trailing).offset(-5)
             $0.bottom.equalTo(contentView.snp.bottom).offset(0)
         }
         
@@ -489,5 +492,6 @@ class PartyInfoDetailVC: UIViewController {
             $0.height.equalTo(60)
 
         }
+        scrollView.contentSize = contentView.bounds.size
     }
 }

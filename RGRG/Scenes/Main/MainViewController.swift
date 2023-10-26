@@ -209,16 +209,12 @@ class MainViewController: UIViewController {
     
     @objc func createPartybuttonTapped() {
         let CreatePartyVC = CreatePartyVC()
-        
-        CreatePartyVC.modalPresentationStyle = .fullScreen
-        present(CreatePartyVC, animated: true, completion: nil)
+        self.navigationController?.pushViewController(CreatePartyVC, animated: true)
     }
     
     @objc func noticePagebuttonTapped() {
         let NoticePageVC = NoticePageVC()
-        
-        NoticePageVC.modalPresentationStyle = .fullScreen
-        present(NoticePageVC, animated: true, completion: nil)
+        self.navigationController?.pushViewController(NoticePageVC, animated: true)
     }
     
     @objc func searchOptionButtonTapped() {
@@ -227,6 +223,10 @@ class MainViewController: UIViewController {
         SearchOptionVC.modalPresentationStyle = .pageSheet
         present(SearchOptionVC, animated: true, completion: nil)
     }
+    
+    
+    
+    
     
     func configureUI() {
         view.backgroundColor = .white
@@ -392,11 +392,9 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
 
         // PartyInfoDetailVC 클래스의 초기화 메서드가 옵셔널을 반환하지 않는 경우
         let detailController = PartyInfoDetailVC()
-        detailController.modalPresentationStyle = .fullScreen
-        self.present(detailController, animated: true, completion: nil)
+        self.navigationController?.pushViewController(detailController, animated: true)
     }
 }
-
 
 
 
