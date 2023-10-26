@@ -105,6 +105,7 @@ class CustomMemberInfoBox : UIView {
                 passView?.isHidden = true
                 nonPassView?.isHidden = true
                 duplicationMessage.isHidden = true
+                passHandler?(false)
             }else if validation {
                 //pass
                 switch cellID {
@@ -150,6 +151,7 @@ class CustomMemberInfoBox : UIView {
                 //nonPass
                 passView?.isHidden = true
                 nonPassView?.isHidden = false
+                passHandler?(false)
             }
         }
         
@@ -259,7 +261,7 @@ class CustomMemberInfoBox : UIView {
     func styleSort(style : String){
         switch style {
         case "Login" :
-            self.layer.borderColor = UIColor(hex: "279EFF").cgColor
+            self.layer.borderColor = UIColor.RGRGColor3?.cgColor
             self.checkIcon.tintColor = UIColor.white
             
         case "SignUp":
@@ -291,7 +293,7 @@ class CustomMemberInfoBox : UIView {
         
         stackView.addArrangedSubview(inputBox)
         inputBox.addTarget(self, action: #selector(checkInputValue), for: .editingChanged)
-        inputBox.attributedPlaceholder = NSAttributedString(string: inputBox.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: "ADADAD")])
+        inputBox.attributedPlaceholder = NSAttributedString(string: inputBox.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.RGRGColor7])
         inputBox.textColor = UIColor(hex: "FFFFFF")
         stackView.addArrangedSubview(conditionText)
         conditionText.textColor = UIColor.systemRed

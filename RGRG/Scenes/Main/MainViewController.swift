@@ -153,7 +153,7 @@ class MainViewController: UIViewController {
     
     let emptyViewForOption: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.rgrgColor5
+        view.backgroundColor = UIColor.RGRGColor5
         return view
     }()
     
@@ -355,9 +355,14 @@ class MainViewController: UIViewController {
 }
 
 extension MainViewController {
+    override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.navigationController?.navigationBar.isHidden = true;
+    }
+    
     override func viewDidLoad() {
-        
+
         super.viewDidLoad()
+
         setupButton()
         
         configureUI()
@@ -603,4 +608,5 @@ extension MainViewController {
         print("### \(#function)")
     }
 }
+
 
