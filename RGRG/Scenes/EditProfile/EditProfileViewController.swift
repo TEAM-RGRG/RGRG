@@ -5,12 +5,11 @@
 //  Created by (^ㅗ^)7 iMac on 2023/10/11.
 //
 
+import FirebaseAuth
 import SnapKit
 import UIKit
 
 class EditProfileViewController: UIViewController {
-    let sampleUserName = "sampleUser"
-
     let profileImage: UIImageView = {
         let imageView = UIImageView()
         imageView.frame = CGRect(x: 0, y: 0, width: 165, height: 165)
@@ -43,6 +42,10 @@ extension EditProfileViewController {
         setNaviGationContorller()
         configureUI()
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        setImage()
+    }
 }
 
 extension EditProfileViewController {
@@ -59,9 +62,7 @@ extension EditProfileViewController {
         noticeLabel.setupLabelColor(color: .red)
     }
 
-    func setupUserNameTextField() {
-        userNameTextField.text = sampleUserName
-    }
+    func setupUserNameTextField() {}
 
     func configureUI() {
         setupLabel()
@@ -98,3 +99,15 @@ extension EditProfileViewController {
         navigationController?.popViewController(animated: true)
     }
 }
+
+extension EditProfileViewController {
+    func setImage() {
+        StorageManager.shared.getImage("icons", "2") { [weak self] image in
+            self?.profileImage.image = image
+        }
+    }
+}
+
+// 페이징 네이션
+
+// 인디케이터 뷰
