@@ -101,7 +101,7 @@ class NoticePageVC: UIViewController {
         view.backgroundColor = .systemGray5
         view.addSubview(topFrame)
         topFrame.addSubview(pageTitleLabel)
-        topFrame.addSubview(backButton)
+//        topFrame.addSubview(backButton)
         view.addSubview(contentView)
         contentView.addSubview(noticeListTable)
         
@@ -118,10 +118,10 @@ class NoticePageVC: UIViewController {
             $0.centerX.equalTo(topFrame)
         }
         
-        backButton.snp.makeConstraints{
-            $0.top.equalTo(topFrame.snp.top).offset(55)
-            $0.leading.equalTo(topFrame.snp.leading).offset(25)
-        }
+//        backButton.snp.makeConstraints{
+//            $0.top.equalTo(topFrame.snp.top).offset(55)
+//            $0.leading.equalTo(topFrame.snp.leading).offset(25)
+//        }
 
         
         contentView.snp.makeConstraints{
