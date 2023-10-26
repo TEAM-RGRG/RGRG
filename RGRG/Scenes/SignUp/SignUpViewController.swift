@@ -119,6 +119,7 @@ extension SignUpViewController {
                 userUID.setData([
                     "email": email,
                     "userName": userName
+                    //password 삭제
                 ]) { error in
                     if let error = error {
                         print("Error saving user data: \(error.localizedDescription)")
