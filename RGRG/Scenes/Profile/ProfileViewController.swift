@@ -28,11 +28,12 @@ class ProfileViewController: UIViewController {
     let labelStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 8
+        stackView.spacing = 5
         return stackView
     }()
 
     let positionImageView = CustomImageView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
+    
     let positionImageOuterView: UIView = {
         let newView = UIView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
         newView.layer.borderColor = UIColor(hex: "#ADADAD", alpha: 1).cgColor
@@ -52,6 +53,17 @@ class ProfileViewController: UIViewController {
 
     let tierLabel = CustomLabel()
 
+    let myWritingButton = CustomButton()
+    let settingButton = CustomButton()
+
+    let buttonStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing = -2
+        return stackView
+    }()
+
     deinit {
         print("### NotificationViewController deinitialized")
     }
@@ -62,7 +74,7 @@ extension ProfileViewController {
         super.viewDidLoad()
         configureUI()
         setupProfileView()
-        setupLabels()
+        setImageTapGesture()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -94,9 +106,11 @@ extension ProfileViewController {
         profileView.layer.cornerRadius = 10
 
         setupShadow()
+        setupButtons()
 
-        labelStackView.addArrangedSubview(userNameLabel)
-        labelStackView.addArrangedSubview(emailLabel)
+        [userNameLabel, emailLabel].forEach { labelStackView.addArrangedSubview($0) }
+        [myWritingButton, settingButton].forEach { buttonStackView.addArrangedSubview($0) }
+
         positionImageOuterView.addSubview(positionImageView)
         tierView.addSubview(tierLabel)
 
@@ -105,7 +119,7 @@ extension ProfileViewController {
             make.width.height.equalTo(23.33)
         }
 
-        [profileImageView, labelStackView, positionImageOuterView, tierView].forEach { profileView.addSubview($0) }
+        [profileImageView, labelStackView, positionImageOuterView, tierView, buttonStackView].forEach { profileView.addSubview($0) }
 
         profileImageView.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(27)
@@ -134,6 +148,11 @@ extension ProfileViewController {
             make.height.equalTo(35)
             make.width.equalTo(124)
         }
+
+        buttonStackView.snp.makeConstraints { make in
+            make.left.right.bottom.equalToSuperview()
+            make.height.equalTo(44)
+        }
     }
 
     func setupShadow() {
@@ -142,8 +161,13 @@ extension ProfileViewController {
         profileView.layer.shadowRadius = 5
         profileView.layer.shadowOpacity = 1
     }
+    
+    func setImageTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toEditProfile))
+        profileImageView.addGestureRecognizer(tapGesture)
+        profileImageView.isUserInteractionEnabled = true
+    }
 }
-
 
 extension ProfileViewController {
     func setupLabels() {
@@ -155,32 +179,8 @@ extension ProfileViewController {
         emailLabel.textColor = UIColor(hex: "#767676")
 
         tierLabel.text = user?.tier
-        tierLabel.font = UIFont(name: "Roboto", size: 20)
-        var tierColor: String
-        switch user?.tier {
-        case "iron":
-            tierColor = "Iron"
-        case "bronze":
-            tierColor = "Bronze"
-        case "silver":
-            tierColor = "Silver"
-        case "gold":
-            tierColor = "Gold"
-        case "platinum":
-            tierColor = "Platinum"
-        case "emerald":
-            tierColor = "Emerald"
-        case "diamond":
-            tierColor = "Diamond"
-        case "master":
-            tierColor = "Master"
-        case "grandMaster":
-            tierColor = "GrandMaster"
-        default:
-            tierColor = "Challenger"
-        }
-
-        tierLabel.textColor = UIColor(named: tierColor)
+        tierLabel.font = UIFont(name: "NotoSansKR-Bold", size: 20)
+        tierLabel.textColor = UIColor(hex: "#767676")
     }
 
     func setupImages() {
@@ -192,5 +192,56 @@ extension ProfileViewController {
             self.positionImageView.image = $0
             self.profileImageView.contentMode = .scaleAspectFit
         }
+    }
+
+    func setupButtons() {
+        myWritingButton.snp.makeConstraints { $0.height.equalTo(44) }
+        settingButton.snp.makeConstraints { $0.height.equalTo(44) }
+
+        var plainConfigure = UIButton.Configuration.plain()
+        plainConfigure.imagePadding = 4
+        var tintedConfigure = UIButton.Configuration.tinted()
+        tintedConfigure.background.strokeColor = .rgrgColor2
+        tintedConfigure.background.strokeWidth = 2
+
+        myWritingButton.setImage(UIImage(named: "widget"), for: .normal)
+        myWritingButton.setTitle("내가 쓴 글", for: .normal)
+        myWritingButton.addTarget(self, action: #selector(myWritingButtonPressed), for: .touchUpInside
+        )
+        settingButton.setImage(UIImage(named: "gear"), for: .normal)
+        settingButton.setTitle("환경 설정", for: .normal)
+        settingButton.addTarget(self, action: #selector(settingButtonPressed), for: .touchUpInside)
+        
+        myWritingButton.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMaxYCorner)
+        settingButton.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMaxXMaxYCorner)
+
+        [myWritingButton, settingButton].forEach {
+            $0.titleLabel?.font = .myMediumSystemFont(ofSize: 16)
+            $0.setTitleColor(UIColor(hex: "505050", alpha: 1), for: .normal)
+
+            $0.layer.borderColor = UIColor.rgrgColor5.cgColor
+            $0.layer.borderWidth = 2
+            $0.clipsToBounds = true
+            $0.layer.cornerRadius = 10
+
+            $0.configuration = plainConfigure
+        }
+    }
+}
+
+extension ProfileViewController {
+    @objc func myWritingButtonPressed() {
+        // 추가 구현기능
+        print("추가 구현 예정")
+    }
+    
+    @objc func settingButtonPressed() {
+        let settingVC = SettingViewController()
+        self.navigationController?.pushViewController(settingVC, animated: true)
+    }
+    
+    @objc func toEditProfile() {
+        let editProfileVC = EditProfileViewController()
+        self.navigationController?.pushViewController(editProfileVC, animated: true)
     }
 }

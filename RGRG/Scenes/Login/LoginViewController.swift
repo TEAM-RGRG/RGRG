@@ -51,6 +51,7 @@ class LoginViewController: UIViewController {
         return line
     }()
     
+    
     let passwordLine = {
         let line = CustomMemberInfoBox( id:.loginPW,placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$", cellHeight:70, style:"Login")
         //        line.inputBox.isSecureTextEntry = true

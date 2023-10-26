@@ -360,19 +360,22 @@ extension MainViewController {
     }
     
     override func viewDidLoad() {
+
         super.viewDidLoad()
-        
-//        tabBarController?.navigationController?.navigationBar.isHidden = true;
-        
+
         setupButton()
         
         configureUI()
         
         patryListTable.register(PartyTableViewCell.self, forCellReuseIdentifier: "PartyTableViewCell")
-//        self.navigationController?.navigationBar.isHidden = true;
+        
         patryListTable.delegate = self
         patryListTable.dataSource = self
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = true
     }
 }
 
