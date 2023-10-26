@@ -143,7 +143,7 @@ extension SignUpViewController {
         func updateUI(){
             
             guard self.idPass && self.pwPass && pwCheckPass && self.nickNamePass else{
-                return
+                return  signupButton.backgroundColor = UIColor.RGRGColor3
             }
             signupButton.backgroundColor = UIColor.black
             
