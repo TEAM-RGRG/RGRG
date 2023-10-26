@@ -177,13 +177,13 @@ extension ChatDetailViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MyFeedCell.identifier, for: indexPath) as? MyFeedCell else { return UITableViewCell() }
             cell.myChatLabel.text = item.content
             cell.timeLabel.text = item.date
-            cell.backgroundColor = .RGRGColor1
+            cell.backgroundColor = .rgrgColor1
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: YourFeedCell.identifier, for: indexPath) as? YourFeedCell else { return UITableViewCell() }
             cell.yourChatLabel.text = item.content
             cell.timeLabel.text = item.date
-            cell.backgroundColor = .RGRGColor2
+            cell.backgroundColor = .rgrgColor2
             return cell
         }
     }
