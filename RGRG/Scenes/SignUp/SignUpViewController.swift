@@ -118,7 +118,6 @@ extension SignUpViewController {
                 
                 userUID.setData([
                     "email": email,
-                    "password": password,
                     "userName": userName
                 ]) { error in
                     if let error = error {

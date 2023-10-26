@@ -77,7 +77,7 @@ class CustomMemberInfoBox : UIView {
         self.conditon = condition
         self.cellHeightValue = cellHeight
         self.conditionText.text = conditionText
-        self.passMessage.text = passText
+//        self.passMessage.text = passText
         self.inputBox.placeholder = placeHolder
         self.cellID = id
         super.init(frame: CGRect())
@@ -99,22 +99,26 @@ class CustomMemberInfoBox : UIView {
         let validationCheck = isValid(text: inputText, condition: conditon)
         
         //유효성 검사값이 true이면 passHandler로 값을 저장 [3]
-        func updateUIvalid(validation: Bool = validationCheck, passView: UIView, nonPassView:UIView? = nil, duplicationLabel: UIView? = nil) {
+        func updateUIvalid(validation: Bool = validationCheck, passView: UIView? = nil, nonPassView:UIView? = nil) {
             if inputText.isEmpty {
                 conditionText.isHidden = true
-                passView.isHidden = true
+                passView?.isHidden = true
+                nonPassView?.isHidden = true
+                duplicationMessage.isHidden = true
             }else if validation {
                 //pass
                 switch cellID {
                 case .email:
                     duplicationCheckEmail { [self] isUnique in
                         if isUnique {
-                            passView.isHidden = false
+                            passView?.isHidden = false
+                            passMessage.text = "사용가능"
                             nonPassView?.isHidden = true
+                            duplicationMessage.isHidden = true
                             passHandler?(true)
                         } else {
                             
-                            passView.isHidden = true
+                            passView?.isHidden = true
                             duplicationMessage.isHidden = false
                             duplicationMessage.text = "사용중인 이메일"
                             nonPassView?.isHidden = true
@@ -124,24 +128,27 @@ class CustomMemberInfoBox : UIView {
                 case .userName:
                     duplicationCheckUserName { [self] isUnique in
                         if isUnique {
-                            passView.isHidden = false
+                            passView?.isHidden = false
+                            passMessage.text = "사용가능"
                             nonPassView?.isHidden = true
+                            duplicationMessage.isHidden = true
                             passHandler?(true)
                         } else  {
-                            passView.isHidden = true
+                            passView?.isHidden = true
                             duplicationMessage.isHidden = false
-                            duplicationMessage.text = "사용중인 닉네임"
+                            duplicationMessage.text = "사용중인 이메일"
                             nonPassView?.isHidden = true
+                            passHandler?(false)
                         }
                     }
                 default :
-                    passView.isHidden = false
+                    passView?.isHidden = false
                     nonPassView?.isHidden = true
                     passHandler?(true)
                 }
             } else {
                 //nonPass
-                passView.isHidden = true
+                passView?.isHidden = true
                 nonPassView?.isHidden = false
             }
         }
