@@ -65,19 +65,19 @@ class CustomMemberInfoBox : UIView {
         return text
         
     }()
-    lazy var duplicationLabel = {
-        let button = UIButton()
-        button.isHidden = true
-        return button
+    
+    lazy var duplicationMessage = {
+        let text = UILabel()
+        text.isHidden = true
+        return text
     }()
-    
-    
+        
     init(id:MemberInfoBox, conditionText:String? = nil, passText:String? = nil, placeHolder: String, condition: String, cellHeight:Int = 60 , style: String = "SignUp") {
         
         self.conditon = condition
         self.cellHeightValue = cellHeight
         self.conditionText.text = conditionText
-        self.passMessage.text = passText
+//        self.passMessage.text = passText
         self.inputBox.placeholder = placeHolder
         self.cellID = id
         super.init(frame: CGRect())
@@ -99,36 +99,56 @@ class CustomMemberInfoBox : UIView {
         let validationCheck = isValid(text: inputText, condition: conditon)
         
         //유효성 검사값이 true이면 passHandler로 값을 저장 [3]
-        func updateUIvalid(validation: Bool = validationCheck, passView: UIView, nonPassView:UIView? = nil, duplicationLabel: UIView? = nil) {
+        func updateUIvalid(validation: Bool = validationCheck, passView: UIView? = nil, nonPassView:UIView? = nil) {
             if inputText.isEmpty {
                 conditionText.isHidden = true
-                passView.isHidden = true
+                passView?.isHidden = true
+                nonPassView?.isHidden = true
+                duplicationMessage.isHidden = true
             }else if validation {
                 //pass
                 switch cellID {
                 case .email:
-                    print("중복확인이 필요해")
-                    // 중복확인 로직 추가 .. !
-                case .userName:
-                    print("중복확인이 필요해")
-                    duplicationCheckUserName { [self] completion in
-                        if completion == true {
-                            passView.isHidden = false
+                    duplicationCheckEmail { [self] isUnique in
+                        if isUnique {
+                            passView?.isHidden = false
+                            passMessage.text = "사용가능"
                             nonPassView?.isHidden = true
-                        } else if completion == false {
-                            //중복값이 있다면
-                            passView.isHidden = true
-                            nonPassView?.isHidden = false
-                            print("completion == false", completion)
+                            duplicationMessage.isHidden = true
+                            passHandler?(true)
+                        } else {
+                            
+                            passView?.isHidden = true
+                            duplicationMessage.isHidden = false
+                            duplicationMessage.text = "사용중인 이메일"
+                            nonPassView?.isHidden = true
+                            passHandler?(false)
                         }
-                    }                default :
-                    passView.isHidden = false
+                    }
+                case .userName:
+                    duplicationCheckUserName { [self] isUnique in
+                        if isUnique {
+                            passView?.isHidden = false
+                            passMessage.text = "사용가능"
+                            nonPassView?.isHidden = true
+                            duplicationMessage.isHidden = true
+                            passHandler?(true)
+                        } else  {
+                            passView?.isHidden = true
+                            duplicationMessage.isHidden = false
+                            duplicationMessage.text = "사용중인 이메일"
+                            nonPassView?.isHidden = true
+                            passHandler?(false)
+                        }
+                    }
+                default :
+                    passView?.isHidden = false
                     nonPassView?.isHidden = true
                     passHandler?(true)
                 }
             } else {
                 //nonPass
-                passView.isHidden = true
+                passView?.isHidden = true
                 nonPassView?.isHidden = false
             }
         }
@@ -145,7 +165,7 @@ class CustomMemberInfoBox : UIView {
             isSecureControllView.isHidden = false
             updateUIvalid(passView: checkIcon)
         case .email:
-            updateUIvalid(passView: duplicationLabel, nonPassView: self.conditionText)
+            updateUIvalid(passView: passMessage, nonPassView: self.conditionText)
         case .pw:
             updateUIvalid(passView: checkIcon, nonPassView: conditionText)
             savePasswordValue()
@@ -167,7 +187,7 @@ class CustomMemberInfoBox : UIView {
     }
     
     //email 중복확인 [2]
-    @objc func duplicationCheckEmail(completion: @escaping (Bool) -> Void) {
+    func duplicationCheckEmail(completion: @escaping (Bool) -> Void) {
         let email = inputBox.text ?? ""
         let db = Firestore.firestore()
         let usersCollection = db.collection("users")
@@ -234,7 +254,6 @@ class CustomMemberInfoBox : UIView {
         self.inputBox.isSecureTextEntry.toggle()
         
         self.eyesIcon.image = self.inputBox.isSecureTextEntry ? UIImage(systemName: "eye.slash") :            UIImage(systemName: "eye")
-        
     }
     
     func styleSort(style : String){
@@ -298,16 +317,15 @@ class CustomMemberInfoBox : UIView {
         checkIcon.snp.makeConstraints { make in
             make.width.equalTo(20)
         }
-        
-        stackView.addArrangedSubview(duplicationLabel)
-        duplicationLabel.setTitle("중복확인", for: .normal)
-        duplicationLabel.backgroundColor = UIColor.blue
-        duplicationLabel.addTarget(self, action: #selector(duplicationCheckEmail), for: .touchUpInside)
-        
+                
         stackView.addArrangedSubview(passMessage)
         passMessage.textColor = UIColor.systemBlue
+        
+        stackView.addArrangedSubview(duplicationMessage)
+        duplicationMessage.textColor = UIColor.systemRed
     }
     
-    
-    
 }
+
+
+

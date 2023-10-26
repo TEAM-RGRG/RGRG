@@ -118,8 +118,8 @@ extension SignUpViewController {
                 
                 userUID.setData([
                     "email": email,
-                    "password": password,
                     "userName": userName
+                    //password 삭제
                 ]) { error in
                     if let error = error {
                         print("Error saving user data: \(error.localizedDescription)")
@@ -152,18 +152,22 @@ extension SignUpViewController {
         emailLine.passHandler = { pass in
             self.idPass = pass
             updateUI()
+            //            print("pass 값 알려줘",self.idPass)
         }
         passwordLine.passHandler = { pass in
             self.pwPass = pass
             updateUI()
+            //            print("pass 값 알려줘",self.pwPass)
         }
         passwordCheckLine.passHandler = { pass in
             self.pwCheckPass = pass
             updateUI()
+            //            print("pass 값 알려줘",self.pwCheckPass)
         }
         nickNameLine.passHandler = { pass in
             self.nickNamePass = pass
             updateUI()
+            //            print("pass 값 알려줘",self.nickNamePass)
         }
     }
     
