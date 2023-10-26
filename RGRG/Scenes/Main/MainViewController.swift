@@ -369,6 +369,7 @@ extension MainViewController {
         
         patryListTable.register(PartyTableViewCell.self, forCellReuseIdentifier: "PartyTableViewCell")
         
+        
         patryListTable.delegate = self
         patryListTable.dataSource = self
         

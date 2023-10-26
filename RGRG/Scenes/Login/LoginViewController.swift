@@ -47,14 +47,16 @@ class LoginViewController: UIViewController {
     
     
     let emailLine = {
-        let line = CustomMemberInfoBox(id:.loginEmail, placeHolder: "Email", condition:"^[A-Za-z0-9+_.-]+@(.+)$", cellHeight:70, style:"Login")
+        let line = CustomMemberInfoBox(id: .loginEmail, placeHolder: "Email", condition: "^[A-Za-z0-9+_.-]+@(.+)$", cellHeight: 70, style: "Login")
+        line.inputBox.text = "s1@gmail.com"
         return line
     }()
     
     
     let passwordLine = {
-        let line = CustomMemberInfoBox( id:.loginPW,placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$", cellHeight:70, style:"Login")
-        //        line.inputBox.isSecureTextEntry = true
+        let line = CustomMemberInfoBox(id: .loginPW, placeHolder: "Password", condition: "^[a-zA-Z0-9]{7,}$", cellHeight: 70, style: "Login")
+        line.inputBox.text = "1111111"
+//        line.inputBox.isSecureTextEntry = true
         return line
     }()
     
@@ -79,6 +81,14 @@ class LoginViewController: UIViewController {
         view.backgroundColor = UIColor.RGRGColor4
         setupUI()
         passValueCheck()
+        // 폰트 체크 하기
+        UIFont.familyNames.sorted().forEach { familyName in
+            print("*** \(familyName) ***")
+            UIFont.fontNames(forFamilyName: familyName).forEach { fontName in
+                print("\(fontName)")
+            }
+            print("---------------------")
+        }
     }
 }
 
