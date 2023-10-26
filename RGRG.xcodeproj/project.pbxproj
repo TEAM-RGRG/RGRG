@@ -39,6 +39,9 @@
 		1DB94CE02AE8024000851A18 /* FirebaseUserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB94CDF2AE8024000851A18 /* FirebaseUserManager.swift */; };
 		1DB94CE22AE912DD00851A18 /* NotoSansKR-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1DB94CE12AE912DD00851A18 /* NotoSansKR-VariableFont_wght.ttf */; };
 		1DB94CE42AE919E000851A18 /* CustomFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB94CE32AE919DF00851A18 /* CustomFont.swift */; };
+		1DB94CF92AEA398500851A18 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1DB94CED2AEA398400851A18 /* Roboto-Medium.ttf */; };
+		1DB94CFB2AEA398500851A18 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1DB94CEF2AEA398400851A18 /* Roboto-Regular.ttf */; };
+		1DB94CFF2AEA398500851A18 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1DB94CF32AEA398500851A18 /* Roboto-Bold.ttf */; };
 		4E1264BE2ADF6E2700A4E602 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1264BD2ADF6E2700A4E602 /* CustomTextField.swift */; };
 		4E562AB32AE79BCB00E9A916 /* CustomBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E562AB22AE79BCB00E9A916 /* CustomBackButton.swift */; };
 		4E8195EA2ADD299000881C88 /* CustomTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8195E92ADD299000881C88 /* CustomTableView.swift */; };
@@ -111,6 +114,9 @@
 		1DB94CDF2AE8024000851A18 /* FirebaseUserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUserManager.swift; sourceTree = "<group>"; };
 		1DB94CE12AE912DD00851A18 /* NotoSansKR-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-VariableFont_wght.ttf"; sourceTree = "<group>"; };
 		1DB94CE32AE919DF00851A18 /* CustomFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFont.swift; sourceTree = "<group>"; };
+		1DB94CED2AEA398400851A18 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
+		1DB94CEF2AEA398400851A18 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		1DB94CF32AEA398500851A18 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		4E1264BD2ADF6E2700A4E602 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		4E562AB22AE79BCB00E9A916 /* CustomBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBackButton.swift; sourceTree = "<group>"; };
 		4E8195E92ADD299000881C88 /* CustomTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableView.swift; sourceTree = "<group>"; };
@@ -230,6 +236,17 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		1DB94CE92AEA396F00851A18 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				1DB94CF32AEA398500851A18 /* Roboto-Bold.ttf */,
+				1DB94CED2AEA398400851A18 /* Roboto-Medium.ttf */,
+				1DB94CEF2AEA398400851A18 /* Roboto-Regular.ttf */,
+				1DB94CE12AE912DD00851A18 /* NotoSansKR-VariableFont_wght.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
 		4E1264BC2ADF6DF300A4E602 /* ChatSetting */ = {
 			isa = PBXGroup;
 			children = (
@@ -259,7 +276,7 @@
 		4E8B84D52AD81184009BCF4B /* RGRG */ = {
 			isa = PBXGroup;
 			children = (
-				1DB94CE12AE912DD00851A18 /* NotoSansKR-VariableFont_wght.ttf */,
+				1DB94CE92AEA396F00851A18 /* Font */,
 				4E8B84DF2AD81187009BCF4B /* Assets.xcassets */,
 				4E8B84E42AD81187009BCF4B /* Info.plist */,
 				4EC170CB2ADFB1FC0049B23D /* GoogleService-Info.plist */,
@@ -593,7 +610,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DB94CFF2AEA398500851A18 /* Roboto-Bold.ttf in Resources */,
+				1DB94CF92AEA398500851A18 /* Roboto-Medium.ttf in Resources */,
 				4E8B84E32AD81187009BCF4B /* LaunchScreen.storyboard in Resources */,
+				1DB94CFB2AEA398500851A18 /* Roboto-Regular.ttf in Resources */,
 				4E8B84E02AD81187009BCF4B /* Assets.xcassets in Resources */,
 				1DB94CE22AE912DD00851A18 /* NotoSansKR-VariableFont_wght.ttf in Resources */,
 				4EC170CC2ADFB1FC0049B23D /* GoogleService-Info.plist in Resources */,
