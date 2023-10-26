@@ -253,7 +253,7 @@ class PartyInfoDetailVC: UIViewController {
             imageView.image = image
         }
         imageView.clipsToBounds = true
-        imageView.backgroundColor = .RGRGColor6
+        imageView.backgroundColor = .rgrgColor6
         imageView.contentMode = .scaleToFill
         imageView.layer.cornerRadius = 22.5
         imageView.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
@@ -267,7 +267,7 @@ class PartyInfoDetailVC: UIViewController {
         button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
         button.setTitle("듀오 신청하기", for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
-        button.backgroundColor = UIColor.RGRGColor4
+        button.backgroundColor = UIColor.rgrgColor4
         button.layer.cornerRadius = (10)
 //        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return button
