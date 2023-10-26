@@ -29,7 +29,7 @@ class CtaLargeButton : UIButton {
     
     func setupUI(){
         self.layer.cornerRadius = 10
-        self.backgroundColor =  UIColor(hex: "279EFF")
+        self.backgroundColor =  UIColor.RGRGColor3
 
         self.snp.makeConstraints { make in
             make.height.equalTo(70)
