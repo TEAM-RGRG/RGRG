@@ -71,14 +71,7 @@ class CustomMemberInfoBox : UIView {
         text.isHidden = true
         return text
     }()
-    
-    //    lazy var duplicationLabel = {
-    //        let button = UIButton()
-    //        button.isHidden = true
-    //        return button
-    //    }()
-    //
-    
+        
     init(id:MemberInfoBox, conditionText:String? = nil, passText:String? = nil, placeHolder: String, condition: String, cellHeight:Int = 60 , style: String = "SignUp") {
         
         self.conditon = condition
@@ -254,7 +247,6 @@ class CustomMemberInfoBox : UIView {
         self.inputBox.isSecureTextEntry.toggle()
         
         self.eyesIcon.image = self.inputBox.isSecureTextEntry ? UIImage(systemName: "eye.slash") :            UIImage(systemName: "eye")
-        
     }
     
     func styleSort(style : String){
@@ -318,12 +310,7 @@ class CustomMemberInfoBox : UIView {
         checkIcon.snp.makeConstraints { make in
             make.width.equalTo(20)
         }
-        
-        //        stackView.addArrangedSubview(duplicationLabel)
-        //        duplicationLabel.setTitle("중복확인", for: .normal)
-        //        duplicationLabel.backgroundColor = UIColor.blue
-        //        duplicationLabel.addTarget(self, action: #selector(duplicationCheckEmail), for: .touchUpInside)
-        
+                
         stackView.addArrangedSubview(passMessage)
         passMessage.textColor = UIColor.systemBlue
         
