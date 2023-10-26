@@ -277,6 +277,7 @@
 			isa = PBXGroup;
 			children = (
 				1DB94CE92AEA396F00851A18 /* Font */,
+				1DB94CE12AE912DD00851A18 /* NotoSansKR-VariableFont_wght.ttf */,
 				4E8B84DF2AD81187009BCF4B /* Assets.xcassets */,
 				4E8B84E42AD81187009BCF4B /* Info.plist */,
 				4EC170CB2ADFB1FC0049B23D /* GoogleService-Info.plist */,
