@@ -2,15 +2,15 @@
 //  LoginViewController.swift
 //  RGRG
 //
-//  Created by (^ㅗ^)7 iMac on 2023/10/11.
+//  Created by kiakim iMac on 2023/10/11.
 //
 
-import FirebaseAuth
-import FirebaseCore
 import SnapKit
 import UIKit
+import FirebaseCore
+import FirebaseAuth
 
-enum MemberInfoBox: String {
+enum MemberInfoBox: String{
     case loginEmail
     case loginPW
     case email
@@ -20,8 +20,9 @@ enum MemberInfoBox: String {
 }
 
 class LoginViewController: UIViewController {
-    var loginIdPass: Bool = false
-    var loginPwPass: Bool = false
+    
+    var loginIdPass:Bool = false
+    var loginPwPass:Bool = false
     
     let bodyContainer = {
         let stactview = UIView()
@@ -43,15 +44,16 @@ class LoginViewController: UIViewController {
         view.axis = .vertical
         return view
     }()
-        
+    
+    
     let emailLine = {
-        let line = CustomMemberInfoBox(id: .loginEmail, placeHolder: "Email", condition: "^[A-Za-z0-9+_.-]+@(.+)$", cellHeight: 70, style: "Login")
+        let line = CustomMemberInfoBox(id:.loginEmail, placeHolder: "Email", condition:"^[A-Za-z0-9+_.-]+@(.+)$", cellHeight:70, style:"Login")
         return line
     }()
     
     let passwordLine = {
-        let line = CustomMemberInfoBox(id: .loginPW, placeHolder: "Password", condition: "^[a-zA-Z0-9]{7,}$", cellHeight: 70, style: "Login")
-//        line.inputBox.isSecureTextEntry = true
+        let line = CustomMemberInfoBox( id:.loginPW,placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$", cellHeight:70, style:"Login")
+        //        line.inputBox.isSecureTextEntry = true
         return line
     }()
     
@@ -70,7 +72,7 @@ class LoginViewController: UIViewController {
         return view
     }()
     
-    // 오버라이딩 : 재정의
+    //오버라이딩 : 재정의
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(hex: "#0B356A")
@@ -79,57 +81,71 @@ class LoginViewController: UIViewController {
     }
 }
 
+
 extension LoginViewController {
-    @objc func gotoSignupPage() {
+    
+    @objc func gotoSignupPage(){
         let signupVC = SignUpViewController()
-        navigationController?.pushViewController(signupVC, animated: true)
+        self.navigationController?.pushViewController(signupVC, animated: true)
     }
     
-    @objc func tapLogin() {
+    @objc func tapLogin(){
         signInUser()
+        
     }
     
-    func signInUser() {
+    func signInUser(){
         let email = emailLine.inputBox.text ?? ""
         let password = passwordLine.inputBox.text ?? ""
         
         Auth.auth().signIn(withEmail: email, password: password) { [self] authResult, error in
             if authResult == nil {
-                print("로그인 실패")
+                
+                if self.loginIdPass && self.loginPwPass {
+                    showAlert(title: "로그인 실패", message: "일치하는 회원정보가 없습니다.")
+                }else {
+                    showAlert(title: "", message: "작성 형식을 확인해주세요")
+                }
                 if let errorCode = error {
                     print(errorCode)
                 }
-            } else if authResult != nil {
+            }else if authResult != nil {
                 moveToMain()
-                print("로그인 성공")
             }
         }
+        
     }
     
-    func moveToMain() {
+    func moveToMain(){
         let movePage = TabBarController()
-        navigationController?.pushViewController(movePage, animated: true)
+        self.navigationController?.pushViewController(movePage, animated: true)
     }
     
-    func passValueCheck() {
-        func updateUI() {
-            guard loginIdPass, loginPwPass else {
-                return
-            }
-            loginButton.backgroundColor = UIColor.black
-        }
+    func passValueCheck(){
         emailLine.passHandler = { pass in
             self.loginIdPass = pass
-            updateUI()
+            print("loginIdPass", self.loginIdPass)
         }
         passwordLine.passHandler = { pass in
             self.loginPwPass = pass
-            updateUI()
+            print("loginPwPass", self.loginPwPass)
         }
     }
     
-    func setupUI() {
-        // bodyContainer의 높이를 알수는 없는걸까 ?
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+        alertController.addAction(okAction)
+    
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    
+    
+    func setupUI(){
+        
+        //bodyContainer의 높이를 알수는 없는걸까 ?
         //        let  screenHeigth = UIScreen.main.bounds.height
         //        let bodyContainerHeigth = bodyContainer.frame.height
         //
@@ -145,6 +161,7 @@ extension LoginViewController {
         loginButton.addTarget(self, action: #selector(tapLogin), for: .touchUpInside)
         methodArea.addArrangedSubview(loginButton)
         methodArea.addArrangedSubview(signupButton)
+        
         
         //        bodyContainer.layer.borderWidth = 1
         //        bodyContainer.layer.borderColor = UIColor.systemBlue.cgColor
@@ -201,7 +218,7 @@ extension LoginViewController {
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15),
             NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue
         ])
-
+        
         signupButton.setAttributedTitle(attributedTitle, for: .normal)
         signupButton.setTitleColor(UIColor.white, for: .normal)
         signupButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)

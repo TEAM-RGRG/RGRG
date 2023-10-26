@@ -95,7 +95,8 @@ extension SignUpViewController {
         if self.idPass && self.pwPass && pwCheckPass && self.nickNamePass {
             createUser()
             movetoLogin()
-            
+        } else {
+            showAlert(title: "not Yet" , message: "필수항목 확인 필요")
         }
     }
     
@@ -115,11 +116,12 @@ extension SignUpViewController {
                 
                 let db = Firestore.firestore()
                 let userUID = db.collection("users").document(result.user.uid)
-                
+                            
                 userUID.setData([
                     "email": email,
-                    "userName": userName
-                    //password 삭제
+                    "userName": userName,
+
+                    
                 ]) { error in
                     if let error = error {
                         print("Error saving user data: \(error.localizedDescription)")
@@ -169,9 +171,19 @@ extension SignUpViewController {
             updateUI()
             //            print("pass 값 알려줘",self.nickNamePass)
         }
+        
+        
+    
     }
     
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+        alertController.addAction(okAction)
     
+        present(alertController, animated: true, completion: nil)
+    }
     
     func setupUI() {
         view.addSubview(bodyContainer)
