@@ -18,4 +18,8 @@ extension UIColor {
     class var RGRGColor4: UIColor? { return UIColor(named: "RGRGColor4") }
     /// RGRGrColor5 - (44, 7, 53, 100%)
     class var RGRGColor5: UIColor? { return UIColor(named: "RGRGColor5") }
+     /// RGRGrColor5 - (44, 7, 53, 100%)
+    class var RGRGColor6: UIColor? { return UIColor(named: "RGRGColor6") }
+     /// RGRGrColor5 - (44, 7, 53, 100%)
+    class var RGRGColor7: UIColor? { return UIColor(named: "RGRGColor7") }
 }

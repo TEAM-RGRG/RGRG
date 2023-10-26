@@ -12,7 +12,7 @@ import UIKit
 
 
 
-class CreatePartyVC: UIViewController {
+class CreatePartyVC: UIViewController, UITextViewDelegate {
     
     let pageTitleLabel: UILabel = {
         var label = UILabel()
@@ -45,6 +45,13 @@ class CreatePartyVC: UIViewController {
         let textField = UITextField()
         textField.backgroundColor = .white
         textField.layer.cornerRadius = 8
+        textField.placeholder = "제목"
+        let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.size.height))
+        textField.leftView = leftPaddingView
+        textField.leftViewMode = .always
+        let rightPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.size.height))
+        textField.rightView = rightPaddingView
+        textField.rightViewMode = .always
         
         return textField
     }()
@@ -182,17 +189,36 @@ class CreatePartyVC: UIViewController {
         return label
     }()
     
-    let infoTextField: UITextField = {
-        let textField = UITextField()
-//        textField.backgroundColor = UIColor.RGRGColor2
-        textField.backgroundColor = .white
-        textField.layer.cornerRadius = 10
-        textField.placeholder = "간단한 파티 소개글을 입력해 주세요"
-        textField.clearButtonMode = .always
-        textField.contentVerticalAlignment = UIControl.ContentVerticalAlignment.top
-        return textField
+    
+    let infoTextView: UITextView = {
+        let textView = UITextView()
+        textView.backgroundColor = .white
+        textView.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        textView.layer.cornerRadius = 10
+        textView.text = ""
+        textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        return textView
     }()
     
+    
+//    let infoTextField: UITextField = {
+//        let textField = UITextField()
+////        textField.backgroundColor = UIColor.RGRGColor2
+//        textField.backgroundColor = .white
+//        textField.layer.cornerRadius = 10
+//        textField.placeholder = "간단한 파티 소개글을 입력해 주세요"
+//        textField.clearButtonMode = .always
+//        textField.contentVerticalAlignment = UIControl.ContentVerticalAlignment.top
+//        textField.frame.size.height = 22
+//           let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.size.height))
+//           textField.leftView = leftPaddingView
+//           textField.leftViewMode = .always
+//           let rightPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.size.height))
+//           textField.rightView = rightPaddingView
+//           textField.rightViewMode = .always
+//        return textField
+//    }()
+//
     let confirmationButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
@@ -227,13 +253,55 @@ class CreatePartyVC: UIViewController {
     }
     
     
+    func addPlaceholderToTextView() {
+        let placeholderLabel = UILabel()
+        placeholderLabel.text = "짧은 게시글 내용을 작성해주세요.\n( 최대 500자 )"
+        placeholderLabel.textColor = .systemGray3
+        placeholderLabel.font = infoTextView.font
+        placeholderLabel.numberOfLines = 0
+        placeholderLabel.sizeToFit()
+        placeholderLabel.frame.origin = CGPoint(x: 10, y: infoTextView.textContainerInset.top)
+        placeholderLabel.tag = 100
+        
+        infoTextView.addSubview(placeholderLabel)
+
+        // 텍스트 뷰에 터치 제스처 추가
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        infoTextView.addGestureRecognizer(tapGesture)
+    }
+
+    @objc func handleTap() {
+        infoTextView.viewWithTag(100)?.isHidden = true
+
+        infoTextView.isEditable = true
+        infoTextView.becomeFirstResponder()
+    }
+
+    func textViewDidChange(_ textView: UITextView) {
+        if !textView.text.isEmpty {
+            infoTextView.viewWithTag(100)?.isHidden = true
+        }
+    }
+
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+           let maxLength = 500
+           let currentText = textView.text
+        let newText = (currentText as! NSString).replacingCharacters(in: range, with: text)
+
+           return newText.count <= maxLength
+       }
+
+    
+    
+    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
     
         configureUI()
-        
+        addPlaceholderToTextView()
         
         
         positionOptionButtonArry.append(topPositionbutton)
@@ -256,7 +324,7 @@ class CreatePartyVC: UIViewController {
         view.backgroundColor = .systemGray5
         
         view.addSubview(pageTitleLabel)
-        view.addSubview(backButton)
+//        view.addSubview(backButton)
         view.addSubview(partyNameLabel)
         view.addSubview(partyNameTextField)
         view.addSubview(positionLabel)
@@ -272,7 +340,7 @@ class CreatePartyVC: UIViewController {
         positionFramView.addArrangedSubview(supportPositionbutton)
     
         view.addSubview(infoTextLabel)
-        view.addSubview(infoTextField)
+        view.addSubview(infoTextView)
         view.addSubview(confirmationButton)
         
         
@@ -284,13 +352,13 @@ class CreatePartyVC: UIViewController {
         }
         
         // 버튼 스택 프레임
-        backButton.snp.makeConstraints{
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-//            $0.height.equalTo(50)
-            $0.leading.equalToSuperview().offset(28)
-//            $0.trailing.equalTo(pageTitleLabel.snp.leading).offset(-25)
-//            $0.height.equalTo(40)
-        }
+//        backButton.snp.makeConstraints{
+//            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+////            $0.height.equalTo(50)
+//            $0.leading.equalToSuperview().offset(28)
+////            $0.trailing.equalTo(pageTitleLabel.snp.leading).offset(-25)
+////            $0.height.equalTo(40)
+//        }
         
         // 파티명
         partyNameLabel.snp.makeConstraints{
@@ -340,7 +408,7 @@ class CreatePartyVC: UIViewController {
             $0.leading.equalToSuperview().offset(28)
         }
         
-        infoTextField.snp.makeConstraints{
+        infoTextView.snp.makeConstraints{
             $0.top.equalTo(infoTextLabel.snp.bottom).offset(12)
             $0.height.equalTo(200)
 //            $0.width.equalTo(80)
@@ -349,7 +417,7 @@ class CreatePartyVC: UIViewController {
         }
         
         confirmationButton.snp.makeConstraints{
-            $0.top.equalTo(infoTextField.snp.bottom).offset(40)
+            $0.top.equalTo(infoTextView.snp.bottom).offset(40)
             $0.leading.equalToSuperview().offset(28)
             $0.trailing.equalToSuperview().offset(-28)
             $0.height.equalTo(55)

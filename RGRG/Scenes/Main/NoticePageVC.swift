@@ -13,59 +13,55 @@ import UIKit
 
 class NoticePageVC: UIViewController {
     
+    let topFrame: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGray5
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.systemGray2.cgColor
+//        view.layer.cornerRadius = 10
+        view.layer.addBottomBorder(color: UIColor.black, width: 2.0)
+        return view
+    }()
+
+    
+    
     let pageTitleLabel: UILabel = {
         var label = UILabel()
-        label.text = "RGRG"
-        label.font = UIFont.systemFont(ofSize: 45, weight: .bold)
-        label.textColor = UIColor.RGRGColor2
+        label.text = "알림"
+        label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        label.textColor = .black
         return label
     }()
     
     let backButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
+        button.titleLabel?.font = .systemFont(ofSize: 17, weight: .bold)
         button.setTitle("Back", for: .normal)
-        button.setTitleColor(UIColor.RGRGColor2, for: .normal)
-//        button.backgroundColor = UIColor.RGRGColor2
-//        button.layer.cornerRadius = (10)
+        button.setTitleColor(UIColor.black, for: .normal)
         button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return button
     }()
     
-    let noticeLabel: UILabel = {
-        let label = UILabel()
-        label.text = "알림 목록"
-        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
-        label.textColor = UIColor.RGRGColor2
-        return label
-    }()
-    
-    let listUnderline: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.RGRGColor2
-        return view
-    }()
-    
     let contentView: UIView = {
         let view = UIView()
-        view.backgroundColor = .black
-//        view.layer.cornerRadius = 5
+        view.backgroundColor = .systemGray5
         return view
     }()
     
     lazy var noticeListTable: UITableView = {
         var tableView = UITableView()
-        tableView.backgroundColor = .black
+        tableView.backgroundColor = .systemGray5
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.separatorStyle = .none
         return tableView
     }()
     
    
 
     
-    let neckName = ["스오나서스", "탑농사잘됨", "5시퇴근", "칼서렌즐", "아잘못눌럿다"]
+    let userName = ["페이커쨩", "탑농부", "5시퇴근", "칼서렌즐", "아잘못눌럿다"]
     
-    let intro = ["즐겜하실 분 구합니다.", "매너겜 하실 분 구합니다.", "아무나 오세요", "트롤링만 하지 마세요", "아무나 콜"]
+    let tier = ["Iron", "Silver", "Gold", "Platinum", "Bronze"]
     
     let mainPlayTime = ["#8:00~11:00", "#8:00~11:00", "#8:00~11:00", "#11:00~01:00", "#10:00~12:00"]
     
@@ -102,50 +98,35 @@ class NoticePageVC: UIViewController {
     
     
     func configureUI() {
-        view.backgroundColor = .black
-        
-        
-        view.addSubview(pageTitleLabel)
-        view.addSubview(backButton)
-        view.addSubview(noticeLabel)
-        view.addSubview(listUnderline)
+        view.backgroundColor = .systemGray5
+        view.addSubview(topFrame)
+        topFrame.addSubview(pageTitleLabel)
+//        topFrame.addSubview(backButton)
         view.addSubview(contentView)
         contentView.addSubview(noticeListTable)
         
         
         
+        topFrame.snp.makeConstraints{
+            $0.top.leading.equalToSuperview().offset(-2)
+            $0.trailing.equalToSuperview().offset(2)
+            $0.height.equalTo(90)
+        }
+        
         pageTitleLabel.snp.makeConstraints{
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-//            $0.leading.equalToSuperview().offset(25)
-            $0.centerX.equalTo(view)
+            $0.top.equalTo(topFrame.snp.top).offset(62)
+            $0.centerX.equalTo(topFrame)
         }
         
-        backButton.snp.makeConstraints{
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-//            $0.height.equalTo(50)
-            $0.leading.equalToSuperview().offset(25)
-//            $0.trailing.equalTo(pageTitleLabel.snp.leading).offset(-25)
-//            $0.height.equalTo(40)
-        }
-        
-        
-        noticeLabel.snp.makeConstraints{
-            $0.top.equalTo(pageTitleLabel.snp.bottom).offset(40)
-            $0.leading.equalToSuperview().offset(14)
-        }
-        
-        listUnderline.snp.makeConstraints{
-            $0.top.equalTo(noticeLabel.snp.bottom).offset(10)
-            $0.height.equalTo(2)
-            $0.leading.equalToSuperview().offset(12)
-            $0.trailing.equalToSuperview().offset(-12)
-        }
+//        backButton.snp.makeConstraints{
+//            $0.top.equalTo(topFrame.snp.top).offset(55)
+//            $0.leading.equalTo(topFrame.snp.leading).offset(25)
+//        }
+
         
         contentView.snp.makeConstraints{
-            $0.top.equalTo(listUnderline.snp.bottom).offset(5)
+            $0.top.equalTo(topFrame.snp.bottom).offset(10)
             $0.bottom.equalToSuperview().offset(-50)
-//            $0.height.equalTo(200)
-//            $0.width.equalTo(80)
             $0.leading.equalToSuperview().offset(5)
             $0.trailing.equalToSuperview().offset(-5)
             
@@ -162,22 +143,31 @@ class NoticePageVC: UIViewController {
     
 extension NoticePageVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return neckName.count
+        return userName.count
     }
     
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "userInfoCell", for: indexPath) as! userInfoCell
-        cell.neckNameLabel.text = neckName[indexPath.row]
-        cell.introLabel.text = intro[indexPath.row]
-        cell.partyTimeLabel.text = mainPlayTime[indexPath.row]
-        cell.partyTierLabel.text = partyTier[indexPath.row]
-        cell.partyPositionLabel.text = partyPosition[indexPath.row]
+        cell.userNameLabel.text = userName[indexPath.row]
+        cell.tierLabel.text = tier[indexPath.row]
+//        cell.partyTimeLabel.text = mainPlayTime[indexPath.row]
+//        cell.partyTierLabel.text = partyTier[indexPath.row]
+//        cell.partyPositionLabel.text = partyPosition[indexPath.row]
        
         cell.selectionStyle = .none
         
         return cell
+    }
+}
+
+extension CALayer {
+    func addBottomBorder(color: UIColor, width: CGFloat) {
+        let border = CALayer()
+        border.backgroundColor = color.cgColor
+        border.frame = CGRect(x: 0, y: self.bounds.height - width, width: self.bounds.width, height: width)
+        self.addSublayer(border)
     }
 }
 
@@ -188,105 +178,166 @@ class userInfoCell: UITableViewCell {
     
     let cellFrameView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.RGRGColor5
+        view.backgroundColor = .white
         view.layer.cornerRadius = 10
+        view.layer.shadowOffset = CGSize(width: 0, height: 2)
+        view.layer.shadowOpacity = 1
+        view.layer.shadowRadius = 6
+        view.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.1).cgColor
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let profileFrame: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        return stackView
-    }()
+    
+
     
     let profileImage: UIImageView = {
         var imageView = UIImageView()
         if let image = UIImage(named: "profileImageIcon") {
             imageView.image = image
         }
+        imageView.clipsToBounds = true
         imageView.backgroundColor = .white
         imageView.contentMode = .scaleAspectFit
-        imageView.layer.cornerRadius = 30
-        imageView.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
+        imageView.layer.cornerRadius = 26
+        return imageView
+    }()
+    
+
+    
+    
+    let positionImageFrame: UIView = {
+        let view = UIView()
+        view.clipsToBounds = true
+        view.backgroundColor = .gray
+        view.contentMode = .scaleToFill
+        view.layer.cornerRadius = 8.5
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.black.cgColor
+        view.frame = CGRect(x: 0, y: 0, width: 5, height: 5)
+        return view
+    }()
+    
+    let positionImage: UIImageView = {
+        var imageView = UIImageView()
+        if let image = UIImage(named: "미드w") {
+            imageView.image = image
+        }
+        imageView.clipsToBounds = true
+        imageView.backgroundColor = .gray
+        imageView.contentMode = .scaleToFill
         return imageView
     }()
 
     
-    let neckNameLabel: UILabel = {
+    let userNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 15, weight: .bold)
-        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        label.textColor = .black
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 10)
         return label
     }()
     
-    let introLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .lightGray
-        label.font = UIFont.boldSystemFont(ofSize: 12)
-        return label
+    
+    let tierLabelFrame: UIView = {
+        let View = UIView()
+        View.translatesAutoresizingMaskIntoConstraints = false
+        View.layer.borderColor = UIColor.systemGray2.cgColor
+        View.layer.borderWidth = 2
+        View.layer.cornerRadius = 13
+        return View
     }()
     
-    let partyTimeLabel: UILabel = {
+    let tierLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .lightGray
-        label.font = UIFont.boldSystemFont(ofSize: 12)
-//        label.backgroundColor = .black
-        label.layer.cornerRadius = 20
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         return label
     }()
+
     
-    let partyTierLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .lightGray
-        label.font = UIFont.boldSystemFont(ofSize: 12)
-//        label.backgroundColor = .black
-        label.layer.cornerRadius = 20
-        return label
+    let mostChampionFrame: UIView = {
+        let View = UIView()
+        return View
     }()
     
-    let partyPositionLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .lightGray
-        label.font = UIFont.boldSystemFont(ofSize: 12)
-//        label.backgroundColor = .black
-        label.layer.cornerRadius = 20
-        return label
+    let firstMostChampionImage: UIImageView = {
+        var imageView = UIImageView()
+        if let image = UIImage(named: "profileImageIcon") {
+            imageView.image = image
+        }
+        imageView.clipsToBounds = true
+        imageView.backgroundColor = .white
+        imageView.contentMode = .scaleToFill
+        imageView.layer.cornerRadius = 12
+        imageView.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
+        return imageView
+    }()
+    
+    let secondMostChampionImage: UIImageView = {
+        var imageView = UIImageView()
+        if let image = UIImage(named: "profileImageIcon") {
+            imageView.image = image
+        }
+        imageView.clipsToBounds = true
+        imageView.backgroundColor = .white
+        imageView.contentMode = .scaleToFill
+        imageView.layer.cornerRadius = 12
+        imageView.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
+        return imageView
+    }()
+    
+    let thirdMostChampionImage: UIImageView = {
+        var imageView = UIImageView()
+        if let image = UIImage(named: "profileImageIcon") {
+            imageView.image = image
+        }
+        imageView.clipsToBounds = true
+        imageView.backgroundColor = .white
+        imageView.contentMode = .scaleToFill
+        imageView.layer.cornerRadius = 12
+        imageView.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
+        return imageView
     }()
     
     let acceptRequestButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
+        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
         button.setTitle("수락", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .black
-        button.layer.cornerRadius = 45
-        button.layer.borderWidth = 3
-        button.layer.borderColor = UIColor.RGRGColor2?.cgColor
-//        button.addTarget(self, action: #selector(createPartybuttonTapped), for: .touchUpInside)
+        button.backgroundColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1.0)
+        button.layer.cornerRadius = 18
+        button.layer.shadowOffset = CGSize(width: 2, height: 2)
+        button.layer.shadowOpacity = 1
+        button.layer.shadowRadius = 2
+        button.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.backgroundColor = .black
+        contentView.backgroundColor = .systemGray5
         
         contentView.addSubview(cellFrameView)
 //        cellFrameView.addSubview(profileFrame)
         cellFrameView.addSubview(profileImage)
-        cellFrameView.addSubview(neckNameLabel)
-        cellFrameView.addSubview(introLabel)
-        cellFrameView.addSubview(partyTimeLabel)
-        cellFrameView.addSubview(partyTierLabel)
-        cellFrameView.addSubview(partyPositionLabel)
+        cellFrameView.addSubview(positionImageFrame)
+        positionImageFrame.addSubview(positionImage)
+        
+        cellFrameView.addSubview(userNameLabel)
+        cellFrameView.addSubview(tierLabelFrame)
+        tierLabelFrame.addSubview(tierLabel)
+        cellFrameView.addSubview(mostChampionFrame)
+        
+        mostChampionFrame.addSubview(firstMostChampionImage)
+        mostChampionFrame.addSubview(secondMostChampionImage)
+        mostChampionFrame.addSubview(thirdMostChampionImage)
+        
         cellFrameView.addSubview(acceptRequestButton)
         
         
@@ -297,50 +348,77 @@ class userInfoCell: UITableViewCell {
             $0.bottom.equalTo(contentView.snp.bottom).offset(-5)
         }
         
-        
-//        profileFrame.snp.makeConstraints{
-//            $0.top.leading.bottom.equalTo(cellFrameView.snp.top).offset(0)
-//        }
-        
         profileImage.snp.makeConstraints{
-            $0.top.equalTo(cellFrameView.snp.top).offset(10)
-            $0.leading.equalTo(cellFrameView.snp.leading).offset(10)
+            $0.top.equalTo(cellFrameView.snp.top).offset(14)
+            $0.leading.equalTo(cellFrameView.snp.leading).offset(16)
+            $0.height.width.equalTo(52)
+            $0.bottom.equalTo(cellFrameView.snp.bottom).offset(-14)
         }
         
-        neckNameLabel.snp.makeConstraints {
-            $0.top.equalTo(profileImage.snp.bottom).offset(7)
-            $0.leading.equalTo(cellFrameView.snp.leading).offset(5)
-            $0.trailing.equalTo(introLabel.snp.leading).offset(-5)
-            $0.bottom.equalTo(cellFrameView.snp.bottom).offset(-10)
+        positionImageFrame.snp.makeConstraints{
+            $0.trailing.equalTo(profileImage.snp.trailing).offset(5)
+            $0.height.width.equalTo(17)
+            $0.bottom.equalTo(profileImage.snp.bottom).offset(0)
         }
         
-        introLabel.snp.makeConstraints {
-            $0.top.equalTo(cellFrameView.snp.top).offset(25)
-            $0.leading.equalTo(profileImage.snp.trailing).offset(20)
+        positionImage.snp.makeConstraints{
+            $0.trailing.equalTo(positionImageFrame.snp.trailing).offset(-2)
+            $0.height.width.equalTo(13)
+            $0.bottom.equalTo(positionImageFrame.snp.bottom).offset(-2)
         }
         
-        partyTimeLabel.snp.makeConstraints {
-            $0.top.equalTo(introLabel.snp.bottom).offset(15)
-            $0.leading.equalTo(profileImage.snp.trailing).offset(20)
-            $0.bottom.lessThanOrEqualTo(cellFrameView.snp.bottom).offset(-10)
+        userNameLabel.snp.makeConstraints {
+            $0.top.equalTo(cellFrameView.snp.top).offset(14)
+            $0.leading.equalTo(profileImage.snp.trailing).offset(18)
         }
         
-        partyTierLabel.snp.makeConstraints {
-            $0.top.equalTo(partyTimeLabel.snp.bottom).offset(15)
-            $0.leading.equalTo(profileImage.snp.trailing).offset(20)
-            $0.bottom.lessThanOrEqualTo(cellFrameView.snp.bottom).offset(-10)
+        tierLabelFrame.snp.makeConstraints {
+            $0.top.equalTo(userNameLabel.snp.bottom).offset(8)
+            $0.leading.equalTo(profileImage.snp.trailing).offset(16)
+            $0.bottom.equalTo(cellFrameView.snp.bottom).offset(-14)
         }
         
-        partyPositionLabel.snp.makeConstraints {
-            $0.top.equalTo(partyTimeLabel.snp.bottom).offset(15)
-            $0.leading.equalTo(partyTierLabel.snp.trailing).offset(10)
-            $0.bottom.lessThanOrEqualTo(cellFrameView.snp.bottom).offset(-10)
+        tierLabel.snp.makeConstraints {
+            $0.top.equalTo(tierLabelFrame.snp.top).offset(4)
+            $0.leading.equalTo(tierLabelFrame.snp.leading).offset(12)
+            $0.trailing.equalTo(tierLabelFrame.snp.trailing).offset(-12)
+            $0.bottom.equalTo(tierLabelFrame.snp.bottom).offset(-4)
         }
+        
+        mostChampionFrame.snp.makeConstraints {
+            $0.top.equalTo(tierLabelFrame.snp.top).offset(0)
+            $0.height.equalTo(24)
+            $0.width.equalTo(76)
+            $0.trailing.equalTo(cellFrameView.snp.trailing).offset(-100)
+//            $0.bottom.lessThanOrEqualTo(cellFrameView.snp.bottom).offset(-10)
+        }
+        
+        firstMostChampionImage.snp.makeConstraints{
+            $0.top.equalTo(mostChampionFrame.snp.top).offset(0)
+            $0.height.width.equalTo(24)
+            $0.leading.equalTo(mostChampionFrame.snp.leading).offset(0)
+        }
+        
+        secondMostChampionImage.snp.makeConstraints{
+            $0.top.equalTo(mostChampionFrame.snp.top).offset(0)
+            $0.height.width.equalTo(24)
+            $0.leading.equalTo(firstMostChampionImage.snp.trailing).offset(2)
+        }
+        
+        thirdMostChampionImage.snp.makeConstraints{
+            $0.top.equalTo(mostChampionFrame.snp.top).offset(0)
+            $0.height.width.equalTo(24)
+            $0.leading.equalTo(secondMostChampionImage.snp.trailing).offset(2)
+        }
+        
+
         
         acceptRequestButton.snp.makeConstraints{
-            $0.top.equalTo(cellFrameView.snp.top).offset(10)
-            $0.trailing.bottom.equalTo(cellFrameView).offset(-10)
-            $0.width.equalTo(90)
+            $0.top.equalTo(cellFrameView.snp.top).offset(22)
+            $0.trailing.equalTo(cellFrameView.snp.trailing).offset(-13)
+            $0.bottom.equalTo(cellFrameView.snp.bottom).offset(-22)
+            $0.width.equalTo(73)
+//            $0.width.equalTo(90)
         }
     }
     
