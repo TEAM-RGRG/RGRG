@@ -89,6 +89,7 @@ extension EditProfileViewController {
         view.backgroundColor = .rgrgColor5
 
         setupLabels()
+
         setupTextFields()
 
         [profileImage, userNameTitle, userNameTextField, noticeLabel].forEach { view.addSubview($0) }
