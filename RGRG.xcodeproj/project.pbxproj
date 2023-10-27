@@ -42,6 +42,7 @@
 		1DB94CF92AEA398500851A18 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1DB94CED2AEA398400851A18 /* Roboto-Medium.ttf */; };
 		1DB94CFB2AEA398500851A18 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1DB94CEF2AEA398400851A18 /* Roboto-Regular.ttf */; };
 		1DB94CFF2AEA398500851A18 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1DB94CF32AEA398500851A18 /* Roboto-Bold.ttf */; };
+		1DB94D032AEA82C100851A18 /* NotoSansKR-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1DB94D022AEA82C100851A18 /* NotoSansKR-Bold.ttf */; };
 		4E1264BE2ADF6E2700A4E602 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1264BD2ADF6E2700A4E602 /* CustomTextField.swift */; };
 		4E562AB32AE79BCB00E9A916 /* CustomBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E562AB22AE79BCB00E9A916 /* CustomBackButton.swift */; };
 		4E8195EA2ADD299000881C88 /* CustomTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8195E92ADD299000881C88 /* CustomTableView.swift */; };
@@ -104,6 +105,7 @@
 		CB4B0BC42ADFAB600077AB3A /* createPartyPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC32ADFAB600077AB3A /* createPartyPageVC.swift */; };
 		CB4B0BC62ADFAB7F0077AB3A /* NoticePageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC52ADFAB7F0077AB3A /* NoticePageVC.swift */; };
 		CB4B0BC82ADFAB970077AB3A /* SearchOptionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC72ADFAB970077AB3A /* SearchOptionVC.swift */; };
+		CBBE1E932AEA4B65003EA884 /* UIColoer_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBBE1E922AEA4B65003EA884 /* UIColoer_Extension.swift */; };
 		CBECDD392AE174320097C7CF /* PartyInfoDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBECDD382AE174320097C7CF /* PartyInfoDetailVC.swift */; };
 /* End PBXBuildFile section */
 
@@ -111,11 +113,12 @@
 		1DB9391E2AE24AB300BD4F41 /* SettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 		1DB94CDD2AE760AB00851A18 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		1DB94CDF2AE8024000851A18 /* FirebaseUserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUserManager.swift; sourceTree = "<group>"; };
-		1DB94CE12AE912DD00851A18 /* NotoSansKR-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-VariableFont_wght.ttf"; sourceTree = "<group>"; };
+		1DB94CE12AE912DD00851A18 /* NotoSansKR-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NotoSansKR-VariableFont_wght.ttf"; path = "../NotoSansKR-VariableFont_wght.ttf"; sourceTree = "<group>"; };
 		1DB94CE32AE919DF00851A18 /* CustomFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFont.swift; sourceTree = "<group>"; };
 		1DB94CED2AEA398400851A18 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		1DB94CEF2AEA398400851A18 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		1DB94CF32AEA398500851A18 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
+		1DB94D022AEA82C100851A18 /* NotoSansKR-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Bold.ttf"; sourceTree = "<group>"; };
 		4E1264BD2ADF6E2700A4E602 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		4E562AB22AE79BCB00E9A916 /* CustomBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBackButton.swift; sourceTree = "<group>"; };
 		4E8195E92ADD299000881C88 /* CustomTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableView.swift; sourceTree = "<group>"; };
@@ -160,6 +163,7 @@
 		CB4B0BC32ADFAB600077AB3A /* createPartyPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = createPartyPageVC.swift; sourceTree = "<group>"; };
 		CB4B0BC52ADFAB7F0077AB3A /* NoticePageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticePageVC.swift; sourceTree = "<group>"; };
 		CB4B0BC72ADFAB970077AB3A /* SearchOptionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOptionVC.swift; sourceTree = "<group>"; };
+		CBBE1E922AEA4B65003EA884 /* UIColoer_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColoer\U0010_Extension.swift"; sourceTree = "<group>"; };
 		CBECDD382AE174320097C7CF /* PartyInfoDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyInfoDetailVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -238,6 +242,8 @@
 			isa = PBXGroup;
 			children = (
 				1DB94CF32AEA398500851A18 /* Roboto-Bold.ttf */,
+				1DB94CE12AE912DD00851A18 /* NotoSansKR-VariableFont_wght.ttf */,
+				1DB94D022AEA82C100851A18 /* NotoSansKR-Bold.ttf */,
 				1DB94CED2AEA398400851A18 /* Roboto-Medium.ttf */,
 				1DB94CEF2AEA398400851A18 /* Roboto-Regular.ttf */,
 			);
@@ -274,7 +280,6 @@
 			isa = PBXGroup;
 			children = (
 				1DB94CE92AEA396F00851A18 /* Font */,
-				1DB94CE12AE912DD00851A18 /* NotoSansKR-VariableFont_wght.ttf */,
 				4E8B84DF2AD81187009BCF4B /* Assets.xcassets */,
 				4E8B84E42AD81187009BCF4B /* Info.plist */,
 				4EC170CB2ADFB1FC0049B23D /* GoogleService-Info.plist */,
@@ -293,6 +298,7 @@
 				4E8B84D82AD81184009BCF4B /* SceneDelegate.swift */,
 				4E8B85342AD81411009BCF4B /* Extension.swift */,
 				96F690642AE20DA200667F35 /* UIcolor+CALayer.swift */,
+				CBBE1E922AEA4B65003EA884 /* UIColoer_Extension.swift */,
 				4E8B85362AD81416009BCF4B /* Utilie.swift */,
 				4E8B84E12AD81187009BCF4B /* LaunchScreen.storyboard */,
 				1DB94CE32AE919DF00851A18 /* CustomFont.swift */,
@@ -614,6 +620,7 @@
 				4E8B84E02AD81187009BCF4B /* Assets.xcassets in Resources */,
 				1DB94CE22AE912DD00851A18 /* NotoSansKR-VariableFont_wght.ttf in Resources */,
 				4EC170CC2ADFB1FC0049B23D /* GoogleService-Info.plist in Resources */,
+				1DB94D032AEA82C100851A18 /* NotoSansKR-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -646,6 +653,7 @@
 				96A7B3FA2AD9365D00B218EB /* CtaLageButton.swift in Sources */,
 				4E8B851F2AD8120E009BCF4B /* LoginViewController.swift in Sources */,
 				4E8B85172AD8120E009BCF4B /* SignUpViewController.swift in Sources */,
+				CBBE1E932AEA4B65003EA884 /* UIColoer_Extension.swift in Sources */,
 				4E8195EE2ADD404000881C88 /* CustomImageView.swift in Sources */,
 				4E8B853E2AD81515009BCF4B /* RecuitmentViewController.swift in Sources */,
 				4E8B85352AD81411009BCF4B /* Extension.swift in Sources */,

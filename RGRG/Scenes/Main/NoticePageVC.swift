@@ -9,37 +9,13 @@ import Foundation
 import SnapKit
 import UIKit
 
-
-
 class NoticePageVC: UIViewController {
-    
     let topFrame: UIView = {
         let view = UIView()
-        view.backgroundColor = .systemGray5
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.systemGray2.cgColor
-//        view.layer.cornerRadius = 10
         view.layer.addBottomBorder(color: UIColor.black, width: 2.0)
         return view
-    }()
-
-    
-    
-    let pageTitleLabel: UILabel = {
-        var label = UILabel()
-        label.text = "알림"
-        label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
-        label.textColor = .black
-        return label
-    }()
-    
-    let backButton: UIButton = {
-        let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 17, weight: .bold)
-        button.setTitle("Back", for: .normal)
-        button.setTitleColor(UIColor.black, for: .normal)
-        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        return button
     }()
     
     let contentView: UIView = {
@@ -56,9 +32,6 @@ class NoticePageVC: UIViewController {
         return tableView
     }()
     
-   
-
-    
     let userName = ["페이커쨩", "탑농부", "5시퇴근", "칼서렌즐", "아잘못눌럿다"]
     
     let tier = ["Iron", "Silver", "Gold", "Platinum", "Bronze"]
@@ -69,11 +42,12 @@ class NoticePageVC: UIViewController {
     
     let partyPosition = ["#정글", "#서폿", "#상관없음", "#서폿", "#상관없음"]
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
     
+ title = "알림"
+        navigationController?.navigationBar.barTintColor = UIColor.red
+        
         configureUI()
         
         noticeListTable.register(userInfoCell.self, forCellReuseIdentifier: "userInfoCell")
@@ -81,58 +55,51 @@ class NoticePageVC: UIViewController {
         noticeListTable.dataSource = self
     }
     
-    
-    
     @objc func backButtonTapped() {
-        dismiss(animated: true, completion: nil)
-        
-        // ToDoListPageViewController 대신 해당 페이지의 루트 뷰 컨트롤러로 감싸진 내비게이션 컨트롤러를 만듭니다.
-//        let ViewController = ViewController() // ToDoListPageViewController의 인스턴스 생성
-//        let navigationController = UINavigationController(rootViewController: ViewController)
-//
-//        navigationController.modalPresentationStyle = .fullScreen
-//        present(navigationController, animated: true, completion: nil) // 내비게이션 컨트롤러를 표시
+        self.navigationController?.popViewController(animated: true)
     }
-    
-    
-    
     
     func configureUI() {
         view.backgroundColor = .systemGray5
         view.addSubview(topFrame)
-        topFrame.addSubview(pageTitleLabel)
+//        topFrame.addSubview(pageTitleLabel)
 //        topFrame.addSubview(backButton)
         view.addSubview(contentView)
         contentView.addSubview(noticeListTable)
         
         
         
-        topFrame.snp.makeConstraints{
+        
+        // 커스텀 백버튼 추가
+        let backButton = UIButton(type: .custom)
+        backButton.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
+//        backButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true // 버튼의 가로 크기
+        backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        backButton.imageEdgeInsets = .init(top: -18, left: -18, bottom: -18, right: -18)
+        
+        let customItem = UIBarButtonItem(customView: backButton)
+        navigationItem.leftBarButtonItem = customItem
+
+       
+        
+        
+        
+        topFrame.snp.makeConstraints {
             $0.top.leading.equalToSuperview().offset(-2)
             $0.trailing.equalToSuperview().offset(2)
-            $0.height.equalTo(90)
+            $0.height.equalTo(97)
         }
-        
-        pageTitleLabel.snp.makeConstraints{
-            $0.top.equalTo(topFrame.snp.top).offset(62)
-            $0.centerX.equalTo(topFrame)
-        }
-        
-//        backButton.snp.makeConstraints{
-//            $0.top.equalTo(topFrame.snp.top).offset(55)
-//            $0.leading.equalTo(topFrame.snp.leading).offset(25)
-//        }
 
-        
-        contentView.snp.makeConstraints{
+        contentView.snp.makeConstraints {
             $0.top.equalTo(topFrame.snp.bottom).offset(10)
             $0.bottom.equalToSuperview().offset(-50)
             $0.leading.equalToSuperview().offset(5)
             $0.trailing.equalToSuperview().offset(-5)
-            
         }
         
-        noticeListTable.snp.makeConstraints{
+        noticeListTable.snp.makeConstraints {
             $0.top.equalTo(contentView.snp.top).offset(5)
             $0.leading.equalTo(contentView.snp.leading).offset(5)
             $0.trailing.equalTo(contentView.snp.trailing).offset(-5)
@@ -145,8 +112,6 @@ extension NoticePageVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return userName.count
     }
-    
-    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "userInfoCell", for: indexPath) as! userInfoCell
@@ -166,16 +131,12 @@ extension CALayer {
     func addBottomBorder(color: UIColor, width: CGFloat) {
         let border = CALayer()
         border.backgroundColor = color.cgColor
-        border.frame = CGRect(x: 0, y: self.bounds.height - width, width: self.bounds.width, height: width)
-        self.addSublayer(border)
+        border.frame = CGRect(x: 0, y: bounds.height - width, width: bounds.width, height: width)
+        addSublayer(border)
     }
 }
 
-
-
-
 class userInfoCell: UITableViewCell {
-    
     let cellFrameView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -188,9 +149,6 @@ class userInfoCell: UITableViewCell {
         return view
     }()
     
-    
-
-    
     let profileImage: UIImageView = {
         var imageView = UIImageView()
         if let image = UIImage(named: "profileImageIcon") {
@@ -202,9 +160,6 @@ class userInfoCell: UITableViewCell {
         imageView.layer.cornerRadius = 26
         return imageView
     }()
-    
-
-    
     
     let positionImageFrame: UIView = {
         let view = UIView()
@@ -229,7 +184,6 @@ class userInfoCell: UITableViewCell {
         return imageView
     }()
 
-    
     let userNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -238,7 +192,6 @@ class userInfoCell: UITableViewCell {
         label.textAlignment = .center
         return label
     }()
-    
     
     let tierLabelFrame: UIView = {
         let View = UIView()
@@ -258,7 +211,6 @@ class userInfoCell: UITableViewCell {
         return label
     }()
 
-    
     let mostChampionFrame: UIView = {
         let View = UIView()
         return View
@@ -340,28 +292,27 @@ class userInfoCell: UITableViewCell {
         
         cellFrameView.addSubview(acceptRequestButton)
         
-        
-        cellFrameView.snp.makeConstraints{
+        cellFrameView.snp.makeConstraints {
             $0.top.equalTo(contentView.snp.top).offset(5)
             $0.leading.equalTo(contentView.snp.leading).offset(5)
             $0.trailing.equalTo(contentView.snp.trailing).offset(-5)
             $0.bottom.equalTo(contentView.snp.bottom).offset(-5)
         }
         
-        profileImage.snp.makeConstraints{
+        profileImage.snp.makeConstraints {
             $0.top.equalTo(cellFrameView.snp.top).offset(14)
             $0.leading.equalTo(cellFrameView.snp.leading).offset(16)
             $0.height.width.equalTo(52)
             $0.bottom.equalTo(cellFrameView.snp.bottom).offset(-14)
         }
         
-        positionImageFrame.snp.makeConstraints{
+        positionImageFrame.snp.makeConstraints {
             $0.trailing.equalTo(profileImage.snp.trailing).offset(5)
             $0.height.width.equalTo(17)
             $0.bottom.equalTo(profileImage.snp.bottom).offset(0)
         }
         
-        positionImage.snp.makeConstraints{
+        positionImage.snp.makeConstraints {
             $0.trailing.equalTo(positionImageFrame.snp.trailing).offset(-2)
             $0.height.width.equalTo(13)
             $0.bottom.equalTo(positionImageFrame.snp.bottom).offset(-2)
@@ -393,27 +344,25 @@ class userInfoCell: UITableViewCell {
 //            $0.bottom.lessThanOrEqualTo(cellFrameView.snp.bottom).offset(-10)
         }
         
-        firstMostChampionImage.snp.makeConstraints{
+        firstMostChampionImage.snp.makeConstraints {
             $0.top.equalTo(mostChampionFrame.snp.top).offset(0)
             $0.height.width.equalTo(24)
             $0.leading.equalTo(mostChampionFrame.snp.leading).offset(0)
         }
         
-        secondMostChampionImage.snp.makeConstraints{
+        secondMostChampionImage.snp.makeConstraints {
             $0.top.equalTo(mostChampionFrame.snp.top).offset(0)
             $0.height.width.equalTo(24)
             $0.leading.equalTo(firstMostChampionImage.snp.trailing).offset(2)
         }
         
-        thirdMostChampionImage.snp.makeConstraints{
+        thirdMostChampionImage.snp.makeConstraints {
             $0.top.equalTo(mostChampionFrame.snp.top).offset(0)
             $0.height.width.equalTo(24)
             $0.leading.equalTo(secondMostChampionImage.snp.trailing).offset(2)
         }
         
-
-        
-        acceptRequestButton.snp.makeConstraints{
+        acceptRequestButton.snp.makeConstraints {
             $0.top.equalTo(cellFrameView.snp.top).offset(22)
             $0.trailing.equalTo(cellFrameView.snp.trailing).offset(-13)
             $0.bottom.equalTo(cellFrameView.snp.bottom).offset(-22)
@@ -422,8 +371,8 @@ class userInfoCell: UITableViewCell {
         }
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
-

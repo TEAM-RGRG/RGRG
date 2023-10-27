@@ -249,16 +249,39 @@ class PartyInfoDetailVC: UIViewController {
     
     let requiredPositionImage: UIImageView = {
         var imageView = UIImageView()
-        if let image = UIImage(named: "profileImageIcon") {
+        if let image = UIImage(named: "미드w") {
             imageView.image = image
         }
         imageView.clipsToBounds = true
-        imageView.backgroundColor = .rgrgColor6
-        imageView.contentMode = .scaleToFill
+        imageView.backgroundColor = .RGRGColor6
+//        imageView.contentMode = .scaleToFill
         imageView.layer.cornerRadius = 22.5
-        imageView.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
+
+
         return imageView
     }()
+    
+    
+//    let requiredPositionImage: UIImageView = {
+//        var imageView = UIImageView()
+//
+//        if let image = UIImage(named: "미드w") {
+//            // 이미지 크기 조절
+//            let newSize = CGSize(width: image.size.width * 0.1, height: image.size.height * 0.1)
+//            let scaledImage = image.resize(to: newSize)
+//            imageView.image = scaledImage
+//        }
+//
+//        imageView.clipsToBounds = true
+//        imageView.backgroundColor = .RGRGColor6
+//        imageView.contentMode = .scaleAspectFit
+//        imageView.layer.cornerRadius = 22.5
+//
+//        return imageView
+//    }()
+
+
+
     
     
     
@@ -267,7 +290,7 @@ class PartyInfoDetailVC: UIViewController {
         button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
         button.setTitle("듀오 신청하기", for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
-        button.backgroundColor = UIColor.rgrgColor4
+        button.backgroundColor = UIColor.RGRGColor4
         button.layer.cornerRadius = (10)
 //        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return button
@@ -495,3 +518,6 @@ class PartyInfoDetailVC: UIViewController {
         scrollView.contentSize = contentView.bounds.size
     }
 }
+
+
+
