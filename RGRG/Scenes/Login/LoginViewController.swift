@@ -45,14 +45,14 @@ class LoginViewController: UIViewController {
     }()
     
     let emailLine = {
-        let line = CustomMemberInfoBox(id:.loginEmail, placeHolder: "Email", condition:"^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]+$", cellHeight:70, style:"Login")
 
+        let line = CustomMemberInfoBox(id:.loginEmail, placeHolder: "Email", condition:"^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]+$", cellHeight:70, style:"Login")
         return line
     }()
     
     let passwordLine = {
+
         let line = CustomMemberInfoBox(id: .loginPW, placeHolder: "Password", condition: "^[a-zA-Z0-9]{7,}$", cellHeight: 70, style: "Login")
-        
 //        line.inputBox.isSecureTextEntry = true
         return line
     }()
