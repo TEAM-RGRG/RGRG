@@ -8,9 +8,6 @@
 import FirebaseFirestore
 import Foundation
 
-// 콜렉션 속 하위 콜렉션 생성
-// 문서 id -> 채널 id 같을 수 있도록 생성
-
 final class FireStoreManager {
     static let shared = FireStoreManager()
     static let db = Firestore.firestore()
@@ -28,8 +25,9 @@ final class FireStoreManager {
                         for doc in snapshotDocument {
                             let data = doc.data()
                             let thread = doc.documentID
-                            if let writer = data["writer"] as? String, let channelTitle = data["channelTitle"] as? String, let requester = data["requester"] as? String, let channelID = data["channelID"] as? String {
-                                let channel = Channel(channelName: channelTitle, requester: requester, writer: writer, channelID: thread)
+
+                            if let writer = data["writer"] as? String, let channelTitle = data["channelTitle"] as? String, let requester = data["requester"] as? String, let channelID = data["channelID"] as? String, let currentMessage = data["currentMessage"] as? String, let requesterProfile = data["requesterProfile"] as? String, let writerProfile = data["writerProfile"] as? String {
+                                let channel = Channel(channelName: channelTitle, requester: requester, writer: writer, channelID: thread, currentMessage: currentMessage, writerProfile: writerProfile, requesterProfile: requesterProfile)
                                 channels.append(channel)
                             }
                         }
@@ -39,10 +37,9 @@ final class FireStoreManager {
             }
     }
 
-    func loadChatting(channelName: String, thread: String, limit: Int , completion: @escaping ([ChatInfo]) -> Void) {
+    func loadChatting(channelName: String, thread: String, startIndex: Int, completion: @escaping ([ChatInfo]) -> Void) {
         FireStoreManager.db.collection("channels/\(thread)/thread")
             .order(by: "date", descending: false)
-            .limit(to: limit)
             .addSnapshotListener { (querySnapshot, error) in
                 var messages: [ChatInfo] = []
                 if let e = error {
@@ -52,12 +49,10 @@ final class FireStoreManager {
                     if let snapshotDocument = querySnapshot?.documents {
                         for doc in snapshotDocument {
                             let data = doc.data()
-                            print("&&& \(data)")
 
                             if let date = data["date"] as? String, let read = data["read"] as? Bool, let content = data["content"] as? String, let sender = data["sender"] as? String {
                                 let item = ChatInfo(sender: sender, date: date, read: read, content: content)
                                 messages.append(item)
-                                print("### messages:::: \(messages)")
                             }
                         }
                         completion(messages)
@@ -66,7 +61,7 @@ final class FireStoreManager {
             }
     }
 
-    func addChannel(channelTitle: String, requester: String, writer: String, channelID: String, date: String, users: [String], completion: @escaping (Channel) -> Void) {
+    func addChannel(channelTitle: String, requester: String, writer: String, channelID: String, date: String, users: [String], requesterProfile: String, writerProfile: String, completion: @escaping (Channel) -> Void) {
         FireStoreManager.db
             .collection("channels")
             .addDocument(data: [
@@ -75,13 +70,16 @@ final class FireStoreManager {
                 "channelTitle": channelTitle,
                 "requester": requester,
                 "writer": writer,
-                "users": users
+                "users": users,
+                "currentMessage": "",
+                "requesterProfile": requesterProfile,
+                "writerProfile": writerProfile
             ]) { (error) in
                 if let e = error {
                     print("There was an issue saving data to firestore, \(e)")
                 } else {
                     print("Successfully saved data.")
-                    let channel = Channel(channelName: channelTitle, requester: requester, writer: writer, channelID: channelID)
+                    let channel = Channel(channelName: channelTitle, requester: requester, writer: writer, channelID: channelID, currentMessage: "", writerProfile: writerProfile, requesterProfile: requesterProfile)
                     completion(channel)
                 }
             }
@@ -105,12 +103,42 @@ final class FireStoreManager {
                 }
             }
     }
+
+    func updateChannel(currentMessage: String, thread: String) {
+        let path = FireStoreManager.db.collection("channels")
+        path.document(thread).updateData(["currentMessage": currentMessage])
+    }
+
+    func updateReadChat(thread: String, currentUser: String) {
+        let path = FireStoreManager.db.collection("channels/\(thread)/thread")
+        FireStoreManager.db
+            .collection("channels/\(thread)/thread")
+            .whereField("sender", isNotEqualTo: currentUser)
+            .getDocuments { (querySnapshot, error) in
+                var temp: [String] = []
+                if let error = error {
+                    print("### \(error)")
+                } else {
+                    if let snapshotDocument = querySnapshot?.documents {
+                        for doc in snapshotDocument {
+                            let data = doc.data()
+                            let docID = doc.documentID
+                            guard let item = data["sender"] as? String else { return }
+
+                            if item != currentUser {
+                                path.document(docID).updateData(["read": true])
+                            }
+                        }
+                    }
+                }
+            }
+    }
 }
 
 extension FireStoreManager {
     func dateFormatter(value: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm:ss"
+        formatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
         let result = formatter.string(from: value)
         return result
     }

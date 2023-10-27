@@ -344,6 +344,12 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
 //                $0.edges.equalToSuperview().inset(10)
             }
         }
+        
+        // 소개글
+
+//        patryListTable.snp.makeConstraints{
+//            $0.top.equalTo(contentView.snp.top).offset(10)
+//        }
     }
 }
 

@@ -43,15 +43,13 @@ class LoginViewController: UIViewController {
         view.axis = .vertical
         return view
     }()
-    
+        
     let emailLine = {
-
-        let line = CustomMemberInfoBox(id:.loginEmail, placeHolder: "Email", condition:"^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]+$", cellHeight:70, style:"Login")
+        let line = CustomMemberInfoBox(id: .loginEmail, placeHolder: "Email", condition: "^[A-Za-z0-9+_.-]+@(.+)$", cellHeight: 70, style: "Login")
         return line
     }()
     
     let passwordLine = {
-
         let line = CustomMemberInfoBox(id: .loginPW, placeHolder: "Password", condition: "^[a-zA-Z0-9]{7,}$", cellHeight: 70, style: "Login")
 //        line.inputBox.isSecureTextEntry = true
         return line
@@ -78,6 +76,7 @@ class LoginViewController: UIViewController {
         view.backgroundColor = UIColor.RGRGColor4
         setupUI()
         passValueCheck()
+        makeBackButton()
     }
 }
 
@@ -218,5 +217,16 @@ extension LoginViewController {
             make.height.equalToSuperview().dividedBy(10)
             make.bottom.equalTo(bodyContainer.snp.bottom).offset(-60)
         }
+    }
+}
+
+extension LoginViewController {
+    func makeBackButton() {
+        let backButton = CustomBackButton(title: "Back", style: .plain, target: self, action: #selector(tappedBackButton))
+        navigationItem.backBarButtonItem = backButton
+    }
+
+    @objc func tappedBackButton(_ sender: UIBarButtonItem) {
+        navigationController?.popViewController(animated: true)
     }
 }
