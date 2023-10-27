@@ -15,7 +15,9 @@ class EditProfileViewController: UIViewController {
         imageView.frame = CGRect(x: 0, y: 0, width: 132, height: 132)
         imageView.layer.cornerRadius = imageView.frame.height / 2
         imageView.layer.borderWidth = 3
+        imageView.layer.borderColor = UIColor.rgrgColor3.cgColor
         imageView.clipsToBounds = true
+        imageView.backgroundColor = .rgrgColor7
         return imageView
     }()
 
@@ -109,6 +111,7 @@ extension EditProfileViewController {
         setupLabels()
         setupTextFields()
         setupButtons()
+        setShadow()
 
         [profileImage, userNameTitle, userNameTextField, buttonStackView, tierTitle, positionTitle, mostChampButton, mostChampImgStackView, doneEditButton].forEach { view.addSubview($0) }
         [firstImage, secondImage, thirdImage].forEach { mostChampImgStackView.addArrangedSubview($0) }
@@ -166,7 +169,6 @@ extension EditProfileViewController {
             make.left.right.equalToSuperview().inset(32)
             make.bottom.equalToSuperview().offset(-26)
             make.height.equalTo(60)
-            
         }
     }
 
@@ -201,12 +203,20 @@ extension EditProfileViewController {
         doneEditButton.backgroundColor = .rgrgColor4
         doneEditButton.layer.cornerRadius = 10
         doneEditButton.setTitle("수정 완료", for: .normal)
-        
+
         mostChampButton.backgroundColor = .clear
         mostChampButton.setTitle("선호 챔피언", for: .normal)
         mostChampButton.titleLabel?.font = .myBoldSystemFont(ofSize: 16)
         mostChampButton.setImage(UIImage(named: "polygon"), for: .normal)
         mostChampButton.setTitleColor(UIColor(hex: "#505050"), for: .normal)
+    }
+
+    func setShadow() {
+        [userNameTextField, tierButton, positionButton].forEach {
+            $0.setupShadow(alpha: 0.05, offset: CGSize(width: 2, height: 3), radius: 12, opacity: 1)
+        }
+        
+        doneEditButton.setupShadow(alpha: 0.25, offset: CGSize(width: 0, height: 4), radius: 4, opacity: 1)
     }
 
     func setNavigationController() {

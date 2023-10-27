@@ -19,6 +19,7 @@ class ProfileViewController: UIViewController {
         imageView.layer.borderColor = UIColor.RGRGColor3?.cgColor
         imageView.layer.borderWidth = 2
         imageView.layer.cornerRadius = imageView.frame.height / 2
+        imageView.backgroundColor = .rgrgColor7
         return imageView
     }()
 
@@ -33,7 +34,7 @@ class ProfileViewController: UIViewController {
     }()
 
     let positionImageView = CustomImageView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
-    
+
     let positionImageOuterView: UIView = {
         let newView = UIView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
         newView.layer.borderColor = UIColor(hex: "#ADADAD", alpha: 1).cgColor
@@ -105,7 +106,7 @@ extension ProfileViewController {
         profileView.backgroundColor = .white
         profileView.layer.cornerRadius = 10
 
-        profileView.setupShadow()
+        profileView.setupShadow(alpha: 0.10, offset: CGSize(width: 0, height: 1), radius: 5, opacity: 1)
         setupButtons()
 
         [userNameLabel, emailLabel].forEach { labelStackView.addArrangedSubview($0) }
@@ -161,7 +162,7 @@ extension ProfileViewController {
 //        profileView.layer.shadowRadius = 5
 //        profileView.layer.shadowOpacity = 1
 //    }
-    
+
     func setImageTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toEditProfile))
         profileImageView.addGestureRecognizer(tapGesture)
@@ -206,12 +207,11 @@ extension ProfileViewController {
 
         myWritingButton.setImage(UIImage(named: "widget"), for: .normal)
         myWritingButton.setTitle("내가 쓴 글", for: .normal)
-        myWritingButton.addTarget(self, action: #selector(myWritingButtonPressed), for: .touchUpInside
-        )
+        myWritingButton.addTarget(self, action: #selector(myWritingButtonPressed), for: .touchUpInside)
         settingButton.setImage(UIImage(named: "gear"), for: .normal)
         settingButton.setTitle("환경 설정", for: .normal)
         settingButton.addTarget(self, action: #selector(settingButtonPressed), for: .touchUpInside)
-        
+
         myWritingButton.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMaxYCorner)
         settingButton.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMaxXMaxYCorner)
 
@@ -234,14 +234,14 @@ extension ProfileViewController {
         // 추가 구현기능
         print("추가 구현 예정")
     }
-    
+
     @objc func settingButtonPressed() {
         let settingVC = SettingViewController()
-        self.navigationController?.pushViewController(settingVC, animated: true)
+        navigationController?.pushViewController(settingVC, animated: true)
     }
-    
+
     @objc func toEditProfile() {
         let editProfileVC = EditProfileViewController()
-        self.navigationController?.pushViewController(editProfileVC, animated: true)
+        navigationController?.pushViewController(editProfileVC, animated: true)
     }
 }

@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 
-
 extension UIImage {
     func resize(to newSize: CGSize) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
@@ -20,11 +19,10 @@ extension UIImage {
 }
 
 extension UIView {
-    func setupShadow() {
-        layer.shadowColor = CGColor(red: 0, green: 0, blue: 0, alpha: 0.10)
-        layer.shadowOffset = CGSize(width: 0, height: 1)
-        layer.shadowRadius = 5
-        layer.shadowOpacity = 1
+    func setupShadow(alpha: CGFloat, offset: CGSize, radius: CGFloat, opacity: Float) {
+        layer.shadowColor = CGColor(red: 0, green: 0, blue: 0, alpha: alpha)
+        layer.shadowOffset = offset
+        layer.shadowRadius = radius
+        layer.shadowOpacity = opacity
     }
 }
-
