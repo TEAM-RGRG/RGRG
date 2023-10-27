@@ -121,7 +121,7 @@ class CustomMemberInfoBox : UIView {
                             
                             passView?.isHidden = true
                             duplicationMessage.isHidden = false
-                            duplicationMessage.text = "사용중인 이메일"
+                            duplicationMessage.text = "사용중인 닉네임"
                             nonPassView?.isHidden = true
                             passHandler?(false)
                         }
