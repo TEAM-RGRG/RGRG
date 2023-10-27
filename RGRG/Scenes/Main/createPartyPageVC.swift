@@ -239,7 +239,9 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     
     
     
-    
+    override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.navigationController?.navigationBar.isHidden = false;
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -293,8 +295,8 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         
         // 네비게이션 바 왼쪽 버튼
         let backButton = UIButton(type: .custom)
-        backButton.setImage(UIImage(systemName: "multiply"), for: .normal)
-//        backButton.
+        backButton.setImage(UIImage(systemName: "multiply")? .withRenderingMode(.alwaysTemplate), for: .normal)
+        backButton.tintColor = .black
 //        backButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true // 버튼의 가로 크기
@@ -370,4 +372,3 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         }
     }
 }
-

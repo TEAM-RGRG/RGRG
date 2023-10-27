@@ -42,6 +42,11 @@ class NoticePageVC: UIViewController {
     
     let partyPosition = ["#정글", "#서폿", "#상관없음", "#서폿", "#상관없음"]
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.navigationController?.navigationBar.isHidden = false;
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     
@@ -276,7 +281,6 @@ class userInfoCell: UITableViewCell {
         contentView.backgroundColor = .systemGray5
         
         contentView.addSubview(cellFrameView)
-//        cellFrameView.addSubview(profileFrame)
         cellFrameView.addSubview(profileImage)
         cellFrameView.addSubview(positionImageFrame)
         positionImageFrame.addSubview(positionImage)
