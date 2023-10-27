@@ -310,13 +310,14 @@ extension SignUpViewController {
         positionLine.addArrangedSubview(tierButton)
         positionLine.addArrangedSubview(positionButton)
         
-        bodyContainer.layer.borderColor = UIColor.systemBlue.cgColor
+//        bodyContainer.layer.borderWidth = 1
         bodyContainer.layer.cornerRadius = 10
         bodyContainer.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.bottom.equalTo(view.safeAreaLayoutGuide)
             make.left.equalToSuperview().offset(40)
             make.right.equalToSuperview().inset(40)
+//            make.centerY.equalToSuperview()
         }
         
         imageArea.backgroundColor = UIColor.RGRGColor6
@@ -368,8 +369,8 @@ extension SignUpViewController {
         positionLine.spacing = 20
         positionLine.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
-            make.top.equalTo(passwordCheckLine.snp.bottom).offset(20)
-            make.height.equalTo(40)
+            make.top.equalTo(nickNameLine.snp.bottom).offset(20)
+            make.height.equalTo(60)
         }
         
         
@@ -399,7 +400,7 @@ extension SignUpViewController {
         signupButton.addTarget(self, action: #selector(tapSignUP), for: .touchUpInside)
         signupButton.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
-            make.bottom.equalToSuperview().inset(20)
+//            make.bottom.equalToSuperview().inset(20)
         }
         
     }
