@@ -8,8 +8,6 @@
 import FirebaseFirestore
 import Foundation
 
-// 문서 id -> 채널 id 같을 수 있도록 생성
-
 final class FireStoreManager {
     static let shared = FireStoreManager()
     static let db = Firestore.firestore()
@@ -29,8 +27,8 @@ final class FireStoreManager {
                             let data = doc.data()
                             let thread = doc.documentID
 
-                            if let writer = data["writer"] as? String, let channelTitle = data["channelTitle"] as? String, let requester = data["requester"] as? String, let channelID = data["channelID"] as? String, let currentMessage = data["currentMessage"] as? String{
-                                let channel = Channel(channelName: channelTitle, requester: requester, writer: writer, channelID: thread, currentMessage: currentMessage)
+                            if let writer = data["writer"] as? String, let channelTitle = data["channelTitle"] as? String, let requester = data["requester"] as? String, let channelID = data["channelID"] as? String, let currentMessage = data["currentMessage"] as? String, let requesterProfile = data["requesterProfile"] as? String, let writerProfile = data["writerProfile"] as? String {
+                                let channel = Channel(channelName: channelTitle, requester: requester, writer: writer, channelID: thread, currentMessage: currentMessage, writerProfile: writerProfile, requesterProfile: requesterProfile)
                                 channels.append(channel)
                             }
                         }
@@ -64,7 +62,7 @@ final class FireStoreManager {
             }
     }
 
-    func addChannel(channelTitle: String, requester: String, writer: String, channelID: String, date: String, users: [String], completion: @escaping (Channel) -> Void) {
+    func addChannel(channelTitle: String, requester: String, writer: String, channelID: String, date: String, users: [String], requesterProfile: String, writerProfile: String, completion: @escaping (Channel) -> Void) {
         FireStoreManager.db
             .collection("channels")
             .addDocument(data: [
@@ -74,13 +72,15 @@ final class FireStoreManager {
                 "requester": requester,
                 "writer": writer,
                 "users": users,
-                "currentMessage": ""
+                "currentMessage": "",
+                "requesterProfile": requesterProfile,
+                "writerProfile": writerProfile
             ]) { (error) in
                 if let e = error {
                     print("There was an issue saving data to firestore, \(e)")
                 } else {
                     print("Successfully saved data.")
-                    let channel = Channel(channelName: channelTitle, requester: requester, writer: writer, channelID: channelID, currentMessage: "")
+                    let channel = Channel(channelName: channelTitle, requester: requester, writer: writer, channelID: channelID, currentMessage: "", writerProfile: writerProfile, requesterProfile: requesterProfile)
                     completion(channel)
                 }
             }
@@ -106,26 +106,9 @@ final class FireStoreManager {
             }
     }
 
-    func updateChannel(currentMessage: String) {
+    func updateChannel(currentMessage: String, thread: String) {
         let path = FireStoreManager.db.collection("channels")
-        FireStoreManager.db.collection("channels")
-            .getDocuments { (querySnapshot, error) in
-                if let error = error {
-                    print("### \(error)")
-                } else {
-                    if let snapshowDocument = querySnapshot?.documents {
-                        for doc in snapshowDocument {
-                            let data = doc.data()
-                            let docID = doc.documentID
-                            
-                            guard let item = data["currentMessage"] as? String else { return }
-                            
-                            path.document(docID).updateData(["currentMessage": currentMessage])
-                        }
-                    }
-                }
-                
-            }
+        path.document(thread).updateData(["currentMessage": currentMessage])
     }
 
     func updateReadChat(thread: String, currentUser: String) {
