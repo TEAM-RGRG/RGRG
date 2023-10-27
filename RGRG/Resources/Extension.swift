@@ -19,3 +19,12 @@ extension UIImage {
     }
 }
 
+extension UIView {
+    func setupShadow() {
+        layer.shadowColor = CGColor(red: 0, green: 0, blue: 0, alpha: 0.10)
+        layer.shadowOffset = CGSize(width: 0, height: 1)
+        layer.shadowRadius = 5
+        layer.shadowOpacity = 1
+    }
+}
+
