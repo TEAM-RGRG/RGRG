@@ -80,7 +80,7 @@ extension UIView {
         let shape = CAShapeLayer()
         shape.path = maskPath.cgPath
         layer.mask = shape
-
+    }
     func setupShadow(alpha: CGFloat, offset: CGSize, radius: CGFloat, opacity: Float) {
         layer.shadowColor = CGColor(red: 0, green: 0, blue: 0, alpha: alpha)
         layer.shadowOffset = offset
