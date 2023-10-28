@@ -62,7 +62,7 @@ extension ChatListViewController {
 
 extension ChatListViewController {
     func setupUI() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = UIColor(hex: "#FFFFFF")
         confirmNavigation()
         confirmTableView()
         registerCell()
@@ -78,7 +78,8 @@ extension ChatListViewController {
         tableView.delegate = self
 
         view.addSubview(tableView)
-        tableView.backgroundColor = .systemGray
+        tableView.backgroundColor = UIColor(hex: "#F4F4F4")
+        tableView.separatorStyle = .none
 
         tableView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -95,13 +96,15 @@ extension ChatListViewController {
     func showBlankListMessage() {
         view.addSubview(blankMessage)
         blankMessage.text = "받은 쪽지가 없어요."
-        blankMessage.font = .systemFont(ofSize: 14)
+        blankMessage.textAlignment = .center
+        blankMessage.font = UIFont(name: "NotoSansKR-Bold", size: 14)
+        blankMessage.textColor = UIColor(hex: "#767676")
 
         blankMessage.snp.makeConstraints { make in
             make.top.equalTo(view).offset(406)
-            make.bottom.equalTo(view).offset(-426)
-            make.leading.equalTo(view).offset(140)
-            make.trailing.equalTo(view).offset(-139)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(150)
+            make.height.equalTo(30)
         }
     }
 }
@@ -111,7 +114,8 @@ extension ChatListViewController {
 extension ChatListViewController {
     func confirmNavigation() {
         tabBarController?.navigationItem.title = "쪽지"
-        tabBarController?.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Helvetica Bold", size: 24.0)!]
+        tabBarController?.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "NotoSansKR-Bold", size: 24)!]
+        tabBarController?.navigationController?.navigationBar.barTintColor = UIColor(hex: "#0C356A")
         makeRightBarButton()
         makeBlankLeftButton()
     }
@@ -141,7 +145,10 @@ extension ChatListViewController {
 
         navigationItem.rightBarButtonItem?.changesSelectionAsPrimaryAction = false
 
-        tabBarController?.navigationItem.rightBarButtonItem = rightBarButtonItem.makeBarButtonItem(imageName: "ellipsis.circle", menu: uiMenu)
+        rightBarButtonItem.image = UIImage(named: "chatpopupIcon")
+        rightBarButtonItem.menu = uiMenu
+        rightBarButtonItem.tintColor = UIColor(hex: "#0C356A")
+        tabBarController?.navigationItem.rightBarButtonItem = rightBarButtonItem
     }
 
     func makeBlankLeftButton() {
@@ -166,9 +173,9 @@ extension ChatListViewController: UITableViewDataSource {
         }
 
         let item = channels[indexPath.row]
-
+        cell.userProfileName.text = item.requester
+        cell.currentChat.text = item.currentMessage
         cell.setupUI()
-        cell.backgroundColor = .clear
         return cell
     }
 }
@@ -188,19 +195,6 @@ extension ChatListViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - Hiding Back Button Menu
-
-extension ChatListViewController {
-    func makeBackButton() {
-        let backButton = CustomBackButton(title: "", style: .plain, target: self, action: #selector(tappedBackButton))
-        tabBarController?.navigationItem.backBarButtonItem = backButton
-    }
-
-    @objc func tappedBackButton(_ sender: UIBarButtonItem) {
-        navigationController?.popViewController(animated: true)
-    }
-}
-
 // MARK: - Removing Duplication Chatting List
 
 extension ChatListViewController {
@@ -210,5 +204,3 @@ extension ChatListViewController {
         return duplicationRemovedArray
     }
 }
-
-

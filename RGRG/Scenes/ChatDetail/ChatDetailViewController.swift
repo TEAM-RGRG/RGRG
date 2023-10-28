@@ -15,6 +15,7 @@ class ChatDetailViewController: UIViewController {
 
     let rightBarButtonItem = CustomBarButton()
     let emptyView = UIView(frame: .zero)
+    let bottomBaseView = UIView(frame: .zero)
     let blankMessage = CustomLabel(frame: .zero)
     let sendMessageIcon = CustomImageView(frame: .zero)
     let textField = CustomTextField(frame: .zero)
@@ -25,6 +26,7 @@ class ChatDetailViewController: UIViewController {
     var count = 1
 
     var currentUserEmail = ""
+    var isChangeColorAlpha = false
 
     deinit {
         print("### ChatDetailViewController deinitialized")
@@ -80,13 +82,15 @@ extension ChatDetailViewController {
 
 extension ChatDetailViewController {
     func setupUI() {
-        view.backgroundColor = .systemGray5
+        view.backgroundColor = UIColor(hex: "#FFFFFF")
         confirmTableView()
         makeRightBarButton()
         registerCell()
+        confirmBottomBaseView()
         confirmTextField()
         confirmEmptyView()
         confirmSendMessageIcon()
+        makeBackButton()
     }
 }
 
@@ -99,30 +103,33 @@ extension ChatDetailViewController {
 
         view.addSubview(tableView)
         tableView.separatorStyle = .none
-        tableView.backgroundColor = .systemOrange
+        tableView.backgroundColor = UIColor(hex: "#F4F4F4")
 
         tableView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.leading.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-60)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-54)
         }
     }
 
     func registerCell() {
         tableView.register(MyFeedCell.self, forCellReuseIdentifier: MyFeedCell.identifier)
         tableView.register(YourFeedCell.self, forCellReuseIdentifier: YourFeedCell.identifier)
+        tableView.register(ChatAlertCell.self, forCellReuseIdentifier: ChatAlertCell.identifier)
     }
 
     func showBlankListMessage() {
         view.addSubview(blankMessage)
         blankMessage.text = "쪽지를 보내서 RG 친구를 만들어 보세요!"
-        blankMessage.font = .systemFont(ofSize: 14)
+        blankMessage.textAlignment = .center
+        blankMessage.font = UIFont(name: "NotoSansKR-Bold", size: 14)
+        blankMessage.textColor = UIColor(hex: "#767676")
 
         blankMessage.snp.makeConstraints { make in
             make.centerX.centerY.equalToSuperview()
             make.top.equalTo(view).offset(416)
-            make.leading.equalTo(view).offset(80)
+            make.leading.equalTo(view).offset(40)
             make.height.equalTo(20)
         }
     }
@@ -132,35 +139,35 @@ extension ChatDetailViewController {
 
 extension ChatDetailViewController {
     func makeRightBarButton() {
-        navigationItem.rightBarButtonItem = rightBarButtonItem.makeBarButtonItem(imageName: "gearshape", target: self, action: #selector(tappedSettingButton))
+        rightBarButtonItem.image = UIImage(named: "chatGearIcon")
+        rightBarButtonItem.target = self
+        rightBarButtonItem.action = #selector(tappedSettingButton)
+        rightBarButtonItem.tintColor = UIColor(hex: "#0C356A")
+        navigationItem.rightBarButtonItem = rightBarButtonItem
     }
 
     @objc func tappedSettingButton(_ sender: UIBarButtonItem) {
         vc.sheetPresentationController?.preferredCornerRadius = 20
-        view.backgroundColor = UIColor.gray.withAlphaComponent(0.1)
-        tableView.backgroundColor = UIColor.gray.withAlphaComponent(0.1)
 
         present(vc, animated: true)
     }
 }
 
-extension ChatDetailViewController {}
-
 // MARK: - TextField
 
 extension ChatDetailViewController {
     func confirmTextField() {
-        view.addSubview(textField)
-        textField.backgroundColor = .white
+        bottomBaseView.addSubview(textField)
+        textField.backgroundColor = UIColor(hex: "#FFFFFF")
         textField.settingCornerRadius(radius: 10)
         textField.settingPlaceholder(description: "메세지 보내기")
         textField.settingLeftPadding()
 
         textField.snp.makeConstraints { make in
-            make.trailing.equalTo(view).offset(-48)
-            make.leading.equalTo(view).offset(12)
-            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-8)
-            make.top.equalTo(tableView.snp.bottom).offset(8)
+            make.leading.equalTo(bottomBaseView).offset(11)
+            make.top.equalTo(bottomBaseView).offset(8)
+            make.width.equalTo(334)
+            make.height.equalTo(38)
         }
     }
 }
@@ -168,25 +175,37 @@ extension ChatDetailViewController {
 // MARK: - Sending Message Button
 
 extension ChatDetailViewController {
+    func confirmBottomBaseView() {
+        view.addSubview(bottomBaseView)
+
+        bottomBaseView.backgroundColor = UIColor(hex: "#F1F1F1")
+
+        bottomBaseView.snp.makeConstraints { make in
+            make.top.equalTo(tableView.snp.bottom)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.bottom.equalTo(view)
+        }
+    }
+
     func confirmEmptyView() {
-        view.addSubview(emptyView)
+        bottomBaseView.addSubview(emptyView)
         emptyView.layer.cornerRadius = 10
 
         emptyView.snp.makeConstraints { make in
             make.top.equalTo(textField.snp.top).offset(1)
             make.bottom.equalTo(textField.snp.bottom).offset(-1)
             make.leading.equalTo(textField.snp.trailing).offset(4)
-            make.trailing.equalTo(view).offset(-8)
+            make.trailing.equalTo(bottomBaseView).offset(-8)
         }
     }
 
     func confirmSendMessageIcon() {
         emptyView.addSubview(sendMessageIcon)
 
-        sendMessageIcon.image = UIImage(systemName: "paperplane.fill")
-        sendMessageIcon.tintColor = .systemGray2
+        sendMessageIcon.image = UIImage(named: "Send_fill")
+        sendMessageIcon.tintColor = UIColor(hex: "#ADADAD")
         sendMessageIcon.contentMode = .scaleAspectFit
-//        sendMessageIcon.layer.bounds = .init(x: 0, y: 0, width: 36, height: 36)
 
         sendMessageIcon.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedSendingMessageButton))
@@ -224,19 +243,37 @@ extension ChatDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = chats[indexPath.row]
 
-        if item.sender == currentUserEmail {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: MyFeedCell.identifier, for: indexPath) as? MyFeedCell else { return UITableViewCell() }
+        if indexPath.row == 0 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatAlertCell.identifier, for: indexPath) as? ChatAlertCell else { return UITableViewCell() }
             cell.setupUI()
-            cell.myChatContent.text = item.content
-            cell.myChatTime.text = item.date
+            DispatchQueue.main.async {}
 
             return cell
+
         } else {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: YourFeedCell.identifier, for: indexPath) as? YourFeedCell else { return UITableViewCell() }
-            cell.setupUI()
-            cell.yourChatContent.text = item.content
-            cell.yourChatTime.text = item.date
-            return cell
+            if item.sender == currentUserEmail {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: MyFeedCell.identifier, for: indexPath) as? MyFeedCell else { return UITableViewCell() }
+
+                cell.myChatContent.text = item.content
+                cell.myChatTime.text = item.date
+
+                DispatchQueue.main.async {
+                    cell.setupUI()
+                }
+
+                return cell
+            } else {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: YourFeedCell.identifier, for: indexPath) as? YourFeedCell else { return UITableViewCell() }
+
+                cell.yourChatContent.text = item.content
+                cell.yourChatTime.text = item.date
+
+                DispatchQueue.main.async {
+                    cell.setupUI()
+                }
+
+                return cell
+            }
         }
     }
 }
@@ -245,6 +282,10 @@ extension ChatDetailViewController: UITableViewDataSource {
 
 extension ChatDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == 0 {
+            return 110
+        }
+
         return tableView.rowHeight
     }
 
@@ -271,5 +312,17 @@ extension ChatDetailViewController: UITableViewDelegate {
                 self.tableView.reloadData()
             }
         }
+    }
+}
+
+extension ChatDetailViewController {
+    func makeBackButton() {
+        let backBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(tappedBackButton))
+        backBarButtonItem.tintColor = UIColor(hex: "#0C356A")
+        navigationItem.leftBarButtonItem = backBarButtonItem
+    }
+
+    @objc func tappedBackButton(_ sender: UIBarButtonItem) {
+        navigationController?.popViewController(animated: true)
     }
 }
