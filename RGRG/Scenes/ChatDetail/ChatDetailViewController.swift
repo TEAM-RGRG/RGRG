@@ -83,6 +83,7 @@ extension ChatDetailViewController {
 extension ChatDetailViewController {
     func setupUI() {
         view.backgroundColor = UIColor(hex: "#FFFFFF")
+        navigationController?.navigationBar.shadowImage = nil
         confirmTableView()
         makeRightBarButton()
         registerCell()
@@ -217,10 +218,8 @@ extension ChatDetailViewController {
     }
 
     @objc func tappedSendingMessageButton(_ sender: UITapGestureRecognizer) {
-        UIView.animate(withDuration: 2, animations: {
-            self.sendMessageIcon.tintColor = .blue
-        }, completion: { _ in
-            self.sendMessageIcon.tintColor = .systemGray2
+        UIView.transition(with: sendMessageIcon, duration: 1, animations: {
+            self.sendMessageIcon.image = UIImage(named: "ChangeSend_fill")
         })
 
         FireStoreManager.shared.addChat(thread: thread, sender: currentUserEmail, date: FireStoreManager.shared.dateFormatter(value: Date.now), read: false, content: textField.text ?? "n/a") { chat in
@@ -228,6 +227,7 @@ extension ChatDetailViewController {
 
             DispatchQueue.main.async {
                 self.textField.text = ""
+                self.sendMessageIcon.image = UIImage(named: "Send_fill")
             }
         }
     }
