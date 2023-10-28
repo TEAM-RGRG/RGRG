@@ -16,7 +16,7 @@ class ProfileViewController: UIViewController {
     let profileView = UIView()
     let profileImageView: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 75, height: 75))
-        imageView.layer.borderColor = UIColor.RGRGColor3?.cgColor
+        imageView.layer.borderColor = UIColor.rgrgColor3.cgColor
         imageView.layer.borderWidth = 2
         imageView.layer.cornerRadius = imageView.frame.height / 2
         imageView.backgroundColor = .rgrgColor7
@@ -91,7 +91,7 @@ extension ProfileViewController {
 
 extension ProfileViewController {
     func configureUI() {
-        view.backgroundColor = .RGRGColor5
+        view.backgroundColor = .rgrgColor5
 
         [profileView].forEach { view.addSubview($0) }
 

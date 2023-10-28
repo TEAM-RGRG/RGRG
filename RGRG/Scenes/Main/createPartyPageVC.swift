@@ -185,7 +185,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
                 // 만약 현재 버튼이 이 함수를 호출한 버튼이라면
                 Btn.isSelected = true
                 Btn.backgroundColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1)
-                Btn.layer.borderColor = UIColor.RGRGColor3?.cgColor
+                Btn.layer.borderColor = UIColor.rgrgColor3.cgColor
             }
                 else {
                 // 이 함수를 호출한 버튼이 아니라면
