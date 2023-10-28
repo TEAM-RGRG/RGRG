@@ -136,7 +136,7 @@ class MainViewController: UIViewController {
     
     let emptyViewForOption: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.RGRGColor5
+        view.backgroundColor = UIColor.rgrgColor5
         return view
     }()
     

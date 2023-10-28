@@ -28,4 +28,22 @@ class FirebaseUserManager {
             }
         }
     }
+    
+    func updateUserInfo(userInfo: User) {
+        let path = FirebaseUserManager.db.collection("users").document(Auth.auth().currentUser?.uid ?? "")
+        path.getDocument { snapshot, error in
+            if let error = error {
+                print("Error : \(error)")
+            } else {
+                guard let snapshot = snapshot else { return }
+                if let data = snapshot.data() {
+                    path.updateData(["profilePhoto": userInfo.profilePhoto])
+                    path.updateData(["userName": userInfo.userName])
+                    path.updateData(["position": userInfo.position])
+                    path.updateData(["tier": userInfo.tier])
+                    path.updateData(["mostChampion": userInfo.mostChampion])
+                }
+            }
+        }
+    }
 }

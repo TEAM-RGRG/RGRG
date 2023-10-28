@@ -248,9 +248,11 @@ extension ChatDetailViewController: UITableViewDataSource {
             cell.setupUI()
             DispatchQueue.main.async {}
 
+
             return cell
 
         } else {
+
             if item.sender == currentUserEmail {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: MyFeedCell.identifier, for: indexPath) as? MyFeedCell else { return UITableViewCell() }
 
@@ -274,6 +276,7 @@ extension ChatDetailViewController: UITableViewDataSource {
 
                 return cell
             }
+
         }
     }
 }
