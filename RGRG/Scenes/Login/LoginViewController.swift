@@ -74,6 +74,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.RGRGColor4
+        
         setupUI()
         passValueCheck()
         makeBackButton()

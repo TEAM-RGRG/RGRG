@@ -15,6 +15,15 @@ class MyFeedCell: UITableViewCell {
     lazy var emptyView = UIView(frame: .zero)
     lazy var myChatContent = CustomLabel(frame: .zero)
     lazy var myChatTime = CustomLabel(frame: .zero)
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 extension MyFeedCell {
@@ -28,12 +37,10 @@ extension MyFeedCell {
 extension MyFeedCell {
     func confirmBaseView() {
         contentView.addSubview(baseView)
-
         baseView.addSubview(myChatContent)
-
         contentView.addSubview(myChatTime)
 
-        baseView.backgroundColor = .tintColor
+        baseView.backgroundColor = UIColor(hex: "#279EFF")
         baseView.roundCorners(topLeft: 10, topRight: 10, bottomLeft: 10, bottomRight: 2)
 
         let borderLayer = CAShapeLayer()
@@ -55,7 +62,8 @@ extension MyFeedCell {
     func confirmMyChatContent() {
         myChatContent.numberOfLines = 0
         myChatContent.textAlignment = .natural
-        myChatContent.font = .systemFont(ofSize: 16)
+        myChatContent.font = UIFont(name: "NotoSansKR-VariableFont_wght", size: 16)
+        myChatContent.textColor = UIColor(hex: "#FFFFFF")
 
         myChatContent.snp.makeConstraints { make in
             make.top.equalTo(baseView).offset(8)
@@ -66,7 +74,7 @@ extension MyFeedCell {
     }
 
     func confirmMyChatTime() {
-        myChatTime.font = .systemFont(ofSize: 12)
+        myChatTime.font = UIFont(name: "Roboto-Regular", size: 12)
 
         myChatTime.snp.makeConstraints { make in
             make.trailing.equalTo(baseView.snp.leading).offset(-4)

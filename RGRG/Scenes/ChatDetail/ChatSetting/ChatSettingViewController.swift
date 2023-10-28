@@ -10,29 +10,31 @@ import UIKit
 
 class ChatSettingViewController: UIViewController {
     static let identifier = "ChatSettingViewController"
-
-    var blockIcon = CustomImageView(frame: .zero)
-    var exitIcon = CustomImageView(frame: .zero)
-
-    var cancelButton = CustomButton(frame: .zero)
-
-    var baseView = UIView(frame: .zero)
-    var baseSubView = UIView(frame: .zero)
-    var subView = UIView(frame: .zero)
-    var lineView = UIView(frame: .zero)
+    
+    let topBaseView = UIView(frame: .zero)
+    let lineView = UIView(frame: .zero)
+    
+    let blockView = UIView(frame: .zero)
+    let blockIcon = CustomImageView(frame: .zero)
+    let blockLabel = CustomLabel(frame: .zero)
+    
+    let exitView = UIView(frame: .zero)
+    let exitIcon = CustomImageView(frame: .zero)
+    let exitLabel = CustomLabel(frame: .zero)
+    
+    let cancelView = UIView(frame: .zero)
+    let cancelLabel = CustomLabel(frame: .zero)
 }
 
 extension ChatSettingViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemPink
         setupUI()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         if let sheetPresentationController = sheetPresentationController {
             sheetPresentationController.detents = [.custom(resolver: { _ in
-
                 return 207
             })]
         }
@@ -41,106 +43,183 @@ extension ChatSettingViewController {
 
 extension ChatSettingViewController {
     func setupUI() {
-        confirmBaseView()
-        confirmBaseSubView()
-        confirmLineView()
-        confirmBlockIcon()
-        confirmExitIcon()
-        confirmSubView()
-        confirmCancelButton()
+        view.backgroundColor = UIColor(hex: "#F1F1F1")
+        addView()
+        setupView()
+        confirms()
+    }
+    
+    func addView() {
+        view.addSubview(topBaseView)
+        view.addSubview(cancelView)
+        
+        topBaseView.addSubview(blockView)
+        topBaseView.addSubview(exitView)
+        topBaseView.addSubview(lineView)
+        
+        blockView.addSubview(blockIcon)
+        blockView.addSubview(blockLabel)
+        
+        exitView.addSubview(exitIcon)
+        exitView.addSubview(exitLabel)
+
+        cancelView.addSubview(cancelLabel)
+    }
+    
+    func confirms() {
+        confirmBlock()
+        confirmExit()
+        confirmCancel()
     }
 }
 
 extension ChatSettingViewController {
-    func confirmBaseView() {
-        view.addSubview(baseView)
-        baseView.backgroundColor = .white
-
-        baseView.snp.makeConstraints { make in
+    func setupView() {
+        confirmTopBaseView()
+        confirmBlockView()
+        confirmExitView()
+        confirmLineView()
+        confirmCancelView()
+    }
+    
+    func confirmTopBaseView() {
+        topBaseView.backgroundColor = UIColor(hex: "#FFFFFF")
+        topBaseView.layer.cornerRadius = 10
+        
+        topBaseView.snp.makeConstraints { make in
             make.top.equalTo(view).offset(20)
+            make.centerX.equalToSuperview()
             make.leading.equalTo(view).offset(16)
-            make.trailing.equalTo(view).offset(-16)
-            make.height.equalTo(51)
+            make.height.equalTo(101)
         }
     }
-
-    func confirmBaseSubView() {
-        view.addSubview(baseSubView)
-        baseSubView.backgroundColor = .white
-
-        baseSubView.snp.makeConstraints { make in
-            make.top.equalTo(baseView.snp.bottom)
-            make.leading.equalTo(view).offset(16)
-            make.trailing.equalTo(view).offset(-16)
+    
+    func confirmBlockView() {
+        blockView.backgroundColor = UIColor(hex: "#FFFFFF")
+        blockView.layer.cornerRadius = 10
+        
+        blockView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.leading.equalToSuperview()
             make.height.equalTo(50)
         }
     }
-
+    
+    func confirmExitView() {
+        exitView.backgroundColor = UIColor(hex: "#FFFFFF")
+        exitView.layer.cornerRadius = 10
+        
+        exitView.snp.makeConstraints { make in
+            make.bottom.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.height.equalTo(50)
+        }
+    }
+    
     func confirmLineView() {
-        baseView.addSubview(lineView)
-        lineView.backgroundColor = .black
-
+        lineView.backgroundColor = UIColor(hex: "#F7F8FA")
+        lineView.layer.cornerRadius = 0.1
+        
         lineView.snp.makeConstraints { make in
-            make.top.equalTo(baseView.snp.bottom).offset(10)
+            make.top.equalTo(blockView.snp.bottom)
+            make.centerX.equalToSuperview()
             make.leading.equalToSuperview().inset(13)
-            make.trailing.equalToSuperview().inset(-13)
-            make.height.equalTo(0.1)
-//            make.width.equalTo(336)
+            make.height.equalTo(1)
+        }
+    }
+    
+    func confirmCancelView() {
+        cancelView.backgroundColor = UIColor(hex: "#FFFFFF")
+        cancelView.layer.cornerRadius = 10
+        
+        cancelView.snp.makeConstraints { make in
+            make.top.equalTo(topBaseView.snp.bottom).offset(14)
+            make.centerX.equalToSuperview()
+            make.leading.equalTo(view).offset(16)
+            make.height.equalTo(50)
         }
     }
 }
 
 extension ChatSettingViewController {
-    func confirmBlockIcon() {
-        baseView.addSubview(blockIcon)
-        blockIcon.image = UIImage(systemName: "bell")
-        blockIcon.tintColor = .red
-
-//        blockIcon.snp.makeConstraints { make in
-//            make.top.equalTo(baseView).offset(14)
-//            make.leading.equalTo(baseView).offset(19)
-//            make.width.height.equalTo(24)
-//        }
+    func confirmBlock() {
+        comfirmBlockIcon()
+        confirmBlockLabel()
     }
-
-    func confirmExitIcon() {
-        baseView.addSubview(exitIcon)
-        exitIcon.image = UIImage(systemName: "bell")
-        exitIcon.tintColor = .black
-
-//        exitIcon.snp.makeConstraints { make in
-//            make.leading.equalTo(baseView).offset(19)
-//            make.bottom.equalTo(baseView).offset(-12)
-//            make.width.height.equalTo(24)
-//        }
+    
+    func comfirmBlockIcon() {
+        blockIcon.image = UIImage(named: "blockIcon")
+        
+        blockIcon.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.leading.equalTo(blockView).offset(19)
+            make.trailing.equalTo(blockView).offset(-318)
+            make.width.height.equalTo(24)
+        }
+    }
+    
+    func confirmBlockLabel() {
+        blockLabel.settingText("차단하기")
+        blockLabel.font = UIFont(name: "NotoSansKR-VariableFont_wght", size: 17)
+        blockLabel.textColor = UIColor(hex: "#FF0000")
+        
+        blockLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.leading.equalTo(blockView).offset(52)
+            make.width.equalTo(120)
+            make.height.equalTo(22)
+        }
     }
 }
 
-extension ChatSettingViewController {}
+extension ChatSettingViewController {
+    func confirmExit() {
+        confirmExitIcon()
+        confirmExitLabel()
+    }
+    
+    func confirmExitIcon() {
+        exitIcon.image = UIImage(named: "exitIcon")
+        
+        exitIcon.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.leading.equalTo(exitView).offset(19)
+            make.trailing.equalTo(exitView).offset(-318)
+            make.width.height.equalTo(24)
+        }
+    }
+    
+    func confirmExitLabel() {
+        exitLabel.settingText("채팅방 나가기")
+        exitLabel.font = UIFont(name: "NotoSansKR-VariableFont_wght", size: 17)
+        exitLabel.textColor = UIColor(hex: "#000000")
+        
+        exitLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.leading.equalTo(exitView).offset(52)
+            make.width.equalTo(120)
+            make.height.equalTo(22)
+        }
+    }
+}
 
 extension ChatSettingViewController {
-    func confirmSubView() {
-        view.addSubview(subView)
-        subView.backgroundColor = .clear
-        subView.layer.cornerRadius = 10
-
-//        subView.snp.makeConstraints { make in
-//            make.height.equalTo(50)
-//            make.top.equalTo(baseView.snp.bottom).offset(14)
-//            make.leading.equalTo(view).offset(16)
-//            make.trailing.equalTo(view).offset(-16)
-//        }
+    func confirmCancel() {
+        confirmCancelLabel()
     }
-
-    func confirmCancelButton() {
-        subView.addSubview(cancelButton)
-        cancelButton.setTitle("취소", for: .normal)
-        cancelButton.setTitleColor(.black, for: .normal)
-        cancelButton.backgroundColor = .white
-        cancelButton.layer.cornerRadius = 10
-
-//        cancelButton.snp.makeConstraints { make in
-//            make.top.bottom.leading.trailing.equalToSuperview()
-//        }
+    
+    func confirmCancelLabel() {
+        cancelLabel.settingText("취소")
+        cancelLabel.textAlignment = .center
+        cancelLabel.font = UIFont(name: "NotoSansKR-VariableFont_wght", size: 17)
+        cancelLabel.textColor = UIColor(hex: "#000000")
+        
+        cancelLabel.snp.makeConstraints { make in
+            make.centerX.centerY.equalToSuperview()
+            make.width.equalTo(60)
+            make.height.equalTo(22)
+        }
     }
 }

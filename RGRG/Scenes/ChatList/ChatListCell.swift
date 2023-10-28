@@ -23,6 +23,7 @@ class ChatListCell: UITableViewCell {
 
 extension ChatListCell {
     func setupUI() {
+        contentView.backgroundColor = UIColor(hex: "#F4F4F4")
         confirmBaseView()
         confirmProfileImage()
         confirmUserName()
@@ -50,11 +51,10 @@ extension ChatListCell {
         baseView.addSubview(userProfileImage)
 
         userProfileImage.image = UIImage(systemName: "sun.max")
-        userProfileImage.backgroundColor = .systemBlue
         userProfileImage.layer.cornerRadius = 26
-        
+
         userProfileImage.layer.borderWidth = 1
-        userProfileImage.layer.borderColor = UIColor.black.cgColor
+        userProfileImage.layer.borderColor = UIColor(hex: "#0C356A").cgColor
 
         userProfileImage.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
@@ -66,9 +66,9 @@ extension ChatListCell {
 
     func confirmUserName() {
         baseView.addSubview(userProfileName)
+        userProfileName.font = UIFont(name: "NotoSansKR-Bold", size: 20)
+        userProfileName.textColor = UIColor(hex: "#505050")
 
-        userProfileName.text = "페이커"
-        userProfileName.font = .systemFont(ofSize: 20, weight: .bold)
         userProfileName.snp.makeConstraints { make in
             make.top.equalTo(baseView.snp.top).offset(16)
             make.leading.equalTo(baseView).offset(87)
@@ -79,10 +79,9 @@ extension ChatListCell {
 
     func confirmCurrentChat() {
         baseView.addSubview(currentChat)
-
-        currentChat.text = "두 자리 혹시 가능할까요? 이 편지는 "
         currentChat.numberOfLines = 1
-        currentChat.font = .systemFont(ofSize: 16)
+        currentChat.font = UIFont(name: "NotoSansKR-VariableFont_wght", size: 16)
+        currentChat.textColor = UIColor(hex: "#767676")
 
         currentChat.snp.makeConstraints { make in
             make.top.equalTo(baseView).offset(44)

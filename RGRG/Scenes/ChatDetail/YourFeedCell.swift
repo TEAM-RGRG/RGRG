@@ -15,6 +15,15 @@ class YourFeedCell: UITableViewCell {
     let yourProfileImage = CustomImageView(frame: .zero)
     let yourChatContent = CustomLabel(frame: .zero)
     let yourChatTime = CustomLabel(frame: .zero)
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 extension YourFeedCell {
@@ -30,7 +39,7 @@ extension YourFeedCell {
     func confirmBaseView() {
         contentView.addSubview(baseView)
         
-        baseView.backgroundColor = .systemGray3
+        baseView.backgroundColor = UIColor(hex: "#ADADAD")
 
         baseView.roundCorners(topLeft: 10, topRight: 10, bottomLeft: 2, bottomRight: 10)
 
@@ -57,7 +66,7 @@ extension YourFeedCell {
         yourProfileImage.layer.cornerRadius = 17
 
         yourProfileImage.snp.makeConstraints { make in
-            make.top.equalTo(contentView).offset(8)
+            make.bottom.equalTo(baseView)
             make.leading.equalTo(contentView).offset(12)
             make.width.height.equalTo(34)
         }
@@ -65,11 +74,10 @@ extension YourFeedCell {
 
     func confirmYourChatContent() {
         baseView.addSubview(yourChatContent)
-
-        yourChatContent.text = "Hello _ world"
         yourChatContent.numberOfLines = 0
         yourChatContent.textAlignment = .natural
-        yourChatContent.font = .systemFont(ofSize: 16)
+        yourChatContent.font = UIFont(name: "NotoSansKR-VariableFont_wght", size: 16)
+        yourChatContent.textColor = UIColor(hex: "#FFFFFF")
 
         yourChatContent.snp.makeConstraints { make in
             make.top.equalTo(baseView).offset(8)
@@ -81,9 +89,7 @@ extension YourFeedCell {
 
     func confirmYourCahtTime() {
         contentView.addSubview(yourChatTime)
-
-        yourChatTime.text = "09:00 PM"
-        yourChatTime.font = .systemFont(ofSize: 12)
+        yourChatTime.font = UIFont(name: "Roboto-Regular", size: 12)
 
         yourChatTime.snp.makeConstraints { make in
             make.leading.equalTo(baseView.snp.trailing).offset(4)
