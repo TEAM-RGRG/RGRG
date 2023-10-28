@@ -224,6 +224,8 @@ extension EditProfileViewController {
         mostChampButton.titleLabel?.font = .myBoldSystemFont(ofSize: 16)
         mostChampButton.setImage(UIImage(named: "polygon"), for: .normal)
         mostChampButton.setTitleColor(UIColor(hex: "#505050"), for: .normal)
+        
+        doneEditButton.addTarget(self, action: #selector(confirmButtonPressed), for: .touchUpInside)
     }
 
     func setShadow() {
@@ -257,7 +259,7 @@ extension EditProfileViewController {
         let tiers = ["Iron", "Bronze", "Silver", "Gold", "Emerald", "Diamond", "Master", "GrandMaster", "Challenger"]
         var tierOptionArray = [UIAction]()
         let optionClosure = {(action: UIAction) in
-            print("menu::\(action.title)")
+            print("menu::\(self.tierButton.titleLabel?.text)")
         }
         
         for tier in tiers {
@@ -307,6 +309,9 @@ extension EditProfileViewController {
 
 extension EditProfileViewController {
     @objc func confirmButtonPressed(_ sender: UIButton) {
+        let updatedUser = User(email: user?.email ?? "", userName: (userNameTextField.text ?? user?.userName) ?? "", tier: tierButton.titleLabel?.text ?? "", position: positionButton.titleLabel?.text ?? "", profilePhoto: "Default", mostChampion: [])
+        
+        FirebaseUserManager.shared.updateUserInfo(userInfo: updatedUser)
         navigationController?.popViewController(animated: true)
     }
 
