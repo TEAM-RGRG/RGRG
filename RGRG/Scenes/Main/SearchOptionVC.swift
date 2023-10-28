@@ -5,508 +5,467 @@
 //  Created by t2023-m0064 on 2023/10/18.
 //
 
-import Foundation
 import SnapKit
 import UIKit
 
+class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+ 
 
-
-class SearchOptionVC: UIViewController {
-    
-    let infoLabel: UILabel = {
-        let label = UILabel()
-        label.text = "원하시는 검색 조건을 선택하세요"
-        label.font = UIFont.systemFont(ofSize: 12, weight: .bold)
-        label.textColor = .lightGray
-        return label
-    }()
-    
-    let tierLabel: UILabel = {
-        let label = UILabel()
-        label.text = "티어"
-        label.font = UIFont.systemFont(ofSize: 22, weight: .bold)
-        label.textColor = .black
-        return label
-    }()
-    
-    let tierButtonFirstFrame: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.distribution = .fillEqually
-        stackView.spacing = 5
-        return stackView
-    }()
-    
-    let ironTierbutton: UIButton = {
-        let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-        button.setTitleColor(.black, for: .normal)
-        button.setTitle("Iron", for: .normal)
-        //        button.setImage(UIImage(named: "emblem-iron"), for: .normal)
-        //        button.imageEdgeInsets = .init(top: -95, left: -175, bottom: -95, right: -175)
-        button.backgroundColor = .white
-        button.layer.cornerRadius = 12.5
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.systemGray4.cgColor
-        button.addTarget(self, action: #selector(tierOptionButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    let bronzeTierbutton: UIButton = {
-        let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-        button.setTitleColor(.black, for: .normal)
-        button.setTitle("Bronze", for: .normal)
-        //        button.setImage(UIImage(named: "emblem-iron"), for: .normal)
-        //        button.imageEdgeInsets = .init(top: -95, left: -175, bottom: -95, right: -175)
-        button.backgroundColor = .white
-        button.layer.cornerRadius = 12.5
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.systemGray4.cgColor
-        button.addTarget(self, action: #selector(tierOptionButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    let silverTierbutton: UIButton = {
-        let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-        button.setTitleColor(.black, for: .normal)
-        button.setTitle("Silver", for: .normal)
-        //        button.setImage(UIImage(named: "emblem-iron"), for: .normal)
-        //        button.imageEdgeInsets = .init(top: -95, left: -175, bottom: -95, right: -175)
-        button.backgroundColor = .white
-        button.layer.cornerRadius = 12.5
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.systemGray4.cgColor
-        button.addTarget(self, action: #selector(tierOptionButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    let goldTierbutton: UIButton = {
-        let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-        button.setTitleColor(.black, for: .normal)
-        button.setTitle("Gold", for: .normal)
-        //        button.setImage(UIImage(named: "emblem-iron"), for: .normal)
-        //        button.imageEdgeInsets = .init(top: -95, left: -175, bottom: -95, right: -175)
-        button.backgroundColor = .white
-        button.layer.cornerRadius = 12.5
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.systemGray4.cgColor
-        button.addTarget(self, action: #selector(tierOptionButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    let tierButtonSecondFrame: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.distribution = .fillEqually
-        stackView.spacing = 5
-        return stackView
-    }()
-    
-    let platinumTierbutton: UIButton = {
-        let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-        button.setTitleColor(.black, for: .normal)
-        button.setTitle("Platinum", for: .normal)
-        //        button.setImage(UIImage(named: "emblem-iron"), for: .normal)
-        //        button.imageEdgeInsets = .init(top: -95, left: -175, bottom: -95, right: -175)
-        button.backgroundColor = .white
-        button.layer.cornerRadius = 12.5
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.systemGray4.cgColor
-        button.addTarget(self, action: #selector(tierOptionButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    
-    let emeraldTierbutton: UIButton = {
-        let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-        button.setTitleColor(.black, for: .normal)
-        button.setTitle("Emerald", for: .normal)
-        //        button.setImage(UIImage(named: "emblem-iron"), for: .normal)
-        //        button.imageEdgeInsets = .init(top: -95, left: -175, bottom: -95, right: -175)
-        button.backgroundColor = .white
-        button.layer.cornerRadius = 12.5
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.systemGray4.cgColor
-        button.addTarget(self, action: #selector(tierOptionButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    let diamondTierbutton: UIButton = {
-        let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-        button.setTitleColor(.black, for: .normal)
-        button.setTitle("Diamond", for: .normal)
-        //        button.setImage(UIImage(named: "emblem-iron"), for: .normal)
-        //        button.imageEdgeInsets = .init(top: -95, left: -175, bottom: -95, right: -175)
-        button.backgroundColor = .white
-        button.layer.cornerRadius = 12.5
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.systemGray4.cgColor
-        button.addTarget(self, action: #selector(tierOptionButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    let masterTierbutton: UIButton = {
-        let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-        button.setTitleColor(.black, for: .normal)
-        button.setTitle("Iron", for: .normal)
-        //        button.setImage(UIImage(named: "emblem-iron"), for: .normal)
-        //        button.imageEdgeInsets = .init(top: -95, left: -175, bottom: -95, right: -175)
-        button.backgroundColor = .white
-        button.layer.cornerRadius = 12.5
-        button.layer.borderWidth = 2
-        button.layer.borderColor = UIColor.systemGray4.cgColor
-        button.addTarget(self, action: #selector(tierOptionButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    let tierButtonthirdFrame: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.distribution = .fillEqually
-        stackView.spacing = 1
-        return stackView
-    }()
-
-    let EmptyViewInTierFrame: UILabel = {
-        let view = UILabel()
-        view.text = "빈 배열"
-        view.textColor = .black
-        view.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+    let contentView: UIView = {
+        let view = UIView()
         return view
     }()
-    
 
-    
-    
-    let fourthButtonthirdFrame: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.distribution = .fillEqually
-        stackView.spacing = 1
-        return stackView
-    }()
-    
-    
-    let tierTextField: UITextField = {
-        let textField = UITextField()
-        textField.backgroundColor = .white
-        textField.layer.cornerRadius = 3
-        return textField
-    }()
-    
-    
-    
-    
-    let positionLabel: UILabel = {
-        let label = UILabel()
-        label.text = "희망 포지션"
-        label.font = UIFont.systemFont(ofSize: 22, weight: .bold)
-        label.textColor = .black
-        return label
-    }()
-    
-    let positionButtonFrame: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.distribution = .fillEqually
-        stackView.spacing = 5
-        return stackView
-    }()
-    
-    
-    
-    
-    let topPositionbutton: UIButton = {
-        let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-        button.setTitle("Top ", for: .normal)
-        button.contentHorizontalAlignment = .center
-        button.setTitleColor(.systemGray, for: .normal)
-        button.semanticContentAttribute = .forceRightToLeft
-        button.setImage(UIImage(named: "탑w"), for: .normal)
-        button.imageEdgeInsets = .init(top: 32, left: 32, bottom: 32, right: 32)
-        button.contentMode = .scaleAspectFit
-        button.clipsToBounds = true
-                button.backgroundColor = .white
-        button.layer.cornerRadius = 12.5
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.systemGray4.cgColor
-        button.addTarget(self, action: #selector(positionOptionButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    let junglePositionbutton: UIButton = {
-        let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-        button.setTitle("Top ", for: .normal)
-        button.contentHorizontalAlignment = .center
-        button.setTitleColor(.systemGray, for: .normal)
-        button.semanticContentAttribute = .forceRightToLeft
-        button.setImage(UIImage(named: "정글w"), for: .normal)
-        button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
-        //        button.backgroundColor = .white
-        button.layer.cornerRadius = 12.5
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.systemGray4.cgColor
-        button.addTarget(self, action: #selector(positionOptionButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    let midPositionbutton: UIButton = {
-        let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-        button.setTitle("Top ", for: .normal)
-        button.contentHorizontalAlignment = .center
-        button.setTitleColor(.systemGray, for: .normal)
-        button.semanticContentAttribute = .forceRightToLeft
-        button.setImage(UIImage(named: "미드w"), for: .normal)
-        button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
-        //        button.backgroundColor = .white
-        button.layer.cornerRadius = 12.5
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.systemGray4.cgColor
-        button.addTarget(self, action: #selector(positionOptionButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    let bottomPositionbutton: UIButton = {
-        let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-        button.setTitle("Top ", for: .normal)
-        button.contentHorizontalAlignment = .center
-        button.setTitleColor(.systemGray, for: .normal)
-        button.semanticContentAttribute = .forceRightToLeft
-        button.setImage(UIImage(named: "바텀w"), for: .normal)
-        button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
-        button.clipsToBounds = false
-        //        button.backgroundColor = .white
-        button.layer.cornerRadius = 12.5
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.systemGray4.cgColor
-        button.addTarget(self, action: #selector(positionOptionButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    let positionButtonScondFrame: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.distribution = .fillEqually
-        stackView.spacing = 5
-        return stackView
-    }()
-    
-    let supportPositionbutton: UIButton = {
-        let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-        button.setTitle("Top ", for: .normal)
-        button.contentHorizontalAlignment = .center
-        button.setTitleColor(.systemGray, for: .normal)
-        button.semanticContentAttribute = .forceRightToLeft
-        button.setImage(UIImage(named: "서폿w"), for: .normal)
-        button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
-        //        button.backgroundColor = .white
-        button.layer.cornerRadius = 12.5
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.systemGray4.cgColor
-        button.addTarget(self, action: #selector(positionOptionButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    
     let confirmationButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 22, weight: .bold)
         button.setTitle("선택 완료", for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
-        button.backgroundColor = UIColor.rgrgColor4
-        button.layer.cornerRadius = (10)
-        //        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        button.backgroundColor = UIColor.systemBlue
+        button.layer.cornerRadius = 10
         return button
     }()
+
+    let collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.isPagingEnabled = true
+        collectionView.backgroundColor = UIColor.clear
+        return collectionView
+    }()
+
+    let upperSectionItemCount = 7 // 윗쪽 섹션의 항목 개수
+    let lowerSectionItemCount = 5 // 아랫쪽 섹션의 항목 개수
+
+    let tierName = ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Emerald", "Diamond"]
+    let positionName = ["Top", "Jug", "Mid", "Sup", "Bot"]
     
+    var selectedTierIndexPath: IndexPath?
+    var selectedSection: Int?
     
-    
-    var tierOptionButtonArry = [UIButton]()
-    var positionOptionButtonArry = [UIButton]()
-    
-    
-    @objc func tierOptionButtonTapped(_ sender: UIButton) {
-        for Btn in tierOptionButtonArry {
-            if Btn == sender {
-                // 만약 현재 버튼이 이 함수를 호출한 버튼이라면
-                Btn.isSelected = true
-                Btn.backgroundColor = .systemGray5
-                Btn.layer.borderColor = UIColor.rgrgColor3.cgColor
-            }
-            else {
-                // 이 함수를 호출한 버튼이 아니라면
-                Btn.isSelected = false
-                Btn.backgroundColor = .white
-                Btn.layer.borderColor = UIColor.white.cgColor
-            }
-        }
-    }
-    
-    @objc func positionOptionButtonTapped(_ sender: UIButton) {
-        for Btn in positionOptionButtonArry {
-            if Btn == sender {
-                // 만약 현재 버튼이 이 함수를 호출한 버튼이라면
-                Btn.isSelected = true
-                Btn.backgroundColor = .systemGray5
-                Btn.layer.borderColor = UIColor.rgrgColor3.cgColor
-            }
-            else {
-                // 이 함수를 호출한 버튼이 아니라면
-                Btn.isSelected = false
-                Btn.backgroundColor = .white
-                Btn.layer.borderColor = UIColor.white.cgColor
-            }
-        }
-    }
-    
-    
+    var selectedPositionIndexPath: IndexPath?
+    var positionSelectedSection: Int?
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tierOptionButtonArry.append(ironTierbutton)
-        tierOptionButtonArry.append(bronzeTierbutton)
-        tierOptionButtonArry.append(silverTierbutton)
-        tierOptionButtonArry.append(goldTierbutton)
-        tierOptionButtonArry.append(platinumTierbutton)
-        tierOptionButtonArry.append(emeraldTierbutton)
-        tierOptionButtonArry.append(diamondTierbutton)
-        tierOptionButtonArry.append(masterTierbutton)
-        positionOptionButtonArry.append(topPositionbutton)
-        positionOptionButtonArry.append(junglePositionbutton)
-        positionOptionButtonArry.append(midPositionbutton)
-        positionOptionButtonArry.append(bottomPositionbutton)
-        positionOptionButtonArry.append(supportPositionbutton)
-        
+
         configureUI()
+        collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "CollectionViewCell")
+        collectionView.register(PositionCell.self, forCellWithReuseIdentifier: "PositionCell")
+        
+        collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "HeaderView")
+        
+
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        
+        collectionView.collectionViewLayout = createCompositionalLayout()
+
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         if let sheetPresentationController = sheetPresentationController {
             sheetPresentationController.detents = [
                 .custom { _ in
-                    return 360
+                    360
                 }
             ]
         }
     }
+
+    func configureUI() {
+        view.backgroundColor = .white
+
+        view.addSubview(contentView)
+        contentView.addSubview(collectionView)
+        view.addSubview(confirmationButton)
+
+        contentView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview().offset(0)
+            $0.bottom.equalTo(confirmationButton.snp.top).offset(-20)
+        }
+
+        collectionView.snp.makeConstraints {
+            $0.leading.equalTo(contentView.snp.leading).offset(10)
+            $0.top.equalTo(contentView.snp.top).offset(0)
+            $0.trailing.equalTo(contentView.snp.trailing).offset(-10)
+            $0.bottom.equalTo(contentView.snp.bottom).offset(0)
+        }
+
+        confirmationButton.snp.makeConstraints {
+            $0.bottom.equalToSuperview().offset(-20)
+            $0.leading.equalToSuperview().offset(41)
+            $0.trailing.equalToSuperview().offset(-41)
+            $0.height.equalTo(46)
+            $0.centerX.equalTo(view)
+        }
+    }
+
     
     
     
-    @objc func backButtonTapped() {
-        dismiss(animated: true, completion: nil)
+    fileprivate func createCompositionalLayout() -> UICollectionViewLayout {
+            // 코포지셔널 레이아웃 생성
+            let layout = UICollectionViewCompositionalLayout{
+
+                // 만들게 되면 튜플형태로 들어옴
+                (sectionInedex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) ->
+                NSCollectionLayoutSection? in
+
+                // 아이템에 대한 사이즈 - absolute 는 고정값, estimate 는 추측, fraction 은 퍼센트
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.2), heightDimension: .absolute(35))
+
+                // 위에서 만든 아이템 사이즈로 아이템 만들기
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+                // 아이템 간격설정
+                item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+
+
+                // 그룹 사이즈
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: itemSize.heightDimension)
+
+                // 그룹 사이즈로 그룹 만들기
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 4)
+
+                // 그룹으로 섹션 만들기
+                let section = NSCollectionLayoutSection(group: group)
+
+
+                // 섹션에 대한 간격
+                section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+
+
+                return section
+            }
+            return layout
+        }
+
+    
+    
+    
+    
+    
+    // 섹션 개수 반환
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2 // 윗쪽 섹션과 아랫쪽 섹션 두 개의 섹션을 정의
+    }
+
+    // 각 섹션당 항목 개수 반환
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if section == 0 {
+            return upperSectionItemCount // 윗쪽 섹션의 항목 개수를 반환
+        } else {
+            return lowerSectionItemCount // 아랫쪽 섹션의 항목 개수를 반환
+        }
+    }
+
+    // 헤더 뷰 구현
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader {
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "HeaderView", for: indexPath) as! HeaderView
+            if indexPath.section == 0 {
+                headerView.titleLabel.text = "윗쪽 섹션 헤더"
+            } else {
+                headerView.titleLabel.text = "아랫쪽 섹션 헤더"
+            }
+            return headerView
+        }
+        return UICollectionReusableView()
+    }
+    
+    
+ 
+    
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.bounds.width, height: 50)
+    }
+    
+    
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == 0 { // 윗쪽 섹션
+            // 이전에 선택한 셀이 있다면 선택 해제
+            if let previousIndexPath = selectedTierIndexPath {
+                if let previousCell = collectionView.cellForItem(at: previousIndexPath) as? CollectionViewCell {
+                    previousCell.tierLabel.layer.borderColor = UIColor.systemGray4.cgColor
+                }
+
+            }
+
+            // 선택한 셀의 indexPath 저장
+            selectedTierIndexPath = indexPath
+
+            // 선택한 셀의 스타일 변경
+            if let selectedCell = collectionView.cellForItem(at: indexPath) as? CollectionViewCell {
+                selectedCell.tierLabel.layer.borderColor = UIColor.systemBlue.cgColor
+            }
+
+        } else { // 아랫쪽 섹션
+            // 이전에 선택한 셀이 있다면 선택 해제
+            if let previousIndexPath = selectedPositionIndexPath {
+                if let previousCell = collectionView.cellForItem(at: previousIndexPath) as? PositionCell {
+                    previousCell.positionFrame.layer.borderColor = UIColor.systemGray4.cgColor
+                }
+
+            }
+
+            // 선택한 셀의 indexPath 저장
+            selectedPositionIndexPath = indexPath
+
+            // 선택한 셀의 스타일 변경
+            if let selectedCell = collectionView.cellForItem(at: indexPath) as? PositionCell {
+                selectedCell.positionFrame.layer.borderColor = UIColor.systemBlue.cgColor
+            }
+        }
     }
     
     
     
     
-    func configureUI() {
-        view.backgroundColor = .white
-        
-        //        view.addSubview(infoLabel)
-        view.addSubview(tierLabel)
-        
-        view.addSubview(tierButtonFirstFrame)
-        tierButtonFirstFrame.addArrangedSubview(ironTierbutton)
-        tierButtonFirstFrame.addArrangedSubview(bronzeTierbutton)
-        tierButtonFirstFrame.addArrangedSubview(silverTierbutton)
-        tierButtonFirstFrame.addArrangedSubview(goldTierbutton)
-        view.addSubview(tierButtonSecondFrame)
-        tierButtonSecondFrame.addArrangedSubview(platinumTierbutton)
-        tierButtonSecondFrame.addArrangedSubview(emeraldTierbutton)
-        tierButtonSecondFrame.addArrangedSubview(diamondTierbutton)
-        tierButtonSecondFrame.addArrangedSubview(EmptyViewInTierFrame)
-        
-        view.addSubview(positionLabel)
-        view.addSubview(positionButtonFrame)
-        positionButtonFrame.addArrangedSubview(topPositionbutton)
-        positionButtonFrame.addArrangedSubview(junglePositionbutton)
-        positionButtonFrame.addArrangedSubview(midPositionbutton)
-        positionButtonFrame.addArrangedSubview(bottomPositionbutton)
-        view.addSubview(positionButtonScondFrame)
-        positionButtonScondFrame.addArrangedSubview(supportPositionbutton)
-        positionButtonScondFrame.addArrangedSubview(EmptyViewInTierFrame)
-        positionButtonScondFrame.addArrangedSubview(EmptyViewInTierFrame)
-        positionButtonScondFrame.addArrangedSubview(EmptyViewInTierFrame)
-        view.addSubview(confirmationButton)
-        
-        
-        //        infoLabel.snp.makeConstraints{
-        //            $0.top.equalTo(view.safeAreaLayoutGuide).offset(15)
-        //            $0.leading.equalToSuperview().offset(20)
-        //        }
-        
-        // 티어 옵션
-        tierLabel.snp.makeConstraints{
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(24)
-            $0.leading.equalToSuperview().offset(25)
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+           let cellWidth = collectionView.bounds.width / CGFloat(5)
+           let cellHeight = collectionView.bounds.height / CGFloat(10)
+           return CGSize(width: cellWidth, height: cellHeight)
+       }
+    
+    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+//        return 0 // 아이템 간의 수평 간격
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+//        return 0 // 아이템 간의 수직 간격
+//    }
+
+    
+ 
+
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if indexPath.section == 0 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! CollectionViewCell
+            cell.tierLabel.text = tierName[indexPath.row]
+            
+            if let tierText = cell.tierLabel.text {
+                       switch tierText {
+                       case "Iron":
+                           cell.tierLabel.textColor = .iron
+                       case "Bronze":
+                           cell.tierLabel.textColor = .bronze
+                       case "Silver":
+                           cell.tierLabel.textColor = .silver
+                       case "Gold":
+                           cell.tierLabel.textColor = .gold
+                       case "Platinum":
+                           cell.tierLabel.textColor = .platinum
+                       case "Emerald":
+                           cell.tierLabel.textColor = .emerald
+                       case "Diamond":
+                           cell.tierLabel.textColor = .diamond
+                       default:
+                           cell.tierLabel.textColor = .black
+                       }
+                   }
+            
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PositionCell", for: indexPath) as! PositionCell
+            cell.positionLabel.text = positionName[indexPath.row]
+            
+            if let position = cell.positionLabel.text {
+                       if position == "Top" {
+                           cell.positionImage.image = UIImage(named: "탑w")?.withRenderingMode(.alwaysTemplate)
+                       } else if position == "Jug" {
+                           cell.positionImage.image = UIImage(named: "정글w")?.withRenderingMode(.alwaysTemplate)
+                       } else if position == "Mid" {
+                           cell.positionImage.image = UIImage(named: "미드w")?.withRenderingMode(.alwaysTemplate)
+                       } else if position == "Sup" {
+                           cell.positionImage.image = UIImage(named: "서폿w")?.withRenderingMode(.alwaysTemplate)
+                       } else if position == "Bot" {
+                           cell.positionImage.image = UIImage(named: "바텀w")?.withRenderingMode(.alwaysTemplate)
+                       }
+                   }
+            
+            return cell
+        }
+    }
+
+
+    
+    
+
+    class CollectionViewCell: UICollectionViewCell {
+        let cellFrameView: UIView = {
+            let view = UIView()
+            view.backgroundColor = UIColor.white
+            view.layer.cornerRadius = 10
+            return view
+        }()
+
+        let tierLabel: UILabel = {
+            let label = UILabel()
+            label.translatesAutoresizingMaskIntoConstraints = false
+            label.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+            label.textColor = .black
+            label.layer.cornerRadius = 12
+            label.layer.borderWidth = 1
+            label.layer.borderColor = UIColor.systemGray4.cgColor
+            label.textAlignment = .center
+            return label
+        }()
+
+        override init(frame: CGRect) {
+            super.init(frame: frame)
+            setupUI()
+        }
+
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+
+        private func setupUI() {
+            contentView.backgroundColor = .clear
+
+            contentView.addSubview(cellFrameView)
+            cellFrameView.addSubview(tierLabel)
+
+            cellFrameView.snp.makeConstraints {
+                $0.edges.equalToSuperview().inset(5)
+            }
+
+            tierLabel.snp.makeConstraints {
+                $0.height.equalTo(24)
+                $0.width.equalTo(85)
+                $0.top.equalTo(cellFrameView.snp.top).offset(0)
+//                $0.edges.equalToSuperview().inset(10)
+            }
         }
         
-        tierButtonFirstFrame.snp.makeConstraints{
-            $0.top.equalTo(tierLabel.snp.bottom).offset(13)
-            $0.height.equalTo(25)
-            $0.leading.equalToSuperview().offset(19)
-            $0.trailing.equalToSuperview().offset(-19)
-        }
-        
-        tierButtonSecondFrame.snp.makeConstraints{
-            $0.top.equalTo(tierButtonFirstFrame.snp.bottom).offset(10)
-            $0.height.equalTo(25)
-            $0.leading.equalToSuperview().offset(19)
-            $0.trailing.equalToSuperview().offset(-19)
-        }
-        
-        // 포지션 옵션
-        positionLabel.snp.makeConstraints{
-            $0.top.equalTo(tierButtonSecondFrame.snp.bottom).offset(20)
-            $0.leading.equalToSuperview().offset(25)
-        }
-        
-        positionButtonFrame.snp.makeConstraints{
-            $0.top.equalTo(positionLabel.snp.bottom).offset(5)
-            $0.height.equalTo(25)
-            $0.leading.equalToSuperview().offset(19)
-            $0.trailing.equalToSuperview().offset(-19)
-        }
-        
-        positionButtonScondFrame.snp.makeConstraints{
-            $0.top.equalTo(positionButtonFrame.snp.bottom).offset(5)
-            $0.height.equalTo(25)
-            $0.leading.equalToSuperview().offset(19)
-            $0.trailing.equalToSuperview().offset(-19)
-        }
-        
-        ////
-//        EmptyViewInTierFrame.snp.makeConstraints{
-//            $0.height.width.equalTo(10)
+        // 소개글
+
+//        patryListTable.snp.makeConstraints{
+//            $0.top.equalTo(contentView.snp.top).offset(10)
 //        }
+    }
+}
+
+
+class PositionCell: UICollectionViewCell {
+    let cellFrameView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.white
+        view.layer.cornerRadius = 10
+        return view
+    }()
+
+    let positionFrame: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 12
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.systemGray4.cgColor
+        return view
+    }()
+    
+    let positionLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        label.textColor = .gray
+        label.textAlignment = .center
+        return label
+    }()
+    
+    let positionImage: UIImageView = {
+        var imageView = UIImageView()
+        imageView.image = UIImage(named: "미드w")?.withRenderingMode(.alwaysTemplate)
+        imageView.tintColor = .systemGray2
+        imageView.contentMode = .scaleToFill
+//        imageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        return imageView
+    }()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setupUI() {
+        contentView.backgroundColor = .clear
+
+        contentView.addSubview(cellFrameView)
+        cellFrameView.addSubview(positionFrame)
+        positionFrame.addSubview(positionLabel)
+        positionFrame.addSubview(positionImage)
+
+
+        cellFrameView.snp.makeConstraints {
+            $0.edges.equalToSuperview().inset(5)
+        }
+
+        positionFrame.snp.makeConstraints {
+            $0.height.equalTo(24)
+            $0.width.equalTo(85)
+            $0.top.equalTo(cellFrameView.snp.top).offset(0)
+//                $0.edges.equalToSuperview().inset(10)
+        }
         
+        positionLabel.snp.makeConstraints {
+            $0.top.equalTo(positionFrame.snp.top).offset(2)
+            $0.leading.equalTo(positionFrame.snp.leading).offset(19)
+//                $0.edges.equalToSuperview().inset(10)
+        }
         
-        confirmationButton.snp.makeConstraints{
-            $0.top.equalTo(positionButtonScondFrame.snp.bottom).offset(30)
-            $0.leading.equalToSuperview().offset(41)
-            $0.trailing.equalToSuperview().offset(-41)
-            $0.height.equalTo(46)
-            //            $0.bottom.equalToSuperview().offset(-25)
-            $0.centerX.equalTo(view)
+        positionImage.snp.makeConstraints {
+            $0.top.equalTo(positionFrame.snp.top).offset(2)
+            $0.height.width.equalTo(20)
+            $0.leading.equalTo(positionLabel.snp.trailing).offset(3)
+//                $0.edges.equalToSuperview().inset(10)
+        }
+    }
+}
+
+
+
+
+
+class HeaderView: UICollectionReusableView {
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "콜렉션뷰 헤더"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        label.textColor = .black
+        return label
+    }()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setupUI() {
+        backgroundColor = .systemGray5
+
+        addSubview(titleLabel)
+        titleLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(10)
+            $0.trailing.equalToSuperview().offset(-10)
+            $0.height.equalTo(20)
+            $0.top.bottom.equalToSuperview().inset(5)
         }
     }
 }

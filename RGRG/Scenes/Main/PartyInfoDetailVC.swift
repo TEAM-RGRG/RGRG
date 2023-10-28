@@ -34,8 +34,6 @@ class PartyInfoDetailVC: UIViewController {
         button.titleLabel?.font = .systemFont(ofSize: 17, weight: .bold)
         button.setTitle("Back", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
-//        button.backgroundColor = UIColor.RGRGColor2
-//        button.layer.cornerRadius = (10)
         button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -292,7 +290,7 @@ class PartyInfoDetailVC: UIViewController {
         button.setTitleColor(UIColor.white, for: .normal)
         button.backgroundColor = UIColor.rgrgColor4
         button.layer.cornerRadius = (10)
-//        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -306,9 +304,15 @@ class PartyInfoDetailVC: UIViewController {
     }
     
     
-    
     @objc func backButtonTapped() {
-        dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    
+    @objc func menuButtonTapped() {
+        let PartyDetailPageMenuVC = PartyDetailPageMenuVC()
+        PartyDetailPageMenuVC.modalPresentationStyle = .pageSheet
+        present(PartyDetailPageMenuVC, animated: true, completion: nil)
     }
     
     
@@ -350,6 +354,32 @@ class PartyInfoDetailVC: UIViewController {
         
         
         
+        // 네비게이션 바 왼쪽 버튼
+        let backButton = UIButton(type: .custom)
+        backButton.setImage(UIImage(systemName: "multiply")? .withRenderingMode(.alwaysTemplate), for: .normal)
+        backButton.tintColor = .black
+//        backButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true // 버튼의 가로 크기
+        backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        backButton.imageEdgeInsets = .init(top: -18, left: -18, bottom: -18, right: -18)
+        
+        let customItem = UIBarButtonItem(customView: backButton)
+        navigationItem.leftBarButtonItem = customItem
+        
+        
+        let menuButton = UIButton(type: .custom)
+        menuButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+//        backButton.
+//        backButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        menuButton.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
+        menuButton.widthAnchor.constraint(equalToConstant: 30).isActive = true // 버튼의 가로 크기
+        menuButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        menuButton.imageEdgeInsets = .init(top: -18, left: -18, bottom: -18, right: -18)
+        // 네비게이션바 오른쪽 버튼
+        let rightButton = UIBarButtonItem(customView: menuButton)
+        navigationItem.rightBarButtonItem = rightButton
+        
         
         topFrame.snp.makeConstraints{
             $0.top.leading.equalToSuperview().offset(0)
@@ -361,12 +391,6 @@ class PartyInfoDetailVC: UIViewController {
             $0.top.equalTo(topFrame.snp.top).offset(62)
             $0.centerX.equalTo(topFrame)
         }
-        
-//        backButton.snp.makeConstraints{
-//            $0.top.equalTo(topFrame.snp.top).offset(55)
-//            $0.leading.equalTo(topFrame.snp.leading).offset(25)
-//        }
-        
         
         contentView.snp.makeConstraints{
             $0.top.equalTo(topFrame.snp.bottom).offset(10)
@@ -499,8 +523,6 @@ class PartyInfoDetailVC: UIViewController {
             $0.leading.equalTo(requiredPositionLabel.snp.leading).offset(0)
         }
         
-        
-        
         bottomframeView.snp.makeConstraints{
             $0.top.equalTo(midframeView.snp.bottom).offset(3)
             $0.leading.equalTo(contentView.snp.leading).offset(5)
@@ -518,6 +540,90 @@ class PartyInfoDetailVC: UIViewController {
         scrollView.contentSize = contentView.bounds.size
     }
 }
+
+
+
+
+
+
+class PartyDetailPageMenuVC: UIViewController{
+    
+    let contentView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
+        return view
+    }()
+    
+    let userBanButton: UIButton = {
+        let button = UIButton()
+        button.titleLabel?.font = .systemFont(ofSize: 22, weight: .medium)
+        button.setTitle("이 사용자의 글 보지 않기", for: .normal)
+        button.setTitleColor(UIColor.systemBlue, for: .normal)
+        button.backgroundColor = UIColor.systemGray5
+        button.layer.cornerRadius = (10)
+//                button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    let cancelButton: UIButton = {
+        let button = UIButton()
+        button.titleLabel?.font = .systemFont(ofSize: 22, weight: .bold)
+        button.setTitle("취소", for: .normal)
+        button.setTitleColor(UIColor.systemBlue, for: .normal)
+        button.backgroundColor = UIColor.white
+        button.layer.cornerRadius = (10)
+//                button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+                
+        configureUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if let sheetPresentationController = sheetPresentationController {
+            sheetPresentationController.detents = [
+                .custom { _ in
+                    return 860
+                }
+            ]
+        }
+    }
+    
+    
+    
+    
+    func configureUI() {
+        
+        view.addSubview(contentView)
+        contentView.addSubview(userBanButton)
+        contentView.addSubview(cancelButton)
+        
+       
+        contentView.snp.makeConstraints{
+            $0.top.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        userBanButton.snp.makeConstraints{
+            $0.bottom.equalTo(cancelButton.snp.top).offset(-14)
+            $0.height.equalTo(55)
+            $0.leading.equalToSuperview().offset(17)
+            $0.trailing.equalToSuperview().offset(-17)
+        }
+        
+        cancelButton.snp.makeConstraints{
+            $0.bottom.equalTo(contentView.snp.bottom).offset(-42)
+            $0.height.equalTo(55)
+            $0.leading.equalToSuperview().offset(17)
+            $0.trailing.equalToSuperview().offset(-17)
+        }
+    }
+}
+
 
 
 

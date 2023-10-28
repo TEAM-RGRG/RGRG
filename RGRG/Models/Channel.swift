@@ -13,4 +13,7 @@ struct Channel: Hashable {
     var requester: String
     var writer: String
     var channelID: String
+    var currentMessage: String?
+    var writerProfile: String
+    var requesterProfile: String
 }

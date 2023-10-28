@@ -43,6 +43,7 @@
 		1DB94CFB2AEA398500851A18 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1DB94CEF2AEA398400851A18 /* Roboto-Regular.ttf */; };
 		1DB94CFF2AEA398500851A18 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1DB94CF32AEA398500851A18 /* Roboto-Bold.ttf */; };
 		1DB94D032AEA82C100851A18 /* NotoSansKR-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1DB94D022AEA82C100851A18 /* NotoSansKR-Bold.ttf */; };
+		4E0BF7BD2AECED6B00D74836 /* ChatAlertCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0BF7BC2AECED6B00D74836 /* ChatAlertCell.swift */; };
 		1DB94D052AEB978900851A18 /* ChooseIconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB94D042AEB978900851A18 /* ChooseIconViewController.swift */; };
 		1DB94D072AEB979900851A18 /* ChooseChampViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB94D062AEB979900851A18 /* ChooseChampViewController.swift */; };
 		1DB94D092AED4A2B00851A18 /* IconCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB94D082AED4A2B00851A18 /* IconCollectionViewCell.swift */; };
@@ -82,11 +83,13 @@
 		4E8B853E2AD81515009BCF4B /* RecuitmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8B853D2AD81515009BCF4B /* RecuitmentViewController.swift */; };
 		4E8B85422AD815B6009BCF4B /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8B85412AD815B6009BCF4B /* SettingViewController.swift */; };
 		4EC170CC2ADFB1FC0049B23D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4EC170CB2ADFB1FC0049B23D /* GoogleService-Info.plist */; };
-		4EC170D02ADFFDC10049B23D /* ChatSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC170CF2ADFFDC10049B23D /* ChatSettingViewController.swift */; };
 		4EC170D22ADFFDE40049B23D /* ChatSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC170D12ADFFDE40049B23D /* ChatSettingCell.swift */; };
 		4ECD01E52ADE6C15003EA65C /* CustomBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECD01E42ADE6C15003EA65C /* CustomBarButton.swift */; };
 		4ECD01E92ADE9405003EA65C /* MyFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECD01E82ADE9405003EA65C /* MyFeedCell.swift */; };
 		4ECD01EB2ADE9413003EA65C /* YourFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECD01EA2ADE9413003EA65C /* YourFeedCell.swift */; };
+		4EE5E9D42AEBA89A00B7849E /* ChatSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE5E9D32AEBA89A00B7849E /* ChatSettingViewController.swift */; };
+		4EE5E9D82AEBCAFB00B7849E /* PartyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE5E9D72AEBCAFB00B7849E /* PartyManager.swift */; };
+		4EE5E9DA2AEBCBB800B7849E /* PartyInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE5E9D92AEBCBB800B7849E /* PartyInfo.swift */; };
 		4EF3A7022AE64F8600A1D32D /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 4EF3A7012AE64F8600A1D32D /* FirebaseAnalytics */; };
 		4EF3A7042AE64F8600A1D32D /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 4EF3A7032AE64F8600A1D32D /* FirebaseAnalyticsOnDeviceConversion */; };
 		4EF3A7062AE64F8600A1D32D /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 4EF3A7052AE64F8600A1D32D /* FirebaseAnalyticsSwift */; };
@@ -121,6 +124,7 @@
 		1DB94CEF2AEA398400851A18 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		1DB94CF32AEA398500851A18 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		1DB94D022AEA82C100851A18 /* NotoSansKR-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Bold.ttf"; sourceTree = "<group>"; };
+		4E0BF7BC2AECED6B00D74836 /* ChatAlertCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAlertCell.swift; sourceTree = "<group>"; };
 		1DB94D042AEB978900851A18 /* ChooseIconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseIconViewController.swift; sourceTree = "<group>"; };
 		1DB94D062AEB979900851A18 /* ChooseChampViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseChampViewController.swift; sourceTree = "<group>"; };
 		1DB94D082AED4A2B00851A18 /* IconCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -155,11 +159,13 @@
 		4E8B853D2AD81515009BCF4B /* RecuitmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecuitmentViewController.swift; sourceTree = "<group>"; };
 		4E8B85412AD815B6009BCF4B /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		4EC170CB2ADFB1FC0049B23D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		4EC170CF2ADFFDC10049B23D /* ChatSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatSettingViewController.swift; sourceTree = "<group>"; };
 		4EC170D12ADFFDE40049B23D /* ChatSettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatSettingCell.swift; sourceTree = "<group>"; };
 		4ECD01E42ADE6C15003EA65C /* CustomBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBarButton.swift; sourceTree = "<group>"; };
 		4ECD01E82ADE9405003EA65C /* MyFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedCell.swift; sourceTree = "<group>"; };
 		4ECD01EA2ADE9413003EA65C /* YourFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourFeedCell.swift; sourceTree = "<group>"; };
+		4EE5E9D32AEBA89A00B7849E /* ChatSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettingViewController.swift; sourceTree = "<group>"; };
+		4EE5E9D72AEBCAFB00B7849E /* PartyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyManager.swift; sourceTree = "<group>"; };
+		4EE5E9D92AEBCBB800B7849E /* PartyInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyInfo.swift; sourceTree = "<group>"; };
 		4EF3A7152AE6510C00A1D32D /* FireStoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireStoreManager.swift; sourceTree = "<group>"; };
 		4EF3A7172AE6511100A1D32D /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		96A7B3F92AD9365D00B218EB /* CtaLageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CtaLageButton.swift; sourceTree = "<group>"; };
@@ -257,7 +263,7 @@
 		4E1264BC2ADF6DF300A4E602 /* ChatSetting */ = {
 			isa = PBXGroup;
 			children = (
-				4EC170CF2ADFFDC10049B23D /* ChatSettingViewController.swift */,
+				4EE5E9D32AEBA89A00B7849E /* ChatSettingViewController.swift */,
 				4EC170D12ADFFDE40049B23D /* ChatSettingCell.swift */,
 			);
 			path = ChatSetting;
@@ -338,9 +344,11 @@
 				4EF3A7172AE6511100A1D32D /* Channel.swift */,
 				4E8B84EF2AD8120D009BCF4B /* UserInfo.swift */,
 				4E8B84F12AD8120D009BCF4B /* ChatInfo.swift */,
-				4EF3A7152AE6510C00A1D32D /* FireStoreManager.swift */,
-				1DB94CDD2AE760AB00851A18 /* StorageManager.swift */,
 				1DB94CDF2AE8024000851A18 /* FirebaseUserManager.swift */,
+				4EE5E9D92AEBCBB800B7849E /* PartyInfo.swift */,
+				1DB94CDD2AE760AB00851A18 /* StorageManager.swift */,
+				4EF3A7152AE6510C00A1D32D /* FireStoreManager.swift */,
+				4EE5E9D72AEBCAFB00B7849E /* PartyManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -420,6 +428,7 @@
 			isa = PBXGroup;
 			children = (
 				4E8B85072AD8120E009BCF4B /* ChatDetailViewController.swift */,
+				4E0BF7BC2AECED6B00D74836 /* ChatAlertCell.swift */,
 				4ECD01E82ADE9405003EA65C /* MyFeedCell.swift */,
 				4ECD01EA2ADE9413003EA65C /* YourFeedCell.swift */,
 				4E1264BC2ADF6DF300A4E602 /* ChatSetting */,
@@ -637,6 +646,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EE5E9D82AEBCAFB00B7849E /* PartyManager.swift in Sources */,
 				1DB94CDE2AE760AB00851A18 /* StorageManager.swift in Sources */,
 				CBECDD392AE174320097C7CF /* PartyInfoDetailVC.swift in Sources */,
 				4E8B85132AD8120E009BCF4B /* EditProfileViewController.swift in Sources */,
@@ -660,12 +670,16 @@
 				96A7B3FA2AD9365D00B218EB /* CtaLageButton.swift in Sources */,
 				4E8B851F2AD8120E009BCF4B /* LoginViewController.swift in Sources */,
 				4E8B85172AD8120E009BCF4B /* SignUpViewController.swift in Sources */,
+				4E0BF7BD2AECED6B00D74836 /* ChatAlertCell.swift in Sources */,
+				CBBE1E932AEA4B65003EA884 /* UIColoer_Extension.swift in Sources */,
+
 				4E8195EE2ADD404000881C88 /* CustomImageView.swift in Sources */,
 				4E8B853E2AD81515009BCF4B /* RecuitmentViewController.swift in Sources */,
 				4E8B85352AD81411009BCF4B /* Extension.swift in Sources */,
 				1DB9391F2AE24AB300BD4F41 /* SettingCell.swift in Sources */,
 				96A7B3FA2AD9365D00B218EB /* CtaLageButton.swift in Sources */,
 				1DB94CE42AE919E000851A18 /* CustomFont.swift in Sources */,
+				4EE5E9DA2AEBCBB800B7849E /* PartyInfo.swift in Sources */,
 				4E8B851F2AD8120E009BCF4B /* LoginViewController.swift in Sources */,
 				4E8B85172AD8120E009BCF4B /* SignUpViewController.swift in Sources */,
 				4EF3A7182AE6511100A1D32D /* Channel.swift in Sources */,
@@ -683,10 +697,10 @@
 				4E8B850E2AD8120E009BCF4B /* CustomButton.swift in Sources */,
 				4E8B85372AD81416009BCF4B /* Utilie.swift in Sources */,
 				4E8B85192AD8120E009BCF4B /* TabBarController.swift in Sources */,
-				4EC170D02ADFFDC10049B23D /* ChatSettingViewController.swift in Sources */,
 				CB4B0BC62ADFAB7F0077AB3A /* NoticePageVC.swift in Sources */,
 				4ECD01E52ADE6C15003EA65C /* CustomBarButton.swift in Sources */,
 				4ECD01E52ADE6C15003EA65C /* CustomBarButton.swift in Sources */,
+				4EE5E9D42AEBA89A00B7849E /* ChatSettingViewController.swift in Sources */,
 				4ECD01E52ADE6C15003EA65C /* CustomBarButton.swift in Sources */,
 				1DB94D052AEB978900851A18 /* ChooseIconViewController.swift in Sources */,
 				4E8B85422AD815B6009BCF4B /* SettingViewController.swift in Sources */,

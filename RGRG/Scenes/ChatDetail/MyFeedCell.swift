@@ -11,16 +11,16 @@ import UIKit
 class MyFeedCell: UITableViewCell {
     static let identifier = "MyFeedCell"
 
-    let myProfileImageView = CustomImageView(frame: .zero)
-    let myChatLabel = CustomLabel(frame: .zero)
-    let timeLabel = CustomLabel(frame: .zero)
-
+    lazy var baseView = UIView(frame: .zero)
+    lazy var emptyView = UIView(frame: .zero)
+    lazy var myChatContent = CustomLabel(frame: .zero)
+    lazy var myChatTime = CustomLabel(frame: .zero)
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
     }
-
-    @available(*, unavailable)
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -28,49 +28,59 @@ class MyFeedCell: UITableViewCell {
 
 extension MyFeedCell {
     func setupUI() {
-        contentView.backgroundColor = .systemRed
-        confirmProfileImageView()
-        confirmChatLabel()
-        confirmTimeLabel()
+        confirmBaseView()
+        confirmMyChatContent()
+        confirmMyChatTime()
     }
+}
 
-    func confirmProfileImageView() {
-        contentView.addSubview(myProfileImageView)
-        myProfileImageView.image = UIImage(systemName: "person")
-        myProfileImageView.contentMode = .scaleAspectFit
-        myProfileImageView.tintColor = .white
-        myProfileImageView.backgroundColor = .black
-        myProfileImageView.layer.cornerRadius = 30
+extension MyFeedCell {
+    func confirmBaseView() {
+        contentView.addSubview(baseView)
+        baseView.addSubview(myChatContent)
+        contentView.addSubview(myChatTime)
 
-        myProfileImageView.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.top.equalTo(contentView).offset(5)
-            make.leading.equalTo(contentView).offset(10)
-            make.width.height.equalTo(65)
+        baseView.backgroundColor = UIColor(hex: "#279EFF")
+        baseView.roundCorners(topLeft: 10, topRight: 10, bottomLeft: 10, bottomRight: 2)
+
+        let borderLayer = CAShapeLayer()
+        borderLayer.path = (baseView.layer.mask! as! CAShapeLayer).path! // Reuse the Bezier path
+        borderLayer.strokeColor = UIColor.clear.cgColor
+        borderLayer.fillColor = UIColor.clear.cgColor
+        borderLayer.lineWidth = 1
+        borderLayer.frame = baseView.bounds
+        baseView.layer.addSublayer(borderLayer)
+
+        baseView.snp.makeConstraints { make in
+            make.top.equalTo(contentView).offset(8)
+            make.leading.equalTo(contentView).offset(173)
+            make.trailing.equalTo(contentView).offset(-12)
+            make.bottom.equalTo(contentView).offset(-8)
         }
     }
 
-    func confirmChatLabel() {
-        contentView.addSubview(myChatLabel)
-        myChatLabel.settingText("Hello WorldHello WorldHello WorldHello WorldHello")
-        myChatLabel.numberOfLines = 0
-        myChatLabel.settingBackgroundColor(color: .white)
+    func confirmMyChatContent() {
+        myChatContent.numberOfLines = 0
+        myChatContent.textAlignment = .natural
+        myChatContent.font = UIFont(name: "NotoSansKR-VariableFont_wght", size: 16)
+        myChatContent.textColor = UIColor(hex: "#FFFFFF")
 
-        myChatLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.top.equalTo(contentView).offset(10)
-            make.leading.equalTo(myProfileImageView.snp.trailing).offset(10)
-            make.trailing.equalTo(contentView).offset(-60)
+        myChatContent.snp.makeConstraints { make in
+            make.top.equalTo(baseView).offset(8)
+            make.bottom.equalTo(baseView).offset(-8)
+            make.leading.equalTo(baseView).offset(10)
+            make.trailing.equalTo(baseView).offset(-10)
         }
     }
 
-    func confirmTimeLabel() {
-        contentView.addSubview(timeLabel)
-        timeLabel.settingText("12:18")
-        timeLabel.setupLabelColor(color: .systemGray6)
-        timeLabel.snp.makeConstraints { make in
-            make.leading.equalTo(myChatLabel.snp.trailing).offset(10)
-            make.bottom.equalTo(myChatLabel.snp.bottom)
+    func confirmMyChatTime() {
+        myChatTime.font = UIFont(name: "Roboto-Regular", size: 12)
+
+        myChatTime.snp.makeConstraints { make in
+            make.trailing.equalTo(baseView.snp.leading).offset(-4)
+            make.bottom.equalTo(baseView)
+            make.height.equalTo(16)
+            make.width.greaterThanOrEqualTo(43)
         }
     }
 }

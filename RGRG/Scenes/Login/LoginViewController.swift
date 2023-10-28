@@ -43,7 +43,7 @@ class LoginViewController: UIViewController {
         view.axis = .vertical
         return view
     }()
-    
+        
     let emailLine = {
         let line = CustomMemberInfoBox(id: .loginEmail, placeHolder: "Email", condition: "^[A-Za-z0-9+_.-]+@(.+)$", cellHeight: 70, style: "Login")
         return line
@@ -73,9 +73,12 @@ class LoginViewController: UIViewController {
     // 오버라이딩 : 재정의
     override func viewDidLoad() {
         super.viewDidLoad()
+
         view.backgroundColor = UIColor.rgrgColor4
+
         setupUI()
         passValueCheck()
+        makeBackButton()
     }
 }
 
@@ -216,5 +219,16 @@ extension LoginViewController {
             make.height.equalToSuperview().dividedBy(10)
             make.bottom.equalTo(bodyContainer.snp.bottom).offset(-60)
         }
+    }
+}
+
+extension LoginViewController {
+    func makeBackButton() {
+        let backButton = CustomBackButton(title: "Back", style: .plain, target: self, action: #selector(tappedBackButton))
+        navigationItem.backBarButtonItem = backButton
+    }
+
+    @objc func tappedBackButton(_ sender: UIBarButtonItem) {
+        navigationController?.popViewController(animated: true)
     }
 }
