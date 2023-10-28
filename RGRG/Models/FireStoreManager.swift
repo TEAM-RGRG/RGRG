@@ -133,6 +133,12 @@ final class FireStoreManager {
                 }
             }
     }
+
+    func deleteChannel(thread: String, completion: @escaping () -> Void) {
+        FireStoreManager.db.collection("channels")
+            .document(thread).delete()
+        completion()
+    }
 }
 
 extension FireStoreManager {

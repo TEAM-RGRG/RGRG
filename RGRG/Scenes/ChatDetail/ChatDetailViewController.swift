@@ -10,7 +10,6 @@ import SnapKit
 import UIKit
 
 class ChatDetailViewController: UIViewController {
-    let vc = ChatSettingViewController()
     let tableView = CustomTableView(frame: .zero, style: .plain)
 
     let rightBarButtonItem = CustomBarButton()
@@ -24,9 +23,9 @@ class ChatDetailViewController: UIViewController {
     var chats: [ChatInfo] = []
     var fetchingMore = false
     var count = 1
+    var isExit: Bool?
 
     var currentUserEmail = ""
-    var isChangeColorAlpha = false
 
     deinit {
         print("### ChatDetailViewController deinitialized")
@@ -148,8 +147,9 @@ extension ChatDetailViewController {
     }
 
     @objc func tappedSettingButton(_ sender: UIBarButtonItem) {
+        let vc = ChatSettingViewController()
         vc.sheetPresentationController?.preferredCornerRadius = 20
-
+        vc.thread = thread
         present(vc, animated: true)
     }
 }

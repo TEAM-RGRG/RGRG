@@ -10,6 +10,8 @@ import UIKit
 
 class ChatSettingViewController: UIViewController {
     static let identifier = "ChatSettingViewController"
+
+    var thread: String?
     
     let topBaseView = UIView(frame: .zero)
     let lineView = UIView(frame: .zero)
@@ -98,6 +100,9 @@ extension ChatSettingViewController {
         blockView.backgroundColor = UIColor(hex: "#FFFFFF")
         blockView.layer.cornerRadius = 10
         
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedBlockView))
+        blockView.addGestureRecognizer(tapGesture)
+        
         blockView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.centerX.equalToSuperview()
@@ -109,6 +114,9 @@ extension ChatSettingViewController {
     func confirmExitView() {
         exitView.backgroundColor = UIColor(hex: "#FFFFFF")
         exitView.layer.cornerRadius = 10
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedExitView))
+        exitView.addGestureRecognizer(tapGesture)
         
         exitView.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
@@ -133,6 +141,9 @@ extension ChatSettingViewController {
     func confirmCancelView() {
         cancelView.backgroundColor = UIColor(hex: "#FFFFFF")
         cancelView.layer.cornerRadius = 10
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedCancelView))
+        cancelView.addGestureRecognizer(tapGesture)
         
         cancelView.snp.makeConstraints { make in
             make.top.equalTo(topBaseView.snp.bottom).offset(14)
@@ -221,5 +232,23 @@ extension ChatSettingViewController {
             make.width.equalTo(60)
             make.height.equalTo(22)
         }
+    }
+}
+
+extension ChatSettingViewController {
+    @objc func tappedBlockView() {
+        print("### \(#function)")
+    }
+    
+    @objc func tappedExitView() {
+        print("### \(#function)")
+//        if thread != nil {
+        ////            FireStoreManager.shared.deleteChannel(thread: thread ?? "n/a", completion: {
+//        }
+    }
+    
+    @objc func tappedCancelView() {
+        print("### \(#function)")
+        dismiss(animated: true)
     }
 }
