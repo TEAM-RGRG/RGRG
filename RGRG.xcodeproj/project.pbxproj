@@ -43,6 +43,9 @@
 		1DB94CFB2AEA398500851A18 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1DB94CEF2AEA398400851A18 /* Roboto-Regular.ttf */; };
 		1DB94CFF2AEA398500851A18 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1DB94CF32AEA398500851A18 /* Roboto-Bold.ttf */; };
 		1DB94D032AEA82C100851A18 /* NotoSansKR-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1DB94D022AEA82C100851A18 /* NotoSansKR-Bold.ttf */; };
+		1DB94D052AEB978900851A18 /* ChooseIconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB94D042AEB978900851A18 /* ChooseIconViewController.swift */; };
+		1DB94D072AEB979900851A18 /* ChooseChampViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB94D062AEB979900851A18 /* ChooseChampViewController.swift */; };
+		1DB94D092AED4A2B00851A18 /* IconCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB94D082AED4A2B00851A18 /* IconCollectionViewCell.swift */; };
 		4E1264BE2ADF6E2700A4E602 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1264BD2ADF6E2700A4E602 /* CustomTextField.swift */; };
 		4E562AB32AE79BCB00E9A916 /* CustomBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E562AB22AE79BCB00E9A916 /* CustomBackButton.swift */; };
 		4E8195EA2ADD299000881C88 /* CustomTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8195E92ADD299000881C88 /* CustomTableView.swift */; };
@@ -119,6 +122,9 @@
 		1DB94CEF2AEA398400851A18 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		1DB94CF32AEA398500851A18 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		1DB94D022AEA82C100851A18 /* NotoSansKR-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Bold.ttf"; sourceTree = "<group>"; };
+		1DB94D042AEB978900851A18 /* ChooseIconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseIconViewController.swift; sourceTree = "<group>"; };
+		1DB94D062AEB979900851A18 /* ChooseChampViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseChampViewController.swift; sourceTree = "<group>"; };
+		1DB94D082AED4A2B00851A18 /* IconCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconCollectionViewCell.swift; sourceTree = "<group>"; };
 		4E1264BD2ADF6E2700A4E602 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		4E562AB22AE79BCB00E9A916 /* CustomBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBackButton.swift; sourceTree = "<group>"; };
 		4E8195E92ADD299000881C88 /* CustomTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableView.swift; sourceTree = "<group>"; };
@@ -365,6 +371,9 @@
 			isa = PBXGroup;
 			children = (
 				4E8B84F52AD8120D009BCF4B /* EditProfileViewController.swift */,
+				1DB94D042AEB978900851A18 /* ChooseIconViewController.swift */,
+				1DB94D062AEB979900851A18 /* ChooseChampViewController.swift */,
+				1DB94D082AED4A2B00851A18 /* IconCollectionViewCell.swift */,
 			);
 			path = EditProfile;
 			sourceTree = "<group>";
@@ -642,6 +651,7 @@
 				CB4B0BC42ADFAB600077AB3A /* createPartyPageVC.swift in Sources */,
 				4E8B850F2AD8120E009BCF4B /* UserInfo.swift in Sources */,
 				4E8195EC2ADD3E4600881C88 /* ChatListCell.swift in Sources */,
+				1DB94D092AED4A2B00851A18 /* IconCollectionViewCell.swift in Sources */,
 				4E8B85112AD8120E009BCF4B /* ChatInfo.swift in Sources */,
 				4EC170D22ADFFDE40049B23D /* ChatSettingCell.swift in Sources */,
 				CB4B0BC82ADFAB970077AB3A /* SearchOptionVC.swift in Sources */,
@@ -666,6 +676,7 @@
 				4E1264BE2ADF6E2700A4E602 /* CustomTextField.swift in Sources */,
 				1DB94CE02AE8024000851A18 /* FirebaseUserManager.swift in Sources */,
 				4E8195F22ADD428A00881C88 /* CustomStackView.swift in Sources */,
+				1DB94D072AEB979900851A18 /* ChooseChampViewController.swift in Sources */,
 				4E8195EA2ADD299000881C88 /* CustomTableView.swift in Sources */,
 				4E8B84D92AD81184009BCF4B /* SceneDelegate.swift in Sources */,
 				4EF3A7162AE6510C00A1D32D /* FireStoreManager.swift in Sources */,
@@ -681,6 +692,7 @@
 				4ECD01E52ADE6C15003EA65C /* CustomBarButton.swift in Sources */,
 				4ECD01E52ADE6C15003EA65C /* CustomBarButton.swift in Sources */,
 				4ECD01E52ADE6C15003EA65C /* CustomBarButton.swift in Sources */,
+				1DB94D052AEB978900851A18 /* ChooseIconViewController.swift in Sources */,
 				4E8B85422AD815B6009BCF4B /* SettingViewController.swift in Sources */,
 				4E8B851C2AD8120E009BCF4B /* ChatDetailViewController.swift in Sources */,
 				4E8B851D2AD8120E009BCF4B /* MainViewController.swift in Sources */,

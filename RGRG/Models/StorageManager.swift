@@ -27,4 +27,22 @@ class StorageManager {
             completion(UIImage(data: imageData))
         }
     }
+    
+    func getAllImage(_ folder : String, completion: @escaping ([StorageReference]?) -> Void) {
+        var folderList: [StorageReference]?
+        let storageRef = storage.reference()
+        var imagesRef = storageRef.child("\(folder)/uid")
+        imagesRef.listAll(completion: { result, error in
+            folderList = result?.items
+        })
+        let megaByte = Int64(1 * 1024 * 1024)
+
+        imagesRef.getData(maxSize: megaByte) { data, _ in
+            guard let imageData = data else {
+                completion(nil)
+                return
+            }
+            completion(folderList)
+        }
+    }
 }

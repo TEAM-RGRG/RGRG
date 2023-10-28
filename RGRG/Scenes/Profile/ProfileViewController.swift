@@ -156,13 +156,6 @@ extension ProfileViewController {
         }
     }
 
-//    func setupShadow() {
-//        profileView.layer.shadowColor = CGColor(red: 0, green: 0, blue: 0, alpha: 0.10)
-//        profileView.layer.shadowOffset = CGSize(width: 0, height: 1)
-//        profileView.layer.shadowRadius = 5
-//        profileView.layer.shadowOpacity = 1
-//    }
-
     func setImageTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toEditProfile))
         profileImageView.addGestureRecognizer(tapGesture)

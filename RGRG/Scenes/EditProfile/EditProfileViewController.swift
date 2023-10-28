@@ -10,6 +10,8 @@ import SnapKit
 import UIKit
 
 class EditProfileViewController: UIViewController {
+    var user: User?
+
     let profileImage: UIImageView = {
         let imageView = UIImageView()
         imageView.frame = CGRect(x: 0, y: 0, width: 132, height: 132)
@@ -97,10 +99,17 @@ extension EditProfileViewController {
         super.viewDidLoad()
         setNavigationController()
         configureUI()
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        setImage()
+        FirebaseUserManager.shared.getUserInfo { user in
+            self.user = user
+            DispatchQueue.main.async {
+                self.setBeforeInfo()
+            }
+        }
+        
     }
 }
 
@@ -112,6 +121,9 @@ extension EditProfileViewController {
         setupTextFields()
         setupButtons()
         setShadow()
+        setImageTapGesture()
+        setupTextField()
+        setupButtonsActions()
 
         [profileImage, userNameTitle, userNameTextField, buttonStackView, tierTitle, positionTitle, mostChampButton, mostChampImgStackView, doneEditButton].forEach { view.addSubview($0) }
         [firstImage, secondImage, thirdImage].forEach { mostChampImgStackView.addArrangedSubview($0) }
@@ -198,6 +210,9 @@ extension EditProfileViewController {
             $0.layer.borderWidth = 2
             $0.backgroundColor = .white
             $0.layer.cornerRadius = 10
+            $0.setTitleColor(UIColor(hex: "505050"), for: .normal)
+            $0.titleLabel?.font = .myMediumSystemFont(ofSize: 16)
+            $0.titleLabel?.textAlignment = .left
         }
 
         doneEditButton.backgroundColor = .rgrgColor4
@@ -215,26 +230,88 @@ extension EditProfileViewController {
         [userNameTextField, tierButton, positionButton].forEach {
             $0.setupShadow(alpha: 0.05, offset: CGSize(width: 2, height: 3), radius: 12, opacity: 1)
         }
-        
+
         doneEditButton.setupShadow(alpha: 0.25, offset: CGSize(width: 0, height: 4), radius: 4, opacity: 1)
+    }
+
+    func setImageTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toChooseIconsVC))
+        profileImage.addGestureRecognizer(tapGesture)
+        profileImage.isUserInteractionEnabled = true
     }
 
     func setNavigationController() {
         navigationController?.navigationBar.isHidden = false
         navigationItem.title = "프로필 수정"
     }
+
+    func setupTextField() {
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: userNameTextField.frame.height))
+        userNameTextField.leftView = paddingView
+        userNameTextField.rightView = paddingView
+        userNameTextField.leftViewMode = .always
+        userNameTextField.rightViewMode = .always
+    }
+    
+    func setupButtonsActions() {
+        let tiers = ["Iron", "Bronze", "Silver", "Gold", "Emerald", "Diamond", "Master", "GrandMaster", "Challenger"]
+        var tierOptionArray = [UIAction]()
+        let optionClosure = {(action: UIAction) in
+            print("menu::\(action.title)")
+        }
+        
+        for tier in tiers {
+            let action = UIAction(title: tier, state: .off, handler: optionClosure)
+            tierOptionArray.append(action)
+        }
+        
+        let tierOptionMenu = UIMenu(options:.displayInline, children: tierOptionArray)
+        
+        tierButton.menu = tierOptionMenu
+        tierButton.changesSelectionAsPrimaryAction = true
+        tierButton.showsMenuAsPrimaryAction = true
+        
+        let positions = ["top", "jungle", "mid", "bottom", "support"]
+        var postionOptions = [UIAction]()
+        
+        
+        for position in positions {
+            let action = UIAction(title: position, state: .off, handler: optionClosure)
+            postionOptions.append(action)
+        }
+        
+        let positionOptionMenu = UIMenu(options:.displayInline, children: postionOptions)
+        
+        positionButton.menu = positionOptionMenu
+        positionButton.changesSelectionAsPrimaryAction = true
+        positionButton.showsMenuAsPrimaryAction = true
+    }
+    
+}
+
+extension EditProfileViewController {
+    
+    func setBeforeInfo() {
+        StorageManager.shared.getImage("icons", user?.profilePhoto ?? "Default") { [weak self] image in
+            self?.profileImage.image = image
+        }
+        
+        userNameTextField.text = user?.userName
+        tierButton.setTitle(user?.tier, for: .normal)
+        positionButton.setTitle(user?.position, for: .normal)
+        
+        
+    }
+    
 }
 
 extension EditProfileViewController {
     @objc func confirmButtonPressed(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
     }
-}
 
-extension EditProfileViewController {
-    func setImage() {
-        StorageManager.shared.getImage("icons", "2") { [weak self] image in
-            self?.profileImage.image = image
-        }
+    @objc func toChooseIconsVC() {
+        let chooseIconVC = ChooseIconViewController()
+        navigationController?.pushViewController(chooseIconVC, animated: true)
     }
 }
