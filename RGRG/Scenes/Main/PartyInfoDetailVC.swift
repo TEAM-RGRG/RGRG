@@ -9,12 +9,7 @@ import Foundation
 import SnapKit
 import UIKit
 
-
-
 class PartyInfoDetailVC: UIViewController {
-    
-    
-    
     let topFrame: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -38,9 +33,6 @@ class PartyInfoDetailVC: UIViewController {
         return button
     }()
     
-    
-    
-    
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         return scrollView
@@ -52,9 +44,6 @@ class PartyInfoDetailVC: UIViewController {
         stackView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
         return stackView
     }()
-    
-    
-    
     
     let topframeView: UIView = {
         let view = UIView()
@@ -76,8 +65,6 @@ class PartyInfoDetailVC: UIViewController {
         return view
     }()
     
-    
-    
     let profileImage: UIImageView = {
         var imageView = UIImageView()
         if let image = UIImage(named: "profileImageIcon") {
@@ -89,9 +76,6 @@ class PartyInfoDetailVC: UIViewController {
         imageView.layer.cornerRadius = 26
         return imageView
     }()
-    
-
-    
     
     let positionImageFrame: UIView = {
         let view = UIView()
@@ -116,7 +100,6 @@ class PartyInfoDetailVC: UIViewController {
         return imageView
     }()
 
-    
     let userNameLabel: UILabel = {
         let label = UILabel()
         label.text = "페이커짱"
@@ -126,7 +109,6 @@ class PartyInfoDetailVC: UIViewController {
         label.textAlignment = .center
         return label
     }()
-    
     
     let tierLabelFrame: UIView = {
         let View = UIView()
@@ -150,10 +132,6 @@ class PartyInfoDetailVC: UIViewController {
         return label
     }()
     
-    
-    
-    
-    
     let textTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "국밥탑 등반 듀오구합니다@@  • • •"
@@ -171,7 +149,6 @@ class PartyInfoDetailVC: UIViewController {
         return label
     }()
 
-    
     let textView: UITextView = {
         let textView = UITextView()
         textView.text = "듀오 하실 분 구합니다!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!@ 현재 플레 1이구요. 든든하게 국밥챔프 위주로만 플레이 합니다,.. 간절하신 분이였으면 좋겠어요\n다이아,,.. 가봅시다요ㅠㅠ 최고 티어는 다이아 3까지 갔었습니다. 같이 다이아 등반 하실 분 구합니다"
@@ -188,7 +165,6 @@ class PartyInfoDetailVC: UIViewController {
         label.textColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 1)
         return label
     }()
-    
     
     let mostChampionFrame: UIView = {
         let View = UIView()
@@ -234,9 +210,6 @@ class PartyInfoDetailVC: UIViewController {
         return imageView
     }()
     
-    
-    
-    
     let requiredPositionLabel: UILabel = {
         let label = UILabel()
         label.text = "듀오 희망 포지션"
@@ -255,10 +228,8 @@ class PartyInfoDetailVC: UIViewController {
 //        imageView.contentMode = .scaleToFill
         imageView.layer.cornerRadius = 22.5
 
-
         return imageView
     }()
-    
     
 //    let requiredPositionImage: UIImageView = {
 //        var imageView = UIImageView()
@@ -278,11 +249,6 @@ class PartyInfoDetailVC: UIViewController {
 //        return imageView
 //    }()
 
-
-
-    
-    
-    
     let confirmationButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
@@ -294,29 +260,26 @@ class PartyInfoDetailVC: UIViewController {
         return button
     }()
     
-    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
     
         configureUI()
     }
     
-    
-    @objc func backButtonTapped() {
-        self.navigationController?.popViewController(animated: true)
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = false
+        configureUI()
     }
     
+    @objc func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
+    }
     
     @objc func menuButtonTapped() {
         let PartyDetailPageMenuVC = PartyDetailPageMenuVC()
         PartyDetailPageMenuVC.modalPresentationStyle = .pageSheet
         present(PartyDetailPageMenuVC, animated: true, completion: nil)
     }
-    
-    
-    
     
     func configureUI() {
         view.backgroundColor = .systemGray5
@@ -351,12 +314,9 @@ class PartyInfoDetailVC: UIViewController {
         contentView.addSubview(bottomframeView)
         bottomframeView.addSubview(confirmationButton)
         
-        
-        
-        
         // 네비게이션 바 왼쪽 버튼
         let backButton = UIButton(type: .custom)
-        backButton.setImage(UIImage(systemName: "multiply")? .withRenderingMode(.alwaysTemplate), for: .normal)
+        backButton.setImage(UIImage(systemName: "multiply")?.withRenderingMode(.alwaysTemplate), for: .normal)
         backButton.tintColor = .black
 //        backButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
@@ -366,7 +326,6 @@ class PartyInfoDetailVC: UIViewController {
         
         let customItem = UIBarButtonItem(customView: backButton)
         navigationItem.leftBarButtonItem = customItem
-        
         
         let menuButton = UIButton(type: .custom)
         menuButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
@@ -380,27 +339,25 @@ class PartyInfoDetailVC: UIViewController {
         let rightButton = UIBarButtonItem(customView: menuButton)
         navigationItem.rightBarButtonItem = rightButton
         
-        
-        topFrame.snp.makeConstraints{
+        topFrame.snp.makeConstraints {
             $0.top.leading.equalToSuperview().offset(0)
             $0.trailing.equalToSuperview().offset(0)
             $0.height.equalTo(90)
         }
         
-        pageTitleLabel.snp.makeConstraints{
+        pageTitleLabel.snp.makeConstraints {
             $0.top.equalTo(topFrame.snp.top).offset(62)
             $0.centerX.equalTo(topFrame)
         }
         
-        contentView.snp.makeConstraints{
+        contentView.snp.makeConstraints {
             $0.top.equalTo(topFrame.snp.bottom).offset(10)
             $0.bottom.equalToSuperview().offset(0)
             $0.leading.equalToSuperview().offset(0)
             $0.trailing.equalToSuperview().offset(0)
         }
         
-        
-        topframeView.snp.makeConstraints{
+        topframeView.snp.makeConstraints {
             $0.top.equalTo(contentView.snp.top).offset(0)
             $0.leading.equalTo(contentView.snp.leading).offset(5)
             $0.trailing.equalTo(contentView.snp.trailing).offset(-5)
@@ -408,27 +365,26 @@ class PartyInfoDetailVC: UIViewController {
             //            $0.bottom.equalTo(contentView.snp.bottom).offset(0)
         }
         
-        profileImage.snp.makeConstraints{
+        profileImage.snp.makeConstraints {
             $0.top.equalTo(topframeView.snp.top).offset(20)
             $0.leading.equalTo(topframeView.snp.leading).offset(16)
             $0.height.width.equalTo(52)
             $0.bottom.equalTo(topframeView.snp.bottom).offset(-24)
         }
         
-        positionImageFrame.snp.makeConstraints{
+        positionImageFrame.snp.makeConstraints {
             //            $0.top.equalTo(cellFrameView.snp.top).offset(14)
             $0.trailing.equalTo(profileImage.snp.trailing).offset(5)
             $0.height.width.equalTo(17)
             $0.bottom.equalTo(profileImage.snp.bottom).offset(0)
         }
         
-        positionImage.snp.makeConstraints{
+        positionImage.snp.makeConstraints {
             //            $0.top.equalTo(cellFrameView.snp.top).offset(14)
             $0.trailing.equalTo(positionImageFrame.snp.trailing).offset(-2)
             $0.height.width.equalTo(13)
             $0.bottom.equalTo(positionImageFrame.snp.bottom).offset(-2)
         }
-        
         
         userNameLabel.snp.makeConstraints {
             $0.top.equalTo(topframeView.snp.top).offset(17)
@@ -448,9 +404,7 @@ class PartyInfoDetailVC: UIViewController {
             $0.bottom.equalTo(tierLabelFrame.snp.bottom).offset(-4)
         }
         
-        
-        
-        midframeView.snp.makeConstraints{
+        midframeView.snp.makeConstraints {
             $0.top.equalTo(topframeView.snp.bottom).offset(3)
             $0.leading.equalTo(contentView.snp.leading).offset(5)
             $0.trailing.equalTo(contentView.snp.trailing).offset(-5)
@@ -483,8 +437,6 @@ class PartyInfoDetailVC: UIViewController {
             $0.leading.equalTo(midframeView.snp.leading).offset(14)
         }
         
-        
-        
         mostChampionFrame.snp.makeConstraints {
             $0.top.equalTo(championLabel.snp.bottom).offset(12)
             $0.height.equalTo(45)
@@ -492,19 +444,19 @@ class PartyInfoDetailVC: UIViewController {
             $0.leading.equalTo(midframeView.snp.leading).offset(14)
         }
         
-        firstMostChampionImage.snp.makeConstraints{
+        firstMostChampionImage.snp.makeConstraints {
             $0.top.equalTo(mostChampionFrame.snp.top).offset(0)
             $0.height.width.equalTo(45)
             $0.leading.equalTo(mostChampionFrame.snp.leading).offset(8)
         }
         
-        secondMostChampionImage.snp.makeConstraints{
+        secondMostChampionImage.snp.makeConstraints {
             $0.top.equalTo(mostChampionFrame.snp.top).offset(0)
             $0.height.width.equalTo(45)
             $0.leading.equalTo(firstMostChampionImage.snp.trailing).offset(11)
         }
         
-        thirdMostChampionImage.snp.makeConstraints{
+        thirdMostChampionImage.snp.makeConstraints {
             $0.top.equalTo(mostChampionFrame.snp.top).offset(0)
             $0.height.width.equalTo(45)
             $0.leading.equalTo(secondMostChampionImage.snp.trailing).offset(11)
@@ -517,37 +469,30 @@ class PartyInfoDetailVC: UIViewController {
             $0.trailing.equalTo(midframeView.snp.trailing).offset(-14)
         }
         
-        requiredPositionImage.snp.makeConstraints{
+        requiredPositionImage.snp.makeConstraints {
             $0.top.equalTo(requiredPositionLabel.snp.bottom).offset(12)
             $0.height.width.equalTo(45)
             $0.leading.equalTo(requiredPositionLabel.snp.leading).offset(0)
         }
         
-        bottomframeView.snp.makeConstraints{
+        bottomframeView.snp.makeConstraints {
             $0.top.equalTo(midframeView.snp.bottom).offset(3)
             $0.leading.equalTo(contentView.snp.leading).offset(5)
             $0.trailing.equalTo(contentView.snp.trailing).offset(-5)
             $0.bottom.equalTo(contentView.snp.bottom).offset(0)
         }
         
-        confirmationButton.snp.makeConstraints{
+        confirmationButton.snp.makeConstraints {
             $0.leading.equalTo(bottomframeView.snp.leading).offset(17)
             $0.trailing.equalTo(bottomframeView.snp.trailing).offset(-17)
             $0.bottom.equalTo(bottomframeView.snp.bottom).offset(-30)
             $0.height.equalTo(60)
-
         }
         scrollView.contentSize = contentView.bounds.size
     }
 }
 
-
-
-
-
-
-class PartyDetailPageMenuVC: UIViewController{
-    
+class PartyDetailPageMenuVC: UIViewController {
     let contentView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
@@ -576,8 +521,6 @@ class PartyDetailPageMenuVC: UIViewController{
         return button
     }()
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
                 
@@ -594,28 +537,23 @@ class PartyDetailPageMenuVC: UIViewController{
         }
     }
     
-    
-    
-    
     func configureUI() {
-        
         view.addSubview(contentView)
         contentView.addSubview(userBanButton)
         contentView.addSubview(cancelButton)
         
-       
-        contentView.snp.makeConstraints{
+        contentView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
         }
         
-        userBanButton.snp.makeConstraints{
+        userBanButton.snp.makeConstraints {
             $0.bottom.equalTo(cancelButton.snp.top).offset(-14)
             $0.height.equalTo(55)
             $0.leading.equalToSuperview().offset(17)
             $0.trailing.equalToSuperview().offset(-17)
         }
         
-        cancelButton.snp.makeConstraints{
+        cancelButton.snp.makeConstraints {
             $0.bottom.equalTo(contentView.snp.bottom).offset(-42)
             $0.height.equalTo(55)
             $0.leading.equalToSuperview().offset(17)
@@ -623,7 +561,3 @@ class PartyDetailPageMenuVC: UIViewController{
         }
     }
 }
-
-
-
-
