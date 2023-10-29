@@ -229,6 +229,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
 //        configureUI()
         navigationController?.navigationBar.isHidden = false
+        
     }
     
     override func viewDidLoad() {
