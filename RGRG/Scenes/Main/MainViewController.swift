@@ -286,9 +286,9 @@ extension MainViewController {
         
         PartyManager.shared.loadParty { [weak self] parties in
             self?.partyList = parties // [PartyInfo] = [PartyInfo]
-            
+            print("### \(self?.partyList)")
             DispatchQueue.main.async {
-                self.patryListTable.reloadData()
+                self?.patryListTable.reloadData()
             }
         }
     }
@@ -309,15 +309,34 @@ extension MainViewController {
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return partyTitle.count
+        return partyList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PartyTableViewCell", for: indexPath) as! PartyTableViewCell
-        cell.userNameLabel.text = partyTitle[indexPath.row]
-//        cell.partyInfoLabel.text = partyInfo[indexPath.row]
-        cell.tierLabel.text = partyTier[indexPath.row]
-//        cell.partyPositionLabel.text = partyPosition[indexPath.row]
+        let item = partyList[indexPath.row]
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "PartyTableViewCell", for: indexPath) as? PartyTableViewCell else { return UITableViewCell() }
+        cell.userNameLabel.text = item.userName
+        
+        StorageManager.shared.getImage("icons", item.profileImage) { image in
+            DispatchQueue.main.async {
+                cell.profileImage.image = image
+                cell.profileImage.layer.masksToBounds = true
+            }
+        }
+        
+        cell.tierLabel.text = item.tier
+        
+        StorageManager.shared.getImage("position_w", "top") { image in
+            DispatchQueue.main.async {
+                cell.firstPositionImage.image = image
+            }
+        }
+        
+        StorageManager.shared.getImage("position_w", "mid") { image in
+            DispatchQueue.main.async {
+                cell.secondPositionImage.image = image
+            }
+        }
        
         cell.selectionStyle = .none
         
@@ -326,9 +345,10 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-
+        let item = partyList[indexPath.row]
         // PartyInfoDetailVC 클래스의 초기화 메서드가 옵셔널을 반환하지 않는 경우
         let detailController = PartyInfoDetailVC()
+        detailController.party = item
         navigationController?.pushViewController(detailController, animated: true)
     }
 }

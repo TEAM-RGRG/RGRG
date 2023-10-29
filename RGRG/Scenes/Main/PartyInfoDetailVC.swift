@@ -10,6 +10,7 @@ import SnapKit
 import UIKit
 
 class PartyInfoDetailVC: UIViewController {
+    var party: PartyInfo?
     let topFrame: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -262,7 +263,7 @@ class PartyInfoDetailVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        userNameLabel.text = party?.userName
         configureUI()
     }
     
