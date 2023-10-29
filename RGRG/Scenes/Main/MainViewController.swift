@@ -280,7 +280,7 @@ class MainViewController: UIViewController {
 
 extension MainViewController {
     override func viewWillAppear(_ animated: Bool) {
-//        tabBarController?.navigationController?.navigationBar.isHidden = true;
+        tabBarController?.navigationController?.navigationBar.isHidden = true;
     }
     
     override func viewDidLoad() {

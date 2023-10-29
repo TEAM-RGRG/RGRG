@@ -42,15 +42,15 @@ class NoticePageVC: UIViewController {
     
     let partyPosition = ["#정글", "#서폿", "#상관없음", "#서폿", "#상관없음"]
     
-    
     override func viewWillAppear(_ animated: Bool) {
-        tabBarController?.navigationController?.navigationBar.isHidden = false;
+        navigationController?.navigationBar.isHidden = false
+        configureUI()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
     
- title = "알림"
+        title = "알림"
         navigationController?.navigationBar.barTintColor = UIColor.red
         
         configureUI()
@@ -61,7 +61,7 @@ class NoticePageVC: UIViewController {
     }
     
     @objc func backButtonTapped() {
-        self.navigationController?.popViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     func configureUI() {
@@ -71,9 +71,6 @@ class NoticePageVC: UIViewController {
 //        topFrame.addSubview(backButton)
         view.addSubview(contentView)
         contentView.addSubview(noticeListTable)
-        
-        
-        
         
         // 커스텀 백버튼 추가
         let backButton = UIButton(type: .custom)
@@ -87,10 +84,6 @@ class NoticePageVC: UIViewController {
         let customItem = UIBarButtonItem(customView: backButton)
         navigationItem.leftBarButtonItem = customItem
 
-       
-        
-        
-        
         topFrame.snp.makeConstraints {
             $0.top.leading.equalToSuperview().offset(-2)
             $0.trailing.equalToSuperview().offset(2)

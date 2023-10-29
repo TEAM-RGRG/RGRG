@@ -40,6 +40,9 @@ extension ChatListViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.navigationItem.title = "쪽지"
+        tabBarController?.navigationItem.rightBarButtonItem?.isHidden = false
+        tabBarController?.navigationController?.navigationBar.isHidden = false
         FireStoreManager.shared.loadChannels(collectionName: "channels", writerName: currentUserEmail, filter: currentUserEmail) { channel in
             self.channels = channel
 
