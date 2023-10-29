@@ -245,9 +245,11 @@ extension ChatDetailViewController: UITableViewDataSource {
             cell.setupUI()
             cell.backgroundColor = .clear
 
+
             return cell
 
         } else {
+
             if item.sender == currentUserEmail {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: MyFeedCell.identifier, for: indexPath) as? MyFeedCell else { return UITableViewCell() }
 
@@ -272,6 +274,7 @@ extension ChatDetailViewController: UITableViewDataSource {
                 cell.backgroundColor = .clear
                 return cell
             }
+
         }
     }
 }
