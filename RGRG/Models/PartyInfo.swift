@@ -19,4 +19,5 @@ struct PartyInfo {
     var userName: String
     var writer: String
     var requester: [String: Bool] = [:]
+    var position: String
 }

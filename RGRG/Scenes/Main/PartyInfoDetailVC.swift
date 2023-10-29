@@ -5,12 +5,14 @@
 //  Created by t2023-m0064 on 2023/10/19.
 //
 
+import FirebaseStorage
 import Foundation
 import SnapKit
 import UIKit
 
 class PartyInfoDetailVC: UIViewController {
     var party: PartyInfo?
+    
     let topFrame: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -114,7 +116,7 @@ class PartyInfoDetailVC: UIViewController {
     let tierLabelFrame: UIView = {
         let View = UIView()
         View.translatesAutoresizingMaskIntoConstraints = false
-        View.layer.borderColor = UIColor.systemGray2.cgColor
+        View.layer.borderColor = UIColor.systemGray3.cgColor
         View.layer.borderWidth = 2
         View.layer.cornerRadius = 13
         return View
@@ -219,15 +221,26 @@ class PartyInfoDetailVC: UIViewController {
         return label
     }()
     
+    let fitstRequiredPositionFrame: UIView = {
+        let view = UIView()
+        view.clipsToBounds = true
+        view.backgroundColor = UIColor(red: 0.75, green: 0.75, blue: 0.75, alpha: 1)
+        view.contentMode = .scaleToFill
+        view.layer.cornerRadius = 22.5
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.systemGray4.cgColor
+        return view
+    }()
+    
     let requiredPositionImage: UIImageView = {
         var imageView = UIImageView()
         if let image = UIImage(named: "미드w") {
             imageView.image = image
         }
         imageView.clipsToBounds = true
-        imageView.backgroundColor = .rgrgColor6
+        imageView.backgroundColor = UIColor(red: 0.75, green: 0.75, blue: 0.75, alpha: 1)
 //        imageView.contentMode = .scaleToFill
-        imageView.layer.cornerRadius = 22.5
+        imageView.layer.cornerRadius = 10.5
 
         return imageView
     }()
@@ -256,14 +269,99 @@ class PartyInfoDetailVC: UIViewController {
         button.setTitle("듀오 신청하기", for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
         button.backgroundColor = UIColor.rgrgColor4
-        button.layer.cornerRadius = (10)
-        button.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
+        button.layer.cornerRadius = 10
+//        button.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
         return button
     }()
+    
+    // MARK: - ViewDidLoad
     
     override func viewDidLoad() {
         super.viewDidLoad()
         userNameLabel.text = party?.userName
+        textTitleLabel.text = party?.title
+        textView.text = party?.content
+//        profileImage.image = party?.profileImage as? UIImage
+        timeLabel.text = party?.date
+        
+        tierLabel.text = party?.tier
+        tierLabel.textColor = getColorForTier(party!.tier)
+        
+        func getColorForTier(_ tier: String) -> UIColor {
+            switch tier {
+            case "Iron":
+                return UIColor.iron
+            case "Bronze":
+                return UIColor.bronze
+            case "Silver":
+                return UIColor.silver
+            case "Gold":
+                return UIColor.gold
+            case "Platinum":
+                return UIColor.platinum
+            case "Emerald":
+                return UIColor.emerald
+            case "Diamond":
+                return UIColor.diamond
+            default:
+                return UIColor.black
+            }
+        }
+        
+        StorageManager.shared.getImage("icons", party!.profileImage) { image in
+            DispatchQueue.main.async {
+                self.profileImage.image = image
+            }
+        }
+        
+//        StorageManager.shared.getImage("champ", party!.champion[0]) { image in
+//                   DispatchQueue.main.async {
+//                       self.firstMostChampionImage.image = image
+//                   }
+//               }
+               
+        StorageManager.shared.getImage("champ", party!.champion[1]) { image in
+            DispatchQueue.main.async {
+                self.secondMostChampionImage.image = image
+            }
+        }
+               
+        StorageManager.shared.getImage("champ", party!.champion[2]) { image in
+            DispatchQueue.main.async {
+                self.thirdMostChampionImage.image = image
+            }
+        }
+        
+        StorageManager.shared.getImage("position_w", party!.hopePosition["first"]!) { image in
+            DispatchQueue.main.async {
+                self.requiredPositionImage.image = image
+            }
+        }
+        
+        if let firstImageURL = party?.champion[0] {
+            StorageManager.shared.getImage("champ", firstImageURL) { firstImage in
+                DispatchQueue.main.async {
+                    self.firstMostChampionImage.image = firstImage
+                }
+            }
+        }
+//
+//
+//        let secondImageURL = party!.champion[1]
+//        StorageManager.shared.getImage("champ", secondImageURL) { secondImage in
+//            DispatchQueue.main.async {
+//                self.secondMostChampionImage.image = secondImage
+//            }
+//        }
+//
+//
+//        let thirdImageURL = party!.champion[2]
+//        StorageManager.shared.getImage("champ", thirdImageURL) { thirdImage in
+//            DispatchQueue.main.async {
+//                self.thirdMostChampionImage.image = thirdImage
+//            }
+//        }
+        
         configureUI()
     }
     
@@ -276,11 +374,11 @@ class PartyInfoDetailVC: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    @objc func menuButtonTapped() {
-        let PartyDetailPageMenuVC = PartyDetailPageMenuVC()
-        PartyDetailPageMenuVC.modalPresentationStyle = .pageSheet
-        present(PartyDetailPageMenuVC, animated: true, completion: nil)
-    }
+//    @objc func menuButtonTapped() {
+//        let PartyDetailPageMenuVC = PartyDetailPageMenuVC()
+//        PartyDetailPageMenuVC.modalPresentationStyle = .pageSheet
+//        present(PartyDetailPageMenuVC, animated: true, completion: nil)
+//    }
     
     func configureUI() {
         view.backgroundColor = .systemGray5
@@ -310,7 +408,8 @@ class PartyInfoDetailVC: UIViewController {
         mostChampionFrame.addSubview(secondMostChampionImage)
         mostChampionFrame.addSubview(thirdMostChampionImage)
         midframeView.addSubview(requiredPositionLabel)
-        midframeView.addSubview(requiredPositionImage)
+        midframeView.addSubview(fitstRequiredPositionFrame)
+        fitstRequiredPositionFrame.addSubview(requiredPositionImage)
         
         contentView.addSubview(bottomframeView)
         bottomframeView.addSubview(confirmationButton)
@@ -332,7 +431,7 @@ class PartyInfoDetailVC: UIViewController {
         menuButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
 //        backButton.
 //        backButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        menuButton.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
+//        menuButton.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
         menuButton.widthAnchor.constraint(equalToConstant: 30).isActive = true // 버튼의 가로 크기
         menuButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         menuButton.imageEdgeInsets = .init(top: -18, left: -18, bottom: -18, right: -18)
@@ -470,10 +569,16 @@ class PartyInfoDetailVC: UIViewController {
             $0.trailing.equalTo(midframeView.snp.trailing).offset(-14)
         }
         
-        requiredPositionImage.snp.makeConstraints {
+        fitstRequiredPositionFrame.snp.makeConstraints {
             $0.top.equalTo(requiredPositionLabel.snp.bottom).offset(12)
             $0.height.width.equalTo(45)
             $0.leading.equalTo(requiredPositionLabel.snp.leading).offset(0)
+        }
+        
+        requiredPositionImage.snp.makeConstraints {
+            $0.top.equalTo(fitstRequiredPositionFrame.snp.top).offset(5)
+            $0.height.width.equalTo(35)
+            $0.leading.equalTo(fitstRequiredPositionFrame.snp.leading).offset(5)
         }
         
         bottomframeView.snp.makeConstraints {
@@ -492,4 +597,3 @@ class PartyInfoDetailVC: UIViewController {
         scrollView.contentSize = contentView.bounds.size
     }
 }
-

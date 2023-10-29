@@ -49,6 +49,9 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     var positionSelectedSection: Int?
 
     
+    
+// MARK: - ViewDidLoad
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -146,20 +149,17 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
 
     
     
-    
-    
-    
-    // 섹션 개수 반환
+
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2 // 윗쪽 섹션과 아랫쪽 섹션 두 개의 섹션을 정의
+        return 2
     }
 
     // 각 섹션당 항목 개수 반환
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
-            return upperSectionItemCount // 윗쪽 섹션의 항목 개수를 반환
+            return upperSectionItemCount
         } else {
-            return lowerSectionItemCount // 아랫쪽 섹션의 항목 개수를 반환
+            return lowerSectionItemCount
         }
     }
 
@@ -233,15 +233,6 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
            let cellHeight = collectionView.bounds.height / CGFloat(10)
            return CGSize(width: cellWidth, height: cellHeight)
        }
-    
-    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        return 0 // 아이템 간의 수평 간격
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        return 0 // 아이템 간의 수직 간격
-//    }
 
     
  

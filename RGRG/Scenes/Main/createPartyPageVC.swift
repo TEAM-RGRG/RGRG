@@ -126,13 +126,10 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     let supportPositionbutton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
-//        button.setTitle("알림 확인", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.setImage(UIImage(named: "서폿w"), for: .normal)
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
-//        button.tintColor = UIColor.white
         button.backgroundColor = .systemGray4
-//        button.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
         button.layer.cornerRadius = 30
 //        button.layer.borderWidth = 2
 //        button.layer.borderColor = UIColor.white.cgColor
