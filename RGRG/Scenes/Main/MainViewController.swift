@@ -11,6 +11,8 @@ import UIKit
 class MainViewController: UIViewController {
     let testButton = CustomButton(frame: .zero)
 
+    var partyList: [PartyInfo] = []
+    
     deinit {
         print("### NotificationViewController deinitialized")
     }
@@ -280,7 +282,15 @@ class MainViewController: UIViewController {
 
 extension MainViewController {
     override func viewWillAppear(_ animated: Bool) {
-        tabBarController?.navigationController?.navigationBar.isHidden = true;
+        tabBarController?.navigationController?.navigationBar.isHidden = true
+        
+        PartyManager.shared.loadParty { [weak self] parties in
+            self?.partyList = parties // [PartyInfo] = [PartyInfo]
+            
+            DispatchQueue.main.async {
+                self.patryListTable.reloadData()
+            }
+        }
     }
     
     override func viewDidLoad() {
