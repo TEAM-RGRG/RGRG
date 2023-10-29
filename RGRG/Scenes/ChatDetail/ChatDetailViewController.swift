@@ -10,7 +10,6 @@ import SnapKit
 import UIKit
 
 class ChatDetailViewController: UIViewController {
-    let vc = ChatSettingViewController()
     let tableView = CustomTableView(frame: .zero, style: .plain)
 
     let rightBarButtonItem = CustomBarButton()
@@ -26,7 +25,6 @@ class ChatDetailViewController: UIViewController {
     var count = 1
 
     var currentUserEmail = ""
-    var isChangeColorAlpha = false
 
     deinit {
         print("### ChatDetailViewController deinitialized")
@@ -36,6 +34,7 @@ class ChatDetailViewController: UIViewController {
 extension ChatDetailViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
         if let user = Auth.auth().currentUser {
             print("### User Info: \(user.email)")
             currentUserEmail = user.email ?? "n/a"
@@ -44,18 +43,15 @@ extension ChatDetailViewController {
         }
 
         FireStoreManager.shared.updateReadChat(thread: thread, currentUser: currentUserEmail)
-
-        setupUI()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         showBlankListMessage()
-
         FireStoreManager.shared.loadChatting(channelName: "channels", thread: thread, startIndex: count) { [weak self] data in
             guard let self = self else { return }
             self.chats = data
 
-            FireStoreManager.shared.updateChannel(currentMessage: self.chats.last?.content ?? "n/a", thread: thread)
+            FireStoreManager.shared.updateChannel(currentMessage: self.chats.last?.content ?? "", thread: thread)
 
             if chats.isEmpty == true {
                 blankMessage.isHidden = false
@@ -148,8 +144,9 @@ extension ChatDetailViewController {
     }
 
     @objc func tappedSettingButton(_ sender: UIBarButtonItem) {
+        let vc = ChatSettingViewController()
         vc.sheetPresentationController?.preferredCornerRadius = 20
-
+        vc.thread = thread
         present(vc, animated: true)
     }
 }
@@ -246,7 +243,8 @@ extension ChatDetailViewController: UITableViewDataSource {
         if indexPath.row == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatAlertCell.identifier, for: indexPath) as? ChatAlertCell else { return UITableViewCell() }
             cell.setupUI()
-            DispatchQueue.main.async {}
+            cell.backgroundColor = .clear
+
 
 
             return cell
@@ -262,7 +260,7 @@ extension ChatDetailViewController: UITableViewDataSource {
                 DispatchQueue.main.async {
                     cell.setupUI()
                 }
-
+                cell.backgroundColor = .clear
                 return cell
             } else {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: YourFeedCell.identifier, for: indexPath) as? YourFeedCell else { return UITableViewCell() }
@@ -274,6 +272,7 @@ extension ChatDetailViewController: UITableViewDataSource {
                     cell.setupUI()
                 }
 
+                cell.backgroundColor = .clear
                 return cell
             }
 
