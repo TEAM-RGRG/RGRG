@@ -43,6 +43,6 @@ class CtaLargeButton : UIButton {
             make.centerY.equalToSuperview()
         }
     }
-    
+
 }
 
