@@ -91,7 +91,7 @@ class SignUpViewController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        view.backgroundColor = UIColor.RGRGColor5
+        view.backgroundColor = UIColor.rgrgColor5
         setupUI()
         passValueCheck()
     }
@@ -158,7 +158,7 @@ extension SignUpViewController {
         func updateUI(){
             
             guard self.idPass && self.pwPass && pwCheckPass && self.nickNamePass else{
-                return  signupButton.backgroundColor = UIColor.RGRGColor3
+                return  signupButton.backgroundColor = UIColor.rgrgColor3
             }
             signupButton.backgroundColor = UIColor.black
             
@@ -320,7 +320,7 @@ extension SignUpViewController {
 //            make.centerY.equalToSuperview()
         }
         
-        imageArea.backgroundColor = UIColor.RGRGColor6
+        imageArea.backgroundColor = UIColor.rgrgColor6
         imageArea.layer.cornerRadius = 10
         imageArea.snp.makeConstraints { make in
             make.top.equalToSuperview()

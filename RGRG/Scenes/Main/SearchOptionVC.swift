@@ -178,9 +178,7 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     
-    
-    
-    
+ 
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -188,6 +186,7 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 { // 윗쪽 섹션
             // 이전에 선택한 셀이 있다면 선택 해제
@@ -195,6 +194,7 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
                 if let previousCell = collectionView.cellForItem(at: previousIndexPath) as? CollectionViewCell {
                     previousCell.tierLabel.layer.borderColor = UIColor.systemGray4.cgColor
                 }
+
             }
 
             // 선택한 셀의 indexPath 저장
@@ -204,12 +204,14 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             if let selectedCell = collectionView.cellForItem(at: indexPath) as? CollectionViewCell {
                 selectedCell.tierLabel.layer.borderColor = UIColor.systemBlue.cgColor
             }
+
         } else { // 아랫쪽 섹션
             // 이전에 선택한 셀이 있다면 선택 해제
             if let previousIndexPath = selectedPositionIndexPath {
                 if let previousCell = collectionView.cellForItem(at: previousIndexPath) as? PositionCell {
                     previousCell.positionFrame.layer.borderColor = UIColor.systemGray4.cgColor
                 }
+
             }
 
             // 선택한 셀의 indexPath 저장

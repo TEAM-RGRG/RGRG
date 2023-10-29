@@ -23,7 +23,6 @@ class ChatDetailViewController: UIViewController {
     var chats: [ChatInfo] = []
     var fetchingMore = false
     var count = 1
-    var isExit: Bool?
 
     var currentUserEmail = ""
 
@@ -35,6 +34,7 @@ class ChatDetailViewController: UIViewController {
 extension ChatDetailViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
         if let user = Auth.auth().currentUser {
             print("### User Info: \(user.email)")
             currentUserEmail = user.email ?? "n/a"
@@ -43,18 +43,15 @@ extension ChatDetailViewController {
         }
 
         FireStoreManager.shared.updateReadChat(thread: thread, currentUser: currentUserEmail)
-
-        setupUI()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         showBlankListMessage()
-
         FireStoreManager.shared.loadChatting(channelName: "channels", thread: thread, startIndex: count) { [weak self] data in
             guard let self = self else { return }
             self.chats = data
 
-            FireStoreManager.shared.updateChannel(currentMessage: self.chats.last?.content ?? "n/a", thread: thread)
+            FireStoreManager.shared.updateChannel(currentMessage: self.chats.last?.content ?? "", thread: thread)
 
             if chats.isEmpty == true {
                 blankMessage.isHidden = false
@@ -246,7 +243,7 @@ extension ChatDetailViewController: UITableViewDataSource {
         if indexPath.row == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatAlertCell.identifier, for: indexPath) as? ChatAlertCell else { return UITableViewCell() }
             cell.setupUI()
-            DispatchQueue.main.async {}
+            cell.backgroundColor = .clear
 
             return cell
 
@@ -260,7 +257,7 @@ extension ChatDetailViewController: UITableViewDataSource {
                 DispatchQueue.main.async {
                     cell.setupUI()
                 }
-
+                cell.backgroundColor = .clear
                 return cell
             } else {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: YourFeedCell.identifier, for: indexPath) as? YourFeedCell else { return UITableViewCell() }
@@ -272,6 +269,7 @@ extension ChatDetailViewController: UITableViewDataSource {
                     cell.setupUI()
                 }
 
+                cell.backgroundColor = .clear
                 return cell
             }
         }

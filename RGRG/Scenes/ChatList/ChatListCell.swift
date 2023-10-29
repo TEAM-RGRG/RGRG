@@ -23,7 +23,6 @@ class ChatListCell: UITableViewCell {
 
 extension ChatListCell {
     func setupUI() {
-        contentView.backgroundColor = UIColor(hex: "#F4F4F4")
         confirmBaseView()
         confirmProfileImage()
         confirmUserName()
@@ -80,7 +79,7 @@ extension ChatListCell {
     func confirmCurrentChat() {
         baseView.addSubview(currentChat)
         currentChat.numberOfLines = 1
-        currentChat.font = UIFont(name: "NotoSansKR-VariableFont_wght", size: 16)
+        currentChat.font = UIFont(name: AppFontName.regular, size: 16)
         currentChat.textColor = UIColor(hex: "#767676")
 
         currentChat.snp.makeConstraints { make in

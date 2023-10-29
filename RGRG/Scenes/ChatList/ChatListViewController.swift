@@ -11,8 +11,6 @@ import FirebaseFirestore
 import SnapKit
 import UIKit
 
-// 1. 메인 -> 2. 메인에서 글 쓰기 -> 3. 채팅 요청 - - requester에 추가 - -> 4. 요청 수락 - - requester에 있는 accept가 트루로 변경 - ->  - -> 채팅 리스트 백그라운드에서 생성 -->  5. 채팅 페이지 ==> 6. 채팅 리스트
-
 class ChatListViewController: UIViewController {
     let db = FireStoreManager.db
     var channels: [Channel] = []
@@ -44,6 +42,12 @@ extension ChatListViewController {
     override func viewWillAppear(_ animated: Bool) {
         FireStoreManager.shared.loadChannels(collectionName: "channels", writerName: currentUserEmail, filter: currentUserEmail) { channel in
             self.channels = channel
+
+            if self.channels.isEmpty == true {
+                self.blankMessage.isHidden = false
+            } else {
+                self.blankMessage.isHidden = true
+            }
 
             self.channels = self.removeDuplication(in: self.channels)
 
@@ -167,16 +171,16 @@ extension ChatListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatListCell.identifier, for: indexPath) as? ChatListCell else { return UITableViewCell() }
 
-        if channels.isEmpty == true {
-            blankMessage.isHidden = false
-        } else {
-            blankMessage.isHidden = true
-        }
-
         let item = channels[indexPath.row]
         cell.userProfileName.text = item.requester
         cell.currentChat.text = item.currentMessage
         cell.setupUI()
+        cell.backgroundColor = .clear
+
+        let background = UIView()
+        background.backgroundColor = .clear
+        cell.selectedBackgroundView = background
+
         return cell
     }
 }

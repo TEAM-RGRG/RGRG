@@ -242,9 +242,15 @@ extension ChatSettingViewController {
     
     @objc func tappedExitView() {
         print("### \(#function)")
-//        if thread != nil {
-        ////            FireStoreManager.shared.deleteChannel(thread: thread ?? "n/a", completion: {
-//        }
+        
+        if thread != nil {
+            FireStoreManager.shared.deleteChannel(thread: thread ?? "n/a", completion: {
+                guard let presentingViewController = self.presentingViewController as? UINavigationController else { return }
+                let vc = ChatListViewController()
+                presentingViewController.popViewController(animated: true)
+                self.dismiss(animated: true)
+            })
+        }
     }
     
     @objc func tappedCancelView() {

@@ -73,10 +73,7 @@ class LoginViewController: UIViewController {
     // 오버라이딩 : 재정의
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.RGRGColor4
-        
-        emailLine.inputBox.text = "testuser@gmail.com"
-        passwordLine.inputBox.text = "test1234"
+        view.backgroundColor = UIColor.rgrgColor4
         
         setupUI()
         passValueCheck()
