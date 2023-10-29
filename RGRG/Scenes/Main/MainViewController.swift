@@ -94,7 +94,7 @@ class MainViewController: UIViewController {
 //            button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
 //            button.tintColor = .white
 //            button.backgroundColor = .white
-        button.layer.cornerRadius = (13)
+        button.layer.cornerRadius = 13
         button.layer.borderColor = UIColor.systemGray4.cgColor
         button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
         return button
@@ -111,7 +111,7 @@ class MainViewController: UIViewController {
 //            button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
 //            button.tintColor = .white
 //            button.backgroundColor = .white
-        button.layer.cornerRadius = (13)
+        button.layer.cornerRadius = 13
         button.layer.borderWidth = 2
         button.layer.borderColor = UIColor.systemGray4.cgColor
         button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
@@ -129,7 +129,7 @@ class MainViewController: UIViewController {
 //            button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
 //            button.tintColor = .white
 //            button.backgroundColor = .white
-        button.layer.cornerRadius = (13)
+        button.layer.cornerRadius = 13
         button.layer.borderWidth = 2
         button.layer.borderColor = UIColor.systemGray4.cgColor
         button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
@@ -296,7 +296,7 @@ extension MainViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupButton()
+//        setupButton()
         
         configureUI()
         
@@ -324,15 +324,22 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
         
-        cell.tierLabel.text = item.tier
+        StorageManager.shared.getImage("position_w", item.position) { image in
+            DispatchQueue.main.async {
+                cell.positionImage.image = image
+            }
+        }
         
-        StorageManager.shared.getImage("position_w", "top") { image in
+        cell.tierLabel.text = item.tier
+        cell.tierLabel.textColor = getColorForTier(item.tier)
+        
+        StorageManager.shared.getImage("position_w", item.hopePosition["first"]!) { image in
             DispatchQueue.main.async {
                 cell.firstPositionImage.image = image
             }
         }
         
-        StorageManager.shared.getImage("position_w", "mid") { image in
+        StorageManager.shared.getImage("position_w", item.hopePosition["second"]!) { image in
             DispatchQueue.main.async {
                 cell.secondPositionImage.image = image
             }
@@ -341,6 +348,27 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         cell.selectionStyle = .none
         
         return cell
+    }
+    
+    func getColorForTier(_ tier: String) -> UIColor {
+        switch tier {
+        case "Iron":
+            return UIColor.iron
+        case "Bronze":
+            return UIColor.bronze
+        case "Silver":
+            return UIColor.silver
+        case "Gold":
+            return UIColor.gold
+        case "Platinum":
+            return UIColor.platinum
+        case "Emerald":
+            return UIColor.emerald
+        case "Diamond":
+            return UIColor.diamond
+        default:
+            return UIColor.black
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -410,7 +438,7 @@ class PartyTableViewCell: UITableViewCell {
     let tierLabelFrame: UIView = {
         let View = UIView()
         View.translatesAutoresizingMaskIntoConstraints = false
-        View.layer.borderColor = UIColor.systemGray2.cgColor
+        View.layer.borderColor = UIColor.systemGray3.cgColor
         View.layer.borderWidth = 2
         View.layer.cornerRadius = 13
         return View
@@ -430,17 +458,32 @@ class PartyTableViewCell: UITableViewCell {
         return View
     }()
     
+    let fitstRequiredPositionFrame: UIView = {
+        let view = UIView()
+        view.clipsToBounds = true
+        view.backgroundColor = .systemGray4
+        view.contentMode = .scaleToFill
+        view.layer.cornerRadius = 12
+        return view
+    }()
+    
     let firstPositionImage: UIImageView = {
         var imageView = UIImageView()
         if let image = UIImage(named: "미드w") {
             imageView.image = image
         }
-        imageView.clipsToBounds = true
-        imageView.backgroundColor = .systemGray5
+        imageView.backgroundColor = .systemGray4
         imageView.contentMode = .scaleToFill
-        imageView.layer.cornerRadius = 12
-        imageView.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
         return imageView
+    }()
+    
+    let secondRequiredPositionFrame: UIView = {
+        let view = UIView()
+        view.clipsToBounds = true
+        view.backgroundColor = .systemGray4
+        view.contentMode = .scaleToFill
+        view.layer.cornerRadius = 12
+        return view
     }()
     
     let secondPositionImage: UIImageView = {
@@ -448,11 +491,8 @@ class PartyTableViewCell: UITableViewCell {
         if let image = UIImage(named: "미드w") {
             imageView.image = image
         }
-        imageView.clipsToBounds = true
-        imageView.backgroundColor = .systemGray5
+        imageView.backgroundColor = .systemGray4
         imageView.contentMode = .scaleToFill
-        imageView.layer.cornerRadius = 12
-        imageView.frame = CGRect(x: 0, y: 0, width: 35, height: 35)
         return imageView
     }()
     
@@ -471,8 +511,11 @@ class PartyTableViewCell: UITableViewCell {
         tierLabelFrame.addSubview(tierLabel)
         
         cellFrameView.addSubview(positionFrame)
-        positionFrame.addSubview(firstPositionImage)
-        positionFrame.addSubview(secondPositionImage)
+        
+        positionFrame.addSubview(fitstRequiredPositionFrame)
+        fitstRequiredPositionFrame.addSubview(firstPositionImage)
+        positionFrame.addSubview(secondRequiredPositionFrame)
+        secondRequiredPositionFrame.addSubview(secondPositionImage)
         
         cellFrameView.snp.makeConstraints {
             $0.top.equalTo(contentView.snp.top).offset(10)
@@ -526,38 +569,33 @@ class PartyTableViewCell: UITableViewCell {
 //            $0.bottom.lessThanOrEqualTo(cellFrameView.snp.bottom).offset(-10)
         }
         
-        firstPositionImage.snp.makeConstraints {
+        fitstRequiredPositionFrame.snp.makeConstraints {
             $0.top.equalTo(positionFrame.snp.top).offset(0)
             $0.height.width.equalTo(24)
             $0.leading.equalTo(positionFrame.snp.leading).offset(0)
         }
         
-        secondPositionImage.snp.makeConstraints {
+        firstPositionImage.snp.makeConstraints {
+            $0.top.equalTo(fitstRequiredPositionFrame.snp.top).offset(3)
+            $0.height.width.equalTo(18)
+            $0.leading.equalTo(fitstRequiredPositionFrame.snp.leading).offset(3)
+        }
+        
+        secondRequiredPositionFrame.snp.makeConstraints {
             $0.top.equalTo(positionFrame.snp.top).offset(0)
             $0.height.width.equalTo(24)
-            $0.leading.equalTo(firstPositionImage.snp.trailing).offset(5)
+            $0.leading.equalTo(fitstRequiredPositionFrame.snp.trailing).offset(5)
+        }
+        
+        secondPositionImage.snp.makeConstraints {
+            $0.top.equalTo(secondRequiredPositionFrame.snp.top).offset(3)
+            $0.height.width.equalTo(18)
+            $0.leading.equalTo(secondRequiredPositionFrame.snp.leading).offset(3)
         }
     }
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-}
-
-extension MainViewController {
-    func setupButton() {
-        view.addSubview(testButton)
-        testButton.configureButton(title: "TEST", cornerValue: 10, backgroundColor: .systemBlue)
-        testButton.addTarget(self, action: #selector(tappedButton), for: .touchUpInside)
-        testButton.snp.makeConstraints { make in
-            make.centerX.centerY.equalToSuperview()
-            make.width.equalTo(150)
-            make.height.equalTo(60)
-        }
-    }
-
-    @objc func tappedButton(_ sender: UIButton) {
-        print("### \(#function)")
     }
 }
