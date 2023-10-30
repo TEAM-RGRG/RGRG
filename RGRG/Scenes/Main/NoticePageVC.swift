@@ -42,10 +42,14 @@ class NoticePageVC: UIViewController {
     
     let partyPosition = ["#정글", "#서폿", "#상관없음", "#서폿", "#상관없음"]
     
+    // MARK: - ViewWillAppear
+    
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = false
         configureUI()
     }
+    
+    // MARK: - ViewDidLoad
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,15 +71,11 @@ class NoticePageVC: UIViewController {
     func configureUI() {
         view.backgroundColor = .systemGray5
         view.addSubview(topFrame)
-//        topFrame.addSubview(pageTitleLabel)
-//        topFrame.addSubview(backButton)
         view.addSubview(contentView)
         contentView.addSubview(noticeListTable)
         
-        // 커스텀 백버튼 추가
         let backButton = UIButton(type: .custom)
         backButton.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
-//        backButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true // 버튼의 가로 크기
         backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -115,9 +115,6 @@ extension NoticePageVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "userInfoCell", for: indexPath) as! userInfoCell
         cell.userNameLabel.text = userName[indexPath.row]
         cell.tierLabel.text = tier[indexPath.row]
-//        cell.partyTimeLabel.text = mainPlayTime[indexPath.row]
-//        cell.partyTierLabel.text = partyTier[indexPath.row]
-//        cell.partyPositionLabel.text = partyPosition[indexPath.row]
        
         cell.selectionStyle = .none
         
@@ -338,7 +335,6 @@ class userInfoCell: UITableViewCell {
             $0.height.equalTo(24)
             $0.width.equalTo(76)
             $0.trailing.equalTo(cellFrameView.snp.trailing).offset(-100)
-//            $0.bottom.lessThanOrEqualTo(cellFrameView.snp.bottom).offset(-10)
         }
         
         firstMostChampionImage.snp.makeConstraints {
@@ -364,7 +360,6 @@ class userInfoCell: UITableViewCell {
             $0.trailing.equalTo(cellFrameView.snp.trailing).offset(-13)
             $0.bottom.equalTo(cellFrameView.snp.bottom).offset(-22)
             $0.width.equalTo(73)
-//            $0.width.equalTo(90)
         }
     }
     
