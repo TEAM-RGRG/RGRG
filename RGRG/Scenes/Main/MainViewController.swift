@@ -26,7 +26,7 @@ class MainViewController: UIViewController {
         return label
     }()
     
-    let buttonFrame: UIStackView = {
+    let createButtonFrame: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .center
@@ -149,7 +149,7 @@ class MainViewController: UIViewController {
     lazy var patryListTable: UITableView = {
         var tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = .systemGray6
+        tableView.backgroundColor = .rgrgColor5
         tableView.separatorStyle = .none
         return tableView
     }()
@@ -330,9 +330,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.secondPositionImage.image = image
             }
         }
-       
         cell.selectionStyle = .none
-        
         return cell
     }
     
@@ -485,7 +483,7 @@ class PartyTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.backgroundColor = .systemGray6
+        contentView.backgroundColor = .rgrgColor5
         
         contentView.addSubview(cellFrameView)
         cellFrameView.addSubview(profileImage)
