@@ -102,40 +102,40 @@ class MainViewController: UIViewController {
     }()
     
     let tierOptionLable1: UIButton = {
-        var button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-        button.setTitle("티어", for: .normal)
-        button.setTitleColor(.systemGray3, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.adjustsFontForContentSizeCategory = true
-//        button.setImage(UIImage(named: "optionIcon")? .withRenderingMode(.alwaysTemplate), for: .normal)
-//            button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
-//            button.tintColor = .white
-//            button.backgroundColor = .white
-        button.layer.cornerRadius = 13
-        button.layer.borderWidth = 2
-        button.layer.borderColor = UIColor.systemGray4.cgColor
-        button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    let positionOptionLable1: UIButton = {
-        var button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-        button.setTitle("포지션", for: .normal)
-        button.setTitleColor(.systemGray3, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.adjustsFontForContentSizeCategory = true
-//        button.setImage(UIImage(named: "optionIcon")? .withRenderingMode(.alwaysTemplate), for: .normal)
-//            button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
-//            button.tintColor = .white
-//            button.backgroundColor = .white
-        button.layer.cornerRadius = 13
-        button.layer.borderWidth = 2
-        button.layer.borderColor = UIColor.systemGray4.cgColor
-        button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
-        return button
-    }()
+            var button = UIButton()
+            button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
+            button.setTitle("티어 ", for: .normal)
+            button.setTitleColor(.systemGray3, for: .normal)
+            button.translatesAutoresizingMaskIntoConstraints = false
+            button.titleLabel?.adjustsFontForContentSizeCategory = true
+            button.semanticContentAttribute = .forceRightToLeft
+            button.setImage(UIImage(systemName: "chevron.down")? .withRenderingMode(.alwaysTemplate), for: .normal)
+            button.tintColor = .systemGray4
+            button.layer.cornerRadius = 13
+            button.layer.borderWidth = 2
+            button.layer.borderColor = UIColor.systemGray4.cgColor
+            button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
+            return button
+        }()
+        
+        let positionOptionLable1: UIButton = {
+            var button = UIButton()
+            button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
+            button.setTitle("희망 포지션", for: .normal)
+            button.setTitleColor(.systemGray3, for: .normal)
+            button.translatesAutoresizingMaskIntoConstraints = false
+            button.titleLabel?.adjustsFontForContentSizeCategory = true
+            button.semanticContentAttribute = .forceRightToLeft
+            button.setImage(UIImage(systemName: "chevron.down")? .withRenderingMode(.alwaysTemplate), for: .normal)
+                button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
+                button.tintColor = .systemGray4
+                button.backgroundColor = .white
+            button.layer.cornerRadius = 13
+            button.layer.borderWidth = 2
+            button.layer.borderColor = UIColor.systemGray4.cgColor
+            button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
+            return button
+        }()
     
     let emptyViewForOption: UIView = {
         let view = UIView()
