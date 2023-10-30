@@ -106,7 +106,7 @@ extension SignUpViewController {
         let password = passwordLine.inputBox.text
         let userName = nickNameLine.inputBox.text
         let tier = tierButton.titleLabel?.text
-        let positon = positionButton.titleLabel?.text
+        let position = positionButton.titleLabel?.text?.lowercased()
         
         Auth.auth().createUser(withEmail: email ?? "", password: password ?? "") { result, error in
             if let error = error {
@@ -123,7 +123,7 @@ extension SignUpViewController {
                     "email": email,
                     "userName": userName,
                     "tier": tier,
-                    "positon": positon,
+                    "position": position,
                     "profilePhoto": "Default",
                     "mostChampion": []
                     
