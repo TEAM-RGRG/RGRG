@@ -11,7 +11,7 @@ import UIKit
 
 class EditProfileViewController: UIViewController {
     var user: User?
-
+    
     let profileImage: UIImageView = {
         let imageView = UIImageView()
         imageView.frame = CGRect(x: 0, y: 0, width: 132, height: 132)
@@ -99,7 +99,6 @@ extension EditProfileViewController {
         super.viewDidLoad()
         setNavigationController()
         configureUI()
-        
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -109,7 +108,6 @@ extension EditProfileViewController {
                 self.setBeforeInfo()
             }
         }
-        
     }
 }
 
@@ -224,7 +222,7 @@ extension EditProfileViewController {
         mostChampButton.titleLabel?.font = .myBoldSystemFont(ofSize: 16)
         mostChampButton.setImage(UIImage(named: "polygon"), for: .normal)
         mostChampButton.setTitleColor(UIColor(hex: "#505050"), for: .normal)
-        
+
         doneEditButton.addTarget(self, action: #selector(confirmButtonPressed), for: .touchUpInside)
     }
 
@@ -254,65 +252,65 @@ extension EditProfileViewController {
         userNameTextField.leftViewMode = .always
         userNameTextField.rightViewMode = .always
     }
-    
+
     func setupButtonsActions() {
         let tiers = ["Iron", "Bronze", "Silver", "Gold", "Emerald", "Diamond", "Master", "GrandMaster", "Challenger"]
         var tierOptionArray = [UIAction]()
-        let optionClosure = {(action: UIAction) in
+        let optionClosure = { (_: UIAction) in
             print("menu::\(self.tierButton.titleLabel?.text)")
         }
-        
+
         for tier in tiers {
             let action = UIAction(title: tier, state: .off, handler: optionClosure)
             tierOptionArray.append(action)
         }
-        
-        let tierOptionMenu = UIMenu(options:.displayInline, children: tierOptionArray)
-        
+
+        let tierOptionMenu = UIMenu(options: .displayInline, children: tierOptionArray)
+
         tierButton.menu = tierOptionMenu
         tierButton.changesSelectionAsPrimaryAction = true
         tierButton.showsMenuAsPrimaryAction = true
-        
+
         let positions = ["top", "jungle", "mid", "bottom", "support"]
         var postionOptions = [UIAction]()
-        
-        
+
         for position in positions {
             let action = UIAction(title: position, state: .off, handler: optionClosure)
             postionOptions.append(action)
         }
-        
-        let positionOptionMenu = UIMenu(options:.displayInline, children: postionOptions)
-        
+
+        let positionOptionMenu = UIMenu(options: .displayInline, children: postionOptions)
+
         positionButton.menu = positionOptionMenu
         positionButton.changesSelectionAsPrimaryAction = true
         positionButton.showsMenuAsPrimaryAction = true
     }
-    
 }
 
 extension EditProfileViewController {
-    
     func setBeforeInfo() {
         StorageManager.shared.getImage("icons", user?.profilePhoto ?? "Default") { [weak self] image in
             self?.profileImage.image = image
         }
-        
+
         userNameTextField.text = user?.userName
         tierButton.setTitle(user?.tier, for: .normal)
         positionButton.setTitle(user?.position, for: .normal)
-        
-        
     }
-    
 }
 
 extension EditProfileViewController {
     @objc func confirmButtonPressed(_ sender: UIButton) {
         let updatedUser = User(email: user?.email ?? "", userName: (userNameTextField.text ?? user?.userName) ?? "", tier: tierButton.titleLabel?.text ?? "", position: positionButton.titleLabel?.text ?? "", profilePhoto: "Default", mostChampion: [])
-        
-        FirebaseUserManager.shared.updateUserInfo(userInfo: updatedUser)
-        navigationController?.popViewController(animated: true)
+        if updatedUser.userName == user?.userName, updatedUser.position == user?.position, updatedUser.profilePhoto == user?.profilePhoto, updatedUser.tier == user?.tier, updatedUser.mostChampion == user?.mostChampion {
+            let alert = UIAlertController(title: "수정 내역이 없습니다!", message: nil, preferredStyle: .alert)
+            let ok = UIAlertAction(title: "확인", style: .default)
+            alert.addAction(ok)
+            present(alert, animated: true)
+        } else {
+            FirebaseUserManager.shared.updateUserInfo(userInfo: updatedUser)
+            navigationController?.popViewController(animated: true)
+        }
     }
 
     @objc func toChooseIconsVC() {

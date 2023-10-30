@@ -11,7 +11,10 @@ import SnapKit
 import UIKit
 
 class ProfileViewController: UIViewController {
+
     var user: User?
+    
+    let wholeView = UIView()
 
     let profileView = UIView()
     let profileImageView: UIImageView = {
@@ -79,8 +82,12 @@ extension ProfileViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        tabBarController?.navigationItem.title = "마이 페이지"
+
+        setupNavigationBar()
+        tabBarController?.navigationItem.title = "마이페이지"
         tabBarController?.navigationItem.rightBarButtonItem?.isHidden = true
+        tabBarController?.navigationItem.hidesBackButton = true
+        tabBarController?.navigationController?.navigationBar.isHidden = false
 
 
         FirebaseUserManager.shared.getUserInfo { user in
@@ -96,9 +103,17 @@ extension ProfileViewController {
 
 extension ProfileViewController {
     func configureUI() {
-        view.backgroundColor = .rgrgColor5
+        view.backgroundColor = UIColor(hex: "#FFFFFF")
+        view.addSubview(wholeView)
+        
+        wholeView.backgroundColor = .rgrgColor5
+        
+        wholeView.snp.makeConstraints({make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+            
+        })
 
-        [profileView].forEach { view.addSubview($0) }
+        [profileView].forEach { wholeView.addSubview($0) }
 
         profileView.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(12)
@@ -108,7 +123,7 @@ extension ProfileViewController {
     }
 
     func setupProfileView() {
-        profileView.backgroundColor = .white
+        profileView.backgroundColor = UIColor(hex: "#FFFFFF")
         profileView.layer.cornerRadius = 10
 
         profileView.setupShadow(alpha: 0.10, offset: CGSize(width: 0, height: 1), radius: 5, opacity: 1)
@@ -165,6 +180,19 @@ extension ProfileViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toEditProfile))
         profileImageView.addGestureRecognizer(tapGesture)
         profileImageView.isUserInteractionEnabled = true
+    }
+    
+    func setupNavigationBar() {
+        tabBarController?.navigationItem.title = "마이페이지"
+        tabBarController?.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "NotoSansKR-Bold", size: 24)!]
+        tabBarController?.navigationController?.navigationBar.barTintColor = UIColor(hex: "#0C356A")
+        
+        let backButton = UIButton()
+        backButton.setTitle("", for: .normal)
+
+        let customItem = UIBarButtonItem(customView: backButton)
+        navigationItem.leftBarButtonItem = customItem
+        
     }
 }
 
