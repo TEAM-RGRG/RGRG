@@ -75,10 +75,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.rgrgColor4
-        
-        emailLine.inputBox.text = "test123@123.com"
-        passwordLine.inputBox.text = "test1234"
-
+ 
         setupUI()
         passValueCheck()
         makeBackButton()
