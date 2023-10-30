@@ -77,6 +77,8 @@ extension ProfileViewController {
         configureUI()
         setupProfileView()
         setImageTapGesture()
+        navigationItem.title = "마이페이지"
+        navigationItem.backBarButtonItem?.isHidden = true
     }
 
     override func viewWillAppear(_ animated: Bool) {
