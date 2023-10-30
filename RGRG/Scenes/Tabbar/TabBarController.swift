@@ -27,12 +27,15 @@ extension TabBarController {
         tabBar.backgroundColor = UIColor(hex: "#FFFFFF")
 
         let mainVC = MainViewController()
+        mainVC.viewWillAppear(true)
         mainVC.tabBarItem = configure(title: "List", symbolName: "tabMenu", tag: 0)
 
         let chatVC = ChatListViewController()
+        chatVC.viewWillAppear(true)
         chatVC.tabBarItem = configure(title: "Message", symbolName: "tabMessage_fill", tag: 1)
 
         let profileVC = ProfileViewController()
+        profileVC.viewWillAppear(true)
         profileVC.tabBarItem = configure(title: "Profile", symbolName: "tabUser_box", tag: 2)
 
         mainVC.tabBarItem.selectedImage = UIImage(named: "selectedTabMenu")

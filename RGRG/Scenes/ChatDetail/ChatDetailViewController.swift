@@ -258,6 +258,7 @@ extension ChatDetailViewController: UITableViewDataSource {
                 DispatchQueue.main.async {
                     cell.setupUI()
                 }
+                
                 cell.backgroundColor = .clear
                 return cell
             } else {
