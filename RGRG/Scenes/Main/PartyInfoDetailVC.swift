@@ -131,9 +131,6 @@ class PartyInfoDetailVC: UIViewController {
         label.textColor = .lightGray
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-//        label.layer.borderColor = UIColor.systemGray2.cgColor
-//        label.layer.borderWidth = 2
-//        label.layer.cornerRadius = 12
         return label
     }()
     
@@ -159,7 +156,6 @@ class PartyInfoDetailVC: UIViewController {
         textView.text = "듀오 하실 분 구합니다!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!@ 현재 플레 1이구요. 든든하게 국밥챔프 위주로만 플레이 합니다,.. 간절하신 분이였으면 좋겠어요\n다이아,,.. 가봅시다요ㅠㅠ 최고 티어는 다이아 3까지 갔었습니다. 같이 다이아 등반 하실 분 구합니다"
         textView.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         textView.textColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 1)
-//        textView.backgroundColor = .orange
         return textView
     }()
     
@@ -241,29 +237,10 @@ class PartyInfoDetailVC: UIViewController {
         }
         imageView.clipsToBounds = true
         imageView.backgroundColor = UIColor(red: 0.75, green: 0.75, blue: 0.75, alpha: 1)
-//        imageView.contentMode = .scaleToFill
         imageView.layer.cornerRadius = 10.5
-
         return imageView
     }()
-    
-//    let requiredPositionImage: UIImageView = {
-//        var imageView = UIImageView()
-//
-//        if let image = UIImage(named: "미드w") {
-//            // 이미지 크기 조절
-//            let newSize = CGSize(width: image.size.width * 0.1, height: image.size.height * 0.1)
-//            let scaledImage = image.resize(to: newSize)
-//            imageView.image = scaledImage
-//        }
-//
-//        imageView.clipsToBounds = true
-//        imageView.backgroundColor = .RGRGColor6
-//        imageView.contentMode = .scaleAspectFit
-//        imageView.layer.cornerRadius = 22.5
-//
-//        return imageView
-//    }()
+
 
     let confirmationButton: UIButton = {
         let button = UIButton()
@@ -283,7 +260,6 @@ class PartyInfoDetailVC: UIViewController {
         userNameLabel.text = party?.userName
         textTitleLabel.text = party?.title
         textView.text = party?.content
-//        profileImage.image = party?.profileImage as? UIImage
         timeLabel.text = party?.date
         
         tierLabel.text = party?.tier
@@ -354,6 +330,8 @@ class PartyInfoDetailVC: UIViewController {
         configureUI()
     }
     
+    // MARK: - ViewWillAppear
+    
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = false
         configureUI()
@@ -369,9 +347,6 @@ class PartyInfoDetailVC: UIViewController {
                 print("### 채널 추가 하기 :: \(channel)")
             }
             navigationController?.popViewController(animated: true)
-            //        let PartyDetailPageMenuVC = PartyDetailPageMenuVC()
-            //        PartyDetailPageMenuVC.modalPresentationStyle = .pageSheet
-            //        present(PartyDetailPageMenuVC, animated: true, completion: nil)
         }
     }
     
@@ -380,9 +355,6 @@ class PartyInfoDetailVC: UIViewController {
         
         view.addSubview(topFrame)
         topFrame.addSubview(pageTitleLabel)
-//        topFrame.addSubview(backButton)
-        
-//        view.addSubview(scrollView)
         view.addSubview(contentView)
         
         contentView.addSubview(topframeView)
@@ -413,9 +385,8 @@ class PartyInfoDetailVC: UIViewController {
         let backButton = UIButton(type: .custom)
         backButton.setImage(UIImage(systemName: "multiply")?.withRenderingMode(.alwaysTemplate), for: .normal)
         backButton.tintColor = .black
-//        backButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true // 버튼의 가로 크기
+        backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         backButton.imageEdgeInsets = .init(top: -18, left: -18, bottom: -18, right: -18)
         
@@ -424,10 +395,7 @@ class PartyInfoDetailVC: UIViewController {
         
         let menuButton = UIButton(type: .custom)
         menuButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
-//        backButton.
-//        backButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-//        menuButton.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
-        menuButton.widthAnchor.constraint(equalToConstant: 30).isActive = true // 버튼의 가로 크기
+        menuButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         menuButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         menuButton.imageEdgeInsets = .init(top: -18, left: -18, bottom: -18, right: -18)
         // 네비게이션바 오른쪽 버튼
@@ -457,7 +425,6 @@ class PartyInfoDetailVC: UIViewController {
             $0.leading.equalTo(contentView.snp.leading).offset(5)
             $0.trailing.equalTo(contentView.snp.trailing).offset(-5)
             $0.height.equalTo(95)
-            //            $0.bottom.equalTo(contentView.snp.bottom).offset(0)
         }
         
         profileImage.snp.makeConstraints {
@@ -468,14 +435,12 @@ class PartyInfoDetailVC: UIViewController {
         }
         
         positionImageFrame.snp.makeConstraints {
-            //            $0.top.equalTo(cellFrameView.snp.top).offset(14)
             $0.trailing.equalTo(profileImage.snp.trailing).offset(5)
             $0.height.width.equalTo(17)
             $0.bottom.equalTo(profileImage.snp.bottom).offset(0)
         }
         
         positionImage.snp.makeConstraints {
-            //            $0.top.equalTo(cellFrameView.snp.top).offset(14)
             $0.trailing.equalTo(positionImageFrame.snp.trailing).offset(-2)
             $0.height.width.equalTo(13)
             $0.bottom.equalTo(positionImageFrame.snp.bottom).offset(-2)

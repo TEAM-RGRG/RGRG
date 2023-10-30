@@ -50,13 +50,9 @@ class MainViewController: UIViewController {
     
     let noticePagebutton: UIButton = {
         let button = UIButton()
-//        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
         button.setImage(UIImage(systemName: "bell")?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.imageEdgeInsets = .init(top: -10, left: -10, bottom: -10, right: -10)
         button.tintColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1)
-//        button.setTitle("알림 확인", for: .normal)
-//        button.setTitleColor(.black, for: .normal)
-//        button.backgroundColor = UIColor.RGRGColor2
         button.layer.cornerRadius = 8
         button.addTarget(self, action: #selector(noticePagebuttonTapped), for: .touchUpInside)
         return button
@@ -64,22 +60,14 @@ class MainViewController: UIViewController {
     
     let optionFrame: UIView = {
         let view = UIView()
-//        view.backgroundColor = .black
         return view
     }()
     
     let searchOptionButton: UIButton = {
         var button = UIButton()
-//            button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
-//            button.setTitle("필터", for: .normal)
-//            button.setTitleColor(.black, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.adjustsFontForContentSizeCategory = true
         button.setImage(UIImage(named: "optionIcon")?.withRenderingMode(.alwaysTemplate), for: .normal)
-//            button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
-//            button.tintColor = .white
-//            button.backgroundColor = .white
-//            button.layer.cornerRadius = (8)
         button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -91,10 +79,6 @@ class MainViewController: UIViewController {
         button.setTitleColor(.systemGray3, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.adjustsFontForContentSizeCategory = true
-//        button.setImage(UIImage(named: "optionIcon")? .withRenderingMode(.alwaysTemplate), for: .normal)
-//            button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
-//            button.tintColor = .white
-//            button.backgroundColor = .white
         button.layer.cornerRadius = 13
         button.layer.borderColor = UIColor.systemGray4.cgColor
         button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
@@ -102,40 +86,40 @@ class MainViewController: UIViewController {
     }()
     
     let tierOptionLable1: UIButton = {
-            var button = UIButton()
-            button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-            button.setTitle("티어 ", for: .normal)
-            button.setTitleColor(.systemGray3, for: .normal)
-            button.translatesAutoresizingMaskIntoConstraints = false
-            button.titleLabel?.adjustsFontForContentSizeCategory = true
-            button.semanticContentAttribute = .forceRightToLeft
-            button.setImage(UIImage(systemName: "chevron.down")? .withRenderingMode(.alwaysTemplate), for: .normal)
-            button.tintColor = .systemGray4
-            button.layer.cornerRadius = 13
-            button.layer.borderWidth = 2
-            button.layer.borderColor = UIColor.systemGray4.cgColor
-            button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
-            return button
-        }()
+        var button = UIButton()
+        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
+        button.setTitle("티어 ", for: .normal)
+        button.setTitleColor(.systemGray3, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
+        button.semanticContentAttribute = .forceRightToLeft
+        button.setImage(UIImage(systemName: "chevron.down")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = .systemGray4
+        button.layer.cornerRadius = 13
+        button.layer.borderWidth = 2
+        button.layer.borderColor = UIColor.systemGray4.cgColor
+        button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
+        return button
+    }()
         
-        let positionOptionLable1: UIButton = {
-            var button = UIButton()
-            button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-            button.setTitle("희망 포지션", for: .normal)
-            button.setTitleColor(.systemGray3, for: .normal)
-            button.translatesAutoresizingMaskIntoConstraints = false
-            button.titleLabel?.adjustsFontForContentSizeCategory = true
-            button.semanticContentAttribute = .forceRightToLeft
-            button.setImage(UIImage(systemName: "chevron.down")? .withRenderingMode(.alwaysTemplate), for: .normal)
-                button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
-                button.tintColor = .systemGray4
-                button.backgroundColor = .white
-            button.layer.cornerRadius = 13
-            button.layer.borderWidth = 2
-            button.layer.borderColor = UIColor.systemGray4.cgColor
-            button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
-            return button
-        }()
+    let positionOptionLable1: UIButton = {
+        var button = UIButton()
+        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
+        button.setTitle("희망 포지션", for: .normal)
+        button.setTitleColor(.systemGray3, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
+        button.semanticContentAttribute = .forceRightToLeft
+        button.setImage(UIImage(systemName: "chevron.down")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
+        button.tintColor = .systemGray4
+        button.backgroundColor = .white
+        button.layer.cornerRadius = 13
+        button.layer.borderWidth = 2
+        button.layer.borderColor = UIColor.systemGray4.cgColor
+        button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
+        return button
+    }()
     
     let emptyViewForOption: UIView = {
         let view = UIView()
@@ -159,8 +143,6 @@ class MainViewController: UIViewController {
     
     let contentView: UIView = {
         let view = UIView()
-//        view.backgroundColor = .black
-//        view.layer.cornerRadius = 8
         return view
     }()
     
@@ -171,18 +153,6 @@ class MainViewController: UIViewController {
         tableView.separatorStyle = .none
         return tableView
     }()
-    
-//    struct PartyData {
-//        let title: String
-//        let info: String
-//        let time: String
-//        let tier: String
-//        let position: String
-//    }
-//
-//    var SetPartyRoomData: [PartyData] = []
-//
-//    let refreshControl = UIRefreshControl()
     
     // 더미 데이터
     let partyTitle = ["매너 파티", "같이 할 사람 구해요", "저녁 8시팀 구함", "즐겜유저 콜", "음주롤 모임"]
@@ -225,13 +195,11 @@ class MainViewController: UIViewController {
         
         pageTitleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(10)
-            //            $0.leading.equalToSuperview().offset(25)
             $0.leading.equalTo(view.snp.leading).offset(20)
         }
         
         noticePagebutton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(12)
-//            $0.leading.equalTo(createPartybutton.snp.trailing).offset(15)
             $0.trailing.equalToSuperview().offset(-20)
             $0.height.equalTo(24)
             $0.width.equalTo(24)
@@ -249,7 +217,6 @@ class MainViewController: UIViewController {
             $0.height.equalTo(30)
             $0.leading.equalToSuperview().offset(10)
             $0.trailing.equalToSuperview().offset(-15)
-            //            $0.height.equalTo(40)
         }
         
         tierOptionLable1.snp.makeConstraints {
@@ -297,10 +264,10 @@ extension MainViewController {
                     self?.patryListTable.reloadData()
                 }
             }
-            
-
         }
     }
+    
+    // MARK: - ViewWillAppear
     
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.navigationController?.navigationBar.isHidden = true
@@ -308,10 +275,10 @@ extension MainViewController {
         task()
     }
     
+    // MARK: - ViewDidLoad
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        setupButton()
         
         configureUI()
         
@@ -392,8 +359,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let item = partyList[indexPath.row] // --> [PartyInfo, PartyIfo]
-        // PartyInfoDetailVC 클래스의 초기화 메서드가 옵셔널을 반환하지 않는 경우
+        let item = partyList[indexPath.row]
         let detailController = PartyInfoDetailVC()
         detailController.party = item
         detailController.user = currentUser
@@ -586,7 +552,6 @@ class PartyTableViewCell: UITableViewCell {
             $0.height.equalTo(24)
             $0.width.equalTo(76)
             $0.trailing.equalTo(cellFrameView.snp.trailing).offset(-100)
-//            $0.bottom.lessThanOrEqualTo(cellFrameView.snp.bottom).offset(-10)
         }
         
         fitstRequiredPositionFrame.snp.makeConstraints {
