@@ -262,8 +262,8 @@ class MainViewController: UIViewController {
         positionOptionLable1.snp.makeConstraints {
             $0.top.equalTo(optionFrame.snp.top).offset(5)
             $0.leading.equalTo(tierOptionLable1.snp.trailing).offset(12)
-            $0.height.equalTo(30)
-            $0.width.equalTo(100)
+            $0.height.equalTo(29)
+            $0.width.equalTo(115)
         }
         
         contentView.snp.makeConstraints {
