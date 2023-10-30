@@ -13,6 +13,7 @@ import UIKit
 
 class PartyInfoDetailVC: UIViewController {
     var party: PartyInfo?
+    var user: User?
     
     let topFrame: UIView = {
         let view = UIView()
@@ -376,17 +377,15 @@ class PartyInfoDetailVC: UIViewController {
     }
     
     @objc func menuButtonTapped() {
-        var currentUserName = ""
-        if var auth = Auth.auth().currentUser {
-            currentUserName = auth.email ?? "n/a"
+        if let user = user {
+            FireStoreManager.shared.addChannel(channelTitle: party?.userName ?? "n/a", requester: party?.userName ?? "n/a", writer: user.userName, channelID: UUID().uuidString, date: FireStoreManager.shared.dateFormatter(value: Date.now), users: [party?.userName ?? "n/a", user.userName], requesterProfile: party?.profileImage ?? "n/a", writerProfile: "1") { channel in
+                print("### 채널 추가 하기 :: \(channel)")
+            }
+            navigationController?.popViewController(animated: true)
+            //        let PartyDetailPageMenuVC = PartyDetailPageMenuVC()
+            //        PartyDetailPageMenuVC.modalPresentationStyle = .pageSheet
+            //        present(PartyDetailPageMenuVC, animated: true, completion: nil)
         }
-        FireStoreManager.shared.addChannel(channelTitle: party?.userName ?? "n/a", requester: party?.userName ?? "n/a", writer: currentUserName, channelID: UUID().uuidString, date: FireStoreManager.shared.dateFormatter(value: Date.now), users: [party?.userName ?? "n/a", currentUserName], requesterProfile: party?.profileImage ?? "n/a", writerProfile: "1") { channel in
-            print("### 채널 추가 하기 :: \(channel)")
-        }
-        navigationController?.popViewController(animated: true)
-//        let PartyDetailPageMenuVC = PartyDetailPageMenuVC()
-//        PartyDetailPageMenuVC.modalPresentationStyle = .pageSheet
-//        present(PartyDetailPageMenuVC, animated: true, completion: nil)
     }
     
     func configureUI() {

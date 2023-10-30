@@ -10,6 +10,8 @@ import SnapKit
 import UIKit
 
 class CreatePartyVC: UIViewController, UITextViewDelegate {
+    var user: User?
+    
     let topFrame: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -171,11 +173,13 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     var positionOptionButtonArry = [UIButton]()
     
     @objc func tappedConfirmationButton(_ sender: UIButton) {
-        let hopePosition = ["first": positionOptionButtonArry[0].subtitleLabel?.text ?? "top", "second": "mid"]
-        let party = PartyInfo(champion: ["Ashe", "Garen", "Ahri"], content: infoTextView.text ?? "", date: FireStoreManager.shared.dateFormatter(value: Date.now), hopePosition: hopePosition, profileImage: "1", tier: "Gold", title: partyNameTextField.text ?? "", userName: "Garen", writer: "Garen", position: "top")
-        PartyManager.shared.addParty(party: party) { party in
-            print("### 업로드 된 :: \(party)")
-            self.navigationController?.popViewController(animated: true)
+        if let user = user {
+            let hopePosition = ["first": positionOptionButtonArry[0].subtitleLabel?.text ?? "top", "second": "mid"]
+            let party = PartyInfo(champion: ["Ahri", "Teemo", "Ashe"], content: infoTextView.text ?? "", date: FireStoreManager.shared.dateFormatter(value: Date.now), hopePosition: hopePosition, profileImage: user.profilePhoto, tier: user.tier, title: partyNameTextField.text ?? "", userName: user.userName, writer: user.userName, position: user.position)
+            PartyManager.shared.addParty(party: party) { party in
+                print("### 업로드 된 :: \(party)")
+                self.navigationController?.popViewController(animated: true)
+            }
         }
     }
     

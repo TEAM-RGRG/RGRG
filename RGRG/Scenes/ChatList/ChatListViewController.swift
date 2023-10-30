@@ -14,7 +14,7 @@ import UIKit
 class ChatListViewController: UIViewController {
     let db = FireStoreManager.db
     var channels: [Channel] = []
-    var currentUserEmail = ""
+    var currentUser: User?
 
     let vc = ChatDetailViewController()
 
@@ -28,36 +28,44 @@ class ChatListViewController: UIViewController {
 }
 
 extension ChatListViewController {
+    // 인디케이터 뷰 추가
+    func task() {
+        Task {
+            await FirebaseUserManager.shared.getUserInfo { [weak self] user in
+                guard let self = self else { return }
+                currentUser = user
+            }
+
+            guard let currentUser = currentUser else { return }
+
+            await FireStoreManager.shared.loadChannels(collectionName: "channels", writerName: currentUser.userName, filter: currentUser.userName) { channel in
+                self.channels = channel
+
+                if self.channels.isEmpty == true {
+                    self.blankMessage.isHidden = false
+                } else {
+                    self.blankMessage.isHidden = true
+                }
+
+                self.channels = self.removeDuplication(in: self.channels)
+
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-
-        if let currentUser = Auth.auth().currentUser {
-            currentUserEmail = currentUser.email ?? "n/a"
-        } else {
-            print("### 유저를 몰라")
-        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.navigationItem.title = "쪽지"
         tabBarController?.navigationItem.rightBarButtonItem?.isHidden = false
         tabBarController?.navigationController?.navigationBar.isHidden = false
-        FireStoreManager.shared.loadChannels(collectionName: "channels", writerName: currentUserEmail, filter: currentUserEmail) { channel in
-            self.channels = channel
-
-            if self.channels.isEmpty == true {
-                self.blankMessage.isHidden = false
-            } else {
-                self.blankMessage.isHidden = true
-            }
-
-            self.channels = self.removeDuplication(in: self.channels)
-
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
+        task()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -131,13 +139,15 @@ extension ChatListViewController {
     func makeRightBarButton() {
         // 액션 만들기 >> 메뉴 만들기 >> UIBarButtonItem 만들기
         let latestSortAction = rightBarButtonItem.makeSingleAction(title: "최신 메시지 순", state: .off) { _ in
-            FireStoreManager.shared.addChannel(channelTitle: "테스트1", requester: "testuser2@naver.com", writer: self.currentUserEmail, channelID: UUID().uuidString, date: FireStoreManager.shared.dateFormatter(value: Date.now), users: [self.currentUserEmail, "testuser2@naver.com"], requesterProfile: "Ashe", writerProfile: "Teemo") { channel in
-                print("### 성공적으로 저장됨.")
-                self.channels.append(channel)
-            }
+            if let currentUser = self.currentUser {
+                FireStoreManager.shared.addChannel(channelTitle: "테스트1", requester: "testuser2@naver.com", writer: currentUser.userName, channelID: UUID().uuidString, date: FireStoreManager.shared.dateFormatter(value: Date.now), users: [currentUser.userName, "testuser2@naver.com"], requesterProfile: "Ashe", writerProfile: "Teemo") { channel in
+                    print("### 성공적으로 저장됨.")
+                    self.channels.append(channel)
+                }
 
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
             }
             print("### 최신순으로 정렬하기 알파입니다.")
         }
@@ -175,8 +185,29 @@ extension ChatListViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatListCell.identifier, for: indexPath) as? ChatListCell else { return UITableViewCell() }
 
         let item = channels[indexPath.row]
-        cell.userProfileName.text = item.requester
-        cell.currentChat.text = item.currentMessage
+
+        if currentUser?.userName != item.writer {
+            cell.userProfileName.text = item.requester
+            cell.currentChat.text = item.currentMessage
+
+            StorageManager.shared.getImage("icons", item.requesterProfile) { image in
+                DispatchQueue.main.async {
+                    cell.userProfileImage.image = image
+                    cell.userProfileImage.layer.masksToBounds = true
+                }
+            }
+        } else {
+            cell.userProfileName.text = item.writer
+            cell.currentChat.text = item.currentMessage
+
+            StorageManager.shared.getImage("icons", item.writerProfile) { image in
+                DispatchQueue.main.async {
+                    cell.userProfileImage.image = image
+                    cell.userProfileImage.layer.masksToBounds = true
+                }
+            }
+        }
+
         cell.setupUI()
         cell.backgroundColor = .clear
 
