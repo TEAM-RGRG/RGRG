@@ -287,8 +287,9 @@ class PartyInfoDetailVC: UIViewController {
         timeLabel.text = party?.date
         
         tierLabel.text = party?.tier
-        tierLabel.textColor = getColorForTier(party!.tier)
-        
+        if let tier = party?.tier{
+            tierLabel.textColor = getColorForTier(tier)
+        }
         func getColorForTier(_ tier: String) -> UIColor {
             switch tier {
             case "Iron":
@@ -310,33 +311,19 @@ class PartyInfoDetailVC: UIViewController {
             }
         }
         
-        StorageManager.shared.getImage("icons", party!.profileImage) { image in
-            DispatchQueue.main.async {
-                self.profileImage.image = image
+        if let profileImage = party?.profileImage {
+            StorageManager.shared.getImage("icons", profileImage) { image in
+                DispatchQueue.main.async {
+                    self.profileImage.image = image
+                }
             }
         }
         
-//        StorageManager.shared.getImage("champ", party!.champion[0]) { image in
-//                   DispatchQueue.main.async {
-//                       self.firstMostChampionImage.image = image
-//                   }
-//               }
-               
-        StorageManager.shared.getImage("champ", party!.champion[1]) { image in
-            DispatchQueue.main.async {
-                self.secondMostChampionImage.image = image
-            }
-        }
-               
-        StorageManager.shared.getImage("champ", party!.champion[2]) { image in
-            DispatchQueue.main.async {
-                self.thirdMostChampionImage.image = image
-            }
-        }
-        
-        StorageManager.shared.getImage("position_w", party!.hopePosition["first"]!) { image in
-            DispatchQueue.main.async {
-                self.requiredPositionImage.image = image
+        if let firstHopePosition = party?.hopePosition["first"] {
+            StorageManager.shared.getImage("position_w", firstHopePosition) { image in
+                DispatchQueue.main.async {
+                    self.requiredPositionImage.image = image
+                }
             }
         }
         
@@ -347,23 +334,23 @@ class PartyInfoDetailVC: UIViewController {
                 }
             }
         }
-//
-//
-//        let secondImageURL = party!.champion[1]
-//        StorageManager.shared.getImage("champ", secondImageURL) { secondImage in
-//            DispatchQueue.main.async {
-//                self.secondMostChampionImage.image = secondImage
-//            }
-//        }
-//
-//
-//        let thirdImageURL = party!.champion[2]
-//        StorageManager.shared.getImage("champ", thirdImageURL) { thirdImage in
-//            DispatchQueue.main.async {
-//                self.thirdMostChampionImage.image = thirdImage
-//            }
-//        }
         
+        if let secondImageURL = party?.champion[1] {
+            StorageManager.shared.getImage("champ", secondImageURL) { secondImage in
+                DispatchQueue.main.async {
+                    self.secondMostChampionImage.image = secondImage
+                }
+            }
+        }
+
+        if let thirdImageURL = party?.champion[2] {
+            StorageManager.shared.getImage("champ", thirdImageURL) { thirdImage in
+                DispatchQueue.main.async {
+                    self.thirdMostChampionImage.image = thirdImage
+                }
+            }
+        }
+
         configureUI()
     }
     
