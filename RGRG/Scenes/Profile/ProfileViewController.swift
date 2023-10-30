@@ -81,6 +81,7 @@ extension ProfileViewController {
     override func viewWillAppear(_ animated: Bool) {
         FirebaseUserManager.shared.getUserInfo { user in
             self.user = user
+            print("### \(user)")
             DispatchQueue.main.async {
                 self.setupLabels()
                 self.setupImages()
