@@ -11,6 +11,7 @@ import UIKit
 class MainViewController: UIViewController {
     let testButton = CustomButton(frame: .zero)
 
+    var currentUser: User?
     var partyList: [PartyInfo] = []
     
     deinit {
@@ -191,6 +192,7 @@ class MainViewController: UIViewController {
     
     @objc func createPartybuttonTapped() {
         let CreatePartyVC = CreatePartyVC()
+        CreatePartyVC.user = currentUser
         navigationController?.pushViewController(CreatePartyVC, animated: true)
     }
     
@@ -281,16 +283,29 @@ class MainViewController: UIViewController {
 }
 
 extension MainViewController {
+    func task() {
+        Task {
+            await FirebaseUserManager.shared.getUserInfo(complition: { user in
+                print("### CurrentUser Info ::: \(user)")
+                self.currentUser = user
+            })
+            
+            await PartyManager.shared.loadParty { [weak self] parties in
+                self?.partyList = parties // [PartyInfo] = [PartyInfo]
+                print("### \(self?.partyList)")
+                DispatchQueue.main.async {
+                    self?.patryListTable.reloadData()
+                }
+            }
+            
+
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.navigationController?.navigationBar.isHidden = true
         
-        PartyManager.shared.loadParty { [weak self] parties in
-            self?.partyList = parties // [PartyInfo] = [PartyInfo]
-            print("### \(self?.partyList)")
-            DispatchQueue.main.async {
-                self?.patryListTable.reloadData()
-            }
-        }
+        task()
     }
     
     override func viewDidLoad() {
@@ -381,6 +396,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         // PartyInfoDetailVC 클래스의 초기화 메서드가 옵셔널을 반환하지 않는 경우
         let detailController = PartyInfoDetailVC()
         detailController.party = item
+        detailController.user = currentUser
         navigationController?.pushViewController(detailController, animated: true)
     }
 }

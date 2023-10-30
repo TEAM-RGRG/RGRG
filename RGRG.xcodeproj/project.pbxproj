@@ -344,10 +344,10 @@
 				4EF3A7172AE6511100A1D32D /* Channel.swift */,
 				4E8B84EF2AD8120D009BCF4B /* UserInfo.swift */,
 				4E8B84F12AD8120D009BCF4B /* ChatInfo.swift */,
-				1DB94CDF2AE8024000851A18 /* FirebaseUserManager.swift */,
 				4EE5E9D92AEBCBB800B7849E /* PartyInfo.swift */,
-				1DB94CDD2AE760AB00851A18 /* StorageManager.swift */,
+				1DB94CDF2AE8024000851A18 /* FirebaseUserManager.swift */,
 				4EF3A7152AE6510C00A1D32D /* FireStoreManager.swift */,
+				1DB94CDD2AE760AB00851A18 /* StorageManager.swift */,
 				4EE5E9D72AEBCAFB00B7849E /* PartyManager.swift */,
 			);
 			path = Models;
