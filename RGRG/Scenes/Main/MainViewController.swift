@@ -305,6 +305,10 @@ extension MainViewController {
         patryListTable.delegate = self
         patryListTable.dataSource = self
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        partyList.removeAll()
+    }
 }
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
@@ -339,7 +343,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
         
-        StorageManager.shared.getImage("position_w", item.hopePosition["second"]!) { image in
+        StorageManager.shared.getImage("position_w", item.hopePosition["second"] ?? "mid") { image in
             DispatchQueue.main.async {
                 cell.secondPositionImage.image = image
             }
@@ -373,7 +377,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let item = partyList[indexPath.row]
+        let item = partyList[indexPath.row] // --> [PartyInfo, PartyIfo]
         // PartyInfoDetailVC 클래스의 초기화 메서드가 옵셔널을 반환하지 않는 경우
         let detailController = PartyInfoDetailVC()
         detailController.party = item

@@ -5,20 +5,18 @@
 //  Created by kiakim on 2023/10/11.
 //
 
+import Firebase
+import FirebaseAuth
+import FirebaseCore
+import FirebaseFirestore
 import SnapKit
 import UIKit
-import Firebase
-import FirebaseCore
-import FirebaseAuth
-import FirebaseFirestore
-
 
 class SignUpViewController: UIViewController {
-    
-    var idPass:Bool = false
-    var pwPass:Bool = false
-    var pwCheckPass:Bool = false
-    var nickNamePass:Bool = false
+    var idPass: Bool = false
+    var pwPass: Bool = false
+    var pwCheckPass: Bool = false
+    var nickNamePass: Bool = false
     
     let bodyContainer = {
         let stactview = UIView()
@@ -35,34 +33,31 @@ class SignUpViewController: UIViewController {
         return image
     }()
     
-    
     let methodArea = {
         let view = UIStackView()
         view.axis = .vertical
         return view
     }()
     
-    
     let emailLine = {
-        let line = CustomMemberInfoBox(id:.email,conditionText: "Email 형식 확인",passText: "사용가능 한 email입니다.",placeHolder: "Email", condition:"^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]+$")
+        let line = CustomMemberInfoBox(id: .email, conditionText: "Email 형식 확인", passText: "사용가능 한 email입니다.", placeHolder: "Email", condition: "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]+$")
         return line
     }()
     
     let passwordLine = {
-        let line = CustomMemberInfoBox(id:.pw,conditionText: "영문 숫자 7자 이상",placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$")
+        let line = CustomMemberInfoBox(id: .pw, conditionText: "영문 숫자 7자 이상", placeHolder: "Password", condition: "^[a-zA-Z0-9]{7,}$")
         line.inputBox.isSecureTextEntry = true
         return line
     }()
     
-    
     let passwordCheckLine = {
-        let line = CustomMemberInfoBox(id:.pwCheck,conditionText: "다시 확인해주세요", placeHolder: "Password Check", condition:"")
+        let line = CustomMemberInfoBox(id: .pwCheck, conditionText: "다시 확인해주세요", placeHolder: "Password Check", condition: "")
         line.inputBox.isSecureTextEntry = true
         return line
     }()
     
     let nickNameLine = {
-        let line = CustomMemberInfoBox(id:.userName,conditionText: "영문 숫자 한글 2자 이상",passText:"사용가능한 닉네임입니다.",placeHolder: "닉네임", condition:"^[a-zA-Z0-9가-힣]{2,}$")
+        let line = CustomMemberInfoBox(id: .userName, conditionText: "영문 숫자 한글 2자 이상", passText: "사용가능한 닉네임입니다.", placeHolder: "닉네임", condition: "^[a-zA-Z0-9가-힣]{2,}$")
         return line
     }()
     
@@ -87,43 +82,39 @@ class SignUpViewController: UIViewController {
         return button
     }()
     
-    
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         view.backgroundColor = UIColor.rgrgColor5
         setupUI()
         passValueCheck()
     }
-    
 }
 
-
 extension SignUpViewController {
-    @objc func tapSignUP(){
+    @objc func tapSignUP() {
         // ture 값전달할 수 있도록 변경
-        if self.idPass && self.pwPass && pwCheckPass && self.nickNamePass {
+        if idPass, pwPass, pwCheckPass, nickNamePass {
             createUser()
             movetoLogin()
         } else {
-            showAlert(title: "not Yet" , message: "필수항목 확인 필요")
+            showAlert(title: "not Yet", message: "필수항목 확인 필요")
         }
     }
     
-    func createUser(){
+    func createUser() {
         let email = emailLine.inputBox.text
         let password = passwordLine.inputBox.text
         let userName = nickNameLine.inputBox.text
         let tier = tierButton.titleLabel?.text
         let positon = positionButton.titleLabel?.text
         
-        Auth.auth().createUser(withEmail: email ?? "", password: password ?? "") {result,error in
+        Auth.auth().createUser(withEmail: email ?? "", password: password ?? "") { result, error in
             if let error = error {
-                print("result",error)
+                print("result", error)
             }
             
             if let result = result {
-                print("result",result)
+                print("result", result)
                 
                 let db = Firestore.firestore()
                 let userUID = db.collection("users").document(result.user.uid)
@@ -133,9 +124,8 @@ extension SignUpViewController {
                     "userName": userName,
                     "tier": tier,
                     "positon": positon,
-                    "profilePhoto" :  "Default",
-                    "mostChampion" : []
-                    
+                    "profilePhoto": "Default",
+                    "mostChampion": []
                     
                 ]) { error in
                     if let error = error {
@@ -148,24 +138,21 @@ extension SignUpViewController {
         }
     }
     
-    func movetoLogin(){
+    func movetoLogin() {
         let movePage = LoginViewController()
-        self.navigationController?.pushViewController(movePage, animated: true)
+        navigationController?.pushViewController(movePage, animated: true)
     }
     
-    func passValueCheck(){
-        
-        func updateUI(){
-            
-            guard self.idPass && self.pwPass && pwCheckPass && self.nickNamePass else{
-                return  signupButton.backgroundColor = UIColor.rgrgColor3
+    func passValueCheck() {
+        func updateUI() {
+            guard idPass, pwPass, pwCheckPass, nickNamePass else {
+                return signupButton.backgroundColor = UIColor.rgrgColor3
             }
             signupButton.backgroundColor = UIColor.black
-            
         }
         
-        //idPass값이 안바뀌는 것처럼 보이는건, ViewDidLoad에서 이미 그려졌기 때문
-        //클로져는 독립젹인 코드블럭이기에 이 안에서는 업데이트가 가능
+        // idPass값이 안바뀌는 것처럼 보이는건, ViewDidLoad에서 이미 그려졌기 때문
+        // 클로져는 독립젹인 코드블럭이기에 이 안에서는 업데이트가 가능
         emailLine.passHandler = { pass in
             self.idPass = pass
             updateUI()
@@ -186,9 +173,6 @@ extension SignUpViewController {
             updateUI()
             //            print("pass 값 알려줘",self.nickNamePass)
         }
-        
-        
-        
     }
     
     func showAlert(title: String, message: String) {
@@ -200,45 +184,45 @@ extension SignUpViewController {
         present(alertController, animated: true, completion: nil)
     }
     
-    @objc func showTierSelector(){
+    @objc func showTierSelector() {
         let alertController = UIAlertController(title: "메달 선택", message: nil, preferredStyle: .alert)
         
-        let ironAction = UIAlertAction(title: "Iron", style: .default) { (action) in
-               self.tierButton.setTitle("Iron", for: .normal)
+        let ironAction = UIAlertAction(title: "Iron", style: .default) { (_) in
+            self.tierButton.setTitle("Iron", for: .normal)
         }
         
-        let bronzeAction = UIAlertAction(title: "Bronze", style: .default) { (action) in
-               self.tierButton.setTitle("Bronze", for: .normal)
+        let bronzeAction = UIAlertAction(title: "Bronze", style: .default) { (_) in
+            self.tierButton.setTitle("Bronze", for: .normal)
         }
         
-        let silverAction = UIAlertAction(title: "Silver", style: .default) { (action) in
-               self.tierButton.setTitle("Silver", for: .normal)
+        let silverAction = UIAlertAction(title: "Silver", style: .default) { (_) in
+            self.tierButton.setTitle("Silver", for: .normal)
         }
         
-        let goldAction = UIAlertAction(title: "Gold", style: .default) { (action) in
-               self.tierButton.setTitle("Gold", for: .normal)
+        let goldAction = UIAlertAction(title: "Gold", style: .default) { (_) in
+            self.tierButton.setTitle("Gold", for: .normal)
         }
         
-        let platinumAction = UIAlertAction(title: "Platinum", style: .default) { (action) in
-               self.tierButton.setTitle("Platinum", for: .normal)
+        let platinumAction = UIAlertAction(title: "Platinum", style: .default) { (_) in
+            self.tierButton.setTitle("Platinum", for: .normal)
         }
         
-        let emeraldAction = UIAlertAction(title: "Emerald", style: .default) { (action) in
-               self.tierButton.setTitle("Emerald", for: .normal)
+        let emeraldAction = UIAlertAction(title: "Emerald", style: .default) { (_) in
+            self.tierButton.setTitle("Emerald", for: .normal)
         }
     
-        let diamondAction = UIAlertAction(title: "Diamond", style: .default) { (action) in
+        let diamondAction = UIAlertAction(title: "Diamond", style: .default) { (_) in
             self.tierButton.setTitle("Diamond", for: .normal)
         }
-        let masterAction = UIAlertAction(title: "Master", style: .default) { (action) in
+        let masterAction = UIAlertAction(title: "Master", style: .default) { (_) in
             self.tierButton.setTitle("Master", for: .normal)
         }
         
-        let grandMaster = UIAlertAction(title: "Grand Master", style: .default) { (action) in
+        let grandMaster = UIAlertAction(title: "Grand Master", style: .default) { (_) in
             self.tierButton.setTitle("Grand Master", for: .normal)
         }
         
-        let challenger = UIAlertAction(title: "Challenger", style: .default) { (action) in
+        let challenger = UIAlertAction(title: "Challenger", style: .default) { (_) in
             self.tierButton.setTitle("Challenger", for: .normal)
         }
 
@@ -255,30 +239,28 @@ extension SignUpViewController {
         alertController.addAction(grandMaster)
         alertController.addAction(challenger)
 
-
-      
         alertController.addAction(cancelAction)
         
         // 팝업 창 표시
         present(alertController, animated: true, completion: nil)
     }
     
-    @objc func showPositionSelector(){
+    @objc func showPositionSelector() {
         let alertController = UIAlertController(title: "Positon", message: nil, preferredStyle: .alert)
         
-        let TopAction = UIAlertAction(title: "Top", style: .default) { (action) in
+        let TopAction = UIAlertAction(title: "Top", style: .default) { (_) in
             self.positionButton.setTitle("Top", for: .normal)
         }
-        let JungleAction = UIAlertAction(title: "Jungle", style: .default) { (action) in
+        let JungleAction = UIAlertAction(title: "Jungle", style: .default) { (_) in
             self.positionButton.setTitle("Jungle", for: .normal)
         }
-        let MidAction = UIAlertAction(title: "Mid", style: .default) { (action) in
+        let MidAction = UIAlertAction(title: "Mid", style: .default) { (_) in
             self.positionButton.setTitle("Mid", for: .normal)
         }
-        let BottomAction = UIAlertAction(title: "Bottom", style: .default) { (action) in
+        let BottomAction = UIAlertAction(title: "Bottom", style: .default) { (_) in
             self.positionButton.setTitle("Bottom", for: .normal)
         }
-        let SupportAction = UIAlertAction(title: "Support", style: .default) { (action) in
+        let SupportAction = UIAlertAction(title: "Support", style: .default) { (_) in
             self.positionButton.setTitle("Support", for: .normal)
         }
         
@@ -287,7 +269,7 @@ extension SignUpViewController {
         
         alertController.addAction(TopAction)
         alertController.addAction(JungleAction)
-        alertController.addAction(MidAction) 
+        alertController.addAction(MidAction)
         alertController.addAction(BottomAction)
         alertController.addAction(SupportAction)
         alertController.addAction(cancelAction)
@@ -342,7 +324,6 @@ extension SignUpViewController {
         methodArea.snp.makeConstraints { make in
             make.top.equalTo(imageArea.snp.bottom).offset(40)
             make.left.right.equalToSuperview()
-            
         }
         
         emailLine.snp.makeConstraints { make in
@@ -373,7 +354,6 @@ extension SignUpViewController {
             make.height.equalTo(60)
         }
         
-        
         tierButton.setTitle("Tier", for: .normal)
         //        tierButton.layer.borderWidth = 1
         tierButton.layer.cornerRadius = 10
@@ -384,24 +364,20 @@ extension SignUpViewController {
             make.width.equalToSuperview().dividedBy(2.2)
         }
         
-        
         positionButton.setTitle("Postion", for: .normal)
         //        positionButton.layer.borderWidth = 1
         positionButton.layer.cornerRadius = 10
         positionButton.backgroundColor = UIColor.white
         positionButton.setTitleColor(UIColor.black, for: .normal)
-        positionButton.addTarget(self, action:#selector(showPositionSelector), for: .touchUpInside)
+        positionButton.addTarget(self, action: #selector(showPositionSelector), for: .touchUpInside)
         positionButton.snp.makeConstraints { make in
             make.width.equalToSuperview().dividedBy(2.2)
         }
-        
-        
         
         signupButton.addTarget(self, action: #selector(tapSignUP), for: .touchUpInside)
         signupButton.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
 //            make.bottom.equalToSuperview().inset(20)
         }
-        
     }
 }

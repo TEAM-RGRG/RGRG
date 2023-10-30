@@ -60,6 +60,8 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
 //        button.setTitle("탑", for: .normal)
+        button.subtitleLabel?.text = "top"
+        button.subtitleLabel?.isHidden = true
         button.contentHorizontalAlignment = .left
         button.contentVerticalAlignment = .bottom
         button.setTitleColor(.black, for: .normal)
@@ -162,11 +164,20 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         button.setTitleColor(UIColor.white, for: .normal)
         button.backgroundColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1)
         button.layer.cornerRadius = (12)
-//        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(tappedConfirmationButton), for: .touchUpInside)
         return button
     }()
     
     var positionOptionButtonArry = [UIButton]()
+    
+    @objc func tappedConfirmationButton(_ sender: UIButton) {
+        let hopePosition = ["first": positionOptionButtonArry[0].subtitleLabel?.text ?? "top", "second": "mid"]
+        let party = PartyInfo(champion: ["Ashe", "Garen", "Ahri"], content: infoTextView.text ?? "", date: FireStoreManager.shared.dateFormatter(value: Date.now), hopePosition: hopePosition, profileImage: "1", tier: "Gold", title: partyNameTextField.text ?? "", userName: "Garen", writer: "Garen", position: "top")
+        PartyManager.shared.addParty(party: party) { party in
+            print("### 업로드 된 :: \(party)")
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
     
     @objc func positionOptionButtonTapped(_ sender: UIButton) {
         for Btn in positionOptionButtonArry {
@@ -226,7 +237,6 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
 //        configureUI()
         navigationController?.navigationBar.isHidden = false
-        
     }
     
     override func viewDidLoad() {

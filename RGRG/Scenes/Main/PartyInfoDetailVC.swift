@@ -5,6 +5,7 @@
 //  Created by t2023-m0064 on 2023/10/19.
 //
 
+import FirebaseAuth
 import FirebaseStorage
 import Foundation
 import SnapKit
@@ -270,7 +271,7 @@ class PartyInfoDetailVC: UIViewController {
         button.setTitleColor(UIColor.white, for: .normal)
         button.backgroundColor = UIColor.rgrgColor4
         button.layer.cornerRadius = 10
-//        button.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -374,11 +375,19 @@ class PartyInfoDetailVC: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-//    @objc func menuButtonTapped() {
+    @objc func menuButtonTapped() {
+        var currentUserName = ""
+        if var auth = Auth.auth().currentUser {
+            currentUserName = auth.email ?? "n/a"
+        }
+        FireStoreManager.shared.addChannel(channelTitle: party?.userName ?? "n/a", requester: party?.userName ?? "n/a", writer: currentUserName, channelID: UUID().uuidString, date: FireStoreManager.shared.dateFormatter(value: Date.now), users: [party?.userName ?? "n/a", currentUserName], requesterProfile: party?.profileImage ?? "n/a", writerProfile: "1") { channel in
+            print("### 채널 추가 하기 :: \(channel)")
+        }
+        navigationController?.popViewController(animated: true)
 //        let PartyDetailPageMenuVC = PartyDetailPageMenuVC()
 //        PartyDetailPageMenuVC.modalPresentationStyle = .pageSheet
 //        present(PartyDetailPageMenuVC, animated: true, completion: nil)
-//    }
+    }
     
     func configureUI() {
         view.backgroundColor = .systemGray5
