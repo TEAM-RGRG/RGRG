@@ -20,13 +20,13 @@ class NoticePageVC: UIViewController {
     
     let contentView: UIView = {
         let view = UIView()
-        view.backgroundColor = .systemGray5
+        view.backgroundColor = .rgrgColor5
         return view
     }()
     
     lazy var noticeListTable: UITableView = {
         var tableView = UITableView()
-        tableView.backgroundColor = .systemGray5
+        tableView.backgroundColor = .rgrgColor5
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorStyle = .none
         return tableView
@@ -69,7 +69,7 @@ class NoticePageVC: UIViewController {
     }
     
     func configureUI() {
-        view.backgroundColor = .systemGray5
+        view.backgroundColor = .rgrgColor5
         view.addSubview(topFrame)
         view.addSubview(contentView)
         contentView.addSubview(noticeListTable)
@@ -137,8 +137,8 @@ class userInfoCell: UITableViewCell {
         view.backgroundColor = .white
         view.layer.cornerRadius = 10
         view.layer.shadowOffset = CGSize(width: 0, height: 2)
-        view.layer.shadowOpacity = 1
-        view.layer.shadowRadius = 6
+        view.layer.shadowOpacity = 0.8
+        view.layer.shadowRadius = 5
         view.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.1).cgColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -268,7 +268,7 @@ class userInfoCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.backgroundColor = .systemGray5
+        contentView.backgroundColor = .rgrgColor5
         
         contentView.addSubview(cellFrameView)
         cellFrameView.addSubview(profileImage)
