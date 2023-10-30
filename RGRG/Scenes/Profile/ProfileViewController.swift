@@ -120,7 +120,7 @@ extension ProfileViewController {
             make.top.equalTo(view.safeAreaLayoutGuide).offset(12)
             make.height.equalTo(204)
         }
-    }
+    } 
 
     func setupProfileView() {
         profileView.backgroundColor = UIColor(hex: "#FFFFFF")
