@@ -61,7 +61,6 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     let topPositionbutton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
-//        button.setTitle("탑", for: .normal)
         button.subtitleLabel?.text = "top"
         button.subtitleLabel?.isHidden = true
         button.contentHorizontalAlignment = .left
@@ -69,12 +68,8 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         button.setTitleColor(.black, for: .normal)
         button.setImage(UIImage(named: "탑w"), for: .normal)
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
-//        button.tintColor = UIColor.white
         button.backgroundColor = .systemGray4
-//        button.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         button.layer.cornerRadius = 30
-//        button.layer.borderWidth = 2
-//        button.layer.borderColor = UIColor.systemGray5.cgColor
         button.addTarget(self, action: #selector(positionOptionButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -82,15 +77,11 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     let junglePositionbutton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
-//        button.setTitle("알림 확인", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.setImage(UIImage(named: "정글w"), for: .normal)
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
-//        button.tintColor = UIColor.white
         button.backgroundColor = .systemGray4
         button.layer.cornerRadius = 30
-//        button.layer.borderWidth = 2
-//        button.layer.borderColor = UIColor.white.cgColor
         button.addTarget(self, action: #selector(positionOptionButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -98,15 +89,11 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     let midPositionbutton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
-//        button.setTitle("알림 확인", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.setImage(UIImage(named: "미드w"), for: .normal)
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
-//        button.tintColor = UIColor.white
         button.backgroundColor = .systemGray4
         button.layer.cornerRadius = 30
-//        button.layer.borderWidth = 2
-//        button.layer.borderColor = UIColor.white.cgColor
         button.addTarget(self, action: #selector(positionOptionButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -114,15 +101,11 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     let bottomPositionbutton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
-//        button.setTitle("알림 확인", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.setImage(UIImage(named: "바텀w"), for: .normal)
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
-//        button.tintColor = UIColor.white
         button.backgroundColor = .systemGray4
         button.layer.cornerRadius = 30
-//        button.layer.borderWidth = 2
-//        button.layer.borderColor = UIColor.white.cgColor
         button.addTarget(self, action: #selector(positionOptionButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -135,8 +118,6 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
         button.backgroundColor = .systemGray4
         button.layer.cornerRadius = 30
-//        button.layer.borderWidth = 2
-//        button.layer.borderColor = UIColor.white.cgColor
         button.addTarget(self, action: #selector(positionOptionButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -246,10 +227,13 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         return newText.count <= maxLength
     }
 
+    // MARK: - ViewWillAppear
+    
     override func viewWillAppear(_ animated: Bool) {
-//        configureUI()
         navigationController?.navigationBar.isHidden = false
     }
+    
+    // MARK: - ViewDidLoad
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -274,16 +258,10 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         view.backgroundColor = .systemGray5
         
         view.addSubview(topFrame)
-//        view.addSubview(pageTitleLabel)
-//        view.addSubview(backButton)
         view.addSubview(partyNameLabel)
         view.addSubview(partyNameTextField)
         view.addSubview(positionLabel)
-//        view.addSubview(listUnderline)
-//        view.addSubview(tierFramView)
-//        tierFramView.addArrangedSubview(tierPopupButton)
         view.addSubview(positionFramView)
-//        positionFramView.addArrangedSubview(positionLabel)
         positionFramView.addArrangedSubview(topPositionbutton)
         positionFramView.addArrangedSubview(junglePositionbutton)
         positionFramView.addArrangedSubview(midPositionbutton)
@@ -298,7 +276,6 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         let backButton = UIButton(type: .custom)
         backButton.setImage(UIImage(systemName: "multiply")?.withRenderingMode(.alwaysTemplate), for: .normal)
         backButton.tintColor = .black
-//        backButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true // 버튼의 가로 크기
         backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -311,17 +288,11 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         let rightButton = UIBarButtonItem(title: "임시 저장", style: .plain, target: self, action: #selector(backButtonTapped))
         navigationItem.rightBarButtonItem = rightButton
         
-//        pageTitleLabel.snp.makeConstraints{
-//            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-//            $0.centerX.equalTo(view)
-//        }
-        
         topFrame.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo(97)
         }
         
-        // 파티명
         partyNameLabel.snp.makeConstraints {
             $0.top.equalTo(topFrame.snp.bottom).offset(50)
             $0.leading.equalToSuperview().offset(28)
@@ -330,7 +301,6 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         partyNameTextField.snp.makeConstraints {
             $0.top.equalTo(partyNameLabel.snp.bottom).offset(12)
             $0.height.equalTo(45)
-//            $0.width.equalTo(205)
             $0.leading.equalToSuperview().offset(28)
             $0.trailing.equalToSuperview().offset(-28)
         }
@@ -355,7 +325,6 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         infoTextView.snp.makeConstraints {
             $0.top.equalTo(infoTextLabel.snp.bottom).offset(12)
             $0.height.equalTo(200)
-//            $0.width.equalTo(80)
             $0.leading.equalToSuperview().offset(28)
             $0.trailing.equalToSuperview().offset(-28)
         }

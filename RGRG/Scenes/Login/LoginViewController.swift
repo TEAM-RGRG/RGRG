@@ -75,7 +75,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.rgrgColor4
- 
+
         setupUI()
         passValueCheck()
         makeBackButton()
