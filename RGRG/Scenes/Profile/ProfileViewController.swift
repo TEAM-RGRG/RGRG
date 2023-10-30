@@ -82,6 +82,10 @@ extension ProfileViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.navigationItem.title = "마이 페이지"
+        tabBarController?.navigationItem.rightBarButtonItem?.isHidden = true
+
+
         FirebaseUserManager.shared.getUserInfo { user in
             self.user = user
             print("### \(user)")

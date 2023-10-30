@@ -31,12 +31,13 @@ class ChatSettingViewController: UIViewController {
 extension ChatSettingViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
+//        setupUI()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         if let sheetPresentationController = sheetPresentationController {
             sheetPresentationController.detents = [.custom(resolver: { _ in
+                self.setupUI()
                 return 207
             })]
         }
