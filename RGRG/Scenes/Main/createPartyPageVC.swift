@@ -172,15 +172,23 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     
     var positionOptionButtonArry = [UIButton]()
     
-    @objc func tappedConfirmationButton(_ sender: UIButton) {
+    func task() {
         if let user = user {
             let hopePosition = ["first": positionOptionButtonArry[0].subtitleLabel?.text ?? "top", "second": "mid"]
+            
             let party = PartyInfo(champion: ["Ahri", "Teemo", "Ashe"], content: infoTextView.text ?? "", date: FireStoreManager.shared.dateFormatter(value: Date.now), hopePosition: hopePosition, profileImage: user.profilePhoto, tier: user.tier, title: partyNameTextField.text ?? "", userName: user.userName, writer: user.userName, position: user.position)
-            PartyManager.shared.addParty(party: party) { party in
-                print("### 업로드 된 :: \(party)")
-                self.navigationController?.popViewController(animated: true)
+            
+            Task {
+                await PartyManager.shared.addParty(party: party) { party in
+                    print("### 업로드 된 :: \(party)")
+                    self.navigationController?.popViewController(animated: true)
+                }
             }
         }
+    }
+    
+    @objc func tappedConfirmationButton(_ sender: UIButton) {
+        task()
     }
     
     @objc func positionOptionButtonTapped(_ sender: UIButton) {
