@@ -11,6 +11,7 @@ import SnapKit
 import UIKit
 
 class ProfileViewController: UIViewController {
+
     var user: User?
 
     let profileView = UIView()
@@ -76,6 +77,8 @@ extension ProfileViewController {
         configureUI()
         setupProfileView()
         setImageTapGesture()
+        navigationItem.title = "마이페이지"
+        navigationItem.backBarButtonItem?.isHidden = true
     }
 
     override func viewWillAppear(_ animated: Bool) {
