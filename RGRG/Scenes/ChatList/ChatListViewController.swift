@@ -186,7 +186,7 @@ extension ChatListViewController: UITableViewDataSource {
 
         let item = channels[indexPath.row]
 
-        if currentUser?.userName != item.writer {
+        if currentUser?.userName == item.writer {
             cell.userProfileName.text = item.requester
             cell.currentChat.text = item.currentMessage
 
@@ -225,6 +225,7 @@ extension ChatListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = channels[indexPath.row]
         vc.thread = item.channelID
+        vc.channelInfo = item
         vc.navigationItem.title = item.requester
         tabBarController?.navigationController?.pushViewController(vc, animated: true)
     }
