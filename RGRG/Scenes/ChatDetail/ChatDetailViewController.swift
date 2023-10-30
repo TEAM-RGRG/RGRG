@@ -20,6 +20,7 @@ class ChatDetailViewController: UIViewController {
     let textField = CustomTextField(frame: .zero)
 
     var thread = ""
+    var channelInfo: Channel?
     var chats: [ChatInfo] = []
     var fetchingMore = false
     var count = 1
@@ -245,12 +246,9 @@ extension ChatDetailViewController: UITableViewDataSource {
             cell.setupUI()
             cell.backgroundColor = .clear
 
-
-
             return cell
 
         } else {
-
             if item.sender == currentUserEmail {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: MyFeedCell.identifier, for: indexPath) as? MyFeedCell else { return UITableViewCell() }
 
@@ -267,6 +265,13 @@ extension ChatDetailViewController: UITableViewDataSource {
 
                 cell.yourChatContent.text = item.content
                 cell.yourChatTime.text = item.date
+                
+                StorageManager.shared.getImage("icons", channelInfo?.writerProfile ?? "n/a") { image in
+                    DispatchQueue.main.async {
+                        cell.yourProfileImage.image = image
+                    }
+                }
+                
 
                 DispatchQueue.main.async {
                     cell.setupUI()
@@ -275,7 +280,6 @@ extension ChatDetailViewController: UITableViewDataSource {
                 cell.backgroundColor = .clear
                 return cell
             }
-
         }
     }
 }
