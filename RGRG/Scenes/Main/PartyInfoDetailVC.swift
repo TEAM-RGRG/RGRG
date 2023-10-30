@@ -351,7 +351,7 @@ class PartyInfoDetailVC: UIViewController {
     }
     
     func configureUI() {
-        view.backgroundColor = .systemGray5
+        view.backgroundColor = .rgrgColor5
         
         view.addSubview(topFrame)
         topFrame.addSubview(pageTitleLabel)

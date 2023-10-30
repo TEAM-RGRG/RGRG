@@ -255,7 +255,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     }
     
     func configureUI() {
-        view.backgroundColor = .systemGray5
+        view.backgroundColor = .rgrgColor5
         
         view.addSubview(topFrame)
         view.addSubview(partyNameLabel)
