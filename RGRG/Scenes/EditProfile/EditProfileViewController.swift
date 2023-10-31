@@ -11,7 +11,8 @@ import UIKit
 
 class EditProfileViewController: UIViewController {
     var user: User?
-    
+    let wholeView = UIView()
+
     let profileImage: UIImageView = {
         let imageView = UIImageView()
         imageView.frame = CGRect(x: 0, y: 0, width: 132, height: 132)
@@ -19,7 +20,22 @@ class EditProfileViewController: UIViewController {
         imageView.layer.borderWidth = 3
         imageView.layer.borderColor = UIColor.rgrgColor3.cgColor
         imageView.clipsToBounds = true
-        imageView.backgroundColor = .rgrgColor7
+        return imageView
+    }()
+
+    let outerImageView: UIView = {
+        let newView = UIView()
+        newView.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        newView.layer.cornerRadius = newView.frame.height / 2
+        newView.backgroundColor = .rgrgColor3
+        return newView
+    }()
+
+    let editImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
+        imageView.image = UIImage(named: "Edit")
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
 
@@ -48,35 +64,9 @@ class EditProfileViewController: UIViewController {
 
     let mostChampButton = CustomButton()
 
-    let firstImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.frame = CGRect(x: 0, y: 0, width: 68, height: 68)
-        imageView.layer.cornerRadius = imageView.frame.height / 2
-        imageView.layer.borderWidth = 2
-        imageView.layer.borderColor = UIColor.rgrgColor7.cgColor
-        imageView.clipsToBounds = true
-        return imageView
-    }()
-
-    let secondImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.frame = CGRect(x: 0, y: 0, width: 68, height: 68)
-        imageView.layer.cornerRadius = imageView.frame.height / 2
-        imageView.layer.borderWidth = 2
-        imageView.layer.borderColor = UIColor.rgrgColor7.cgColor
-        imageView.clipsToBounds = true
-        return imageView
-    }()
-
-    let thirdImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.frame = CGRect(x: 0, y: 0, width: 68, height: 68)
-        imageView.layer.cornerRadius = imageView.frame.height / 2
-        imageView.layer.borderWidth = 2
-        imageView.layer.borderColor = UIColor.rgrgColor7.cgColor
-        imageView.clipsToBounds = true
-        return imageView
-    }()
+    let firstImage = CustomImageView(frame: CGRect(x: 0, y: 0, width: 68, height: 68))
+    let secondImage = CustomImageView(frame: CGRect(x: 0, y: 0, width: 68, height: 68))
+    let thirdImage = CustomImageView(frame: CGRect(x: 0, y: 0, width: 68, height: 68))
 
     let mostChampImgStackView: UIStackView = {
         let stackView = UIStackView()
@@ -106,6 +96,8 @@ extension EditProfileViewController {
             self.user = user
             DispatchQueue.main.async {
                 self.setBeforeInfo()
+                self.setupButtonsActions()
+                
             }
         }
     }
@@ -113,17 +105,31 @@ extension EditProfileViewController {
 
 extension EditProfileViewController {
     func configureUI() {
-        view.backgroundColor = .rgrgColor5
+        view.backgroundColor = .white
 
+        wholeView.backgroundColor = .rgrgColor5
         setupLabels()
         setupTextFields()
         setupButtons()
+        setupImageView()
         setShadow()
         setImageTapGesture()
         setupTextField()
-        setupButtonsActions()
 
-        [profileImage, userNameTitle, userNameTextField, buttonStackView, tierTitle, positionTitle, mostChampButton, mostChampImgStackView, doneEditButton].forEach { view.addSubview($0) }
+        view.addSubview(wholeView)
+
+        wholeView.snp.makeConstraints { make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+        }
+
+        outerImageView.addSubview(editImage)
+        editImage.snp.makeConstraints { make in
+            make.centerX.equalToSuperview().offset(1)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(25)
+        }
+
+        [profileImage, outerImageView, userNameTitle, userNameTextField, buttonStackView, tierTitle, positionTitle, mostChampButton, mostChampImgStackView, doneEditButton].forEach { wholeView.addSubview($0) }
         [firstImage, secondImage, thirdImage].forEach { mostChampImgStackView.addArrangedSubview($0) }
         [tierButton, positionButton].forEach { buttonStackView.addArrangedSubview($0) }
 
@@ -133,6 +139,11 @@ extension EditProfileViewController {
             make.width.height.equalTo(132)
         }
 
+        outerImageView.snp.makeConstraints { make in
+            make.bottom.equalTo(profileImage.snp.bottom)
+            make.right.equalTo(profileImage.snp.right).offset(-2)
+            make.height.width.equalTo(30)
+        }
         userNameTitle.snp.makeConstraints { make in
             make.top.equalTo(profileImage.snp.bottom).offset(24)
             make.left.equalToSuperview().offset(51)
@@ -203,25 +214,32 @@ extension EditProfileViewController {
     }
 
     func setupButtons() {
+        positionButton.setTitleColor(UIColor(hex: "505050"), for: .normal)
+        
         [tierButton, positionButton].forEach {
             $0.layer.borderColor = UIColor.rgrgColor6.cgColor
             $0.layer.borderWidth = 2
             $0.backgroundColor = .white
             $0.layer.cornerRadius = 10
-            $0.setTitleColor(UIColor(hex: "505050"), for: .normal)
             $0.titleLabel?.font = .myMediumSystemFont(ofSize: 16)
             $0.titleLabel?.textAlignment = .left
         }
+        
 
         doneEditButton.backgroundColor = .rgrgColor4
         doneEditButton.layer.cornerRadius = 10
         doneEditButton.setTitle("수정 완료", for: .normal)
 
+        var plainConfigure = UIButton.Configuration.plain()
+        plainConfigure.imagePadding = 4
+        mostChampButton.configuration = plainConfigure
         mostChampButton.backgroundColor = .clear
         mostChampButton.setTitle("선호 챔피언", for: .normal)
         mostChampButton.titleLabel?.font = .myBoldSystemFont(ofSize: 16)
         mostChampButton.setImage(UIImage(named: "polygon"), for: .normal)
         mostChampButton.setTitleColor(UIColor(hex: "#505050"), for: .normal)
+        mostChampButton.semanticContentAttribute = .forceRightToLeft
+        
 
         doneEditButton.addTarget(self, action: #selector(confirmButtonPressed), for: .touchUpInside)
     }
@@ -253,33 +271,44 @@ extension EditProfileViewController {
         userNameTextField.rightViewMode = .always
     }
 
+    func setupImageView() {
+        [firstImage, secondImage, thirdImage].forEach {
+            $0.frame = CGRect(x: 0, y: 0, width: 68, height: 68)
+            $0.layer.cornerRadius = $0.frame.height / 2
+            $0.layer.borderWidth = 2
+            $0.layer.borderColor = UIColor.rgrgColor7.cgColor
+            $0.clipsToBounds = true
+        }
+    }
+
     func setupButtonsActions() {
         let tiers = ["Iron", "Bronze", "Silver", "Gold", "Emerald", "Diamond", "Master", "GrandMaster", "Challenger"]
         var tierOptionArray = [UIAction]()
         let optionClosure = { (_: UIAction) in
-            print("menu::\(self.tierButton.titleLabel?.text)")
+            self.tierButton.setTitleColor(UIColor(named: self.tierButton.currentTitle ??  "Bronze"), for: .normal)
         }
+        tierButton.setTitleColor(UIColor(named: tierButton.currentTitle ??  "Bronze"), for: .normal)
 
         for tier in tiers {
             let action = UIAction(title: tier, state: .off, handler: optionClosure)
             tierOptionArray.append(action)
         }
-
+        tierOptionArray[tiers.firstIndex(of: user?.tier ?? "Iron") ?? 0].state = .on
         let tierOptionMenu = UIMenu(options: .displayInline, children: tierOptionArray)
 
         tierButton.menu = tierOptionMenu
         tierButton.changesSelectionAsPrimaryAction = true
         tierButton.showsMenuAsPrimaryAction = true
 
-        let positions = ["top", "jungle", "mid", "bottom", "support"]
-        var postionOptions = [UIAction]()
+        let positions = ["support", "bottom", "mid", "jungle", "top"]
+        var positionOptions = [UIAction]()
 
         for position in positions {
             let action = UIAction(title: position, state: .off, handler: optionClosure)
-            postionOptions.append(action)
+            positionOptions.append(action)
         }
-
-        let positionOptionMenu = UIMenu(options: .displayInline, children: postionOptions)
+        positionOptions[positions.firstIndex(of: user?.position ?? "support") ?? 0].state = .on
+        let positionOptionMenu = UIMenu(options: .displayInline, children: positionOptions)
 
         positionButton.menu = positionOptionMenu
         positionButton.changesSelectionAsPrimaryAction = true
