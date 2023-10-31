@@ -115,6 +115,28 @@ extension NoticePageVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "userInfoCell", for: indexPath) as! userInfoCell
         cell.userNameLabel.text = userName[indexPath.row]
         cell.tierLabel.text = tier[indexPath.row]
+        
+        if let tierText = cell.tierLabel.text {
+                   switch tierText {
+                   case "Iron":
+                       cell.tierLabel.textColor = .iron
+                   case "Bronze":
+                       cell.tierLabel.textColor = .bronze
+                   case "Silver":
+                       cell.tierLabel.textColor = .silver
+                   case "Gold":
+                       cell.tierLabel.textColor = .gold
+                   case "Platinum":
+                       cell.tierLabel.textColor = .platinum
+                   case "Emerald":
+                       cell.tierLabel.textColor = .emerald
+                   case "Diamond":
+                       cell.tierLabel.textColor = .diamond
+                   default:
+                       cell.tierLabel.textColor = .black
+                   }
+               }
+        
        
         cell.selectionStyle = .none
         
