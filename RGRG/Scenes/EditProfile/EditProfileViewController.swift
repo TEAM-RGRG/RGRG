@@ -97,7 +97,6 @@ extension EditProfileViewController {
             DispatchQueue.main.async {
                 self.setBeforeInfo()
                 self.setupButtonsActions()
-                
             }
         }
     }
@@ -119,7 +118,8 @@ extension EditProfileViewController {
         view.addSubview(wholeView)
 
         wholeView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.left.right.equalToSuperview()
         }
 
         outerImageView.addSubview(editImage)
@@ -214,32 +214,39 @@ extension EditProfileViewController {
     }
 
     func setupButtons() {
+        var tierButtonConfig = UIButton.Configuration.filled()
+
+        var tierButtonTitleAttribute = AttributedString(user?.tier ?? "Bronze")
+        tierButtonTitleAttribute.font = .myMediumSystemFont(ofSize: 16)
+        tierButtonConfig.attributedTitle = tierButtonTitleAttribute
+        tierButtonConfig.baseBackgroundColor = .clear
+        var positionButtonTitleAttribute = AttributedString(user?.position ?? "top")
         positionButton.setTitleColor(UIColor(hex: "505050"), for: .normal)
-        
+
         [tierButton, positionButton].forEach {
             $0.layer.borderColor = UIColor.rgrgColor6.cgColor
             $0.layer.borderWidth = 2
             $0.backgroundColor = .white
             $0.layer.cornerRadius = 10
             $0.titleLabel?.font = .myMediumSystemFont(ofSize: 16)
-            $0.titleLabel?.textAlignment = .left
+            $0.contentHorizontalAlignment = .left
         }
-        
 
         doneEditButton.backgroundColor = .rgrgColor4
         doneEditButton.layer.cornerRadius = 10
         doneEditButton.setTitle("수정 완료", for: .normal)
 
-        var plainConfigure = UIButton.Configuration.plain()
-        plainConfigure.imagePadding = 4
-        mostChampButton.configuration = plainConfigure
-        mostChampButton.backgroundColor = .clear
-        mostChampButton.setTitle("선호 챔피언", for: .normal)
-        mostChampButton.titleLabel?.font = .myBoldSystemFont(ofSize: 16)
-        mostChampButton.setImage(UIImage(named: "polygon"), for: .normal)
-        mostChampButton.setTitleColor(UIColor(hex: "#505050"), for: .normal)
-        mostChampButton.semanticContentAttribute = .forceRightToLeft
-        
+        var mostChampButtonConfig = UIButton.Configuration.plain()
+        var mostChampTextAttribute = AttributedString("선호 챔피언")
+        mostChampTextAttribute.font = .myBoldSystemFont(ofSize: 16)
+        mostChampButtonConfig.attributedTitle = mostChampTextAttribute
+        mostChampButtonConfig.baseForegroundColor = UIColor(hex: "#505050")
+        mostChampButtonConfig.titleAlignment = .leading
+        mostChampButtonConfig.image = UIImage(named: "polygon")
+        mostChampButtonConfig.imagePlacement = .trailing
+        mostChampButtonConfig.imagePadding = 2
+        mostChampButtonConfig.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
+        mostChampButton.configuration = mostChampButtonConfig
 
         doneEditButton.addTarget(self, action: #selector(confirmButtonPressed), for: .touchUpInside)
     }
@@ -285,9 +292,10 @@ extension EditProfileViewController {
         let tiers = ["Iron", "Bronze", "Silver", "Gold", "Emerald", "Diamond", "Master", "GrandMaster", "Challenger"]
         var tierOptionArray = [UIAction]()
         let optionClosure = { (_: UIAction) in
-            self.tierButton.setTitleColor(UIColor(named: self.tierButton.currentTitle ??  "Bronze"), for: .normal)
+            self.tierButton.setTitleColor(UIColor(named: self.tierButton.currentTitle ?? "Bronze"), for: .normal)
         }
-        tierButton.setTitleColor(UIColor(named: tierButton.currentTitle ??  "Bronze"), for: .normal)
+
+        tierButton.setTitleColor(UIColor(named: tierButton.currentTitle ?? "Bronze"), for: .normal)
 
         for tier in tiers {
             let action = UIAction(title: tier, state: .off, handler: optionClosure)
@@ -323,8 +331,11 @@ extension EditProfileViewController {
         }
 
         userNameTextField.text = user?.userName
-        tierButton.setTitle(user?.tier, for: .normal)
-        positionButton.setTitle(user?.position, for: .normal)
+
+        var tierButtonTitleAttribute = AttributedString(user?.tier ?? "Bronze")
+        var positionButtonTitleAttribute = AttributedString(user?.position ?? "top")
+//        tierButton.setTitle(user?.tier, for: .normal)
+//        positionButton.setTitle(user?.position, for: .normal)
     }
 }
 
