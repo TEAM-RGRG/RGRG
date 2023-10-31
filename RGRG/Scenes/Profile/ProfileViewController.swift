@@ -69,7 +69,7 @@ class ProfileViewController: UIViewController {
     }()
 
     deinit {
-        print("### NotificationViewController deinitialized")
+        print("### NotificationViewController deinitialized") 
     }
 }
 
@@ -181,7 +181,7 @@ extension ProfileViewController {
 
     func setupNavigationBar() {
         tabBarController?.navigationItem.title = "마이페이지"
-        tabBarController?.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "NotoSansKR-Bold", size: 24)!, NSAttributedString.Key.foregroundColor:UIColor.rgrgColor4]
+        tabBarController?.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "NotoSansKR-Bold", size: 24)!, NSAttributedString.Key.foregroundColor: UIColor.rgrgColor4]
 
         let backButton = UIButton()
         backButton.setTitle("", for: .normal)
@@ -209,11 +209,12 @@ extension ProfileViewController {
     func setupImages() {
         StorageManager.shared.getImage("icons", user?.profilePhoto ?? "Default") {
             self.profileImageView.image = $0
-            self.profileImageView.contentMode = .scaleAspectFill
+            self.profileImageView.contentMode = .scaleAspectFit
+            self.profileImageView.layer.masksToBounds = true
         }
         StorageManager.shared.getImage("position_w", user?.position ?? "support") {
             self.positionImageView.image = $0
-            self.profileImageView.contentMode = .scaleAspectFit
+            self.positionImageView.contentMode = .scaleAspectFit
         }
     }
 

@@ -220,6 +220,7 @@ extension EditProfileViewController {
         tierButtonTitleAttribute.font = .myMediumSystemFont(ofSize: 16)
         tierButtonConfig.attributedTitle = tierButtonTitleAttribute
         tierButtonConfig.baseBackgroundColor = .clear
+        
         var positionButtonTitleAttribute = AttributedString(user?.position ?? "top")
         positionButton.setTitleColor(UIColor(hex: "505050"), for: .normal)
 

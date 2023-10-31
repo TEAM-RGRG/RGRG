@@ -49,6 +49,7 @@
 		4E0BF7BD2AECED6B00D74836 /* ChatAlertCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0BF7BC2AECED6B00D74836 /* ChatAlertCell.swift */; };
 		4E1264BE2ADF6E2700A4E602 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1264BD2ADF6E2700A4E602 /* CustomTextField.swift */; };
 		4E562AB32AE79BCB00E9A916 /* CustomBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E562AB22AE79BCB00E9A916 /* CustomBackButton.swift */; };
+		4E593C4E2AF0DA0700043C7C /* CustomTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E593C4D2AF0DA0700043C7C /* CustomTextView.swift */; };
 		4E8195EA2ADD299000881C88 /* CustomTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8195E92ADD299000881C88 /* CustomTableView.swift */; };
 		4E8195EC2ADD3E4600881C88 /* ChatListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8195EB2ADD3E4600881C88 /* ChatListCell.swift */; };
 		4E8195EE2ADD404000881C88 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8195ED2ADD404000881C88 /* CustomImageView.swift */; };
@@ -130,6 +131,7 @@
 		4E0BF7BC2AECED6B00D74836 /* ChatAlertCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAlertCell.swift; sourceTree = "<group>"; };
 		4E1264BD2ADF6E2700A4E602 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		4E562AB22AE79BCB00E9A916 /* CustomBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBackButton.swift; sourceTree = "<group>"; };
+		4E593C4D2AF0DA0700043C7C /* CustomTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextView.swift; sourceTree = "<group>"; };
 		4E8195E92ADD299000881C88 /* CustomTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableView.swift; sourceTree = "<group>"; };
 		4E8195EB2ADD3E4600881C88 /* ChatListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListCell.swift; sourceTree = "<group>"; };
 		4E8195ED2ADD404000881C88 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
@@ -334,6 +336,7 @@
 				4ECD01E42ADE6C15003EA65C /* CustomBarButton.swift */,
 				4E562AB22AE79BCB00E9A916 /* CustomBackButton.swift */,
 				4E1264BD2ADF6E2700A4E602 /* CustomTextField.swift */,
+				4E593C4D2AF0DA0700043C7C /* CustomTextView.swift */,
 			);
 			path = Subcomponents;
 			sourceTree = "<group>";
@@ -672,6 +675,7 @@
 				4E8B85172AD8120E009BCF4B /* SignUpViewController.swift in Sources */,
 				4E0BF7BD2AECED6B00D74836 /* ChatAlertCell.swift in Sources */,
 				4E8195EE2ADD404000881C88 /* CustomImageView.swift in Sources */,
+				4E593C4E2AF0DA0700043C7C /* CustomTextView.swift in Sources */,
 				4E8B853E2AD81515009BCF4B /* RecuitmentViewController.swift in Sources */,
 				4E8B85352AD81411009BCF4B /* Extension.swift in Sources */,
 				1DB9391F2AE24AB300BD4F41 /* SettingCell.swift in Sources */,
