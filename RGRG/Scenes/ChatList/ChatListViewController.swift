@@ -209,8 +209,8 @@ extension ChatListViewController: UITableViewDataSource {
         }
 
         cell.setupUI()
-        cell.backgroundColor = .clear
 
+        cell.backgroundColor = .clear
         let background = UIView()
         background.backgroundColor = .clear
         cell.selectedBackgroundView = background

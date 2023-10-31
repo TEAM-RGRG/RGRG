@@ -56,7 +56,6 @@ extension YourFeedCell {
             make.top.equalTo(contentView).offset(8)
             make.bottom.equalTo(contentView).offset(-8)
             make.leading.equalTo(contentView).offset(52)
-            make.trailing.equalTo(contentView).offset(-154)
         }
     }
 
@@ -79,10 +78,12 @@ extension YourFeedCell {
         yourChatContent.textColor = UIColor(hex: "#FFFFFF")
 
         yourChatContent.snp.makeConstraints { make in
-            make.top.equalTo(baseView).offset(8)
-            make.bottom.equalTo(baseView).offset(-8)
+            make.top.equalTo(baseView).offset(4)
+            make.bottom.equalTo(baseView).offset(-4)
             make.leading.equalTo(baseView).offset(10)
             make.trailing.equalTo(baseView).offset(-10)
+            make.height.greaterThanOrEqualTo(34)
+            make.width.lessThanOrEqualTo(208)
         }
     }
 

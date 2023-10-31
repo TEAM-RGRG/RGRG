@@ -74,6 +74,9 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        emailLine.inputBox.text = "test123@123.com"
+        passwordLine.inputBox.text = "test1234"
+        
         view.backgroundColor = UIColor.rgrgColor4
 
         setupUI()

@@ -258,7 +258,7 @@ extension ChatDetailViewController: UITableViewDataSource {
                 DispatchQueue.main.async {
                     cell.setupUI()
                 }
-                
+
                 cell.backgroundColor = .clear
                 return cell
             } else {
@@ -266,13 +266,12 @@ extension ChatDetailViewController: UITableViewDataSource {
 
                 cell.yourChatContent.text = item.content
                 cell.yourChatTime.text = item.date
-                
+
                 StorageManager.shared.getImage("icons", channelInfo?.writerProfile ?? "n/a") { image in
                     DispatchQueue.main.async {
                         cell.yourProfileImage.image = image
                     }
                 }
-                
 
                 DispatchQueue.main.async {
                     cell.setupUI()

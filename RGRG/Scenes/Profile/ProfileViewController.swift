@@ -11,9 +11,8 @@ import SnapKit
 import UIKit
 
 class ProfileViewController: UIViewController {
-
     var user: User?
-    
+
     let wholeView = UIView()
 
     let profileView = UIView()
@@ -82,13 +81,11 @@ extension ProfileViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-
         setupNavigationBar()
         tabBarController?.navigationItem.title = "마이페이지"
         tabBarController?.navigationItem.rightBarButtonItem?.isHidden = true
         tabBarController?.navigationItem.hidesBackButton = true
         tabBarController?.navigationController?.navigationBar.isHidden = false
-
 
         FirebaseUserManager.shared.getUserInfo { user in
             self.user = user
@@ -105,13 +102,12 @@ extension ProfileViewController {
     func configureUI() {
         view.backgroundColor = UIColor(hex: "#FFFFFF")
         view.addSubview(wholeView)
-        
+
         wholeView.backgroundColor = .rgrgColor5
-        
-        wholeView.snp.makeConstraints({make in
+
+        wholeView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
-            
-        })
+        }
 
         [profileView].forEach { wholeView.addSubview($0) }
 
@@ -181,18 +177,17 @@ extension ProfileViewController {
         profileImageView.addGestureRecognizer(tapGesture)
         profileImageView.isUserInteractionEnabled = true
     }
-    
+
     func setupNavigationBar() {
         tabBarController?.navigationItem.title = "마이페이지"
         tabBarController?.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "NotoSansKR-Bold", size: 24)!]
         tabBarController?.navigationController?.navigationBar.barTintColor = UIColor(hex: "#0C356A")
-        
+
         let backButton = UIButton()
         backButton.setTitle("", for: .normal)
 
         let customItem = UIBarButtonItem(customView: backButton)
         navigationItem.leftBarButtonItem = customItem
-        
     }
 }
 
@@ -207,17 +202,18 @@ extension ProfileViewController {
 
         tierLabel.text = user?.tier
         tierLabel.font = UIFont(name: "NotoSansKR-Bold", size: 20)
-        tierLabel.textColor = UIColor(hex: "#767676")
+        tierLabel.textColor = UIColor(named: user?.tier ?? "Diamond")
     }
 
     func setupImages() {
         StorageManager.shared.getImage("icons", user?.profilePhoto ?? "Default") {
             self.profileImageView.image = $0
-            self.profileImageView.contentMode = .scaleAspectFill
+            self.profileImageView.contentMode = .scaleAspectFit
+            self.profileImageView.layer.masksToBounds = true
         }
         StorageManager.shared.getImage("position_w", user?.position ?? "support") {
             self.positionImageView.image = $0
-            self.profileImageView.contentMode = .scaleAspectFit
+            self.positionImageView.contentMode = .scaleAspectFit
         }
     }
 
