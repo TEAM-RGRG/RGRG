@@ -17,7 +17,7 @@ class ChatDetailViewController: UIViewController {
     let bottomBaseView = UIView(frame: .zero)
     let blankMessage = CustomLabel(frame: .zero)
     let sendMessageIcon = CustomImageView(frame: .zero)
-    let textField = CustomTextField(frame: .zero)
+    let textView = CustomTextView(frame: .zero)
 
     var thread = ""
     var channelInfo: Channel?
@@ -26,6 +26,7 @@ class ChatDetailViewController: UIViewController {
     var count = 1
 
     var currentUserEmail = ""
+    var placeholder = "메세지 보내기"
 
     deinit {
         print("### ChatDetailViewController deinitialized")
@@ -37,7 +38,6 @@ extension ChatDetailViewController {
         super.viewDidLoad()
         setupUI()
         if let user = Auth.auth().currentUser {
-            print("### User Info: \(user.email)")
             currentUserEmail = user.email ?? "n/a"
         } else {
             print("### Login : Error")
@@ -61,6 +61,7 @@ extension ChatDetailViewController {
             }
 
             DispatchQueue.main.async {
+                self.view.endEditing(true)
                 self.tableView.reloadData()
                 if self.chats.isEmpty != true {
                     let endexIndex = IndexPath(row: self.chats.count - 1, section: 0)
@@ -71,6 +72,7 @@ extension ChatDetailViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
+        view.endEditing(true)
         chats.removeAll()
     }
 }
@@ -80,12 +82,14 @@ extension ChatDetailViewController {
 extension ChatDetailViewController {
     func setupUI() {
         view.backgroundColor = UIColor(hex: "#FFFFFF")
+        navigationController?.navigationBar.standardAppearance.backgroundColor = UIColor(hex: "#FFFFFF")
+        navigationController?.navigationBar.standardAppearance.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "NotoSansKR-Bold", size: 24)!, NSAttributedString.Key.foregroundColor: UIColor.rgrgColor4]
         navigationController?.navigationBar.shadowImage = nil
         confirmTableView()
         makeRightBarButton()
         registerCell()
         confirmBottomBaseView()
-        confirmTextField()
+        confirmTextView()
         confirmEmptyView()
         confirmSendMessageIcon()
         makeBackButton()
@@ -100,6 +104,8 @@ extension ChatDetailViewController {
         tableView.delegate = self
 
         view.addSubview(tableView)
+        view.addSubview(bottomBaseView)
+        bottomBaseView.addSubview(textView)
         tableView.separatorStyle = .none
         tableView.backgroundColor = UIColor(hex: "#F4F4F4")
 
@@ -107,7 +113,8 @@ extension ChatDetailViewController {
             make.centerX.equalToSuperview()
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.leading.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-54)
+            make.bottom.equalTo(bottomBaseView.snp.top)
+            make.height.greaterThanOrEqualTo(600)
         }
     }
 
@@ -148,39 +155,41 @@ extension ChatDetailViewController {
         let vc = ChatSettingViewController()
         vc.sheetPresentationController?.preferredCornerRadius = 20
         vc.thread = thread
+        view.endEditing(true)
         present(vc, animated: true)
     }
 }
 
-// MARK: - TextField
+// MARK: - TextView
 
 extension ChatDetailViewController {
-    func confirmTextField() {
-        bottomBaseView.addSubview(textField)
-        textField.backgroundColor = UIColor(hex: "#FFFFFF")
-        textField.settingCornerRadius(radius: 10)
-        textField.settingPlaceholder(description: "메세지 보내기")
-        textField.settingLeftPadding()
+    func confirmTextView() {
+        textView.delegate = self
+        textView.text = placeholder
+        textView.font = UIFont(name: AppFontName.regular, size: 18)
+        textView.backgroundColor = UIColor(hex: "#FFFFFF")
+        textView.textColor = UIColor(hex: "#ADADAD")
+        textView.layer.cornerRadius = 10
+        textView.textContainerInset = UIEdgeInsets(top: 4, left: 8, bottom: 8, right: 0)
+        textView.isScrollEnabled = false
 
-        textField.snp.makeConstraints { make in
-            make.leading.equalTo(bottomBaseView).offset(11)
-            make.top.equalTo(bottomBaseView).offset(8)
+        textView.snp.makeConstraints { make in
+            make.leading.equalTo(bottomBaseView).offset(8)
+            make.bottom.equalTo(bottomBaseView).offset(-38)
             make.width.equalTo(334)
-            make.height.equalTo(38)
+            make.height.greaterThanOrEqualTo(38)
         }
     }
 }
 
-// MARK: - Sending Message Button
+// MARK: - Setting Bottom View
 
 extension ChatDetailViewController {
     func confirmBottomBaseView() {
-        view.addSubview(bottomBaseView)
-
         bottomBaseView.backgroundColor = UIColor(hex: "#F1F1F1")
 
         bottomBaseView.snp.makeConstraints { make in
-            make.top.equalTo(tableView.snp.bottom)
+            make.top.equalTo(textView.snp.top).offset(-8)
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
             make.bottom.equalTo(view)
@@ -192,9 +201,10 @@ extension ChatDetailViewController {
         emptyView.layer.cornerRadius = 10
 
         emptyView.snp.makeConstraints { make in
-            make.top.equalTo(textField.snp.top).offset(1)
-            make.bottom.equalTo(textField.snp.bottom).offset(-1)
-            make.leading.equalTo(textField.snp.trailing).offset(4)
+//            make.top.equalTo(textView.snp.top).offset(1)
+            make.height.equalTo(36)
+            make.bottom.equalTo(textView.snp.bottom).offset(-1)
+            make.leading.equalTo(textView.snp.trailing).offset(4)
             make.trailing.equalTo(bottomBaseView).offset(-8)
         }
     }
@@ -220,11 +230,11 @@ extension ChatDetailViewController {
             self.sendMessageIcon.image = UIImage(named: "ChangeSend_fill")
         })
 
-        FireStoreManager.shared.addChat(thread: thread, sender: currentUserEmail, date: FireStoreManager.shared.dateFormatter(value: Date.now), read: false, content: textField.text ?? "n/a") { chat in
+        FireStoreManager.shared.addChat(thread: thread, sender: currentUserEmail, date: FireStoreManager.shared.dateFormatter(value: Date.now), read: false, content: textView.text ?? "n/a") { chat in
             self.chats.append(chat)
 
             DispatchQueue.main.async {
-                self.textField.text = ""
+                self.textView.text = self.placeholder
                 self.sendMessageIcon.image = UIImage(named: "Send_fill")
             }
         }
@@ -245,7 +255,9 @@ extension ChatDetailViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatAlertCell.identifier, for: indexPath) as? ChatAlertCell else { return UITableViewCell() }
             cell.setupUI()
             cell.backgroundColor = .clear
-
+            let background = UIView()
+            background.backgroundColor = .clear
+            cell.selectedBackgroundView = background
             return cell
 
         } else {
@@ -260,6 +272,9 @@ extension ChatDetailViewController: UITableViewDataSource {
                 }
 
                 cell.backgroundColor = .clear
+                let background = UIView()
+                background.backgroundColor = .clear
+                cell.selectedBackgroundView = background
                 return cell
             } else {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: YourFeedCell.identifier, for: indexPath) as? YourFeedCell else { return UITableViewCell() }
@@ -278,6 +293,9 @@ extension ChatDetailViewController: UITableViewDataSource {
                 }
 
                 cell.backgroundColor = .clear
+                let background = UIView()
+                background.backgroundColor = .clear
+                cell.selectedBackgroundView = background
                 return cell
             }
         }
@@ -323,12 +341,55 @@ extension ChatDetailViewController: UITableViewDelegate {
 
 extension ChatDetailViewController {
     func makeBackButton() {
-        let backBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(tappedBackButton))
+        let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "chevron.left"), style: .plain, target: self, action: #selector(tappedBackButton))
         backBarButtonItem.tintColor = UIColor(hex: "#0C356A")
         navigationItem.leftBarButtonItem = backBarButtonItem
     }
 
     @objc func tappedBackButton(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
+    }
+}
+
+// MARK: - TextView
+
+extension ChatDetailViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == placeholder {
+            textView.text = nil
+            textView.textColor = UIColor(hex: "#505050")
+        }
+    }
+
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            textView.text = placeholder
+            textView.textColor = UIColor(hex: "#ADADAD")
+        }
+    }
+
+    // MARK: textview 높이 자동조절
+
+    func textViewDidChange(_ textView: UITextView) {
+        let size = CGSize(width: view.frame.width, height: 91)
+        let estimatedSize = textView.sizeThatFits(size)
+        print("#### size :: \(size) || estimatedSize :: \(estimatedSize)")
+        textView.constraints.forEach { (constraint) in
+
+            /// 90 이하일때는 더 이상 줄어들지 않게하기
+            if estimatedSize.height <= 90 {
+                textView.isScrollEnabled = false
+            } else {
+                if constraint.firstAttribute == .height {
+                    textView.isScrollEnabled = true
+                    constraint.constant = estimatedSize.height
+                }
+
+                if self.chats.isEmpty != true {
+                    let endexIndex = IndexPath(row: self.chats.count - 1, section: 0)
+                    self.tableView.scrollToRow(at: endexIndex, at: .bottom, animated: true)
+                }
+            }
+        }
     }
 }

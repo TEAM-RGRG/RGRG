@@ -88,3 +88,7 @@ extension UIView {
         layer.shadowOpacity = opacity
     }
 }
+
+extension UINavigationBar {
+    
+}
