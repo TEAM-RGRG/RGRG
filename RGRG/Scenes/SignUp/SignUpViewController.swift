@@ -106,7 +106,7 @@ extension SignUpViewController {
         let password = passwordLine.inputBox.text
         let userName = nickNameLine.inputBox.text
         let tier = tierButton.titleLabel?.text
-        let position = positionButton.titleLabel?.text?.lowercased()
+        let position = positionButton.titleLabel?.text
         
         Auth.auth().createUser(withEmail: email ?? "", password: password ?? "") { result, error in
             if let error = error {
@@ -187,42 +187,42 @@ extension SignUpViewController {
     @objc func showTierSelector() {
         let alertController = UIAlertController(title: "메달 선택", message: nil, preferredStyle: .alert)
         
-        let ironAction = UIAlertAction(title: "Iron", style: .default) { (_) in
+        let ironAction = UIAlertAction(title: "Iron", style: .default) { _ in
             self.tierButton.setTitle("Iron", for: .normal)
         }
         
-        let bronzeAction = UIAlertAction(title: "Bronze", style: .default) { (_) in
+        let bronzeAction = UIAlertAction(title: "Bronze", style: .default) { _ in
             self.tierButton.setTitle("Bronze", for: .normal)
         }
         
-        let silverAction = UIAlertAction(title: "Silver", style: .default) { (_) in
+        let silverAction = UIAlertAction(title: "Silver", style: .default) { _ in
             self.tierButton.setTitle("Silver", for: .normal)
         }
         
-        let goldAction = UIAlertAction(title: "Gold", style: .default) { (_) in
+        let goldAction = UIAlertAction(title: "Gold", style: .default) { _ in
             self.tierButton.setTitle("Gold", for: .normal)
         }
         
-        let platinumAction = UIAlertAction(title: "Platinum", style: .default) { (_) in
+        let platinumAction = UIAlertAction(title: "Platinum", style: .default) { _ in
             self.tierButton.setTitle("Platinum", for: .normal)
         }
         
-        let emeraldAction = UIAlertAction(title: "Emerald", style: .default) { (_) in
+        let emeraldAction = UIAlertAction(title: "Emerald", style: .default) { _ in
             self.tierButton.setTitle("Emerald", for: .normal)
         }
     
-        let diamondAction = UIAlertAction(title: "Diamond", style: .default) { (_) in
+        let diamondAction = UIAlertAction(title: "Diamond", style: .default) { _ in
             self.tierButton.setTitle("Diamond", for: .normal)
         }
-        let masterAction = UIAlertAction(title: "Master", style: .default) { (_) in
+        let masterAction = UIAlertAction(title: "Master", style: .default) { _ in
             self.tierButton.setTitle("Master", for: .normal)
         }
         
-        let grandMaster = UIAlertAction(title: "Grand Master", style: .default) { (_) in
+        let grandMaster = UIAlertAction(title: "Grand Master", style: .default) { _ in
             self.tierButton.setTitle("Grand Master", for: .normal)
         }
         
-        let challenger = UIAlertAction(title: "Challenger", style: .default) { (_) in
+        let challenger = UIAlertAction(title: "Challenger", style: .default) { _ in
             self.tierButton.setTitle("Challenger", for: .normal)
         }
 
@@ -248,19 +248,19 @@ extension SignUpViewController {
     @objc func showPositionSelector() {
         let alertController = UIAlertController(title: "Positon", message: nil, preferredStyle: .alert)
         
-        let TopAction = UIAlertAction(title: "Top", style: .default) { (_) in
+        let TopAction = UIAlertAction(title: "Top", style: .default) { _ in
             self.positionButton.setTitle("Top", for: .normal)
         }
-        let JungleAction = UIAlertAction(title: "Jungle", style: .default) { (_) in
+        let JungleAction = UIAlertAction(title: "Jungle", style: .default) { _ in
             self.positionButton.setTitle("Jungle", for: .normal)
         }
-        let MidAction = UIAlertAction(title: "Mid", style: .default) { (_) in
+        let MidAction = UIAlertAction(title: "Mid", style: .default) { _ in
             self.positionButton.setTitle("Mid", for: .normal)
         }
-        let BottomAction = UIAlertAction(title: "Bottom", style: .default) { (_) in
+        let BottomAction = UIAlertAction(title: "Bottom", style: .default) { _ in
             self.positionButton.setTitle("Bottom", for: .normal)
         }
-        let SupportAction = UIAlertAction(title: "Support", style: .default) { (_) in
+        let SupportAction = UIAlertAction(title: "Support", style: .default) { _ in
             self.positionButton.setTitle("Support", for: .normal)
         }
         
