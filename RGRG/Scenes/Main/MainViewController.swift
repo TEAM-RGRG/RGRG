@@ -18,6 +18,12 @@ class MainViewController: UIViewController {
         print("### NotificationViewController deinitialized")
     }
     
+    let topFrame: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
+    
     let pageTitleLabel: UILabel = {
         var label = UILabel()
         label.text = "RGRG"
@@ -181,8 +187,10 @@ class MainViewController: UIViewController {
     func configureUI() {
         view.backgroundColor = .white
         
-        view.addSubview(pageTitleLabel)
-        view.addSubview(noticePagebutton)
+        
+        view.addSubview(topFrame)
+        topFrame.addSubview(pageTitleLabel)
+        topFrame.addSubview(noticePagebutton)
         
         view.addSubview(listUnderline)
         view.addSubview(optionFrame)
@@ -193,13 +201,19 @@ class MainViewController: UIViewController {
         contentView.addSubview(patryListTable)
         view.addSubview(createPartybutton)
         
+        
+        topFrame.snp.makeConstraints{
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(109)
+        }
+        
         pageTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(10)
-            $0.leading.equalTo(view.snp.leading).offset(20)
+            $0.top.equalTo(topFrame.snp.top).offset(10)
+            $0.leading.equalTo(topFrame.snp.leading).offset(20)
         }
         
         noticePagebutton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(12)
+            $0.top.equalTo(topFrame.snp.top).offset(12)
             $0.trailing.equalToSuperview().offset(-20)
             $0.height.equalTo(24)
             $0.width.equalTo(24)

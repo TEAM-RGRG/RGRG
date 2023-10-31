@@ -383,7 +383,7 @@ class PartyInfoDetailVC: UIViewController {
         
         // 네비게이션 바 왼쪽 버튼
         let backButton = UIButton(type: .custom)
-        backButton.setImage(UIImage(systemName: "multiply")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        backButton.setImage(UIImage(systemName: "chevron.left")?.withRenderingMode(.alwaysTemplate), for: .normal)
         backButton.tintColor = .black
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
@@ -394,7 +394,7 @@ class PartyInfoDetailVC: UIViewController {
         navigationItem.leftBarButtonItem = customItem
         
         let menuButton = UIButton(type: .custom)
-        menuButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+        menuButton.setImage(UIImage(named: "verticalEllipsis"), for: .normal)
         menuButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         menuButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         menuButton.imageEdgeInsets = .init(top: -18, left: -18, bottom: -18, right: -18)
