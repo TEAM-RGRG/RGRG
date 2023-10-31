@@ -235,6 +235,7 @@ extension ChatDetailViewController {
 
             DispatchQueue.main.async {
                 self.textView.text = self.placeholder
+
                 self.sendMessageIcon.image = UIImage(named: "Send_fill")
             }
         }
@@ -379,6 +380,10 @@ extension ChatDetailViewController: UITextViewDelegate {
             /// 90 이하일때는 더 이상 줄어들지 않게하기
             if estimatedSize.height <= 90 {
                 textView.isScrollEnabled = false
+                if self.chats.isEmpty != true {
+                    let endexIndex = IndexPath(row: self.chats.count - 1, section: 0)
+                    self.tableView.scrollToRow(at: endexIndex, at: .bottom, animated: true)
+                }
             } else {
                 if constraint.firstAttribute == .height {
                     textView.isScrollEnabled = true
