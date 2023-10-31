@@ -310,26 +310,32 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
         
-        StorageManager.shared.getImage("position_w", item.position) { image in
-            DispatchQueue.main.async {
-                cell.positionImage.image = image
-            }
+//        StorageManager.shared.getImage("position_w", item.position) { image in
+//            DispatchQueue.main.async {
+//                cell.positionImage.image = image
+//            }
+//        }
+        DispatchQueue.main.async {
+            cell.positionImage.image = UIImage(named: "미드w")
+            cell.firstPositionImage.image = UIImage(named: "미드w")
+            cell.secondPositionImage.image = UIImage(named: "미드w")
         }
         
         cell.tierLabel.text = item.tier
         cell.tierLabel.textColor = getColorForTier(item.tier)
         
-        StorageManager.shared.getImage("position_w", item.hopePosition["first"]!) { image in
-            DispatchQueue.main.async {
-                cell.firstPositionImage.image = image
-            }
-        }
+//        StorageManager.shared.getImage("position_w", item.hopePosition["first"]!) { image in
+//            DispatchQueue.main.async {
+//                cell.firstPositionImage.image = image
+//            }
+//        }
+//
+//        StorageManager.shared.getImage("position_w", item.hopePosition["second"] ?? "mid") { image in
+//            DispatchQueue.main.async {
+//                cell.secondPositionImage.image = image
+//            }
+//        }
         
-        StorageManager.shared.getImage("position_w", item.hopePosition["second"] ?? "mid") { image in
-            DispatchQueue.main.async {
-                cell.secondPositionImage.image = image
-            }
-        }
         cell.selectionStyle = .none
         return cell
     }
