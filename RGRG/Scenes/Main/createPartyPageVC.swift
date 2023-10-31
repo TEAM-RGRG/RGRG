@@ -12,6 +12,9 @@ import UIKit
 class CreatePartyVC: UIViewController, UITextViewDelegate {
     var user: User?
     
+    var firstPickedPosition: UIButton?
+    var secondPickedPosition: UIButton?
+    
     let topFrame: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -122,6 +125,56 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         return button
     }()
     
+    let positionLabelFramView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fillEqually
+        stackView.spacing = 10
+        return stackView
+    }()
+    
+    let topLabel: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        return label
+    }()
+    
+    let jungleLabel: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        return label
+    }()
+    
+    let midLabel: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        return label
+    }()
+    
+    let bottomLabel: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        return label
+    }()
+    
+    let supportLabel: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        return label
+    }()
+    
+    
     let infoTextLabel: UILabel = {
         let label = UILabel()
         label.text = "소개글"
@@ -155,7 +208,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     
     func task() {
         if let user = user {
-            let hopePosition = ["first": positionOptionButtonArry[0].subtitleLabel?.text ?? "top", "second": "mid"]
+            let hopePosition = ["first": positionOptionButtonArry[0].subtitleLabel?.text ?? "top", "second": positionOptionButtonArry[1].subtitleLabel?.text ?? "top"]
             
             let party = PartyInfo(champion: ["Ahri", "Teemo", "Ashe"], content: infoTextView.text ?? "", date: FireStoreManager.shared.dateFormatter(value: Date.now), hopePosition: hopePosition, profileImage: user.profilePhoto, tier: user.tier, title: partyNameTextField.text ?? "", userName: user.userName, writer: user.userName, position: user.position)
             
@@ -173,19 +226,100 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     }
     
     @objc func positionOptionButtonTapped(_ sender: UIButton) {
-        for Btn in positionOptionButtonArry {
-            if Btn == sender {
-                // 만약 현재 버튼이 이 함수를 호출한 버튼이라면
-                Btn.isSelected = true
-                Btn.backgroundColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1)
-                Btn.layer.borderColor = UIColor.rgrgColor3.cgColor
+           if positionOptionButtonArry.isEmpty {
+               sender.isSelected = true
+               sender.backgroundColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1)
+               firstPickedPosition = sender
+               positionOptionButtonArry.append(sender)
+               updatePositionLabels()
+           } else if positionOptionButtonArry.count == 1 && firstPickedPosition != sender {
+               sender.isSelected = true
+               sender.backgroundColor = UIColor.rgrgColor3
+               secondPickedPosition = sender
+               positionOptionButtonArry.append(sender)
+               updatePositionLabels()
+               updateSecondPositionLabels()
+           }  else {
+               for button in positionOptionButtonArry {
+                   button.backgroundColor = .systemGray4
+                   button.layer.borderColor = UIColor.white.cgColor
+               }
+               positionOptionButtonArry.removeAll()
+               firstPickedPosition = nil
+               secondPickedPosition = nil
+               updatePositionLabels()
+               updateSecondPositionLabels()
+           }
+        }
+    
+    func updatePositionLabels() {
+        if let firstPicked = firstPickedPosition {
+            switch firstPicked {
+            case topPositionbutton:
+                topLabel.text = "1 st"
+                topLabel.textColor = .rgrgColor4
+            case junglePositionbutton:
+                jungleLabel.text = "1 st"
+                jungleLabel.textColor = .rgrgColor4
+            case midPositionbutton:
+                midLabel.text = "1 st"
+                midLabel.textColor = .rgrgColor4
+            case bottomPositionbutton:
+                bottomLabel.text = "1 st"
+                bottomLabel.textColor = .rgrgColor4
+            case supportPositionbutton:
+                supportLabel.text = "1 st"
+                supportLabel.textColor = .rgrgColor4
+            default:
+                topLabel.text = ""
+                jungleLabel.text = ""
+                midLabel.text = ""
+                bottomLabel.text = ""
+                supportLabel.text = ""
             }
-            else {
-                // 이 함수를 호출한 버튼이 아니라면
-                Btn.isSelected = false
-                Btn.backgroundColor = .systemGray4
-                Btn.layer.borderColor = UIColor.white.cgColor
+        } else {
+            topLabel.text = ""
+            jungleLabel.text = ""
+            midLabel.text = ""
+            bottomLabel.text = ""
+            supportLabel.text = ""
+        }
+    }
+
+    
+    
+    
+    func updateSecondPositionLabels() {
+        if let secondPicked = secondPickedPosition {
+            switch secondPicked {
+            case topPositionbutton:
+                topLabel.text = "2 nd"
+                topLabel.textColor = .rgrgColor4
+            case junglePositionbutton:
+                jungleLabel.text = "2 nd"
+                jungleLabel.textColor = .rgrgColor4
+            case midPositionbutton:
+                midLabel.text = "2 nd"
+                midLabel.textColor = .rgrgColor4
+            case bottomPositionbutton:
+                bottomLabel.text = "2 nd"
+                bottomLabel.textColor = .rgrgColor4
+            case supportPositionbutton:
+                supportLabel.text = "2 nd"
+                supportLabel.textColor = .rgrgColor4
+            default:
+                topLabel.text = ""
+                jungleLabel.text = ""
+                midLabel.text = ""
+                bottomLabel.text = ""
+                supportLabel.text = ""
             }
+        } else {
+            topLabel.text = ""
+            jungleLabel.text = ""
+            midLabel.text = ""
+            bottomLabel.text = ""
+            supportLabel.text = ""
         }
     }
     
@@ -208,7 +342,6 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
 
     @objc func handleTap() {
         infoTextView.viewWithTag(100)?.isHidden = true
-
         infoTextView.isEditable = true
         infoTextView.becomeFirstResponder()
     }
@@ -231,6 +364,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = false
+        print ("###################\(positionOptionButtonArry.count)############")
     }
     
     // MARK: - ViewDidLoad
@@ -243,16 +377,18 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         configureUI()
         addPlaceholderToTextView()
         
-        positionOptionButtonArry.append(topPositionbutton)
-        positionOptionButtonArry.append(junglePositionbutton)
-        positionOptionButtonArry.append(midPositionbutton)
-        positionOptionButtonArry.append(bottomPositionbutton)
-        positionOptionButtonArry.append(supportPositionbutton)
+//        positionOptionButtonArry.append(topPositionbutton)
+//        positionOptionButtonArry.append(junglePositionbutton)
+//        positionOptionButtonArry.append(midPositionbutton)
+//        positionOptionButtonArry.append(bottomPositionbutton)
+//        positionOptionButtonArry.append(supportPositionbutton)
     }
     
     @objc func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
+    
+    // MARK: - configureUI
     
     func configureUI() {
         view.backgroundColor = .rgrgColor5
@@ -267,6 +403,12 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         positionFramView.addArrangedSubview(midPositionbutton)
         positionFramView.addArrangedSubview(bottomPositionbutton)
         positionFramView.addArrangedSubview(supportPositionbutton)
+        view.addSubview(positionLabelFramView)
+        positionLabelFramView.addArrangedSubview(topLabel)
+        positionLabelFramView.addArrangedSubview(jungleLabel)
+        positionLabelFramView.addArrangedSubview(midLabel)
+        positionLabelFramView.addArrangedSubview(bottomLabel)
+        positionLabelFramView.addArrangedSubview(supportLabel)
     
         view.addSubview(infoTextLabel)
         view.addSubview(infoTextView)
@@ -274,7 +416,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         
         // 네비게이션 바 왼쪽 버튼
         let backButton = UIButton(type: .custom)
-        backButton.setImage(UIImage(systemName: "multiply")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        backButton.setImage(UIImage(systemName: "chevron.left")?.withRenderingMode(.alwaysTemplate), for: .normal)
         backButton.tintColor = .black
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true // 버튼의 가로 크기
@@ -317,8 +459,15 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
             $0.trailing.equalToSuperview().offset(-28)
         }
         
+        positionLabelFramView.snp.makeConstraints {
+            $0.top.equalTo(positionFramView.snp.bottom).offset(0)
+            $0.height.equalTo(15)
+            $0.leading.equalToSuperview().offset(28)
+            $0.trailing.equalToSuperview().offset(-28)
+        }
+        
         infoTextLabel.snp.makeConstraints {
-            $0.top.equalTo(positionFramView.snp.bottom).offset(40)
+            $0.top.equalTo(positionLabelFramView.snp.bottom).offset(40)
             $0.leading.equalToSuperview().offset(28)
         }
         

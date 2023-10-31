@@ -282,7 +282,6 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
                            cell.positionImage.image = UIImage(named: "바텀w")?.withRenderingMode(.alwaysTemplate)
                        }
                    }
-            
             return cell
         }
     }
@@ -334,15 +333,8 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
                 $0.height.equalTo(24)
                 $0.width.equalTo(85)
                 $0.top.equalTo(cellFrameView.snp.top).offset(0)
-//                $0.edges.equalToSuperview().inset(10)
             }
         }
-        
-        // 소개글
-
-//        patryListTable.snp.makeConstraints{
-//            $0.top.equalTo(contentView.snp.top).offset(10)
-//        }
     }
 }
 

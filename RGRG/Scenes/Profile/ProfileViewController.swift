@@ -21,6 +21,7 @@ class ProfileViewController: UIViewController {
         imageView.layer.borderColor = UIColor.rgrgColor3.cgColor
         imageView.layer.borderWidth = 2
         imageView.layer.cornerRadius = imageView.frame.height / 2
+        imageView.clipsToBounds = true
         imageView.backgroundColor = .rgrgColor7
         return imageView
     }()
@@ -180,8 +181,7 @@ extension ProfileViewController {
 
     func setupNavigationBar() {
         tabBarController?.navigationItem.title = "마이페이지"
-        tabBarController?.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "NotoSansKR-Bold", size: 24)!]
-        tabBarController?.navigationController?.navigationBar.barTintColor = UIColor(hex: "#0C356A")
+        tabBarController?.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "NotoSansKR-Bold", size: 24)!, NSAttributedString.Key.foregroundColor:UIColor.rgrgColor4]
 
         let backButton = UIButton()
         backButton.setTitle("", for: .normal)
@@ -195,6 +195,7 @@ extension ProfileViewController {
     func setupLabels() {
         userNameLabel.text = user?.userName
         userNameLabel.font = .myBoldSystemFont(ofSize: 20)
+        userNameLabel.textColor = UIColor(hex: "#505050")
 
         emailLabel.text = user?.email
         emailLabel.font = .mySystemFont(ofSize: 14)
@@ -202,7 +203,7 @@ extension ProfileViewController {
 
         tierLabel.text = user?.tier
         tierLabel.font = UIFont(name: "NotoSansKR-Bold", size: 20)
-        tierLabel.textColor = UIColor(named: user?.tier ?? "Diamond")
+        tierLabel.textColor = UIColor(named: user?.tier ?? "Black")
     }
 
     func setupImages() {
@@ -223,9 +224,6 @@ extension ProfileViewController {
 
         var plainConfigure = UIButton.Configuration.plain()
         plainConfigure.imagePadding = 4
-        var tintedConfigure = UIButton.Configuration.tinted()
-        tintedConfigure.background.strokeColor = .rgrgColor2
-        tintedConfigure.background.strokeWidth = 2
 
         myWritingButton.setImage(UIImage(named: "widget"), for: .normal)
         myWritingButton.setTitle("내가 쓴 글", for: .normal)
