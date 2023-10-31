@@ -209,11 +209,12 @@ extension ProfileViewController {
     func setupImages() {
         StorageManager.shared.getImage("icons", user?.profilePhoto ?? "Default") {
             self.profileImageView.image = $0
-            self.profileImageView.contentMode = .scaleAspectFill
+            self.profileImageView.contentMode = .scaleAspectFit
+            self.profileImageView.layer.masksToBounds = true
         }
         StorageManager.shared.getImage("position_w", user?.position ?? "support") {
             self.positionImageView.image = $0
-            self.profileImageView.contentMode = .scaleAspectFit
+            self.positionImageView.contentMode = .scaleAspectFit
         }
     }
 

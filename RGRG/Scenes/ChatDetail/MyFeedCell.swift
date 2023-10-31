@@ -15,12 +15,13 @@ class MyFeedCell: UITableViewCell {
     lazy var emptyView = UIView(frame: .zero)
     lazy var myChatContent = CustomLabel(frame: .zero)
     lazy var myChatTime = CustomLabel(frame: .zero)
-    
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
     }
-    
+
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -53,7 +54,6 @@ extension MyFeedCell {
 
         baseView.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(8)
-            make.leading.equalTo(contentView).offset(173)
             make.trailing.equalTo(contentView).offset(-12)
             make.bottom.equalTo(contentView).offset(-8)
         }
@@ -62,14 +62,16 @@ extension MyFeedCell {
     func confirmMyChatContent() {
         myChatContent.numberOfLines = 0
         myChatContent.textAlignment = .natural
-        myChatContent.font = UIFont(name: "NotoSansKR-VariableFont_wght", size: 16)
+        myChatContent.font = UIFont(name: AppFontName.regular, size: 16)
         myChatContent.textColor = UIColor(hex: "#FFFFFF")
 
         myChatContent.snp.makeConstraints { make in
-            make.top.equalTo(baseView).offset(8)
-            make.bottom.equalTo(baseView).offset(-8)
+            make.top.equalTo(baseView).offset(4)
+            make.bottom.equalTo(baseView).offset(-4)
             make.leading.equalTo(baseView).offset(10)
             make.trailing.equalTo(baseView).offset(-10)
+            make.height.greaterThanOrEqualTo(34)
+            make.width.lessThanOrEqualTo(208)
         }
     }
 
