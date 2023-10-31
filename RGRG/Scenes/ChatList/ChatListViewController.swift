@@ -129,8 +129,7 @@ extension ChatListViewController {
 extension ChatListViewController {
     func confirmNavigation() {
         tabBarController?.navigationItem.title = "쪽지"
-        tabBarController?.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "NotoSansKR-Bold", size: 24)!]
-        tabBarController?.navigationController?.navigationBar.barTintColor = UIColor(hex: "#0C356A")
+        tabBarController?.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "NotoSansKR-Bold", size: 24)!, NSAttributedString.Key.foregroundColor:UIColor.rgrgColor4]
         tabBarController?.navigationController?.navigationBar.shadowImage = nil
         makeRightBarButton()
         makeBlankLeftButton()

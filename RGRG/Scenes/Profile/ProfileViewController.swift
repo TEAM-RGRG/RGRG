@@ -11,9 +11,8 @@ import SnapKit
 import UIKit
 
 class ProfileViewController: UIViewController {
-
     var user: User?
-    
+
     let wholeView = UIView()
 
     let profileView = UIView()
@@ -22,6 +21,7 @@ class ProfileViewController: UIViewController {
         imageView.layer.borderColor = UIColor.rgrgColor3.cgColor
         imageView.layer.borderWidth = 2
         imageView.layer.cornerRadius = imageView.frame.height / 2
+        imageView.clipsToBounds = true
         imageView.backgroundColor = .rgrgColor7
         return imageView
     }()
@@ -82,13 +82,11 @@ extension ProfileViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-
         setupNavigationBar()
         tabBarController?.navigationItem.title = "마이페이지"
         tabBarController?.navigationItem.rightBarButtonItem?.isHidden = true
         tabBarController?.navigationItem.hidesBackButton = true
         tabBarController?.navigationController?.navigationBar.isHidden = false
-
 
         FirebaseUserManager.shared.getUserInfo { user in
             self.user = user
@@ -105,13 +103,12 @@ extension ProfileViewController {
     func configureUI() {
         view.backgroundColor = UIColor(hex: "#FFFFFF")
         view.addSubview(wholeView)
-        
+
         wholeView.backgroundColor = .rgrgColor5
-        
-        wholeView.snp.makeConstraints({make in
+
+        wholeView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
-            
-        })
+        }
 
         [profileView].forEach { wholeView.addSubview($0) }
 
@@ -181,18 +178,16 @@ extension ProfileViewController {
         profileImageView.addGestureRecognizer(tapGesture)
         profileImageView.isUserInteractionEnabled = true
     }
-    
+
     func setupNavigationBar() {
         tabBarController?.navigationItem.title = "마이페이지"
-        tabBarController?.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "NotoSansKR-Bold", size: 24)!]
-        tabBarController?.navigationController?.navigationBar.barTintColor = UIColor(hex: "#0C356A")
-        
+        tabBarController?.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "NotoSansKR-Bold", size: 24)!, NSAttributedString.Key.foregroundColor:UIColor.rgrgColor4]
+
         let backButton = UIButton()
         backButton.setTitle("", for: .normal)
 
         let customItem = UIBarButtonItem(customView: backButton)
         navigationItem.leftBarButtonItem = customItem
-        
     }
 }
 
@@ -200,6 +195,7 @@ extension ProfileViewController {
     func setupLabels() {
         userNameLabel.text = user?.userName
         userNameLabel.font = .myBoldSystemFont(ofSize: 20)
+        userNameLabel.textColor = UIColor(hex: "#505050")
 
         emailLabel.text = user?.email
         emailLabel.font = .mySystemFont(ofSize: 14)
@@ -207,7 +203,7 @@ extension ProfileViewController {
 
         tierLabel.text = user?.tier
         tierLabel.font = UIFont(name: "NotoSansKR-Bold", size: 20)
-        tierLabel.textColor = UIColor(hex: "#767676")
+        tierLabel.textColor = UIColor(named: user?.tier ?? "Black")
     }
 
     func setupImages() {
@@ -227,9 +223,6 @@ extension ProfileViewController {
 
         var plainConfigure = UIButton.Configuration.plain()
         plainConfigure.imagePadding = 4
-        var tintedConfigure = UIButton.Configuration.tinted()
-        tintedConfigure.background.strokeColor = .rgrgColor2
-        tintedConfigure.background.strokeWidth = 2
 
         myWritingButton.setImage(UIImage(named: "widget"), for: .normal)
         myWritingButton.setTitle("내가 쓴 글", for: .normal)
