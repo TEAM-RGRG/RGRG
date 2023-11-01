@@ -321,9 +321,7 @@ extension EditProfileViewController {
 
 extension EditProfileViewController {
     func setBeforeInfo() {
-        StorageManager.shared.getImage("icons", user?.profilePhoto ?? "Default") { [weak self] image in
-            self?.profileImage.image = image
-        }
+        profileImage.image = UIImage(named: user?.profilePhoto ?? "Default")
         StorageManager.shared.getImage("champ", user?.mostChampion[0] ?? "") { [weak self] image in
             self?.firstImage.image = image
         }
