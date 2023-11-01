@@ -172,7 +172,6 @@ class MainViewController: UIViewController {
     func configureUI() {
         view.backgroundColor = .rgrgColor5
         
-        
         view.addSubview(topFrame)
         topFrame.addSubview(pageTitleLabel)
         topFrame.addSubview(noticePagebutton)
@@ -184,8 +183,7 @@ class MainViewController: UIViewController {
         contentView.addSubview(patryListTable)
         view.addSubview(createPartybutton)
         
-        
-        topFrame.snp.makeConstraints{
+        topFrame.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo(144)
         }
@@ -252,8 +250,10 @@ extension MainViewController {
                 print("### CurrentUser Info ::: \(user)")
                 self.currentUser = user
             })
-            
-            await PartyManager.shared.loadParty { [weak self] parties in
+            let tier = ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Emerald", "Diamond", "Master", "GrandMaster", "Challenger"]
+            let selectedTier = ["Gold"]
+            let hopePosition = ["Top", "Jungle", "Mid", "Bottom", "Support"]
+            await PartyManager.shared.loadParty(tier: tier, hopePosition: hopePosition) { [weak self] parties in
                 self?.partyList = parties // [PartyInfo] = [PartyInfo]
                 print("### \(self?.partyList)")
                 DispatchQueue.main.async {
@@ -267,7 +267,6 @@ extension MainViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.navigationController?.navigationBar.isHidden = true
-        
         task()
     }
     
@@ -302,8 +301,8 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         cell.profileImage.image = UIImage(named: item.profileImage)
         cell.profileImage.layer.masksToBounds = true
         cell.positionImage.image = UIImage(named: item.position)
-        cell.firstPositionImage.image = UIImage(named: item.hopePosition["first"] ?? "Mid")
-        cell.secondPositionImage.image = UIImage(named: item.hopePosition["second"] ?? "Mid")
+        cell.firstPositionImage.image = UIImage(named: item.hopePosition[0] ?? "Mid")
+        cell.secondPositionImage.image = UIImage(named: item.hopePosition[1] ?? "Mid")
 
         cell.tierLabel.text = item.tier
         cell.tierLabel.textColor = getColorForTier(item.tier)
@@ -342,4 +341,3 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         navigationController?.pushViewController(detailController, animated: true)
     }
 }
-

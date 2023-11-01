@@ -263,7 +263,7 @@ class PartyInfoDetailVC: UIViewController {
         timeLabel.text = party?.date
         profileImage.image = UIImage(named: party?.profileImage ?? "Default")
         positionImage.image = UIImage(named: party?.position ?? "Top")
-        requiredPositionImage.image = UIImage(named: party?.hopePosition["first"] ?? "Top")
+        requiredPositionImage.image = UIImage(named: party?.hopePosition[0] ?? "Top")
         
         tierLabel.text = party?.tier
         if let tier = party?.tier{

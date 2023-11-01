@@ -12,7 +12,7 @@ struct PartyInfo {
     var champion: [String]
     var content: String
     var date: String
-    var hopePosition: [String: String]
+    var hopePosition: [String]
     var profileImage: String
     var tier: String
     var title: String
