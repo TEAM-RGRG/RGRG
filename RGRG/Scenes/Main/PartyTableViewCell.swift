@@ -23,6 +23,7 @@ class PartyTableViewCell: UITableViewCell {
         if let image = UIImage(named: "profileImageIcon") {
             imageView.image = image
         }
+        imageView.layer.masksToBounds = true
         imageView.backgroundColor = .white
         imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 27
