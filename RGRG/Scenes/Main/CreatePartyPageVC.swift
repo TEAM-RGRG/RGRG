@@ -10,8 +10,9 @@ import SnapKit
 import UIKit
 
 class CreatePartyVC: UIViewController, UITextViewDelegate {
-    var user: User?
     
+    var user: User?
+    var positionOptionButtonArry = [UIButton]()
     var firstPickedPosition: UIButton?
     var secondPickedPosition: UIButton?
     
@@ -190,7 +191,9 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         return button
     }()
     
-    var positionOptionButtonArry = [UIButton]()
+    
+    
+    // MARK: - Method
     
     func task() {
         if let user = user {
@@ -350,7 +353,6 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = false
-        print ("###################\(positionOptionButtonArry.count)############")
     }
     
     // MARK: - ViewDidLoad
@@ -441,7 +443,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         }
         
         positionLabelFramView.snp.makeConstraints {
-            $0.top.equalTo(positionFramView.snp.bottom).offset(0)
+            $0.top.equalTo(positionFramView.snp.bottom).offset(2)
             $0.height.equalTo(15)
             $0.leading.equalToSuperview().offset(28)
             $0.trailing.equalToSuperview().offset(-28)
