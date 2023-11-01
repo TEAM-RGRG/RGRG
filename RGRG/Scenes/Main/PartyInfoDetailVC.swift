@@ -119,7 +119,7 @@ class PartyInfoDetailVC: UIViewController {
         let View = UIView()
         View.translatesAutoresizingMaskIntoConstraints = false
         View.layer.borderColor = UIColor.systemGray3.cgColor
-        View.layer.borderWidth = 2
+        View.layer.borderWidth = 1
         View.layer.cornerRadius = 13
         return View
     }()
