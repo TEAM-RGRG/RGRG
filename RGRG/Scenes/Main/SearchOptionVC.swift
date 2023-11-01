@@ -9,8 +9,6 @@ import SnapKit
 import UIKit
 
 class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
- 
-
     let contentView: UIView = {
         let view = UIView()
         return view
@@ -41,32 +39,28 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
 
     let tierName = ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Emerald", "Diamond"]
     let positionName = ["Top", "Jug", "Mid", "Sup", "Bot"]
-    
+
     var selectedTierIndexPath: IndexPath?
     var selectedSection: Int?
-    
+
     var selectedPositionIndexPath: IndexPath?
     var positionSelectedSection: Int?
 
-    
-    
-// MARK: - ViewDidLoad
-    
+    // MARK: - ViewDidLoad
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configureUI()
         collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "CollectionViewCell")
         collectionView.register(PositionCell.self, forCellWithReuseIdentifier: "PositionCell")
-        
+
         collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "HeaderView")
-        
 
         collectionView.dataSource = self
         collectionView.delegate = self
-        
-        collectionView.collectionViewLayout = createCompositionalLayout()
 
+        collectionView.collectionViewLayout = createCompositionalLayout()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -87,7 +81,8 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         view.addSubview(confirmationButton)
 
         contentView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview().offset(0)
+            $0.top.equalToSuperview().offset(24)
+            $0.leading.trailing.equalToSuperview().offset(0)
             $0.bottom.equalTo(confirmationButton.snp.top).offset(-20)
         }
 
@@ -99,7 +94,7 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         }
 
         confirmationButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-20)
+            $0.bottom.equalToSuperview().offset(-25)
             $0.leading.equalToSuperview().offset(41)
             $0.trailing.equalToSuperview().offset(-41)
             $0.height.equalTo(46)
@@ -107,48 +102,43 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         }
     }
 
-    
-    
-    
     fileprivate func createCompositionalLayout() -> UICollectionViewLayout {
-            // 코포지셔널 레이아웃 생성
-            let layout = UICollectionViewCompositionalLayout{
-
-                // 만들게 되면 튜플형태로 들어옴
-                (sectionInedex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) ->
+        // 코포지셔널 레이아웃 생성
+        let layout = UICollectionViewCompositionalLayout {
+            // 만들게 되면 튜플형태로 들어옴
+            (_: Int, _: NSCollectionLayoutEnvironment) ->
                 NSCollectionLayoutSection? in
 
-                // 아이템에 대한 사이즈 - absolute 는 고정값, estimate 는 추측, fraction 은 퍼센트
-                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.2), heightDimension: .absolute(35))
+            // 아이템에 대한 사이즈 - absolute 는 고정값, estimate 는 추측, fraction 은 퍼센트
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.1), heightDimension: .absolute(35))
 
-                // 위에서 만든 아이템 사이즈로 아이템 만들기
-                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            // 위에서 만든 아이템 사이즈로 아이템 만들기
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-                // 아이템 간격설정
-                item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+            // 아이템 간격설정
+            item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
 
+            // 그룹 사이즈
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: itemSize.heightDimension)
 
-                // 그룹 사이즈
-                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: itemSize.heightDimension)
+            // 그룹 사이즈로 그룹 만들기
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 4)
 
-                // 그룹 사이즈로 그룹 만들기
-                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 4)
+            // 그룹으로 섹션 만들기
+            let section = NSCollectionLayoutSection(group: group)
 
-                // 그룹으로 섹션 만들기
-                let section = NSCollectionLayoutSection(group: group)
+            // 섹션에 대한 간격
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10)
 
+            let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
+            let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
 
-                // 섹션에 대한 간격
-                section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+            section.boundarySupplementaryItems = [header]
 
-
-                return section
-            }
-            return layout
+            return section
         }
-
-    
-    
+        return layout
+    }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
@@ -168,24 +158,20 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         if kind == UICollectionView.elementKindSectionHeader {
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "HeaderView", for: indexPath) as! HeaderView
             if indexPath.section == 0 {
-                headerView.titleLabel.text = "윗쪽 섹션 헤더"
+                headerView.titleLabel.text = "티어"
+                headerView.backgroundColor = .white
             } else {
-                headerView.titleLabel.text = "아랫쪽 섹션 헤더"
+                headerView.titleLabel.text = "희망 포지션"
+                headerView.backgroundColor = .white
             }
             return headerView
         }
         return UICollectionReusableView()
     }
-    
-    
- 
-    
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: collectionView.bounds.width, height: 50)
     }
-    
-    
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 { // 윗쪽 섹션
@@ -194,7 +180,6 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
                 if let previousCell = collectionView.cellForItem(at: previousIndexPath) as? CollectionViewCell {
                     previousCell.tierLabel.layer.borderColor = UIColor.systemGray4.cgColor
                 }
-
             }
 
             // 선택한 셀의 indexPath 저장
@@ -211,7 +196,6 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
                 if let previousCell = collectionView.cellForItem(at: previousIndexPath) as? PositionCell {
                     previousCell.positionFrame.layer.borderColor = UIColor.systemGray4.cgColor
                 }
-
             }
 
             // 선택한 셀의 indexPath 저장
@@ -223,72 +207,60 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             }
         }
     }
-    
-    
-    
-    
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-           let cellWidth = collectionView.bounds.width / CGFloat(5)
-           let cellHeight = collectionView.bounds.height / CGFloat(10)
-           return CGSize(width: cellWidth, height: cellHeight)
-       }
+        let cellWidth = collectionView.bounds.width / CGFloat(5)
+        let cellHeight = collectionView.bounds.height / CGFloat(10)
+        return CGSize(width: cellWidth, height: cellHeight)
+    }
 
-    
- 
-
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! CollectionViewCell
             cell.tierLabel.text = tierName[indexPath.row]
-            
+
             if let tierText = cell.tierLabel.text {
-                       switch tierText {
-                       case "Iron":
-                           cell.tierLabel.textColor = .iron
-                       case "Bronze":
-                           cell.tierLabel.textColor = .bronze
-                       case "Silver":
-                           cell.tierLabel.textColor = .silver
-                       case "Gold":
-                           cell.tierLabel.textColor = .gold
-                       case "Platinum":
-                           cell.tierLabel.textColor = .platinum
-                       case "Emerald":
-                           cell.tierLabel.textColor = .emerald
-                       case "Diamond":
-                           cell.tierLabel.textColor = .diamond
-                       default:
-                           cell.tierLabel.textColor = .black
-                       }
-                   }
-            
+                switch tierText {
+                case "Iron":
+                    cell.tierLabel.textColor = .iron
+                case "Bronze":
+                    cell.tierLabel.textColor = .bronze
+                case "Silver":
+                    cell.tierLabel.textColor = .silver
+                case "Gold":
+                    cell.tierLabel.textColor = .gold
+                case "Platinum":
+                    cell.tierLabel.textColor = .platinum
+                case "Emerald":
+                    cell.tierLabel.textColor = .emerald
+                case "Diamond":
+                    cell.tierLabel.textColor = .diamond
+                default:
+                    cell.tierLabel.textColor = .black
+                }
+            }
+
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PositionCell", for: indexPath) as! PositionCell
             cell.positionLabel.text = positionName[indexPath.row]
-            
+
             if let position = cell.positionLabel.text {
-                       if position == "Top" {
-                           cell.positionImage.image = UIImage(named: "Top")?.withRenderingMode(.alwaysTemplate)
-                       } else if position == "Jug" {
-                           cell.positionImage.image = UIImage(named: "Jungle")?.withRenderingMode(.alwaysTemplate)
-                       } else if position == "Mid" {
-                           cell.positionImage.image = UIImage(named: "Mid")?.withRenderingMode(.alwaysTemplate)
-                       } else if position == "Sup" {
-                           cell.positionImage.image = UIImage(named: "Support")?.withRenderingMode(.alwaysTemplate)
-                       } else if position == "Bot" {
-                           cell.positionImage.image = UIImage(named: "Bottom")?.withRenderingMode(.alwaysTemplate)
-                       }
-                   }
+                if position == "Top" {
+                    cell.positionImage.image = UIImage(named: "Top")?.withRenderingMode(.alwaysTemplate)
+                } else if position == "Jug" {
+                    cell.positionImage.image = UIImage(named: "Jungle")?.withRenderingMode(.alwaysTemplate)
+                } else if position == "Mid" {
+                    cell.positionImage.image = UIImage(named: "Mid")?.withRenderingMode(.alwaysTemplate)
+                } else if position == "Sup" {
+                    cell.positionImage.image = UIImage(named: "Support")?.withRenderingMode(.alwaysTemplate)
+                } else if position == "Bot" {
+                    cell.positionImage.image = UIImage(named: "Bottom")?.withRenderingMode(.alwaysTemplate)
+                }
+            }
             return cell
         }
     }
-
-
-    
-    
 
     class CollectionViewCell: UICollectionViewCell {
         let cellFrameView: UIView = {
@@ -315,6 +287,7 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             setupUI()
         }
 
+        @available(*, unavailable)
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
@@ -338,7 +311,6 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
 }
 
-
 class PositionCell: UICollectionViewCell {
     let cellFrameView: UIView = {
         let view = UIView()
@@ -354,7 +326,7 @@ class PositionCell: UICollectionViewCell {
         view.layer.borderColor = UIColor.systemGray4.cgColor
         return view
     }()
-    
+
     let positionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -363,7 +335,7 @@ class PositionCell: UICollectionViewCell {
         label.textAlignment = .center
         return label
     }()
-    
+
     let positionImage: UIImageView = {
         var imageView = UIImageView()
         imageView.image = UIImage(named: "미드w")?.withRenderingMode(.alwaysTemplate)
@@ -378,6 +350,7 @@ class PositionCell: UICollectionViewCell {
         setupUI()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -390,7 +363,6 @@ class PositionCell: UICollectionViewCell {
         positionFrame.addSubview(positionLabel)
         positionFrame.addSubview(positionImage)
 
-
         cellFrameView.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(5)
         }
@@ -401,13 +373,13 @@ class PositionCell: UICollectionViewCell {
             $0.top.equalTo(cellFrameView.snp.top).offset(0)
 //                $0.edges.equalToSuperview().inset(10)
         }
-        
+
         positionLabel.snp.makeConstraints {
             $0.top.equalTo(positionFrame.snp.top).offset(2)
             $0.leading.equalTo(positionFrame.snp.leading).offset(19)
 //                $0.edges.equalToSuperview().inset(10)
         }
-        
+
         positionImage.snp.makeConstraints {
             $0.top.equalTo(positionFrame.snp.top).offset(2)
             $0.height.width.equalTo(20)
@@ -416,10 +388,6 @@ class PositionCell: UICollectionViewCell {
         }
     }
 }
-
-
-
-
 
 class HeaderView: UICollectionReusableView {
     let titleLabel: UILabel = {
@@ -436,6 +404,7 @@ class HeaderView: UICollectionReusableView {
         setupUI()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

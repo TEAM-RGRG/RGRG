@@ -125,7 +125,7 @@ extension SignUpViewController {
                     "tier": tier,
                     "position": position,
                     "profilePhoto": "Default",
-                    "mostChampion": []
+                    "mostChampion" : ["None","None","None"] //Defaults 이미지
                     
                 ]) { error in
                     if let error = error {
