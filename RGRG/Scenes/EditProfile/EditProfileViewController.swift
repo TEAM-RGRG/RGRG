@@ -95,6 +95,7 @@ extension EditProfileViewController {
         FirebaseUserManager.shared.getUserInfo { user in
             self.user = user
             DispatchQueue.main.async {
+                self.tierButton.titleLabel?.textColor = UIColor(named: user.tier)
                 self.setBeforeInfo()
                 self.setupButtonsActions()
             }
@@ -214,14 +215,6 @@ extension EditProfileViewController {
     }
 
     func setupButtons() {
-        var tierButtonConfig = UIButton.Configuration.filled()
-
-        var tierButtonTitleAttribute = AttributedString(user?.tier ?? "Bronze")
-        tierButtonTitleAttribute.font = .myMediumSystemFont(ofSize: 16)
-        tierButtonConfig.attributedTitle = tierButtonTitleAttribute
-        tierButtonConfig.baseBackgroundColor = .clear
-        
-        var positionButtonTitleAttribute = AttributedString(user?.position ?? "top")
         positionButton.setTitleColor(UIColor(hex: "505050"), for: .normal)
 
         [tierButton, positionButton].forEach {
@@ -231,6 +224,7 @@ extension EditProfileViewController {
             $0.layer.cornerRadius = 10
             $0.titleLabel?.font = .myMediumSystemFont(ofSize: 16)
             $0.contentHorizontalAlignment = .left
+            $0.contentEdgeInsets.left = 16
         }
 
         doneEditButton.backgroundColor = .rgrgColor4
@@ -296,7 +290,7 @@ extension EditProfileViewController {
             self.tierButton.setTitleColor(UIColor(named: self.tierButton.currentTitle ?? "Bronze"), for: .normal)
         }
 
-        tierButton.setTitleColor(UIColor(named: tierButton.currentTitle ?? "Bronze"), for: .normal)
+        tierButton.setTitleColor(UIColor(named: user?.tier ?? "Bronze"), for: .normal)
 
         for tier in tiers {
             let action = UIAction(title: tier, state: .off, handler: optionClosure)
@@ -309,14 +303,14 @@ extension EditProfileViewController {
         tierButton.changesSelectionAsPrimaryAction = true
         tierButton.showsMenuAsPrimaryAction = true
 
-        let positions = ["support", "bottom", "mid", "jungle", "top"]
+        let positions = ["Support", "Bottom", "Mid", "Jungle", "Top"]
         var positionOptions = [UIAction]()
 
         for position in positions {
             let action = UIAction(title: position, state: .off, handler: optionClosure)
             positionOptions.append(action)
         }
-        positionOptions[positions.firstIndex(of: user?.position ?? "support") ?? 0].state = .on
+        positionOptions[positions.firstIndex(of: user?.position ?? "Support") ?? 0].state = .on
         let positionOptionMenu = UIMenu(options: .displayInline, children: positionOptions)
 
         positionButton.menu = positionOptionMenu
@@ -330,19 +324,25 @@ extension EditProfileViewController {
         StorageManager.shared.getImage("icons", user?.profilePhoto ?? "Default") { [weak self] image in
             self?.profileImage.image = image
         }
+        StorageManager.shared.getImage("champ", user?.mostChampion[0] ?? "") { [weak self] image in
+            self?.firstImage.image = image
+        }
+        StorageManager.shared.getImage("champ", user?.mostChampion[1] ?? "") { [weak self] image in
+            self?.secondImage.image = image
+        }
+        StorageManager.shared.getImage("champ", user?.mostChampion[2] ?? "") { [weak self] image in
+            self?.thirdImage.image = image
+        }
 
         userNameTextField.text = user?.userName
-
-        var tierButtonTitleAttribute = AttributedString(user?.tier ?? "Bronze")
-        var positionButtonTitleAttribute = AttributedString(user?.position ?? "top")
-//        tierButton.setTitle(user?.tier, for: .normal)
-//        positionButton.setTitle(user?.position, for: .normal)
+        tierButton.setTitle(user?.tier, for: .normal)
+        positionButton.setTitle(user?.position, for: .normal)
     }
 }
 
 extension EditProfileViewController {
     @objc func confirmButtonPressed(_ sender: UIButton) {
-        let updatedUser = User(email: user?.email ?? "", userName: (userNameTextField.text ?? user?.userName) ?? "", tier: tierButton.titleLabel?.text ?? "", position: positionButton.titleLabel?.text ?? "", profilePhoto: "Default", mostChampion: [])
+        let updatedUser = User(email: user?.email ?? "", userName: (userNameTextField.text ?? user?.userName) ?? "", tier: tierButton.titleLabel?.text ?? "", position: positionButton.titleLabel?.text ?? "", profilePhoto: "Default")
         if updatedUser.userName == user?.userName, updatedUser.position == user?.position, updatedUser.profilePhoto == user?.profilePhoto, updatedUser.tier == user?.tier, updatedUser.mostChampion == user?.mostChampion {
             let alert = UIAlertController(title: "수정 내역이 없습니다!", message: nil, preferredStyle: .alert)
             let ok = UIAlertAction(title: "확인", style: .default)
