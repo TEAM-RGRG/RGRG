@@ -298,39 +298,14 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         let item = partyList[indexPath.row]
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "PartyTableViewCell", for: indexPath) as? PartyTableViewCell else { return UITableViewCell() }
         cell.userNameLabel.text = item.userName
-        
-        StorageManager.shared.getImage("icons", item.profileImage) { image in
-            DispatchQueue.main.async {
-                cell.profileImage.image = image
-                cell.profileImage.layer.masksToBounds = true
-            }
-        }
-        
-        StorageManager.shared.getImage("position_w", item.position) { image in
-            DispatchQueue.main.async {
-                cell.positionImage.image = image
-            }
-        }
-//        DispatchQueue.main.async {
-//            cell.positionImage.image = UIImage(named: "미드w")
-//            cell.firstPositionImage.image = UIImage(named: "미드w")
-//            cell.secondPositionImage.image = UIImage(named: "미드w")
-//        }
-        
+        cell.profileImage.image = UIImage(named: item.profileImage)
+        cell.positionImage.image = UIImage(named: item.position)
         cell.tierLabel.text = item.tier
         cell.tierLabel.textColor = getColorForTier(item.tier)
-        
-        StorageManager.shared.getImage("position_w", item.hopePosition["first"]!) { image in
-            DispatchQueue.main.async {
-                cell.firstPositionImage.image = image
-            }
-        }
+        cell.firstPositionImage.image = UIImage(named: item.hopePosition["first"] ?? "Top")
+        cell.secondPositionImage.image = UIImage(named: item.hopePosition["second"] ?? "Top")
 
-        StorageManager.shared.getImage("position_w", item.hopePosition["second"] ?? "mid") { image in
-            DispatchQueue.main.async {
-                cell.secondPositionImage.image = image
-            }
-        }
+        
         cell.selectionStyle = .none
         return cell
     }
