@@ -63,13 +63,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     
     let topPositionbutton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
-        button.subtitleLabel?.text = "top"
-        button.subtitleLabel?.isHidden = true
-        button.contentHorizontalAlignment = .left
-        button.contentVerticalAlignment = .bottom
-        button.setTitleColor(.black, for: .normal)
-        button.setImage(UIImage(named: "탑w"), for: .normal)
+        button.setImage(UIImage(named: "Top"), for: .normal)
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
         button.backgroundColor = .systemGray4
         button.layer.cornerRadius = 30
@@ -79,9 +73,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     
     let junglePositionbutton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
-        button.setTitleColor(.black, for: .normal)
-        button.setImage(UIImage(named: "정글w"), for: .normal)
+        button.setImage(UIImage(named: "Jungle"), for: .normal)
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
         button.backgroundColor = .systemGray4
         button.layer.cornerRadius = 30
@@ -91,9 +83,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     
     let midPositionbutton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
-        button.setTitleColor(.black, for: .normal)
-        button.setImage(UIImage(named: "미드w"), for: .normal)
+        button.setImage(UIImage(named: "Mid"), for: .normal)
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
         button.backgroundColor = .systemGray4
         button.layer.cornerRadius = 30
@@ -103,9 +93,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     
     let bottomPositionbutton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
-        button.setTitleColor(.black, for: .normal)
-        button.setImage(UIImage(named: "바텀w"), for: .normal)
+        button.setImage(UIImage(named: "Bottom"), for: .normal)
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
         button.backgroundColor = .systemGray4
         button.layer.cornerRadius = 30
@@ -115,9 +103,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     
     let supportPositionbutton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
-        button.setTitleColor(.black, for: .normal)
-        button.setImage(UIImage(named: "서폿w"), for: .normal)
+        button.setImage(UIImage(named: "Support"), for: .normal)
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
         button.backgroundColor = .systemGray4
         button.layer.cornerRadius = 30
@@ -376,12 +362,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         
         configureUI()
         addPlaceholderToTextView()
-        
-//        positionOptionButtonArry.append(topPositionbutton)
-//        positionOptionButtonArry.append(junglePositionbutton)
-//        positionOptionButtonArry.append(midPositionbutton)
-//        positionOptionButtonArry.append(bottomPositionbutton)
-//        positionOptionButtonArry.append(supportPositionbutton)
+
     }
     
     @objc func backButtonTapped() {
@@ -416,7 +397,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         
         // 네비게이션 바 왼쪽 버튼
         let backButton = UIButton(type: .custom)
-        backButton.setImage(UIImage(systemName: "chevron.left")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        backButton.setImage(UIImage(systemName: "multiply")?.withRenderingMode(.alwaysTemplate), for: .normal)
         backButton.tintColor = .black
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true // 버튼의 가로 크기
