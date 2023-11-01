@@ -11,7 +11,7 @@ import UIKit
 
 class CreatePartyVC: UIViewController, UITextViewDelegate {
     var user: User?
-    
+    var positionOptionButtonArry = [UIButton]()
     var firstPickedPosition: UIButton?
     var secondPickedPosition: UIButton?
     
@@ -57,7 +57,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.distribution = .fillEqually
-        stackView.spacing = 10
+        stackView.spacing = 20
         return stackView
     }()
     
@@ -66,7 +66,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         button.setImage(UIImage(named: "Top"), for: .normal)
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
         button.backgroundColor = .systemGray4
-        button.layer.cornerRadius = 30
+        button.layer.cornerRadius = 25
         button.addTarget(self, action: #selector(positionOptionButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -76,7 +76,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         button.setImage(UIImage(named: "Jungle"), for: .normal)
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
         button.backgroundColor = .systemGray4
-        button.layer.cornerRadius = 30
+        button.layer.cornerRadius = 25
         button.addTarget(self, action: #selector(positionOptionButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -86,7 +86,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         button.setImage(UIImage(named: "Mid"), for: .normal)
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
         button.backgroundColor = .systemGray4
-        button.layer.cornerRadius = 30
+        button.layer.cornerRadius = 25
         button.addTarget(self, action: #selector(positionOptionButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -96,7 +96,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         button.setImage(UIImage(named: "Bottom"), for: .normal)
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
         button.backgroundColor = .systemGray4
-        button.layer.cornerRadius = 30
+        button.layer.cornerRadius = 25
         button.addTarget(self, action: #selector(positionOptionButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -106,7 +106,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         button.setImage(UIImage(named: "Support"), for: .normal)
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
         button.backgroundColor = .systemGray4
-        button.layer.cornerRadius = 30
+        button.layer.cornerRadius = 25
         button.addTarget(self, action: #selector(positionOptionButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -116,7 +116,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.distribution = .fillEqually
-        stackView.spacing = 10
+        stackView.spacing = 20
         return stackView
     }()
     
@@ -160,7 +160,6 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         return label
     }()
     
-    
     let infoTextLabel: UILabel = {
         let label = UILabel()
         label.text = "소개글"
@@ -190,11 +189,11 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         return button
     }()
     
-    var positionOptionButtonArry = [UIButton]()
+    // MARK: - Method
     
     func task() {
         if let user = user {
-            let hopePosition = ["first": positionOptionButtonArry[0].subtitleLabel?.text ?? "top", "second": positionOptionButtonArry[1].subtitleLabel?.text ?? "top"]
+            let hopePosition = [positionOptionButtonArry[0].subtitleLabel?.text ?? "top", positionOptionButtonArry[1].subtitleLabel?.text ?? "top"]
             
             let party = PartyInfo(champion: ["Ahri", "Teemo", "Ashe"], content: infoTextView.text ?? "", date: FireStoreManager.shared.dateFormatter(value: Date.now), hopePosition: hopePosition, profileImage: user.profilePhoto, tier: user.tier, title: partyNameTextField.text ?? "", userName: user.userName, writer: user.userName, position: user.position)
             
@@ -212,31 +211,31 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     }
     
     @objc func positionOptionButtonTapped(_ sender: UIButton) {
-           if positionOptionButtonArry.isEmpty {
-               sender.isSelected = true
-               sender.backgroundColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1)
-               firstPickedPosition = sender
-               positionOptionButtonArry.append(sender)
-               updatePositionLabels()
-           } else if positionOptionButtonArry.count == 1 && firstPickedPosition != sender {
-               sender.isSelected = true
-               sender.backgroundColor = UIColor.rgrgColor3
-               secondPickedPosition = sender
-               positionOptionButtonArry.append(sender)
-               updatePositionLabels()
-               updateSecondPositionLabels()
-           }  else {
-               for button in positionOptionButtonArry {
-                   button.backgroundColor = .systemGray4
-                   button.layer.borderColor = UIColor.white.cgColor
-               }
-               positionOptionButtonArry.removeAll()
-               firstPickedPosition = nil
-               secondPickedPosition = nil
-               updatePositionLabels()
-               updateSecondPositionLabels()
-           }
+        if positionOptionButtonArry.isEmpty {
+            sender.isSelected = true
+            sender.backgroundColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1)
+            firstPickedPosition = sender
+            positionOptionButtonArry.append(sender)
+            updatePositionLabels()
+        } else if positionOptionButtonArry.count == 1 && firstPickedPosition != sender {
+            sender.isSelected = true
+            sender.backgroundColor = UIColor.rgrgColor3
+            secondPickedPosition = sender
+            positionOptionButtonArry.append(sender)
+            updatePositionLabels()
+            updateSecondPositionLabels()
+        } else {
+            for button in positionOptionButtonArry {
+                button.backgroundColor = .systemGray4
+                button.layer.borderColor = UIColor.white.cgColor
+            }
+            positionOptionButtonArry.removeAll()
+            firstPickedPosition = nil
+            secondPickedPosition = nil
+            updatePositionLabels()
+            updateSecondPositionLabels()
         }
+    }
     
     func updatePositionLabels() {
         if let firstPicked = firstPickedPosition {
@@ -272,27 +271,24 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         }
     }
 
-    
-    
-    
     func updateSecondPositionLabels() {
         if let secondPicked = secondPickedPosition {
             switch secondPicked {
             case topPositionbutton:
                 topLabel.text = "2 nd"
-                topLabel.textColor = .rgrgColor4
+                topLabel.textColor = .rgrgColor3
             case junglePositionbutton:
                 jungleLabel.text = "2 nd"
-                jungleLabel.textColor = .rgrgColor4
+                jungleLabel.textColor = .rgrgColor3
             case midPositionbutton:
                 midLabel.text = "2 nd"
-                midLabel.textColor = .rgrgColor4
+                midLabel.textColor = .rgrgColor3
             case bottomPositionbutton:
                 bottomLabel.text = "2 nd"
-                bottomLabel.textColor = .rgrgColor4
+                bottomLabel.textColor = .rgrgColor3
             case supportPositionbutton:
                 supportLabel.text = "2 nd"
-                supportLabel.textColor = .rgrgColor4
+                supportLabel.textColor = .rgrgColor3
             default:
                 topLabel.text = ""
                 jungleLabel.text = ""
@@ -350,7 +346,6 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = false
-        print ("###################\(positionOptionButtonArry.count)############")
     }
     
     // MARK: - ViewDidLoad
@@ -362,7 +357,6 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         
         configureUI()
         addPlaceholderToTextView()
-
     }
     
     @objc func backButtonTapped() {
@@ -417,44 +411,44 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         }
         
         partyNameLabel.snp.makeConstraints {
-            $0.top.equalTo(topFrame.snp.bottom).offset(50)
+            $0.top.equalTo(topFrame.snp.bottom).offset(32)
             $0.leading.equalToSuperview().offset(28)
         }
         
         partyNameTextField.snp.makeConstraints {
-            $0.top.equalTo(partyNameLabel.snp.bottom).offset(12)
+            $0.top.equalTo(partyNameLabel.snp.bottom).offset(7)
             $0.height.equalTo(45)
             $0.leading.equalToSuperview().offset(28)
             $0.trailing.equalToSuperview().offset(-28)
         }
         
         positionLabel.snp.makeConstraints {
-            $0.top.equalTo(partyNameTextField.snp.bottom).offset(28)
+            $0.top.equalTo(partyNameTextField.snp.bottom).offset(25)
             $0.leading.equalToSuperview().offset(28)
         }
 
         positionFramView.snp.makeConstraints {
             $0.top.equalTo(positionLabel.snp.bottom).offset(12)
-            $0.height.equalTo(60)
+            $0.height.equalTo(50)
             $0.leading.equalToSuperview().offset(28)
             $0.trailing.equalToSuperview().offset(-28)
         }
         
         positionLabelFramView.snp.makeConstraints {
-            $0.top.equalTo(positionFramView.snp.bottom).offset(0)
+            $0.top.equalTo(positionFramView.snp.bottom).offset(2)
             $0.height.equalTo(15)
             $0.leading.equalToSuperview().offset(28)
             $0.trailing.equalToSuperview().offset(-28)
         }
         
         infoTextLabel.snp.makeConstraints {
-            $0.top.equalTo(positionLabelFramView.snp.bottom).offset(40)
+            $0.top.equalTo(positionFramView.snp.bottom).offset(36)
             $0.leading.equalToSuperview().offset(28)
         }
         
         infoTextView.snp.makeConstraints {
             $0.top.equalTo(infoTextLabel.snp.bottom).offset(12)
-            $0.height.equalTo(200)
+            $0.height.equalTo(226)
             $0.leading.equalToSuperview().offset(28)
             $0.trailing.equalToSuperview().offset(-28)
         }
@@ -463,7 +457,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
             $0.top.equalTo(infoTextView.snp.bottom).offset(40)
             $0.leading.equalToSuperview().offset(28)
             $0.trailing.equalToSuperview().offset(-28)
-            $0.height.equalTo(55)
+            $0.height.equalTo(60)
             $0.centerX.equalTo(view)
         }
     }

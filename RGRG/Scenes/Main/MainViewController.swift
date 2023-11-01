@@ -172,7 +172,6 @@ class MainViewController: UIViewController {
     func configureUI() {
         view.backgroundColor = .rgrgColor5
         
-        
         view.addSubview(topFrame)
         topFrame.addSubview(pageTitleLabel)
         topFrame.addSubview(noticePagebutton)
@@ -184,8 +183,7 @@ class MainViewController: UIViewController {
         contentView.addSubview(patryListTable)
         view.addSubview(createPartybutton)
         
-        
-        topFrame.snp.makeConstraints{
+        topFrame.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo(144)
         }
@@ -252,8 +250,10 @@ extension MainViewController {
                 print("### CurrentUser Info ::: \(user)")
                 self.currentUser = user
             })
-            
-            await PartyManager.shared.loadParty { [weak self] parties in
+            let tier = ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Emerald", "Diamond", "Master", "GrandMaster", "Challenger"]
+            let selectedTier = ["Gold"]
+            let hopePosition = ["Top", "Jungle", "Mid", "Bottom", "Support"]
+            await PartyManager.shared.loadParty(tier: tier, hopePosition: hopePosition) { [weak self] parties in
                 self?.partyList = parties // [PartyInfo] = [PartyInfo]
                 print("### \(self?.partyList)")
                 DispatchQueue.main.async {
@@ -267,7 +267,6 @@ extension MainViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.navigationController?.navigationBar.isHidden = true
-        
         task()
     }
     
@@ -297,40 +296,17 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = partyList[indexPath.row]
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "PartyTableViewCell", for: indexPath) as? PartyTableViewCell else { return UITableViewCell() }
+        
         cell.userNameLabel.text = item.userName
-        
-        StorageManager.shared.getImage("icons", item.profileImage) { image in
-            DispatchQueue.main.async {
-                cell.profileImage.image = image
-                cell.profileImage.layer.masksToBounds = true
-            }
-        }
-        
-        StorageManager.shared.getImage("position_w", item.position) { image in
-            DispatchQueue.main.async {
-                cell.positionImage.image = image
-            }
-        }
-//        DispatchQueue.main.async {
-//            cell.positionImage.image = UIImage(named: "미드w")
-//            cell.firstPositionImage.image = UIImage(named: "미드w")
-//            cell.secondPositionImage.image = UIImage(named: "미드w")
-//        }
-        
+        cell.profileImage.image = UIImage(named: item.profileImage)
+        cell.profileImage.layer.masksToBounds = true
+        cell.positionImage.image = UIImage(named: item.position)
+        cell.firstPositionImage.image = UIImage(named: item.hopePosition[0] ?? "Mid")
+        cell.secondPositionImage.image = UIImage(named: item.hopePosition[1] ?? "Mid")
+
         cell.tierLabel.text = item.tier
         cell.tierLabel.textColor = getColorForTier(item.tier)
         
-        StorageManager.shared.getImage("position_w", item.hopePosition["first"]!) { image in
-            DispatchQueue.main.async {
-                cell.firstPositionImage.image = image
-            }
-        }
-
-        StorageManager.shared.getImage("position_w", item.hopePosition["second"] ?? "mid") { image in
-            DispatchQueue.main.async {
-                cell.secondPositionImage.image = image
-            }
-        }
         cell.selectionStyle = .none
         return cell
     }
@@ -365,4 +341,3 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         navigationController?.pushViewController(detailController, animated: true)
     }
 }
-

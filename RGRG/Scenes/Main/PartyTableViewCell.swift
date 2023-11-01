@@ -23,9 +23,10 @@ class PartyTableViewCell: UITableViewCell {
         if let image = UIImage(named: "profileImageIcon") {
             imageView.image = image
         }
+        imageView.layer.masksToBounds = true
         imageView.backgroundColor = .white
         imageView.contentMode = .scaleAspectFit
-        imageView.layer.cornerRadius = 27
+        imageView.layer.cornerRadius = 26
         imageView.layer.borderWidth = 1
         imageView.layer.borderColor = UIColor.black.cgColor
         imageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
@@ -68,7 +69,7 @@ class PartyTableViewCell: UITableViewCell {
         let View = UIView()
         View.translatesAutoresizingMaskIntoConstraints = false
         View.layer.borderColor = UIColor.systemGray3.cgColor
-        View.layer.borderWidth = 2
+        View.layer.borderWidth = 1
         View.layer.cornerRadius = 13
         return View
     }()

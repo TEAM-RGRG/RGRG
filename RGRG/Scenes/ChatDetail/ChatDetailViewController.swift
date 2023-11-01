@@ -27,6 +27,7 @@ class ChatDetailViewController: UIViewController {
 
     var currentUserEmail = ""
     var placeholder = "메세지 보내기"
+    var textViewPosY = CGFloat(0)
 
     deinit {
         print("### ChatDetailViewController deinitialized")
@@ -37,6 +38,7 @@ extension ChatDetailViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+
         if let user = Auth.auth().currentUser {
             currentUserEmail = user.email ?? "n/a"
         } else {
@@ -61,8 +63,8 @@ extension ChatDetailViewController {
             }
 
             DispatchQueue.main.async {
-                self.view.endEditing(true)
                 self.tableView.reloadData()
+
                 if self.chats.isEmpty != true {
                     let endexIndex = IndexPath(row: self.chats.count - 1, section: 0)
                     self.tableView.scrollToRow(at: endexIndex, at: .bottom, animated: true)
@@ -75,6 +77,10 @@ extension ChatDetailViewController {
         view.endEditing(true)
         chats.removeAll()
     }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        textView.becomeFirstResponder()
+    }
 }
 
 // MARK: - SetUp UI
@@ -82,17 +88,27 @@ extension ChatDetailViewController {
 extension ChatDetailViewController {
     func setupUI() {
         view.backgroundColor = UIColor(hex: "#FFFFFF")
-        navigationController?.navigationBar.standardAppearance.backgroundColor = UIColor(hex: "#FFFFFF")
-        navigationController?.navigationBar.standardAppearance.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "NotoSansKR-Bold", size: 24)!, NSAttributedString.Key.foregroundColor: UIColor.rgrgColor4]
-        navigationController?.navigationBar.shadowImage = nil
+        confirmNavigation()
+
         confirmTableView()
-        makeRightBarButton()
         registerCell()
+
+        makeRightBarButton()
+        makeBackButton()
+
         confirmBottomBaseView()
         confirmTextView()
         confirmEmptyView()
         confirmSendMessageIcon()
-        makeBackButton()
+
+        hideKeyboardWhenTappedAround()
+        keyboardCheck()
+    }
+
+    func confirmNavigation() {
+        navigationController?.navigationBar.standardAppearance.backgroundColor = UIColor(hex: "#FFFFFF")
+        navigationController?.navigationBar.standardAppearance.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "NotoSansKR-Bold", size: 24)!, NSAttributedString.Key.foregroundColor: UIColor.rgrgColor4]
+        navigationController?.navigationBar.shadowImage = nil
     }
 }
 
@@ -106,6 +122,7 @@ extension ChatDetailViewController {
         view.addSubview(tableView)
         view.addSubview(bottomBaseView)
         bottomBaseView.addSubview(textView)
+
         tableView.separatorStyle = .none
         tableView.backgroundColor = UIColor(hex: "#F4F4F4")
 
@@ -165,19 +182,20 @@ extension ChatDetailViewController {
 extension ChatDetailViewController {
     func confirmTextView() {
         textView.delegate = self
+
         textView.text = placeholder
         textView.font = UIFont(name: AppFontName.regular, size: 18)
         textView.backgroundColor = UIColor(hex: "#FFFFFF")
         textView.textColor = UIColor(hex: "#ADADAD")
         textView.layer.cornerRadius = 10
-        textView.textContainerInset = UIEdgeInsets(top: 4, left: 8, bottom: 8, right: 0)
-        textView.isScrollEnabled = false
+        textView.textContainerInset = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
+        textView.isScrollEnabled = true
 
         textView.snp.makeConstraints { make in
             make.leading.equalTo(bottomBaseView).offset(8)
             make.bottom.equalTo(bottomBaseView).offset(-38)
             make.width.equalTo(334)
-            make.height.greaterThanOrEqualTo(38)
+            make.height.greaterThanOrEqualTo(35)
         }
     }
 }
@@ -235,6 +253,8 @@ extension ChatDetailViewController {
 
             DispatchQueue.main.async {
                 self.textView.text = self.placeholder
+                self.textView.textColor = UIColor(hex: "#ADADAD")
+                self.textView.font = UIFont(name: AppFontName.regular, size: 18)
                 self.sendMessageIcon.image = UIImage(named: "Send_fill")
             }
         }
@@ -281,12 +301,7 @@ extension ChatDetailViewController: UITableViewDataSource {
 
                 cell.yourChatContent.text = item.content
                 cell.yourChatTime.text = item.date
-
-                StorageManager.shared.getImage("icons", channelInfo?.writerProfile ?? "n/a") { image in
-                    DispatchQueue.main.async {
-                        cell.yourProfileImage.image = image
-                    }
-                }
+                cell.yourProfileImage.image = UIImage(named: channelInfo?.writerProfile ?? "Default")
 
                 DispatchQueue.main.async {
                     cell.setupUI()
@@ -311,6 +326,11 @@ extension ChatDetailViewController: UITableViewDelegate {
         }
 
         return tableView.rowHeight
+    }
+
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        print("#### 스크롤됨")
+        textView.resignFirstResponder()
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -368,28 +388,85 @@ extension ChatDetailViewController: UITextViewDelegate {
         }
     }
 
+    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+        textView.resignFirstResponder()
+        return true
+    }
+
     // MARK: textview 높이 자동조절
 
     func textViewDidChange(_ textView: UITextView) {
-        let size = CGSize(width: view.frame.width, height: 91)
+        let size = CGSize(width: view.frame.width, height: .infinity)
         let estimatedSize = textView.sizeThatFits(size)
-        print("#### size :: \(size) || estimatedSize :: \(estimatedSize)")
-        textView.constraints.forEach { (constraint) in
+
+        textView.constraints.forEach { (_) in
 
             /// 90 이하일때는 더 이상 줄어들지 않게하기
-            if estimatedSize.height <= 90 {
+            if estimatedSize.height <= 80 {
                 textView.isScrollEnabled = false
-            } else {
-                if constraint.firstAttribute == .height {
-                    textView.isScrollEnabled = true
-                    constraint.constant = estimatedSize.height
-                }
 
-                if self.chats.isEmpty != true {
-                    let endexIndex = IndexPath(row: self.chats.count - 1, section: 0)
-                    self.tableView.scrollToRow(at: endexIndex, at: .bottom, animated: true)
+            } else {
+                textView.isScrollEnabled = true
+//                if chats.isEmpty != true {
+//                    let endexIndex = IndexPath(row: chats.count - 1, section: 0)
+//                    tableView.scrollToRow(at: endexIndex, at: .bottom, animated: true)
+//                }
+            }
+        }
+    }
+}
+
+// MARK: - hideKeyboardWhenTappedAround
+
+extension ChatDetailViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(ChatDetailViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
+
+// MARK: - 키보드 올렸을 때 뷰 올리는 코드
+
+extension ChatDetailViewController {
+    func keyboardCheck() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow), name: UIResponder.keyboardDidShowNotification, object: nil)
+    }
+
+    @objc func keyboardWillShow(notification: NSNotification) {
+        textView.isScrollEnabled = false
+        if textView.isFirstResponder {
+            if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+                if view.frame.origin.y == textViewPosY {
+                    view.frame.origin.y -= keyboardSize.height - UIApplication.shared.windows.first!.safeAreaInsets.bottom + 8
                 }
             }
+        }
+    }
+
+    @objc func keyboardDidShow(notification: NSNotification) {
+        textView.isScrollEnabled = false
+        if textView.isFirstResponder {
+            if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+                if view.frame.origin.y == textViewPosY {
+                    view.frame.origin.y -= keyboardSize.height - UIApplication.shared.windows.first!.safeAreaInsets.bottom + 8
+                }
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if view.frame.origin.y != textViewPosY {
+            view.frame.origin.y = textViewPosY
+//            textView.isScrollEnabled = true
+//            textView.isEditable = true
         }
     }
 }

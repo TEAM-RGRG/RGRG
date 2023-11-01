@@ -119,7 +119,7 @@ class PartyInfoDetailVC: UIViewController {
         let View = UIView()
         View.translatesAutoresizingMaskIntoConstraints = false
         View.layer.borderColor = UIColor.systemGray3.cgColor
-        View.layer.borderWidth = 2
+        View.layer.borderWidth = 1
         View.layer.cornerRadius = 13
         return View
     }()
@@ -261,6 +261,9 @@ class PartyInfoDetailVC: UIViewController {
         textTitleLabel.text = party?.title
         textView.text = party?.content
         timeLabel.text = party?.date
+        profileImage.image = UIImage(named: party?.profileImage ?? "Default")
+        positionImage.image = UIImage(named: party?.position ?? "Top")
+        requiredPositionImage.image = UIImage(named: party?.hopePosition[0] ?? "Top")
         
         tierLabel.text = party?.tier
         if let tier = party?.tier{
@@ -284,22 +287,6 @@ class PartyInfoDetailVC: UIViewController {
                 return UIColor.diamond
             default:
                 return UIColor.black
-            }
-        }
-        
-        if let profileImage = party?.profileImage {
-            StorageManager.shared.getImage("icons", profileImage) { image in
-                DispatchQueue.main.async {
-                    self.profileImage.image = image
-                }
-            }
-        }
-        
-        if let firstHopePosition = party?.hopePosition["first"] {
-            StorageManager.shared.getImage("position_w", firstHopePosition) { image in
-                DispatchQueue.main.async {
-                    self.requiredPositionImage.image = image
-                }
             }
         }
         

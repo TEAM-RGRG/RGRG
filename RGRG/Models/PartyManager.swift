@@ -12,8 +12,10 @@ class PartyManager {
     static let shared = PartyManager()
     static let db = Firestore.firestore()
 
-    func loadParty(completion: @escaping ([PartyInfo]) -> Void) {
+    func loadParty(tier: [String], hopePosition: [String], completion: @escaping ([PartyInfo]) -> Void) {
         PartyManager.db.collection("party")
+            .whereField("tier", in: tier)
+            .whereField("hopePosition", arrayContainsAny: hopePosition)
             .addSnapshotListener { (querySnapshot, error) in
                 var partyList: [PartyInfo] = []
 
@@ -26,7 +28,7 @@ class PartyManager {
                             let data = doc.data()
                             let thread = doc.documentID
 
-                            if let champions = data["champions"] as? [String], let content = data["content"] as? String, let date = data["date"] as? String, let hopePosition = data["hopePosition"] as? [String: String], let profileImage = data["profileImage"] as? String, let tier = data["tier"] as? String, let title = data["title"] as? String, let userName = data["userName"] as? String, let writer = data["writer"] as? String, let position = data["position"] as? String {
+                            if let champions = data["champions"] as? [String], let content = data["content"] as? String, let date = data["date"] as? String, let hopePosition = data["hopePosition"] as? [String], let profileImage = data["profileImage"] as? String, let tier = data["tier"] as? String, let title = data["title"] as? String, let userName = data["userName"] as? String, let writer = data["writer"] as? String, let position = data["position"] as? String {
                                 let party = PartyInfo(champion: champions, content: content, date: date, hopePosition: hopePosition, profileImage: profileImage, tier: tier, title: title, userName: userName, writer: writer, position: position)
 
                                 partyList.append(party)
