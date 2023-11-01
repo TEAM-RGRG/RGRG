@@ -170,8 +170,8 @@ extension ChatDetailViewController {
         textView.backgroundColor = UIColor(hex: "#FFFFFF")
         textView.textColor = UIColor(hex: "#ADADAD")
         textView.layer.cornerRadius = 10
-        textView.textContainerInset = UIEdgeInsets(top: 4, left: 8, bottom: 8, right: 0)
-        textView.isScrollEnabled = false
+        textView.textContainerInset = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
+        textView.isScrollEnabled = true
 
         textView.snp.makeConstraints { make in
             make.leading.equalTo(bottomBaseView).offset(8)
@@ -235,6 +235,9 @@ extension ChatDetailViewController {
 
             DispatchQueue.main.async {
                 self.textView.text = self.placeholder
+                self.textView.textColor = UIColor(hex: "#ADADAD")
+                self.textView.font = UIFont(name: AppFontName.regular, size: 18)
+//                self.textView.endEditing(true)
                 self.sendMessageIcon.image = UIImage(named: "Send_fill")
             }
         }
@@ -281,12 +284,7 @@ extension ChatDetailViewController: UITableViewDataSource {
 
                 cell.yourChatContent.text = item.content
                 cell.yourChatTime.text = item.date
-
-                StorageManager.shared.getImage("icons", channelInfo?.writerProfile ?? "n/a") { image in
-                    DispatchQueue.main.async {
-                        cell.yourProfileImage.image = image
-                    }
-                }
+                cell.yourProfileImage.image = UIImage(named: channelInfo?.writerProfile ?? "Default")
 
                 DispatchQueue.main.async {
                     cell.setupUI()
@@ -364,32 +362,30 @@ extension ChatDetailViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             textView.text = placeholder
+            textView.bounds.size = CGSize(width: textView.frame.width, height: 34)
             textView.textColor = UIColor(hex: "#ADADAD")
         }
     }
 
     // MARK: textview 높이 자동조절
 
-    func textViewDidChange(_ textView: UITextView) {
-        let size = CGSize(width: view.frame.width, height: 91)
-        let estimatedSize = textView.sizeThatFits(size)
-        print("#### size :: \(size) || estimatedSize :: \(estimatedSize)")
-        textView.constraints.forEach { (constraint) in
-
-            /// 90 이하일때는 더 이상 줄어들지 않게하기
-            if estimatedSize.height <= 90 {
-                textView.isScrollEnabled = false
-            } else {
-                if constraint.firstAttribute == .height {
-                    textView.isScrollEnabled = true
-                    constraint.constant = estimatedSize.height
-                }
-
-                if self.chats.isEmpty != true {
-                    let endexIndex = IndexPath(row: self.chats.count - 1, section: 0)
-                    self.tableView.scrollToRow(at: endexIndex, at: .bottom, animated: true)
-                }
-            }
-        }
-    }
+//    func textViewDidChange(_ textView: UITextView) {
+//        let size = CGSize(width: view.frame.width, height: 80)
+//        let estimatedSize = textView.sizeThatFits(size)
+//
+//        textView.constraints.forEach { (_) in
+//
+//            /// 90 이하일때는 더 이상 줄어들지 않게하기
+//            if estimatedSize.height <= 80 {
+//                textView.isScrollEnabled = false
+//
+//            } else {
+//                textView.isScrollEnabled = true
+//                if chats.isEmpty != true {
+//                    let endexIndex = IndexPath(row: chats.count - 1, section: 0)
+//                    tableView.scrollToRow(at: endexIndex, at: .bottom, animated: true)
+//                }
+//            }
+//        }
+//    }
 }

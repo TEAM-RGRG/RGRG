@@ -297,14 +297,16 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = partyList[indexPath.row]
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "PartyTableViewCell", for: indexPath) as? PartyTableViewCell else { return UITableViewCell() }
+        
         cell.userNameLabel.text = item.userName
         cell.profileImage.image = UIImage(named: item.profileImage)
+        cell.profileImage.layer.masksToBounds = true
         cell.positionImage.image = UIImage(named: item.position)
+        cell.firstPositionImage.image = UIImage(named: item.hopePosition["first"] ?? "Mid")
+        cell.secondPositionImage.image = UIImage(named: item.hopePosition["second"] ?? "Mid")
+
         cell.tierLabel.text = item.tier
         cell.tierLabel.textColor = getColorForTier(item.tier)
-        cell.firstPositionImage.image = UIImage(named: item.hopePosition["first"] ?? "Top")
-        cell.secondPositionImage.image = UIImage(named: item.hopePosition["second"] ?? "Top")
-
         
         cell.selectionStyle = .none
         return cell
