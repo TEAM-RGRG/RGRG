@@ -261,6 +261,9 @@ class PartyInfoDetailVC: UIViewController {
         textTitleLabel.text = party?.title
         textView.text = party?.content
         timeLabel.text = party?.date
+        profileImage.image = UIImage(named: party?.profileImage ?? "Default")
+        positionImage.image = UIImage(named: party?.position ?? "Top")
+        requiredPositionImage.image = UIImage(named: party?.hopePosition["first"] ?? "Top")
         
         tierLabel.text = party?.tier
         if let tier = party?.tier{
@@ -284,22 +287,6 @@ class PartyInfoDetailVC: UIViewController {
                 return UIColor.diamond
             default:
                 return UIColor.black
-            }
-        }
-        
-        if let profileImage = party?.profileImage {
-            StorageManager.shared.getImage("icons", profileImage) { image in
-                DispatchQueue.main.async {
-                    self.profileImage.image = image
-                }
-            }
-        }
-        
-        if let firstHopePosition = party?.hopePosition["first"] {
-            StorageManager.shared.getImage("position_w", firstHopePosition) { image in
-                DispatchQueue.main.async {
-                    self.requiredPositionImage.image = image
-                }
             }
         }
         
@@ -383,7 +370,7 @@ class PartyInfoDetailVC: UIViewController {
         
         // 네비게이션 바 왼쪽 버튼
         let backButton = UIButton(type: .custom)
-        backButton.setImage(UIImage(systemName: "multiply")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        backButton.setImage(UIImage(systemName: "chevron.left")?.withRenderingMode(.alwaysTemplate), for: .normal)
         backButton.tintColor = .black
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
@@ -394,7 +381,7 @@ class PartyInfoDetailVC: UIViewController {
         navigationItem.leftBarButtonItem = customItem
         
         let menuButton = UIButton(type: .custom)
-        menuButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+        menuButton.setImage(UIImage(named: "verticalEllipsis"), for: .normal)
         menuButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         menuButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         menuButton.imageEdgeInsets = .init(top: -18, left: -18, bottom: -18, right: -18)

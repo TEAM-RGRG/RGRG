@@ -109,7 +109,8 @@
 		96F690652AE20DA200667F35 /* UIcolor+CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F690642AE20DA200667F35 /* UIcolor+CALayer.swift */; };
 		96FE5FCF2AE61AE800AB84D8 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 96FE5FCE2AE61AE800AB84D8 /* FirebaseAuth */; };
 		96FE5FD12AE6622700AB84D8 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 96FE5FD02AE6622700AB84D8 /* FirebaseFirestore */; };
-		CB4B0BC42ADFAB600077AB3A /* createPartyPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC32ADFAB600077AB3A /* createPartyPageVC.swift */; };
+		CB2D8FEB2AF1376300964CFE /* PartyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2D8FEA2AF1376300964CFE /* PartyTableViewCell.swift */; };
+		CB4B0BC42ADFAB600077AB3A /* CreatePartyPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC32ADFAB600077AB3A /* CreatePartyPageVC.swift */; };
 		CB4B0BC62ADFAB7F0077AB3A /* NoticePageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC52ADFAB7F0077AB3A /* NoticePageVC.swift */; };
 		CB4B0BC82ADFAB970077AB3A /* SearchOptionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC72ADFAB970077AB3A /* SearchOptionVC.swift */; };
 		CBECDD392AE174320097C7CF /* PartyInfoDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBECDD382AE174320097C7CF /* PartyInfoDetailVC.swift */; };
@@ -173,7 +174,8 @@
 		96A7B3F92AD9365D00B218EB /* CtaLageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CtaLageButton.swift; sourceTree = "<group>"; };
 		96A7B3FB2AD936E800B218EB /* CustomMemberInfoBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMemberInfoBox.swift; sourceTree = "<group>"; };
 		96F690642AE20DA200667F35 /* UIcolor+CALayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIcolor+CALayer.swift"; sourceTree = "<group>"; };
-		CB4B0BC32ADFAB600077AB3A /* createPartyPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = createPartyPageVC.swift; sourceTree = "<group>"; };
+		CB2D8FEA2AF1376300964CFE /* PartyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyTableViewCell.swift; sourceTree = "<group>"; };
+		CB4B0BC32ADFAB600077AB3A /* CreatePartyPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePartyPageVC.swift; sourceTree = "<group>"; };
 		CB4B0BC52ADFAB7F0077AB3A /* NoticePageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticePageVC.swift; sourceTree = "<group>"; };
 		CB4B0BC72ADFAB970077AB3A /* SearchOptionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOptionVC.swift; sourceTree = "<group>"; };
 		CBECDD382AE174320097C7CF /* PartyInfoDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyInfoDetailVC.swift; sourceTree = "<group>"; };
@@ -443,9 +445,10 @@
 			isa = PBXGroup;
 			children = (
 				4E8B85092AD8120E009BCF4B /* MainViewController.swift */,
-				CB4B0BC32ADFAB600077AB3A /* createPartyPageVC.swift */,
+				CB4B0BC32ADFAB600077AB3A /* CreatePartyPageVC.swift */,
 				CB4B0BC52ADFAB7F0077AB3A /* NoticePageVC.swift */,
 				CB4B0BC72ADFAB970077AB3A /* SearchOptionVC.swift */,
+				CB2D8FEA2AF1376300964CFE /* PartyTableViewCell.swift */,
 				CBECDD382AE174320097C7CF /* PartyInfoDetailVC.swift */,
 			);
 			path = Main;
@@ -658,7 +661,7 @@
 				96A7B3FC2AD936E800B218EB /* CustomMemberInfoBox.swift in Sources */,
 				4ECD01EB2ADE9413003EA65C /* YourFeedCell.swift in Sources */,
 				4E8B85162AD8120E009BCF4B /* NotificationViewController.swift in Sources */,
-				CB4B0BC42ADFAB600077AB3A /* createPartyPageVC.swift in Sources */,
+				CB4B0BC42ADFAB600077AB3A /* CreatePartyPageVC.swift in Sources */,
 				4E8B850F2AD8120E009BCF4B /* UserInfo.swift in Sources */,
 				4E8195EC2ADD3E4600881C88 /* ChatListCell.swift in Sources */,
 				1DB94D092AED4A2B00851A18 /* IconCollectionViewCell.swift in Sources */,
@@ -697,6 +700,7 @@
 				4E8B85142AD8120E009BCF4B /* ChatListViewController.swift in Sources */,
 				4E8195F02ADD407600881C88 /* CustomLabel.swift in Sources */,
 				4E8B850E2AD8120E009BCF4B /* CustomButton.swift in Sources */,
+				CB2D8FEB2AF1376300964CFE /* PartyTableViewCell.swift in Sources */,
 				4E8B85372AD81416009BCF4B /* Utilie.swift in Sources */,
 				4E8B85192AD8120E009BCF4B /* TabBarController.swift in Sources */,
 				CB4B0BC62ADFAB7F0077AB3A /* NoticePageVC.swift in Sources */,

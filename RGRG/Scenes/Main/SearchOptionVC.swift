@@ -271,15 +271,15 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             
             if let position = cell.positionLabel.text {
                        if position == "Top" {
-                           cell.positionImage.image = UIImage(named: "탑w")?.withRenderingMode(.alwaysTemplate)
+                           cell.positionImage.image = UIImage(named: "Top")?.withRenderingMode(.alwaysTemplate)
                        } else if position == "Jug" {
-                           cell.positionImage.image = UIImage(named: "정글w")?.withRenderingMode(.alwaysTemplate)
+                           cell.positionImage.image = UIImage(named: "Jungle")?.withRenderingMode(.alwaysTemplate)
                        } else if position == "Mid" {
-                           cell.positionImage.image = UIImage(named: "미드w")?.withRenderingMode(.alwaysTemplate)
+                           cell.positionImage.image = UIImage(named: "Mid")?.withRenderingMode(.alwaysTemplate)
                        } else if position == "Sup" {
-                           cell.positionImage.image = UIImage(named: "서폿w")?.withRenderingMode(.alwaysTemplate)
+                           cell.positionImage.image = UIImage(named: "Support")?.withRenderingMode(.alwaysTemplate)
                        } else if position == "Bot" {
-                           cell.positionImage.image = UIImage(named: "바텀w")?.withRenderingMode(.alwaysTemplate)
+                           cell.positionImage.image = UIImage(named: "Bottom")?.withRenderingMode(.alwaysTemplate)
                        }
                    }
             return cell

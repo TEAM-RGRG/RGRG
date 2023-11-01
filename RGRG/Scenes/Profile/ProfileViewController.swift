@@ -69,7 +69,7 @@ class ProfileViewController: UIViewController {
     }()
 
     deinit {
-        print("### NotificationViewController deinitialized") 
+        print("### NotificationViewController deinitialized")
     }
 }
 
@@ -207,15 +207,8 @@ extension ProfileViewController {
     }
 
     func setupImages() {
-        StorageManager.shared.getImage("icons", user?.profilePhoto ?? "Default") {
-            self.profileImageView.image = $0
-            self.profileImageView.contentMode = .scaleAspectFit
-            self.profileImageView.layer.masksToBounds = true
-        }
-        StorageManager.shared.getImage("position_w", user?.position ?? "support") {
-            self.positionImageView.image = $0
-            self.positionImageView.contentMode = .scaleAspectFit
-        }
+        profileImageView.image = UIImage(named: user?.profilePhoto ?? "Default")
+        positionImageView.image = UIImage(named: user?.position ?? "Support")
     }
 
     func setupButtons() {

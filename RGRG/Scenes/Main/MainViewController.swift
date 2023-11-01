@@ -18,10 +18,23 @@ class MainViewController: UIViewController {
         print("### NotificationViewController deinitialized")
     }
     
+    let topFrame: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        view.layer.cornerRadius = 20
+        view.layer.shadowOffset = CGSize(width: 0, height: 2)
+        view.layer.shadowOpacity = 1
+        view.layer.shadowRadius = 4
+        view.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.03).cgColor
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     let pageTitleLabel: UILabel = {
         var label = UILabel()
         label.text = "RGRG"
-        label.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         label.textColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1)
         return label
     }()
@@ -42,7 +55,7 @@ class MainViewController: UIViewController {
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
         button.backgroundColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1)
         button.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
-        button.layer.cornerRadius = 29
+        button.layer.cornerRadius = 22
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(createPartybuttonTapped), for: .touchUpInside)
         return button
@@ -50,8 +63,8 @@ class MainViewController: UIViewController {
     
     let noticePagebutton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "bell")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        button.imageEdgeInsets = .init(top: -10, left: -10, bottom: -10, right: -10)
+        button.setImage(UIImage(named: "bell")?.withRenderingMode(.alwaysTemplate), for: .normal)
+//        button.imageEdgeInsets = .init(top: -10, left: -10, bottom: -10, right: -10)
         button.tintColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1)
         button.layer.cornerRadius = 8
         button.addTarget(self, action: #selector(noticePagebuttonTapped), for: .touchUpInside)
@@ -63,29 +76,7 @@ class MainViewController: UIViewController {
         return view
     }()
     
-    let searchOptionButton: UIButton = {
-        var button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.adjustsFontForContentSizeCategory = true
-        button.setImage(UIImage(named: "optionIcon")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    let searchOptionButton2: UIButton = {
-        var button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-        button.setTitle("티어", for: .normal)
-        button.setTitleColor(.systemGray3, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.adjustsFontForContentSizeCategory = true
-        button.layer.cornerRadius = 13
-        button.layer.borderColor = UIColor.systemGray4.cgColor
-        button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    let tierOptionLable1: UIButton = {
+    let tierOptionLabel: UIButton = {
         var button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
         button.setTitle("티어 ", for: .normal)
@@ -96,13 +87,13 @@ class MainViewController: UIViewController {
         button.setImage(UIImage(systemName: "chevron.down")?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.tintColor = .systemGray4
         button.layer.cornerRadius = 13
-        button.layer.borderWidth = 2
+        button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.systemGray4.cgColor
         button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
         return button
     }()
         
-    let positionOptionLable1: UIButton = {
+    let positionOptionLabel: UIButton = {
         var button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
         button.setTitle("희망 포지션", for: .normal)
@@ -115,7 +106,7 @@ class MainViewController: UIViewController {
         button.tintColor = .systemGray4
         button.backgroundColor = .white
         button.layer.cornerRadius = 13
-        button.layer.borderWidth = 2
+        button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.systemGray4.cgColor
         button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
         return button
@@ -179,69 +170,74 @@ class MainViewController: UIViewController {
     }
     
     func configureUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = .rgrgColor5
         
-        view.addSubview(pageTitleLabel)
-        view.addSubview(noticePagebutton)
         
-        view.addSubview(listUnderline)
-        view.addSubview(optionFrame)
+        view.addSubview(topFrame)
+        topFrame.addSubview(pageTitleLabel)
+        topFrame.addSubview(noticePagebutton)
+        topFrame.addSubview(optionFrame)
 
-        optionFrame.addSubview(tierOptionLable1)
-        optionFrame.addSubview(positionOptionLable1)
+        optionFrame.addSubview(tierOptionLabel)
+        optionFrame.addSubview(positionOptionLabel)
         view.addSubview(contentView)
         contentView.addSubview(patryListTable)
         view.addSubview(createPartybutton)
         
+        
+        topFrame.snp.makeConstraints{
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(144)
+        }
+        
         pageTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(10)
-            $0.leading.equalTo(view.snp.leading).offset(20)
+            $0.top.equalTo(topFrame.snp.top).offset(56)
+            $0.leading.equalTo(topFrame.snp.leading).offset(20)
         }
         
         noticePagebutton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(12)
+            $0.top.equalTo(pageTitleLabel.snp.top).offset(0)
             $0.trailing.equalToSuperview().offset(-20)
-            $0.height.equalTo(24)
-            $0.width.equalTo(24)
+            $0.height.width.equalTo(24)
         }
         
         createPartybutton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-120)
-            $0.trailing.equalToSuperview().offset(-35)
-            $0.height.equalTo(60)
-            $0.width.equalTo(60)
+            $0.bottom.equalToSuperview().offset(-112)
+            $0.trailing.equalToSuperview().offset(-29)
+            $0.height.equalTo(44)
+            $0.width.equalTo(44)
         }
  
         optionFrame.snp.makeConstraints {
             $0.top.equalTo(pageTitleLabel.snp.bottom).offset(15)
             $0.height.equalTo(30)
-            $0.leading.equalToSuperview().offset(10)
-            $0.trailing.equalToSuperview().offset(-15)
+            $0.leading.equalTo(topFrame.snp.leading).offset(10)
+            $0.trailing.equalTo(topFrame.snp.trailing).offset(-15)
         }
         
-        tierOptionLable1.snp.makeConstraints {
+        tierOptionLabel.snp.makeConstraints {
             $0.top.equalTo(optionFrame.snp.top).offset(5)
             $0.leading.equalTo(optionFrame.snp.leading).offset(10)
             $0.height.equalTo(29)
             $0.width.equalTo(76)
         }
         
-        positionOptionLable1.snp.makeConstraints {
+        positionOptionLabel.snp.makeConstraints {
             $0.top.equalTo(optionFrame.snp.top).offset(5)
-            $0.leading.equalTo(tierOptionLable1.snp.trailing).offset(12)
+            $0.leading.equalTo(tierOptionLabel.snp.trailing).offset(12)
             $0.height.equalTo(29)
             $0.width.equalTo(115)
         }
         
         contentView.snp.makeConstraints {
-            $0.top.equalTo(optionFrame.snp.bottom).offset(10)
+            $0.top.equalTo(topFrame.snp.bottom).offset(0)
             $0.bottom.equalTo(view.snp.bottom).offset(-45)
             $0.leading.equalToSuperview().offset(0)
             $0.trailing.equalToSuperview().offset(-0)
         }
         
         patryListTable.snp.makeConstraints {
-            $0.top.equalTo(contentView.snp.top).offset(5)
+            $0.top.equalTo(contentView.snp.top).offset(6)
             $0.leading.equalTo(contentView.snp.leading).offset(0)
             $0.trailing.equalTo(contentView.snp.trailing).offset(-0)
             $0.bottom.equalTo(contentView.snp.bottom).offset(-5)
@@ -347,220 +343,3 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-class PartyTableViewCell: UITableViewCell {
-    let cellFrameView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 10
-        return view
-    }()
-    
-    let profileImage: UIImageView = {
-        var imageView = UIImageView()
-        if let image = UIImage(named: "profileImageIcon") {
-            imageView.image = image
-        }
-        imageView.backgroundColor = .white
-        imageView.contentMode = .scaleAspectFit
-        imageView.layer.cornerRadius = 27
-        imageView.layer.borderWidth = 1
-        imageView.layer.borderColor = UIColor.black.cgColor
-        imageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        return imageView
-    }()
-
-    let positionImageFrame: UIView = {
-        let view = UIView()
-        view.clipsToBounds = true
-        view.backgroundColor = .gray
-        view.contentMode = .scaleToFill
-        view.layer.cornerRadius = 8.5
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.black.cgColor
-        view.frame = CGRect(x: 0, y: 0, width: 5, height: 5)
-        return view
-    }()
-    
-    let positionImage: UIImageView = {
-        var imageView = UIImageView()
-        if let image = UIImage(named: "미드w") {
-            imageView.image = image
-        }
-        imageView.clipsToBounds = true
-        imageView.backgroundColor = .gray
-        imageView.contentMode = .scaleToFill
-        return imageView
-    }()
-
-    let userNameLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-        label.textColor = .black
-        label.textAlignment = .center
-        return label
-    }()
-    
-    let tierLabelFrame: UIView = {
-        let View = UIView()
-        View.translatesAutoresizingMaskIntoConstraints = false
-        View.layer.borderColor = UIColor.systemGray3.cgColor
-        View.layer.borderWidth = 2
-        View.layer.cornerRadius = 13
-        return View
-    }()
-    
-    let tierLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .lightGray
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-        return label
-    }()
-    
-    let positionFrame: UIView = {
-        let View = UIView()
-        return View
-    }()
-    
-    let fitstRequiredPositionFrame: UIView = {
-        let view = UIView()
-        view.clipsToBounds = true
-        view.backgroundColor = .systemGray4
-        view.contentMode = .scaleToFill
-        view.layer.cornerRadius = 12
-        return view
-    }()
-    
-    let firstPositionImage: UIImageView = {
-        var imageView = UIImageView()
-        if let image = UIImage(named: "미드w") {
-            imageView.image = image
-        }
-        imageView.backgroundColor = .systemGray4
-        imageView.contentMode = .scaleToFill
-        return imageView
-    }()
-    
-    let secondRequiredPositionFrame: UIView = {
-        let view = UIView()
-        view.clipsToBounds = true
-        view.backgroundColor = .systemGray4
-        view.contentMode = .scaleToFill
-        view.layer.cornerRadius = 12
-        return view
-    }()
-    
-    let secondPositionImage: UIImageView = {
-        var imageView = UIImageView()
-        if let image = UIImage(named: "미드w") {
-            imageView.image = image
-        }
-        imageView.backgroundColor = .systemGray4
-        imageView.contentMode = .scaleToFill
-        return imageView
-    }()
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        contentView.backgroundColor = .rgrgColor5
-        
-        contentView.addSubview(cellFrameView)
-        cellFrameView.addSubview(profileImage)
-        cellFrameView.addSubview(positionImageFrame)
-        positionImageFrame.addSubview(positionImage)
-        
-        cellFrameView.addSubview(userNameLabel)
-        cellFrameView.addSubview(tierLabelFrame)
-        tierLabelFrame.addSubview(tierLabel)
-        
-        cellFrameView.addSubview(positionFrame)
-        
-        positionFrame.addSubview(fitstRequiredPositionFrame)
-        fitstRequiredPositionFrame.addSubview(firstPositionImage)
-        positionFrame.addSubview(secondRequiredPositionFrame)
-        secondRequiredPositionFrame.addSubview(secondPositionImage)
-        
-        cellFrameView.snp.makeConstraints {
-            $0.top.equalTo(contentView.snp.top).offset(10)
-            $0.leading.equalTo(contentView.snp.leading).offset(16)
-            $0.trailing.equalTo(contentView.snp.trailing).offset(-16)
-            $0.bottom.equalTo(contentView.snp.bottom).offset(-10)
-        }
-        
-        profileImage.snp.makeConstraints {
-            $0.top.equalTo(cellFrameView.snp.top).offset(14)
-            $0.leading.equalTo(cellFrameView.snp.leading).offset(16)
-            $0.height.width.equalTo(52)
-            $0.bottom.equalTo(cellFrameView.snp.bottom).offset(-14)
-        }
-        
-        positionImageFrame.snp.makeConstraints {
-            $0.trailing.equalTo(profileImage.snp.trailing).offset(5)
-            $0.height.width.equalTo(17)
-            $0.bottom.equalTo(profileImage.snp.bottom).offset(0)
-        }
-        
-        positionImage.snp.makeConstraints {
-            $0.trailing.equalTo(positionImageFrame.snp.trailing).offset(-2)
-            $0.height.width.equalTo(13)
-            $0.bottom.equalTo(positionImageFrame.snp.bottom).offset(-2)
-        }
-
-        userNameLabel.snp.makeConstraints {
-            $0.top.equalTo(cellFrameView.snp.top).offset(14)
-            $0.leading.equalTo(profileImage.snp.trailing).offset(18)
-        }
-        
-        tierLabelFrame.snp.makeConstraints {
-            $0.top.equalTo(userNameLabel.snp.bottom).offset(8)
-            $0.leading.equalTo(profileImage.snp.trailing).offset(16)
-            $0.bottom.equalTo(cellFrameView.snp.bottom).offset(-14)
-        }
-        
-        tierLabel.snp.makeConstraints {
-            $0.top.equalTo(tierLabelFrame.snp.top).offset(4)
-            $0.leading.equalTo(tierLabelFrame.snp.leading).offset(12)
-            $0.trailing.equalTo(tierLabelFrame.snp.trailing).offset(-12)
-            $0.bottom.equalTo(tierLabelFrame.snp.bottom).offset(-4)
-        }
-        
-        positionFrame.snp.makeConstraints {
-            $0.top.equalTo(tierLabelFrame.snp.top).offset(0)
-            $0.height.equalTo(24)
-            $0.width.equalTo(76)
-            $0.trailing.equalTo(cellFrameView.snp.trailing).offset(-100)
-        }
-        
-        fitstRequiredPositionFrame.snp.makeConstraints {
-            $0.top.equalTo(positionFrame.snp.top).offset(0)
-            $0.height.width.equalTo(24)
-            $0.leading.equalTo(positionFrame.snp.leading).offset(0)
-        }
-        
-        firstPositionImage.snp.makeConstraints {
-            $0.top.equalTo(fitstRequiredPositionFrame.snp.top).offset(3)
-            $0.height.width.equalTo(18)
-            $0.leading.equalTo(fitstRequiredPositionFrame.snp.leading).offset(3)
-        }
-        
-        secondRequiredPositionFrame.snp.makeConstraints {
-            $0.top.equalTo(positionFrame.snp.top).offset(0)
-            $0.height.width.equalTo(24)
-            $0.leading.equalTo(fitstRequiredPositionFrame.snp.trailing).offset(5)
-        }
-        
-        secondPositionImage.snp.makeConstraints {
-            $0.top.equalTo(secondRequiredPositionFrame.snp.top).offset(3)
-            $0.height.width.equalTo(18)
-            $0.leading.equalTo(secondRequiredPositionFrame.snp.leading).offset(3)
-        }
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
