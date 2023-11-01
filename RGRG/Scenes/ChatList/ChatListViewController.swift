@@ -129,7 +129,7 @@ extension ChatListViewController {
 extension ChatListViewController {
     func confirmNavigation() {
         tabBarController?.navigationItem.title = "쪽지"
-        tabBarController?.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "NotoSansKR-Bold", size: 24)!, NSAttributedString.Key.foregroundColor:UIColor.rgrgColor4]
+        tabBarController?.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "NotoSansKR-Bold", size: 24)!, NSAttributedString.Key.foregroundColor: UIColor.rgrgColor4]
         tabBarController?.navigationController?.navigationBar.shadowImage = nil
         makeRightBarButton()
         makeBlankLeftButton()
@@ -186,28 +186,19 @@ extension ChatListViewController: UITableViewDataSource {
         let item = channels[indexPath.row]
 
         if currentUser?.userName == item.writer {
+            cell.setupUI()
             cell.userProfileName.text = item.requester
             cell.currentChat.text = item.currentMessage
+            cell.userProfileImage.image = UIImage(named: item.requesterProfile)
+            cell.userProfileImage.layer.masksToBounds = true
 
-            StorageManager.shared.getImage("icons", item.requesterProfile) { image in
-                DispatchQueue.main.async {
-                    cell.userProfileImage.image = image
-                    cell.userProfileImage.layer.masksToBounds = true
-                }
-            }
         } else {
+            cell.setupUI()
             cell.userProfileName.text = item.writer
             cell.currentChat.text = item.currentMessage
-
-            StorageManager.shared.getImage("icons", item.writerProfile) { image in
-                DispatchQueue.main.async {
-                    cell.userProfileImage.image = image
-                    cell.userProfileImage.layer.masksToBounds = true
-                }
-            }
+            cell.userProfileImage.image = UIImage(named: item.writerProfile)
+            cell.userProfileImage.layer.masksToBounds = true
         }
-
-        cell.setupUI()
 
         cell.backgroundColor = .clear
         let background = UIView()
@@ -226,6 +217,7 @@ extension ChatListViewController: UITableViewDelegate {
         vc.thread = item.channelID
         vc.channelInfo = item
         vc.navigationItem.title = item.requester
+        vc.viewWillAppear(true)
         tabBarController?.navigationController?.pushViewController(vc, animated: true)
     }
 
