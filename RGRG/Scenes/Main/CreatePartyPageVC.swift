@@ -10,7 +10,6 @@ import SnapKit
 import UIKit
 
 class CreatePartyVC: UIViewController, UITextViewDelegate {
-    
     var user: User?
     var positionOptionButtonArry = [UIButton]()
     var firstPickedPosition: UIButton?
@@ -161,7 +160,6 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         return label
     }()
     
-    
     let infoTextLabel: UILabel = {
         let label = UILabel()
         label.text = "소개글"
@@ -191,13 +189,11 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         return button
     }()
     
-    
-    
     // MARK: - Method
     
     func task() {
         if let user = user {
-            let hopePosition = ["first": positionOptionButtonArry[0].subtitleLabel?.text ?? "top", "second": positionOptionButtonArry[1].subtitleLabel?.text ?? "top"]
+            let hopePosition = [positionOptionButtonArry[0].subtitleLabel?.text ?? "top", positionOptionButtonArry[1].subtitleLabel?.text ?? "top"]
             
             let party = PartyInfo(champion: ["Ahri", "Teemo", "Ashe"], content: infoTextView.text ?? "", date: FireStoreManager.shared.dateFormatter(value: Date.now), hopePosition: hopePosition, profileImage: user.profilePhoto, tier: user.tier, title: partyNameTextField.text ?? "", userName: user.userName, writer: user.userName, position: user.position)
             
@@ -215,31 +211,31 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     }
     
     @objc func positionOptionButtonTapped(_ sender: UIButton) {
-           if positionOptionButtonArry.isEmpty {
-               sender.isSelected = true
-               sender.backgroundColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1)
-               firstPickedPosition = sender
-               positionOptionButtonArry.append(sender)
-               updatePositionLabels()
-           } else if positionOptionButtonArry.count == 1 && firstPickedPosition != sender {
-               sender.isSelected = true
-               sender.backgroundColor = UIColor.rgrgColor3
-               secondPickedPosition = sender
-               positionOptionButtonArry.append(sender)
-               updatePositionLabels()
-               updateSecondPositionLabels()
-           }  else {
-               for button in positionOptionButtonArry {
-                   button.backgroundColor = .systemGray4
-                   button.layer.borderColor = UIColor.white.cgColor
-               }
-               positionOptionButtonArry.removeAll()
-               firstPickedPosition = nil
-               secondPickedPosition = nil
-               updatePositionLabels()
-               updateSecondPositionLabels()
-           }
+        if positionOptionButtonArry.isEmpty {
+            sender.isSelected = true
+            sender.backgroundColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1)
+            firstPickedPosition = sender
+            positionOptionButtonArry.append(sender)
+            updatePositionLabels()
+        } else if positionOptionButtonArry.count == 1 && firstPickedPosition != sender {
+            sender.isSelected = true
+            sender.backgroundColor = UIColor.rgrgColor3
+            secondPickedPosition = sender
+            positionOptionButtonArry.append(sender)
+            updatePositionLabels()
+            updateSecondPositionLabels()
+        } else {
+            for button in positionOptionButtonArry {
+                button.backgroundColor = .systemGray4
+                button.layer.borderColor = UIColor.white.cgColor
+            }
+            positionOptionButtonArry.removeAll()
+            firstPickedPosition = nil
+            secondPickedPosition = nil
+            updatePositionLabels()
+            updateSecondPositionLabels()
         }
+    }
     
     func updatePositionLabels() {
         if let firstPicked = firstPickedPosition {
@@ -275,9 +271,6 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         }
     }
 
-    
-    
-    
     func updateSecondPositionLabels() {
         if let secondPicked = secondPickedPosition {
             switch secondPicked {
@@ -364,7 +357,6 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         
         configureUI()
         addPlaceholderToTextView()
-
     }
     
     @objc func backButtonTapped() {
