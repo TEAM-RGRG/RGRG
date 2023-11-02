@@ -330,14 +330,14 @@ extension EditProfileViewController {
 
 extension EditProfileViewController {
     func setBeforeInfo() {
-        profileImage.image = UIImage(named: selectedImage ?? "Default")
-        StorageManager.shared.getImage("champ", user?.mostChampion[0] ?? "") { [weak self] image in
+        profileImage.image = UIImage(named: user?.profilePhoto ?? "Default")
+        StorageManager.shared.getImage("champ", user?.mostChampion[0] ?? "None") { [weak self] image in
             self?.firstImage.image = image
         }
-        StorageManager.shared.getImage("champ", user?.mostChampion[1] ?? "") { [weak self] image in
+        StorageManager.shared.getImage("champ", user?.mostChampion[1] ?? "None") { [weak self] image in
             self?.secondImage.image = image
         }
-        StorageManager.shared.getImage("champ", user?.mostChampion[2] ?? "") { [weak self] image in
+        StorageManager.shared.getImage("champ", user?.mostChampion[2] ?? "None") { [weak self] image in
             self?.thirdImage.image = image
         }
 
