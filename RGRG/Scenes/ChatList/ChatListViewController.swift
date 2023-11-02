@@ -14,6 +14,7 @@ import UIKit
 class ChatListViewController: UIViewController {
     let db = FireStoreManager.db
     var channels: [Channel] = []
+    var receiveSendingMessage: [Bool] = []
     var currentUser: User?
 
     let vc = ChatDetailViewController()
@@ -216,7 +217,13 @@ extension ChatListViewController: UITableViewDelegate {
         let item = channels[indexPath.row]
         vc.thread = item.channelID
         vc.channelInfo = item
-        vc.navigationItem.title = item.guest
+
+        if currentUser?.userName == item.host {
+            vc.navigationItem.title = item.guest
+        } else {
+            vc.navigationItem.title = item.host
+        }
+
         vc.viewWillAppear(true)
         tabBarController?.navigationController?.pushViewController(vc, animated: true)
     }

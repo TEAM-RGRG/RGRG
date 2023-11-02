@@ -54,6 +54,7 @@ extension ChatDetailViewController {
         showBlankListMessage()
         FireStoreManager.shared.loadChatting(channelName: "channels", thread: thread, startIndex: count) { [weak self] data in
             guard let self = self else { return }
+
             self.chats = data
 
             FireStoreManager.shared.updateChannel(currentMessage: self.chats.last?.content ?? "", thread: thread)
