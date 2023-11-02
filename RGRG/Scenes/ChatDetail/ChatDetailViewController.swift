@@ -285,7 +285,7 @@ extension ChatDetailViewController: UITableViewDataSource {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: MyFeedCell.identifier, for: indexPath) as? MyFeedCell else { return UITableViewCell() }
 
                 cell.myChatContent.text = item.content
-                cell.myChatTime.text = item.date
+                cell.myChatTime.text = dateFormatter(strDate: item.date)
 
                 DispatchQueue.main.async {
                     cell.setupUI()
@@ -300,7 +300,7 @@ extension ChatDetailViewController: UITableViewDataSource {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: YourFeedCell.identifier, for: indexPath) as? YourFeedCell else { return UITableViewCell() }
 
                 cell.yourChatContent.text = item.content
-                cell.yourChatTime.text = item.date
+                cell.yourChatTime.text = dateFormatter(strDate: item.date)
                 cell.yourProfileImage.image = UIImage(named: channelInfo?.writerProfile ?? "Default")
 
                 DispatchQueue.main.async {
@@ -468,5 +468,21 @@ extension ChatDetailViewController {
 //            textView.isScrollEnabled = true
 //            textView.isEditable = true
         }
+    }
+}
+
+// MARK: - Date Formatting
+
+extension ChatDetailViewController {
+    func dateFormatter(strDate: String) -> String {
+        let strDateFormatter = DateFormatter()
+        strDateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        strDateFormatter.timeZone = TimeZone(identifier: "UTC")
+        guard var date = strDateFormatter.date(from: strDate) else { return "" }
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "hh:mm a"
+        dateFormatter.timeZone = TimeZone(identifier: "UTC")
+        return dateFormatter.string(from: date)
     }
 }
