@@ -87,6 +87,9 @@ class SignUpViewController: UIViewController {
         view.backgroundColor = UIColor.rgrgColor5
         setupUI()
         passValueCheck()
+        showTierSelector()
+        showPositionSelector()
+        
     }
 }
 
@@ -143,6 +146,43 @@ extension SignUpViewController {
         navigationController?.pushViewController(movePage, animated: true)
     }
     
+    func showTierSelector(){
+        let optionalClosure = {(action : UIAction) in
+            print(action.title)}
+        
+        tierButton.menu = UIMenu( children : [
+            UIAction(title : "Iron", state: .on, handler: optionalClosure),
+            UIAction(title : "Bronze", state: .off, handler: optionalClosure),
+            UIAction(title : "Silver", state: .off,  handler: optionalClosure),
+            UIAction(title : "Gold", state: .off, handler: optionalClosure),
+            UIAction(title : "Platinum", state: .off, handler: optionalClosure),
+            UIAction(title : "Emerald", state: .off,  handler: optionalClosure),
+            UIAction(title : "Diamond", state: .off, handler: optionalClosure),
+            UIAction(title : "Master", state: .off, handler: optionalClosure),
+            UIAction(title : "Grand Master", state: .off,  handler: optionalClosure),
+            UIAction(title : "Challenger", state: .off,  handler: optionalClosure)
+        ])
+        
+        tierButton.showsMenuAsPrimaryAction = true
+        tierButton.changesSelectionAsPrimaryAction = true
+    }
+    
+    func showPositionSelector() {
+        let optionalClosure = {(action : UIAction) in
+            print(action.title)}
+        
+        positionButton.menu = UIMenu( children : [
+            UIAction(title : "Top", state: .on,  handler: optionalClosure),
+            UIAction(title : "Jungle", state: .off, handler: optionalClosure),
+            UIAction(title : "Mid", state: .off, handler: optionalClosure),
+            UIAction(title : "Bottom", state: .off,  handler: optionalClosure),
+            UIAction(title : "Support", state: .off,  handler: optionalClosure)
+        ])
+        
+        positionButton.showsMenuAsPrimaryAction = true
+        positionButton.changesSelectionAsPrimaryAction = true
+    }
+    
     func passValueCheck() {
         func updateUI() {
             guard idPass, pwPass, pwCheckPass, nickNamePass else {
@@ -178,100 +218,7 @@ extension SignUpViewController {
         
         present(alertController, animated: true, completion: nil)
     }
-    
-    @objc func showTierSelector() {
-        let alertController = UIAlertController(title: "메달 선택", message: nil, preferredStyle: .alert)
-        
-        let ironAction = UIAlertAction(title: "Iron", style: .default) { _ in
-            self.tierButton.setTitle("Iron", for: .normal)
-        }
-        
-        let bronzeAction = UIAlertAction(title: "Bronze", style: .default) { _ in
-            self.tierButton.setTitle("Bronze", for: .normal)
-        }
-        
-        let silverAction = UIAlertAction(title: "Silver", style: .default) { _ in
-            self.tierButton.setTitle("Silver", for: .normal)
-        }
-        
-        let goldAction = UIAlertAction(title: "Gold", style: .default) { _ in
-            self.tierButton.setTitle("Gold", for: .normal)
-        }
-        
-        let platinumAction = UIAlertAction(title: "Platinum", style: .default) { _ in
-            self.tierButton.setTitle("Platinum", for: .normal)
-        }
-        
-        let emeraldAction = UIAlertAction(title: "Emerald", style: .default) { _ in
-            self.tierButton.setTitle("Emerald", for: .normal)
-        }
-        
-        let diamondAction = UIAlertAction(title: "Diamond", style: .default) { _ in
-            self.tierButton.setTitle("Diamond", for: .normal)
-        }
-        let masterAction = UIAlertAction(title: "Master", style: .default) { _ in
-            self.tierButton.setTitle("Master", for: .normal)
-        }
-        
-        let grandMaster = UIAlertAction(title: "Grand Master", style: .default) { _ in
-            self.tierButton.setTitle("Grand Master", for: .normal)
-        }
-        
-        let challenger = UIAlertAction(title: "Challenger", style: .default) { _ in
-            self.tierButton.setTitle("Challenger", for: .normal)
-        }
-        
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        
-        alertController.addAction(ironAction)
-        alertController.addAction(bronzeAction)
-        alertController.addAction(silverAction)
-        alertController.addAction(goldAction)
-        alertController.addAction(platinumAction)
-        alertController.addAction(emeraldAction)
-        alertController.addAction(diamondAction)
-        alertController.addAction(masterAction)
-        alertController.addAction(grandMaster)
-        alertController.addAction(challenger)
-        
-        alertController.addAction(cancelAction)
-        
-        // 팝업 창 표시
-        present(alertController, animated: true, completion: nil)
-    }
-    
-    @objc func showPositionSelector() {
-        let alertController = UIAlertController(title: "Positon", message: nil, preferredStyle: .alert)
-        
-        let TopAction = UIAlertAction(title: "Top", style: .default) { _ in
-            self.positionButton.setTitle("Top", for: .normal)
-        }
-        let JungleAction = UIAlertAction(title: "Jungle", style: .default) { _ in
-            self.positionButton.setTitle("Jungle", for: .normal)
-        }
-        let MidAction = UIAlertAction(title: "Mid", style: .default) { _ in
-            self.positionButton.setTitle("Mid", for: .normal)
-        }
-        let BottomAction = UIAlertAction(title: "Bottom", style: .default) { _ in
-            self.positionButton.setTitle("Bottom", for: .normal)
-        }
-        let SupportAction = UIAlertAction(title: "Support", style: .default) { _ in
-            self.positionButton.setTitle("Support", for: .normal)
-        }
-        
-        // "취소" 항목
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        
-        alertController.addAction(TopAction)
-        alertController.addAction(JungleAction)
-        alertController.addAction(MidAction)
-        alertController.addAction(BottomAction)
-        alertController.addAction(SupportAction)
-        alertController.addAction(cancelAction)
-        
-        // 팝업 창 표시
-        present(alertController, animated: true, completion: nil)
-    }
+
     
     func setupUI() {
         view.addSubview(bodyContainer)
@@ -347,20 +294,17 @@ extension SignUpViewController {
             make.height.equalTo(60)
         }
         
-        tierButton.setTitle("Tier", for: .normal)
         tierButton.layer.cornerRadius = 10
         tierButton.backgroundColor = UIColor.white
         tierButton.setTitleColor(UIColor.black, for: .normal)
-        tierButton.addTarget(self, action: #selector(showTierSelector), for: .touchUpInside)
+        
         tierButton.snp.makeConstraints { make in
             make.width.equalToSuperview().dividedBy(2.2)
         }
         
-        positionButton.setTitle("Postion", for: .normal)
         positionButton.layer.cornerRadius = 10
         positionButton.backgroundColor = UIColor.white
         positionButton.setTitleColor(UIColor.black, for: .normal)
-        positionButton.addTarget(self, action: #selector(showPositionSelector), for: .touchUpInside)
         positionButton.snp.makeConstraints { make in
             make.width.equalToSuperview().dividedBy(2.2)
         }
