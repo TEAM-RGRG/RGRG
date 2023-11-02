@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "Shaco.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
