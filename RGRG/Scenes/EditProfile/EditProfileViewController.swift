@@ -14,6 +14,10 @@ protocol SendPresentImageDelegate{
     func sendPresentImage(image: String)
 }
 
+protocol SendPresentChampDelegate {
+    func sendPresentChamp(champ: [String])
+}
+
 class EditProfileViewController: UIViewController, SendChangedImageDelegate {
     func sendChangedImage(image: String) {
         currentImage = image
@@ -23,7 +27,9 @@ class EditProfileViewController: UIViewController, SendChangedImageDelegate {
     
     var user: User?
     let wholeView = UIView()
-    var delegate: SendPresentImageDelegate?
+    var sendImageDelegate: SendPresentImageDelegate?
+    var sendChampDelegate: SendPresentChampDelegate?
+
     var currentImage: String?
 
     let profileImage: UIImageView = {
@@ -251,6 +257,7 @@ extension EditProfileViewController {
         mostChampButtonConfig.imagePadding = 2
         mostChampButtonConfig.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
         mostChampButton.configuration = mostChampButtonConfig
+        mostChampButton.addTarget(self, action: #selector(mostChampButtonPressed), for: .touchUpInside)
 
         doneEditButton.backgroundColor = .rgrgColor4
         doneEditButton.layer.cornerRadius = 10
@@ -369,7 +376,12 @@ extension EditProfileViewController {
     @objc func toChooseIconsVC() {
         let chooseIconVC = ChooseIconViewController()
 
-        delegate?.sendPresentImage(image: user?.profilePhoto ?? "Default")
+        sendImageDelegate?.sendPresentImage(image: user?.profilePhoto ?? "Default")
         navigationController?.pushViewController(chooseIconVC, animated: true)
+    }
+    
+    @objc func mostChampButtonPressed() {
+        let chooseChampVC = ChooseChampViewController()
+        navigationController?.pushViewController(chooseChampVC, animated: true)
     }
 }
