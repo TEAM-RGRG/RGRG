@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestore
 
-struct Channel: Hashable {
+struct Channel: Hashable, Codable {
     var channelName: String
     var guest: String
     var host: String

@@ -25,6 +25,7 @@ final class FireStoreManager {
                         for doc in snapshotDocument {
                             let data = doc.data()
                             let thread = doc.documentID
+                            let decoder = PropertyListDecoder()
 
                             if let host = data["host"] as? String, let channelTitle = data["channelTitle"] as? String, let guest = data["guest"] as? String, let channelID = data["channelID"] as? String, let currentMessage = data["currentMessage"] as? String, let guestProfile = data["guestProfile"] as? String, let hostProfile = data["hostProfile"] as? String {
                                 let channel = Channel(channelName: channelTitle, guest: guest, host: host, channelID: thread, currentMessage: currentMessage, hostProfile: hostProfile, guestProfile: guestProfile)
