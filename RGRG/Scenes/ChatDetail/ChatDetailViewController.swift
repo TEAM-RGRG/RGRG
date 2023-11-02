@@ -12,9 +12,11 @@ import UIKit
 class ChatDetailViewController: UIViewController {
     let tableView = CustomTableView(frame: .zero, style: .plain)
 
-    let rightBarButtonItem = CustomBarButton()
     let emptyView = UIView(frame: .zero)
     let bottomBaseView = UIView(frame: .zero)
+
+    let rightBarButtonItem = CustomBarButton()
+
     let blankMessage = CustomLabel(frame: .zero)
     let sendMessageIcon = CustomImageView(frame: .zero)
     let textView = CustomTextView(frame: .zero)
@@ -255,6 +257,13 @@ extension ChatDetailViewController {
                 self.textView.text = self.placeholder
                 self.textView.textColor = UIColor(hex: "#ADADAD")
                 self.textView.font = UIFont(name: AppFontName.regular, size: 18)
+                self.textView.snp.remakeConstraints { make in
+                    make.leading.equalTo(self.bottomBaseView).offset(8)
+                    make.bottom.equalTo(self.bottomBaseView).offset(-38)
+                    make.width.equalTo(334)
+                    make.height.greaterThanOrEqualTo(35)
+                }
+                self.textView.endEditing(true)
                 self.sendMessageIcon.image = UIImage(named: "Send_fill")
             }
         }
@@ -401,7 +410,6 @@ extension ChatDetailViewController: UITextViewDelegate {
 
         textView.constraints.forEach { (_) in
 
-            /// 90 이하일때는 더 이상 줄어들지 않게하기
             if estimatedSize.height <= 80 {
                 textView.isScrollEnabled = false
 
