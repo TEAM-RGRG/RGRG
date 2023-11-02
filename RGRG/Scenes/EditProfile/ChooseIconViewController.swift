@@ -8,8 +8,21 @@
 import FirebaseStorage
 import UIKit
 
-class ChooseIconViewController: UIViewController {
-    var fileList: [StorageReference]?
+// 송신
+protocol SendChangedImageDelegate {
+    func sendChangedImage(image: String)
+}
+
+class ChooseIconViewController: UIViewController, SendPresentImageDelegate {
+    func sendPresentImage(image: String) {
+        imageString = image
+    }
+
+    var delegate: SendChangedImageDelegate?
+    let iconsName = ["Default", "1", "2", "3", "4", "5", "6", "7", "8", "13", "18", "20", "22", "25", "28"]
+    
+    var imageString: String?
+    var selectedImageString: String?
     
     let profileImage: UIImageView = {
         let imageView = UIImageView()
@@ -25,7 +38,7 @@ class ChooseIconViewController: UIViewController {
     let imageCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 56, bottom: 0, right: 56)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         return collectionView
@@ -46,15 +59,18 @@ extension ChooseIconViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        StorageManager.shared.getAllImage("icons") { files in
-            self.fileList = files
-            DispatchQueue.main.async {}
-        }
+        imageCollectionView.reloadData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        delegate?.sendChangedImage(image: selectedImageString ?? "Default")
     }
 }
 
 extension ChooseIconViewController {
     func configureUI() {
+        setupButton()
+        setImage()
         view.backgroundColor = .rgrgColor5
         [profileImage, imageCollectionView, selectButton].forEach { view.addSubview($0) }
         
@@ -73,26 +89,92 @@ extension ChooseIconViewController {
         imageCollectionView.snp.makeConstraints { make in
             
             make.top.equalTo(profileImage.snp.bottom).offset(58)
-            make.left.right.equalToSuperview().inset(56)
+            make.left.right.equalToSuperview()
             make.bottom.equalTo(selectButton.snp.top).offset(-2)
         }
     }
+    
+    func setupButton() {
+        selectButton.backgroundColor = .rgrgColor4
+        selectButton.layer.cornerRadius = 10
+        selectButton.setTitle("선택", for: .normal)
+        selectButton.titleLabel?.font = .myBoldSystemFont(ofSize: 15)
+        selectButton.addTarget(self, action: #selector(selectButtonPressed), for: .touchUpInside)
+    }
+    
+    func setImage() {
+        profileImage.image = UIImage(named: imageString ?? "Default")
+    }
+    
+    @objc func selectButtonPressed() {
+        delegate?.sendChangedImage(image: selectedImageString ?? "Default")
+        navigationController?.popViewController(animated: true)
+    }
 }
 
-extension ChooseIconViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension ChooseIconViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func setupCollectionView() {
         imageCollectionView.register(IconCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        imageCollectionView.dataSource = self
+        imageCollectionView.delegate = self
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return fileList?.count ?? 0
+        return iconsName.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? IconCollectionViewCell else { return UICollectionViewCell()
         }
-        cell.backgroundColor = .master
-        
+        cell.iconImage.image = UIImage(named: iconsName[indexPath.row])
+        var imageIndex = iconsName.firstIndex(of: imageString ?? "Default")
+        if indexPath.row == imageIndex {
+            cell.layer.borderColor = UIColor.rgrgColor3.cgColor
+            cell.layer.borderWidth = 2
+        }
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize
+    {
+        let interval: CGFloat = 20
+        let width: CGFloat = (collectionView.frame.width - interval * 2 - 56 * 2) / 3
+        return CGSize(width: width, height: width)
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat
+    {
+        return 20
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat
+    {
+        return 20
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) as? UICollectionViewCell {
+            cell.layer.borderColor = UIColor.rgrgColor2.cgColor
+            cell.layer.borderWidth = 2
+            profileImage.image = UIImage(named: iconsName[indexPath.row])
+            selectedImageString = iconsName[indexPath.row]
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) as? UICollectionViewCell {
+            cell.layer.borderWidth = 0
+            var imageIndex = iconsName.firstIndex(of: imageString ?? "Default")
+            if indexPath.row == imageIndex {
+                cell.layer.borderColor = UIColor.rgrgColor3.cgColor
+                cell.layer.borderWidth = 2
+            }
+        }
     }
 }
