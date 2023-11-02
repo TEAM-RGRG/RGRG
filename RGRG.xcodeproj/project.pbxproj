@@ -109,6 +109,7 @@
 		96F690652AE20DA200667F35 /* UIcolor+CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F690642AE20DA200667F35 /* UIcolor+CALayer.swift */; };
 		96FE5FCF2AE61AE800AB84D8 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 96FE5FCE2AE61AE800AB84D8 /* FirebaseAuth */; };
 		96FE5FD12AE6622700AB84D8 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 96FE5FD02AE6622700AB84D8 /* FirebaseFirestore */; };
+		CB2598FB2AF366FE00022AC9 /* SearchOptionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2598FA2AF366FE00022AC9 /* SearchOptionHeaderCell.swift */; };
 		CB2D8FEB2AF1376300964CFE /* PartyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2D8FEA2AF1376300964CFE /* PartyTableViewCell.swift */; };
 		CB4B0BC42ADFAB600077AB3A /* CreatePartyPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC32ADFAB600077AB3A /* CreatePartyPageVC.swift */; };
 		CB4B0BC62ADFAB7F0077AB3A /* NoticePageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC52ADFAB7F0077AB3A /* NoticePageVC.swift */; };
@@ -174,6 +175,7 @@
 		96A7B3F92AD9365D00B218EB /* CtaLageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CtaLageButton.swift; sourceTree = "<group>"; };
 		96A7B3FB2AD936E800B218EB /* CustomMemberInfoBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMemberInfoBox.swift; sourceTree = "<group>"; };
 		96F690642AE20DA200667F35 /* UIcolor+CALayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIcolor+CALayer.swift"; sourceTree = "<group>"; };
+		CB2598FA2AF366FE00022AC9 /* SearchOptionHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOptionHeaderCell.swift; sourceTree = "<group>"; };
 		CB2D8FEA2AF1376300964CFE /* PartyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyTableViewCell.swift; sourceTree = "<group>"; };
 		CB4B0BC32ADFAB600077AB3A /* CreatePartyPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePartyPageVC.swift; sourceTree = "<group>"; };
 		CB4B0BC52ADFAB7F0077AB3A /* NoticePageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticePageVC.swift; sourceTree = "<group>"; };
@@ -445,10 +447,11 @@
 			isa = PBXGroup;
 			children = (
 				4E8B85092AD8120E009BCF4B /* MainViewController.swift */,
+				CB2D8FEA2AF1376300964CFE /* PartyTableViewCell.swift */,
 				CB4B0BC32ADFAB600077AB3A /* CreatePartyPageVC.swift */,
 				CB4B0BC52ADFAB7F0077AB3A /* NoticePageVC.swift */,
 				CB4B0BC72ADFAB970077AB3A /* SearchOptionVC.swift */,
-				CB2D8FEA2AF1376300964CFE /* PartyTableViewCell.swift */,
+				CB2598FA2AF366FE00022AC9 /* SearchOptionHeaderCell.swift */,
 				CBECDD382AE174320097C7CF /* PartyInfoDetailVC.swift */,
 			);
 			path = Main;
@@ -653,6 +656,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4EE5E9D82AEBCAFB00B7849E /* PartyManager.swift in Sources */,
+				CB2598FB2AF366FE00022AC9 /* SearchOptionHeaderCell.swift in Sources */,
 				1DB94CDE2AE760AB00851A18 /* StorageManager.swift in Sources */,
 				CBECDD392AE174320097C7CF /* PartyInfoDetailVC.swift in Sources */,
 				4E8B85132AD8120E009BCF4B /* EditProfileViewController.swift in Sources */,
