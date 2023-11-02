@@ -77,6 +77,8 @@ class LoginViewController: UIViewController {
         setupUI()
         passValueCheck()
         makeBackButton()
+        emailLine.inputBox.text = "111@naver.com"
+        passwordLine.inputBox.text = "1111aaaa"
     }
 }
 
