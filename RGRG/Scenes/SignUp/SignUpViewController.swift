@@ -155,23 +155,18 @@ extension SignUpViewController {
         // 클로져는 독립젹인 코드블럭이기에 이 안에서는 업데이트가 가능
         emailLine.passHandler = { pass in
             self.idPass = pass
-            updateUI()
-            //            print("pass 값 알려줘",self.idPass)
         }
         passwordLine.passHandler = { pass in
             self.pwPass = pass
             updateUI()
-            //            print("pass 값 알려줘",self.pwPass)
         }
         passwordCheckLine.passHandler = { pass in
             self.pwCheckPass = pass
             updateUI()
-            //            print("pass 값 알려줘",self.pwCheckPass)
         }
         nickNameLine.passHandler = { pass in
             self.nickNamePass = pass
             updateUI()
-            //            print("pass 값 알려줘",self.nickNamePass)
         }
     }
     
@@ -210,7 +205,7 @@ extension SignUpViewController {
         let emeraldAction = UIAlertAction(title: "Emerald", style: .default) { _ in
             self.tierButton.setTitle("Emerald", for: .normal)
         }
-    
+        
         let diamondAction = UIAlertAction(title: "Diamond", style: .default) { _ in
             self.tierButton.setTitle("Diamond", for: .normal)
         }
@@ -225,7 +220,7 @@ extension SignUpViewController {
         let challenger = UIAlertAction(title: "Challenger", style: .default) { _ in
             self.tierButton.setTitle("Challenger", for: .normal)
         }
-
+        
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         
         alertController.addAction(ironAction)
@@ -238,7 +233,7 @@ extension SignUpViewController {
         alertController.addAction(masterAction)
         alertController.addAction(grandMaster)
         alertController.addAction(challenger)
-
+        
         alertController.addAction(cancelAction)
         
         // 팝업 창 표시
@@ -292,14 +287,14 @@ extension SignUpViewController {
         positionLine.addArrangedSubview(tierButton)
         positionLine.addArrangedSubview(positionButton)
         
-//        bodyContainer.layer.borderWidth = 1
+        //        bodyContainer.layer.borderWidth = 1
         bodyContainer.layer.cornerRadius = 10
         bodyContainer.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.bottom.equalTo(view.safeAreaLayoutGuide)
             make.left.equalToSuperview().offset(40)
             make.right.equalToSuperview().inset(40)
-//            make.centerY.equalToSuperview()
+            //            make.centerY.equalToSuperview()
         }
         
         imageArea.backgroundColor = UIColor.rgrgColor6
@@ -345,8 +340,6 @@ extension SignUpViewController {
             make.top.equalTo(passwordCheckLine.snp.bottom).offset(20)
         }
         
-        //        positionLine.layer.borderWidth = 1
-        //        positionLine.backgroundColor = UIColor.systemBlue
         positionLine.spacing = 20
         positionLine.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
@@ -355,7 +348,6 @@ extension SignUpViewController {
         }
         
         tierButton.setTitle("Tier", for: .normal)
-        //        tierButton.layer.borderWidth = 1
         tierButton.layer.cornerRadius = 10
         tierButton.backgroundColor = UIColor.white
         tierButton.setTitleColor(UIColor.black, for: .normal)
@@ -365,7 +357,6 @@ extension SignUpViewController {
         }
         
         positionButton.setTitle("Postion", for: .normal)
-        //        positionButton.layer.borderWidth = 1
         positionButton.layer.cornerRadius = 10
         positionButton.backgroundColor = UIColor.white
         positionButton.setTitleColor(UIColor.black, for: .normal)
@@ -377,7 +368,6 @@ extension SignUpViewController {
         signupButton.addTarget(self, action: #selector(tapSignUP), for: .touchUpInside)
         signupButton.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
-//            make.bottom.equalToSuperview().inset(20)
         }
     }
 }

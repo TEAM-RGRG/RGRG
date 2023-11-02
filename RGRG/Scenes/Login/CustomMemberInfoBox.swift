@@ -71,13 +71,13 @@ class CustomMemberInfoBox : UIView {
         text.isHidden = true
         return text
     }()
-        
+    
     init(id:MemberInfoBox, conditionText:String? = nil, passText:String? = nil, placeHolder: String, condition: String, cellHeight:Int = 60 , style: String = "SignUp") {
         
         self.conditon = condition
         self.cellHeightValue = cellHeight
         self.conditionText.text = conditionText
-//        self.passMessage.text = passText
+        //        self.passMessage.text = passText
         self.inputBox.placeholder = placeHolder
         self.cellID = id
         super.init(frame: CGRect())
@@ -121,7 +121,7 @@ class CustomMemberInfoBox : UIView {
                             
                             passView?.isHidden = true
                             duplicationMessage.isHidden = false
-                            duplicationMessage.text = "사용중인 닉네임"
+                            duplicationMessage.text = "사용중인 이메일"
                             nonPassView?.isHidden = true
                             passHandler?(false)
                         }
@@ -157,15 +157,10 @@ class CustomMemberInfoBox : UIView {
         
         switch cellID {
         case .loginEmail :
-            duplicationCheckEmail() { completion in
-                if validationCheck && completion {
-                    updateUIvalid(passView: self.checkIcon)
-                }
-            }
+            updateUIvalid(passView: self.checkIcon)
         case .loginPW :
-            self.inputBox.isSecureTextEntry = true
             isSecureControllView.isHidden = false
-            updateUIvalid(passView: checkIcon)
+            updateUIvalid(passView: self.checkIcon)
         case .email:
             updateUIvalid(passView: passMessage, nonPassView: self.conditionText)
         case .pw:
@@ -176,8 +171,6 @@ class CustomMemberInfoBox : UIView {
             let pwCheckValue = pwBringValue == pwCheckInputValue
             updateUIvalid(validation: pwCheckValue, passView: checkIcon, nonPassView: conditionText)
         case .userName:
-            //중복확인을 통과하고 나서 보여주기.
-            //[Bug]중복된 닉네임이 있다는걸 왜 잡아내지 못할까🔥
             updateUIvalid(passView: passMessage, nonPassView: self.conditionText)
         }
     }
@@ -202,14 +195,11 @@ class CustomMemberInfoBox : UIView {
                 if let querySnapshot = querySnapshot {
                     let isDuplicate = !querySnapshot.isEmpty
                     if isDuplicate {
-                        print("중복된 이메일이 이미 존재합니다.")
                         completion(false) // 중복된 이메일이 있는 경우 false 반환
                     } else {
-                        print("중복된 이메일이 없습니다. 사용 가능한 이메일입니다.")
                         completion(true) // 중복된 이메일이 없는 경우
                     }
                 } else {
-                    print("쿼리 스냅샷이 nil입니다.")
                     completion(false) // 쿼리 스냅샷이 nil인 경우 false 반환
                 }
             }
@@ -229,14 +219,11 @@ class CustomMemberInfoBox : UIView {
                 if let querySnapshot = querySnapshot {
                     let isDuplicate = !querySnapshot.isEmpty
                     if isDuplicate {
-                        print("중복된 닉네임 이미 존재합니다.")
                         completion(false) // 중복된 이메일이 있는 경우 false 반환
                     } else {
-                        print("중복된 닉네임이 없습니다. 사용 가능한 닉네임입니다.")
                         completion(true) // 중복된 이메일이 없는 경우
                     }
                 } else {
-                    print("쿼리 스냅샷이 nil입니다.")
                     completion(false) // 쿼리 스냅샷이 nil인 경우 false 반환
                 }
             }
@@ -319,7 +306,7 @@ class CustomMemberInfoBox : UIView {
         checkIcon.snp.makeConstraints { make in
             make.width.equalTo(20)
         }
-                
+        
         stackView.addArrangedSubview(passMessage)
         passMessage.textColor = UIColor.systemBlue
         
