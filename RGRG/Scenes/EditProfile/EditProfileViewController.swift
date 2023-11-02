@@ -9,28 +9,17 @@ import FirebaseAuth
 import SnapKit
 import UIKit
 
-// 수신
-protocol SendPresentImageDelegate{
-    func sendPresentImage(image: String)
-}
-
-protocol SendPresentChampDelegate {
-    func sendPresentChamp(champ: [String])
-}
-
-class EditProfileViewController: UIViewController, SendChangedImageDelegate {
-    func sendChangedImage(image: String) {
-        currentImage = image
-        profileImage.image = UIImage(named: image)
-        print("~~~~~~~~~~~~~~~~~\(currentImage)")
+class EditProfileViewController: UIViewController, sendSelectedIconDelegate {
+    func sendSelectedIcon(iconString: String) {
+        selectedImage = iconString
+        profileImage.image = UIImage(named: selectedImage ?? "Default")
+        print("~~~~~~~~~~\(selectedImage)")
     }
-    
+
     var user: User?
     let wholeView = UIView()
-    var sendImageDelegate: SendPresentImageDelegate?
-    var sendChampDelegate: SendPresentChampDelegate?
 
-    var currentImage: String?
+    var selectedImage: String?
 
     let profileImage: UIImageView = {
         let imageView = UIImageView()
@@ -108,11 +97,10 @@ extension EditProfileViewController {
         super.viewDidLoad()
         setNavigationController()
         configureUI()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
         FirebaseUserManager.shared.getUserInfo { user in
             self.user = user
+            self.selectedImage = user.profilePhoto
+            print("~~~~~~~~~~~viewdidload")
             DispatchQueue.main.async {
                 self.tierButton.titleLabel?.textColor = UIColor(named: user.tier)
                 self.setBeforeInfo()
@@ -342,7 +330,7 @@ extension EditProfileViewController {
 
 extension EditProfileViewController {
     func setBeforeInfo() {
-        profileImage.image = UIImage(named: user?.profilePhoto ?? "Default")
+        profileImage.image = UIImage(named: selectedImage ?? "Default")
         StorageManager.shared.getImage("champ", user?.mostChampion[0] ?? "") { [weak self] image in
             self?.firstImage.image = image
         }
@@ -361,7 +349,7 @@ extension EditProfileViewController {
 
 extension EditProfileViewController {
     @objc func confirmButtonPressed(_ sender: UIButton) {
-        let updatedUser = User(email: user?.email ?? "", userName: (userNameTextField.text ?? user?.userName) ?? "", tier: tierButton.titleLabel?.text ?? "", position: positionButton.titleLabel?.text ?? "", profilePhoto: "Default")
+        let updatedUser = User(email: user?.email ?? "", userName: (userNameTextField.text ?? user?.userName) ?? "", tier: tierButton.titleLabel?.text ?? "", position: positionButton.titleLabel?.text ?? "", profilePhoto: selectedImage ?? "Default", mostChampion: ["None", "None", "None"])
         if updatedUser.userName == user?.userName, updatedUser.position == user?.position, updatedUser.profilePhoto == user?.profilePhoto, updatedUser.tier == user?.tier, updatedUser.mostChampion == user?.mostChampion {
             let alert = UIAlertController(title: "수정 내역이 없습니다!", message: nil, preferredStyle: .alert)
             let ok = UIAlertAction(title: "확인", style: .default)
@@ -375,13 +363,14 @@ extension EditProfileViewController {
 
     @objc func toChooseIconsVC() {
         let chooseIconVC = ChooseIconViewController()
-
-        sendImageDelegate?.sendPresentImage(image: user?.profilePhoto ?? "Default")
+        chooseIconVC.delegate = self
+        chooseIconVC.currentImageString = selectedImage
         navigationController?.pushViewController(chooseIconVC, animated: true)
     }
-    
+
     @objc func mostChampButtonPressed() {
         let chooseChampVC = ChooseChampViewController()
+
         navigationController?.pushViewController(chooseChampVC, animated: true)
     }
 }

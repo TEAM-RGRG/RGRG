@@ -8,20 +8,16 @@
 import FirebaseStorage
 import UIKit
 
-// 송신
-protocol SendChangedImageDelegate {
-    func sendChangedImage(image: String)
+protocol sendSelectedIconDelegate {
+    func sendSelectedIcon(iconString: String)
 }
 
-class ChooseIconViewController: UIViewController, SendPresentImageDelegate {
-    func sendPresentImage(image: String) {
-        imageString = image
-    }
-
-    var delegate: SendChangedImageDelegate?
+class ChooseIconViewController: UIViewController {
     let iconsName = ["Default", "1", "2", "3", "4", "5", "6", "7", "8", "13", "18", "20", "22", "25", "28"]
     
-    var imageString: String?
+    var delegate: sendSelectedIconDelegate?
+    
+    var currentImageString: String?
     var selectedImageString: String?
     
     let profileImage: UIImageView = {
@@ -62,9 +58,7 @@ extension ChooseIconViewController {
         imageCollectionView.reloadData()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        delegate?.sendChangedImage(image: selectedImageString ?? "Default")
-    }
+    override func viewWillDisappear(_ animated: Bool) {}
 }
 
 extension ChooseIconViewController {
@@ -103,11 +97,11 @@ extension ChooseIconViewController {
     }
     
     func setImage() {
-        profileImage.image = UIImage(named: imageString ?? "Default")
+        profileImage.image = UIImage(named: currentImageString ?? "Default")
     }
     
     @objc func selectButtonPressed() {
-        delegate?.sendChangedImage(image: selectedImageString ?? "Default")
+        delegate?.sendSelectedIcon(iconString: selectedImageString ?? "Default")
         navigationController?.popViewController(animated: true)
     }
 }
@@ -127,7 +121,7 @@ extension ChooseIconViewController: UICollectionViewDelegate, UICollectionViewDa
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? IconCollectionViewCell else { return UICollectionViewCell()
         }
         cell.iconImage.image = UIImage(named: iconsName[indexPath.row])
-        var imageIndex = iconsName.firstIndex(of: imageString ?? "Default")
+        var imageIndex = iconsName.firstIndex(of: currentImageString ?? "Default")
         if indexPath.row == imageIndex {
             cell.layer.borderColor = UIColor.rgrgColor3.cgColor
             cell.layer.borderWidth = 2
@@ -170,7 +164,7 @@ extension ChooseIconViewController: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         if let cell = collectionView.cellForItem(at: indexPath) as? UICollectionViewCell {
             cell.layer.borderWidth = 0
-            var imageIndex = iconsName.firstIndex(of: imageString ?? "Default")
+            var imageIndex = iconsName.firstIndex(of: currentImageString ?? "Default")
             if indexPath.row == imageIndex {
                 cell.layer.borderColor = UIColor.rgrgColor3.cgColor
                 cell.layer.borderWidth = 2
