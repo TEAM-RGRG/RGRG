@@ -310,7 +310,7 @@ extension ChatDetailViewController: UITableViewDataSource {
 
                 cell.yourChatContent.text = item.content
                 cell.yourChatTime.text = dateFormatter(strDate: item.date)
-                cell.yourProfileImage.image = UIImage(named: channelInfo?.writerProfile ?? "Default")
+                cell.yourProfileImage.image = UIImage(named: channelInfo?.hostProfile ?? "Default")
 
                 DispatchQueue.main.async {
                     cell.setupUI()

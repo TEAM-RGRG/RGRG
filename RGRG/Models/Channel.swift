@@ -10,10 +10,10 @@ import FirebaseFirestore
 
 struct Channel: Hashable {
     var channelName: String
-    var requester: String
-    var writer: String
+    var guest: String
+    var host: String
     var channelID: String
     var currentMessage: String?
-    var writerProfile: String
-    var requesterProfile: String
+    var hostProfile: String
+    var guestProfile: String
 }

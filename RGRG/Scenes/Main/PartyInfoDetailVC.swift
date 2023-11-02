@@ -330,7 +330,7 @@ class PartyInfoDetailVC: UIViewController {
     
     @objc func menuButtonTapped() {
         if let user = user {
-            FireStoreManager.shared.addChannel(channelTitle: party?.userName ?? "n/a", requester: party?.userName ?? "n/a", writer: user.userName, channelID: UUID().uuidString, date: FireStoreManager.shared.dateFormatter(value: Date.now), users: [party?.userName ?? "n/a", user.userName], requesterProfile: party?.profileImage ?? "n/a", writerProfile: "1") { channel in
+            FireStoreManager.shared.addChannel(channelTitle: party?.userName ?? "n/a", guest: party?.userName ?? "n/a", host: user.userName, channelID: UUID().uuidString, date: FireStoreManager.shared.dateFormatter(value: Date.now), users: [party?.userName ?? "n/a", user.userName], guestProfile: party?.profileImage ?? "n/a", hostProfile: "1") { channel in
                 print("### 채널 추가 하기 :: \(channel)")
             }
             navigationController?.popViewController(animated: true)
