@@ -38,7 +38,7 @@ extension ChatListViewController {
 
             guard let currentUser = currentUser else { return }
 
-            await FireStoreManager.shared.loadChannels(collectionName: "channels", writerName: currentUser.userName, filter: currentUser.userName) { channel in
+            await FireStoreManager.shared.loadChannels(collectionName: "channels", hostName: currentUser.userName, filter: currentUser.userName) { channel in
                 self.channels = channel
 
                 if self.channels.isEmpty == true {
@@ -139,7 +139,7 @@ extension ChatListViewController {
         // 액션 만들기 >> 메뉴 만들기 >> UIBarButtonItem 만들기
         let latestSortAction = rightBarButtonItem.makeSingleAction(title: "최신 메시지 순", state: .off) { _ in
             if let currentUser = self.currentUser {
-                FireStoreManager.shared.addChannel(channelTitle: "테스트1", requester: "testuser2@naver.com", writer: currentUser.userName, channelID: UUID().uuidString, date: FireStoreManager.shared.dateFormatter(value: Date.now), users: [currentUser.userName, "testuser2@naver.com"], requesterProfile: "Ashe", writerProfile: "Teemo") { channel in
+                FireStoreManager.shared.addChannel(channelTitle: "테스트1", guest: "testuser2@naver.com", host: currentUser.userName, channelID: UUID().uuidString, date: FireStoreManager.shared.dateFormatter(value: Date.now), users: [currentUser.userName, "testuser2@naver.com"], guestProfile: "Ashe", hostProfile: "Teemo") { channel in
                     print("### 성공적으로 저장됨.")
                     self.channels.append(channel)
                 }
@@ -185,18 +185,18 @@ extension ChatListViewController: UITableViewDataSource {
 
         let item = channels[indexPath.row]
 
-        if currentUser?.userName == item.writer {
+        if currentUser?.userName == item.host {
             cell.setupUI()
-            cell.userProfileName.text = item.requester
+            cell.userProfileName.text = item.guest
             cell.currentChat.text = item.currentMessage
-            cell.userProfileImage.image = UIImage(named: item.requesterProfile)
+            cell.userProfileImage.image = UIImage(named: item.guestProfile)
             cell.userProfileImage.layer.masksToBounds = true
 
         } else {
             cell.setupUI()
-            cell.userProfileName.text = item.writer
+            cell.userProfileName.text = item.host
             cell.currentChat.text = item.currentMessage
-            cell.userProfileImage.image = UIImage(named: item.writerProfile)
+            cell.userProfileImage.image = UIImage(named: item.hostProfile)
             cell.userProfileImage.layer.masksToBounds = true
         }
 
@@ -216,7 +216,7 @@ extension ChatListViewController: UITableViewDelegate {
         let item = channels[indexPath.row]
         vc.thread = item.channelID
         vc.channelInfo = item
-        vc.navigationItem.title = item.requester
+        vc.navigationItem.title = item.guest
         vc.viewWillAppear(true)
         tabBarController?.navigationController?.pushViewController(vc, animated: true)
     }
