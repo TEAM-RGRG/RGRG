@@ -3,7 +3,7 @@
 //  RGRG
 //
 //  Created by kiakim iMac on 2023/10/11.
-//
+
 
 import FirebaseAuth
 import FirebaseCore
@@ -51,7 +51,7 @@ class LoginViewController: UIViewController {
     
     let passwordLine = {
         let line = CustomMemberInfoBox(id: .loginPW, placeHolder: "Password", condition: "^[a-zA-Z0-9]{7,}$", cellHeight: 70, style: "Login")
-//        line.inputBox.isSecureTextEntry = true
+        line.inputBox.isSecureTextEntry = true
         return line
     }()
     
@@ -74,7 +74,6 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.rgrgColor4
-        
         setupUI()
         passValueCheck()
         makeBackButton()
@@ -123,7 +122,8 @@ extension LoginViewController {
         }
         passwordLine.passHandler = { pass in
             self.loginPwPass = pass
-            print("loginPwPass", self.loginPwPass)
+            print("loginPwPass??", self.loginPwPass)
+            
         }
     }
     
@@ -137,12 +137,6 @@ extension LoginViewController {
     }
     
     func setupUI() {
-        // bodyContainer의 높이를 알수는 없는걸까 ?
-        //        let  screenHeigth = UIScreen.main.bounds.height
-        //        let bodyContainerHeigth = bodyContainer.frame.height
-        //
-        //        print("screenHeigth",screenHeigth)
-        //        print("bodyContainerHeigt",bodyContainerHeigth)
         
         view.addSubview(bodyContainer)
         bodyContainer.addSubview(imageArea)
@@ -154,8 +148,6 @@ extension LoginViewController {
         methodArea.addArrangedSubview(loginButton)
         methodArea.addArrangedSubview(signupButton)
         
-        //        bodyContainer.layer.borderWidth = 1
-        //        bodyContainer.layer.borderColor = UIColor.systemBlue.cgColor
         bodyContainer.layer.cornerRadius = 10
         bodyContainer.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
@@ -164,27 +156,23 @@ extension LoginViewController {
             make.right.equalToSuperview().inset(45)
         }
         
-        //        imageArea.layer.borderWidth = 1
         imageArea.layer.borderColor = UIColor.systemGray5.cgColor
         imageArea.snp.makeConstraints { make in
             make.left.top.right.equalToSuperview()
             make.height.equalToSuperview().dividedBy(2)
         }
         
-        //        mainImage.layer.borderWidth = 1
         mainImage.layer.borderColor = UIColor.systemGray5.cgColor
         mainImage.image = UIImage(named: "LoginMain")
         mainImage.contentMode = .scaleAspectFit
         mainImage.snp.makeConstraints { make in
-            //            make.top.equalToSuperview().offset(100)
             make.height.equalToSuperview().dividedBy(2)
             make.left.equalToSuperview().offset(60)
             make.right.equalToSuperview().inset(60)
             make.centerY.equalToSuperview()
             make.centerX.equalToSuperview()
         }
-        
-        //        methodArea.backgroundColor = UIColor.systemBlue
+
         methodArea.snp.makeConstraints { make in
             make.left.bottom.right.equalToSuperview()
             make.height.equalToSuperview().dividedBy(2)

@@ -9,9 +9,22 @@ import FirebaseAuth
 import SnapKit
 import UIKit
 
-class EditProfileViewController: UIViewController {
+// 수신
+protocol SendPresentImageDelegate{
+    func sendPresentImage(image: String)
+}
+
+class EditProfileViewController: UIViewController, SendChangedImageDelegate {
+    func sendChangedImage(image: String) {
+        currentImage = image
+        profileImage.image = UIImage(named: image)
+        print("~~~~~~~~~~~~~~~~~\(currentImage)")
+    }
+    
     var user: User?
     let wholeView = UIView()
+    var delegate: SendPresentImageDelegate?
+    var currentImage: String?
 
     let profileImage: UIImageView = {
         let imageView = UIImageView()
@@ -227,10 +240,6 @@ extension EditProfileViewController {
             $0.contentEdgeInsets.left = 16
         }
 
-        doneEditButton.backgroundColor = .rgrgColor4
-        doneEditButton.layer.cornerRadius = 10
-        doneEditButton.setTitle("수정 완료", for: .normal)
-
         var mostChampButtonConfig = UIButton.Configuration.plain()
         var mostChampTextAttribute = AttributedString("선호 챔피언")
         mostChampTextAttribute.font = .myBoldSystemFont(ofSize: 16)
@@ -243,6 +252,10 @@ extension EditProfileViewController {
         mostChampButtonConfig.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
         mostChampButton.configuration = mostChampButtonConfig
 
+        doneEditButton.backgroundColor = .rgrgColor4
+        doneEditButton.layer.cornerRadius = 10
+        doneEditButton.setTitle("수정 완료", for: .normal)
+        doneEditButton.titleLabel?.font = .myBoldSystemFont(ofSize: 15)
         doneEditButton.addTarget(self, action: #selector(confirmButtonPressed), for: .touchUpInside)
     }
 
@@ -300,6 +313,7 @@ extension EditProfileViewController {
         let tierOptionMenu = UIMenu(options: .displayInline, children: tierOptionArray)
 
         tierButton.menu = tierOptionMenu
+
         tierButton.changesSelectionAsPrimaryAction = true
         tierButton.showsMenuAsPrimaryAction = true
 
@@ -354,6 +368,8 @@ extension EditProfileViewController {
 
     @objc func toChooseIconsVC() {
         let chooseIconVC = ChooseIconViewController()
+
+        delegate?.sendPresentImage(image: user?.profilePhoto ?? "Default")
         navigationController?.pushViewController(chooseIconVC, animated: true)
     }
 }
