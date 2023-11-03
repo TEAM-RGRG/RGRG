@@ -305,6 +305,7 @@ class CustomMemberInfoBox : UIView {
         checkIcon.contentMode = .scaleAspectFit
         checkIcon.snp.makeConstraints { make in
             make.width.equalTo(20)
+            make.left.equalTo(isSecureControllView.snp.right).offset(10)
         }
         
         stackView.addArrangedSubview(passMessage)
