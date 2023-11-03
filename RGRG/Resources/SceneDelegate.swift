@@ -5,6 +5,7 @@
 //  Created by (^ㅗ^)7 iMac on 2023/10/12.
 //
 
+import FirebaseAuth
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -14,7 +15,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = scene as? UIWindowScene else { return }
         self.window = UIWindow(windowScene: windowScene)
 
-        let rootViewController = LoginViewController()
+        var rootViewController = UIViewController()
+
+        if Auth.auth().currentUser != nil {
+            rootViewController = TabBarController()
+        } else {
+            rootViewController = LoginViewController()
+        }
+
         let rootNavigationController = UINavigationController(rootViewController: rootViewController)
 
         self.window?.rootViewController = rootNavigationController

@@ -93,7 +93,7 @@ extension ChatListCell {
     func confirmChatAlert() {
         baseView.addSubview(chatAlert)
 
-        chatAlert.backgroundColor = .systemBlue
+        chatAlert.backgroundColor = UIColor(hex: "#279EFF")
         chatAlert.layer.cornerRadius = 4
 
         chatAlert.snp.makeConstraints { make in

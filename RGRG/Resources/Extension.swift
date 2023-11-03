@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 extension UIBezierPath {
     convenience init(shouldRoundRect rect: CGRect, topLeftRadius: CGSize = .zero, topRightRadius: CGSize = .zero, bottomLeftRadius: CGSize = .zero, bottomRightRadius: CGSize = .zero) {
         self.init()
@@ -56,7 +55,6 @@ extension UIBezierPath {
         path.closeSubpath()
         cgPath = path
     }
-
 }
 
 extension UIImage {
@@ -66,7 +64,6 @@ extension UIImage {
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return newImage!
-
     }
 }
 
@@ -81,14 +78,11 @@ extension UIView {
         shape.path = maskPath.cgPath
         layer.mask = shape
     }
+
     func setupShadow(alpha: CGFloat, offset: CGSize, radius: CGFloat, opacity: Float) {
         layer.shadowColor = CGColor(red: 0, green: 0, blue: 0, alpha: alpha)
         layer.shadowOffset = offset
         layer.shadowRadius = radius
         layer.shadowOpacity = opacity
     }
-}
-
-extension UINavigationBar {
-    
 }

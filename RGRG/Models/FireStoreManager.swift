@@ -27,8 +27,8 @@ final class FireStoreManager {
                             let thread = doc.documentID
                             let decoder = PropertyListDecoder()
 
-                            if let host = data["host"] as? String, let channelTitle = data["channelTitle"] as? String, let guest = data["guest"] as? String, let channelID = data["channelID"] as? String, let currentMessage = data["currentMessage"] as? String, let guestProfile = data["guestProfile"] as? String, let hostProfile = data["hostProfile"] as? String {
-                                let channel = Channel(channelName: channelTitle, guest: guest, host: host, channelID: thread, currentMessage: currentMessage, hostProfile: hostProfile, guestProfile: guestProfile)
+                            if let host = data["host"] as? String, let channelTitle = data["channelTitle"] as? String, let guest = data["guest"] as? String, let channelID = data["channelID"] as? String, let currentMessage = data["currentMessage"] as? String, let guestProfile = data["guestProfile"] as? String, let hostProfile = data["hostProfile"] as? String, let hostSender = data["hostSender"] as? Bool, let guestSender = data["guestSender"] as? Bool {
+                                let channel = Channel(channelName: channelTitle, guest: guest, host: host, channelID: thread, currentMessage: currentMessage, hostProfile: hostProfile, guestProfile: guestProfile, hostSender: hostSender, guestSender: guestSender)
                                 channels.append(channel)
                             }
                         }
@@ -62,7 +62,7 @@ final class FireStoreManager {
             }
     }
 
-    func addChannel(channelTitle: String, guest: String, host: String, channelID: String, date: String, users: [String], guestProfile: String, hostProfile: String, completion: @escaping (Channel) -> Void) {
+    func addChannel(channelTitle: String, guest: String, host: String, channelID: String, date: String, users: [String], guestProfile: String, hostProfile: String, hostSender: Bool, guestSender: Bool, completion: @escaping (Channel) -> Void) {
         FireStoreManager.db
             .collection("channels")
             .addDocument(data: [
@@ -74,13 +74,15 @@ final class FireStoreManager {
                 "users": users,
                 "currentMessage": "",
                 "guestProfile": guestProfile,
-                "hostProfile": hostProfile
+                "hostProfile": hostProfile,
+                "hostSender": hostSender,
+                "guestSender": guestSender
             ]) { (error) in
                 if let e = error {
                     print("There was an issue saving data to firestore, \(e)")
                 } else {
                     print("Successfully saved data.")
-                    let channel = Channel(channelName: channelTitle, guest: guest, host: host, channelID: channelID, currentMessage: "", hostProfile: hostProfile, guestProfile: guestProfile)
+                    let channel = Channel(channelName: channelTitle, guest: guest, host: host, channelID: channelID, currentMessage: "", hostProfile: hostProfile, guestProfile: guestProfile, hostSender: hostSender, guestSender: guestSender)
                     completion(channel)
                 }
             }
@@ -105,13 +107,30 @@ final class FireStoreManager {
             }
     }
 
-    func updateChannel(currentMessage: String, thread: String) {
+    func updateChannel(currentMessage: String, thread: String, sender: String, host: String, guest: String) {
         let path = FireStoreManager.db.collection("channels")
         path.document(thread).updateData(["currentMessage": currentMessage])
+
+        if sender == host {
+            path.document(thread).updateData(["hostSender": false])
+        } else {
+            path.document(thread).updateData(["guestSender": false])
+        }
+    }
+
+    func updateChannelSender(thread: String, sender: String, host: String, guest: String) {
+        let path = FireStoreManager.db.collection("channels")
+
+        if sender == host {
+            path.document(thread).updateData(["guestSender": true])
+        } else {
+            path.document(thread).updateData(["hostSender": true])
+        }
     }
 
     func updateReadChat(thread: String, currentUser: String) {
         let path = FireStoreManager.db.collection("channels/\(thread)/thread")
+        let senderChatPath = FireStoreManager.db.collection("channels/\(thread)")
         FireStoreManager.db
             .collection("channels/\(thread)/thread")
             .whereField("sender", isNotEqualTo: currentUser)
