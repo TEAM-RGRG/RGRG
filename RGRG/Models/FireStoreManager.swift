@@ -107,24 +107,26 @@ final class FireStoreManager {
             }
     }
 
+    // 채팅방 들어갈 때
     func updateChannel(currentMessage: String, thread: String, sender: String, host: String, guest: String) {
         let path = FireStoreManager.db.collection("channels")
         path.document(thread).updateData(["currentMessage": currentMessage])
 
         if sender == host {
-            path.document(thread).updateData(["hostSender": false])
-        } else {
             path.document(thread).updateData(["guestSender": false])
+        } else {
+            path.document(thread).updateData(["hostSender": false])
         }
     }
 
+    // 채팅 보낼 때
     func updateChannelSender(thread: String, sender: String, host: String, guest: String) {
         let path = FireStoreManager.db.collection("channels")
 
         if sender == host {
-            path.document(thread).updateData(["guestSender": true])
-        } else {
             path.document(thread).updateData(["hostSender": true])
+        } else {
+            path.document(thread).updateData(["guestSender": true])
         }
     }
 
