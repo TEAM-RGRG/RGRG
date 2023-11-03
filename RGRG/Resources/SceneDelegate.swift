@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FirebaseAuth
+
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
@@ -14,7 +16,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = scene as? UIWindowScene else { return }
         self.window = UIWindow(windowScene: windowScene)
 
-        let rootViewController = LoginViewController()
+        var rootViewController = UIViewController()
+
+        if Auth.auth().currentUser != nil {
+            rootViewController = TabBarController()
+        } else {
+            rootViewController = LoginViewController()
+        }
+
         let rootNavigationController = UINavigationController(rootViewController: rootViewController)
 
         self.window?.rootViewController = rootNavigationController
