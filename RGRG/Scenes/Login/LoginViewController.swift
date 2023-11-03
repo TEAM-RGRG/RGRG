@@ -43,7 +43,7 @@ class LoginViewController: UIViewController {
         view.axis = .vertical
         return view
     }()
-        
+    
     let emailLine = {
         let line = CustomMemberInfoBox(id: .loginEmail, placeHolder: "Email", condition: "^[A-Za-z0-9+_.-]+@(.+)$", cellHeight: 70, style: "Login")
         return line
@@ -79,6 +79,7 @@ class LoginViewController: UIViewController {
         makeBackButton()
         emailLine.inputBox.text = "111@naver.com"
         passwordLine.inputBox.text = "1111aaaa"
+        setupKeyboardEvent()
     }
 }
 
@@ -134,7 +135,7 @@ extension LoginViewController {
         
         let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
         alertController.addAction(okAction)
-    
+        
         present(alertController, animated: true, completion: nil)
     }
     
@@ -174,11 +175,12 @@ extension LoginViewController {
             make.centerY.equalToSuperview()
             make.centerX.equalToSuperview()
         }
-
+        
         methodArea.snp.makeConstraints { make in
             make.left.bottom.right.equalToSuperview()
             make.height.equalToSuperview().dividedBy(2)
         }
+        
         emailLine.snp.makeConstraints { make in
             make.height.equalToSuperview().dividedBy(5)
             make.bottom.equalTo(passwordLine.snp.top).offset(-20)
@@ -216,8 +218,37 @@ extension LoginViewController {
         let backButton = CustomBackButton(title: "Back", style: .plain, target: self, action: #selector(tappedBackButton))
         navigationItem.backBarButtonItem = backButton
     }
-
+    
     @objc func tappedBackButton(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
+    }
+}
+// 키보드 표시 이벤트 처리
+extension LoginViewController {
+    func setupKeyboardEvent() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+    @objc func keyboardWillShow(_ sender: Notification) {
+        // 키보드 표시 이벤트 처리
+        guard let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        let keyboardHeight = keyboardFrame.cgRectValue.height
+        
+        if view.frame.origin.y == 0 {
+            view.frame.origin.y -= keyboardHeight
+        }
+    }
+    @objc func keyboardWillHide(_ notification: Notification) {
+        // 키보드 숨김 이벤트 처리
+        if view.frame.origin.y != 0 {
+            view.frame.origin.y = 0
+        }
+        
     }
 }
