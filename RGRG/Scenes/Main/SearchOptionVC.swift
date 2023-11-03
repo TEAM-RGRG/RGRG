@@ -36,7 +36,7 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         button.titleLabel?.font = .systemFont(ofSize: 22, weight: .bold)
         button.setTitle("선택 완료", for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
-        button.backgroundColor = UIColor.systemBlue
+        button.backgroundColor = UIColor.rgrgColor4
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(confirmationButtonTapped), for: .touchUpInside)
         return button
@@ -58,9 +58,23 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
            let selectedPosition = selectedPositionOption {
            
             onConfirmation?(selectedTier, selectedPosition)
-            saveSelectedCellInfo()
+//            saveSelectedCellInfo()
         }
         
+//        if selectedTierIndexPath == nil && selectedPositionIndexPath == nil {
+//                // 선택된 셀이 없는 경우 UserDefaults에서 저장된 정보를 제거
+//                UserDefaults.standard.removeObject(forKey: "selectedTierIndexPath")
+//                UserDefaults.standard.removeObject(forKey: "selectedPositionIndexPath")
+//            selectedTierIndexPath = nil
+//            selectedTierOption = nil
+//            selectedPositionIndexPath = nil
+//            selectedPositionOption = nil
+//            collectionView.reloadData()
+//            } 
+//        else {
+//                saveSelectedCellInfo()
+//            }
+        saveSelectedCellInfo()
         dismiss(animated: true, completion: nil)
     }
 
@@ -136,14 +150,19 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         }
 
         confirmationButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-25)
-            $0.leading.equalToSuperview().offset(41)
-            $0.trailing.equalToSuperview().offset(-41)
+            $0.bottom.equalToSuperview().offset(-32)
+            $0.leading.equalToSuperview().offset(24)
+            $0.trailing.equalToSuperview().offset(-24)
             $0.height.equalTo(46)
             $0.centerX.equalTo(view)
         }
     }
 
+    
+    
+    
+    
+    
     fileprivate func createCompositionalLayout() -> UICollectionViewLayout {
         // 코포지셔널 레이아웃 생성
         let layout = UICollectionViewCompositionalLayout {
@@ -215,7 +234,8 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
                 // 이미 선택된 셀을 다시 탭한 경우, 선택 해제
                 selectedTierIndexPath = nil
                 selectedTierOption = nil
-
+                UserDefaults.standard.removeObject(forKey: "selectedTierIndexPath")
+                
                 if let selectedCell = collectionView.cellForItem(at: indexPath) as? CollectionViewCell {
                     selectedCell.tierLabel.layer.borderColor = UIColor.systemGray4.cgColor
                 }
@@ -238,6 +258,7 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
                 // 이미 선택된 셀을 다시 탭한 경우, 선택 해제
                 selectedPositionIndexPath = nil
                 selectedPositionOption = nil
+                UserDefaults.standard.removeObject(forKey: "selectedPositionIndexPath")
 
                 if let selectedCell = collectionView.cellForItem(at: indexPath) as? PositionCell {
                     selectedCell.positionFrame.layer.borderColor = UIColor.systemGray4.cgColor
@@ -258,43 +279,6 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             }
         }
     }
-
-
-    
-    
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        if indexPath.section == 0 { // 윗쪽 섹션
-//            // 이전에 선택한 셀이 있다면 선택 해제
-//            if let previousIndexPath = selectedTierIndexPath {
-//                if let previousCell = collectionView.cellForItem(at: previousIndexPath) as? CollectionViewCell {
-//                    previousCell.tierLabel.layer.borderColor = UIColor.systemGray4.cgColor
-//                }
-//            }
-//
-//            selectedTierIndexPath = indexPath
-//
-//            if let selectedCell = collectionView.cellForItem(at: indexPath) as? CollectionViewCell {
-//                selectedCell.tierLabel.layer.borderColor = UIColor.systemBlue.cgColor
-//
-//                selectedTierOption = tierName[indexPath.row]
-//            }
-//        } else { // 아랫쪽 섹션
-//            
-//            if let previousIndexPath = selectedPositionIndexPath {
-//                if let previousCell = collectionView.cellForItem(at: previousIndexPath) as? PositionCell {
-//                    previousCell.positionFrame.layer.borderColor = UIColor.systemGray4.cgColor
-//                }
-//            }
-//
-//            selectedPositionIndexPath = indexPath
-//
-//            if let selectedCell = collectionView.cellForItem(at: indexPath) as? PositionCell {
-//                selectedCell.positionFrame.layer.borderColor = UIColor.systemBlue.cgColor
-//
-//                selectedPositionOption = positionName[indexPath.row]
-//            }
-//        }
-//    }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cellWidth = collectionView.bounds.width / CGFloat(5)
@@ -327,6 +311,13 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
                     cell.tierLabel.textColor = .black
                 }
             }
+            
+            if let selectedTierIndexPath = selectedTierIndexPath, selectedTierIndexPath == indexPath {
+                       cell.tierLabel.layer.borderColor = UIColor.systemBlue.cgColor
+                   } else {
+                       cell.tierLabel.layer.borderColor = UIColor.systemGray4.cgColor
+                   }
+            
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PositionCell", for: indexPath) as! PositionCell
@@ -345,6 +336,13 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
                     cell.positionImage.image = UIImage(named: "Bottom")?.withRenderingMode(.alwaysTemplate)
                 }
             }
+            
+            if let selectedPositionIndexPath = selectedPositionIndexPath, selectedPositionIndexPath == indexPath {
+                       cell.positionFrame.layer.borderColor = UIColor.systemBlue.cgColor
+                   } else {
+                       cell.positionFrame.layer.borderColor = UIColor.systemGray4.cgColor
+                   }
+            
             return cell
         }
     }
