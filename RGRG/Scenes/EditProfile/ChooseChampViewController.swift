@@ -76,6 +76,7 @@ extension ChooseChampViewController {
         super.viewDidLoad()
         setupCollectionView()
         configureUI()
+        print("~~~")
     }
     
     override func viewWillAppear(_ animated: Bool) {
