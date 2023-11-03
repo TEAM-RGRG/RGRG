@@ -313,9 +313,12 @@ extension MainViewController {
                 print("### CurrentUser Info ::: \(user)")
                 self.currentUser = user
             })
+            
             let tier = ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Emerald", "Diamond", "Master", "GrandMaster", "Challenger"]
-            let selectedTier = ["Gold"]
+            let selectedTier = ["Emerald"]
             let hopePosition = ["Top", "Jungle", "Mid", "Bottom", "Support"]
+            let selectedHopePosition = ["Bottom"]
+            
             await PartyManager.shared.loadParty(tier: tier, hopePosition: hopePosition) { [weak self] parties in
                 self?.partyList = parties // [PartyInfo] = [PartyInfo]
                 print("### \(self?.partyList)")

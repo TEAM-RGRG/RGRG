@@ -28,6 +28,7 @@ class ChatDetailViewController: UIViewController {
     var count = 1
 
     var currentUserEmail = ""
+    var currentName = ""
     var placeholder = "메세지 보내기"
     var textViewPosY = CGFloat(0)
 
@@ -43,11 +44,12 @@ extension ChatDetailViewController {
 
         if let user = Auth.auth().currentUser {
             currentUserEmail = user.email ?? "n/a"
+
         } else {
             print("### Login : Error")
         }
 
-        FireStoreManager.shared.updateReadChat(thread: thread, currentUser: currentUserEmail)
+//        FireStoreManager.shared.updateReadChat(thread: thread, currentUser: currentUserEmail)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -57,7 +59,7 @@ extension ChatDetailViewController {
 
             self.chats = data
 
-            FireStoreManager.shared.updateChannel(currentMessage: self.chats.last?.content ?? "", thread: thread)
+            FireStoreManager.shared.updateChannel(currentMessage: self.chats.last?.content ?? "", thread: thread, sender: currentName, host: channelInfo?.host ?? "n/a", guest: channelInfo?.guest ?? "n/a")
 
             if chats.isEmpty == true {
                 blankMessage.isHidden = false
@@ -267,6 +269,8 @@ extension ChatDetailViewController {
                 self.textView.endEditing(true)
                 self.sendMessageIcon.image = UIImage(named: "Send_fill")
             }
+
+            FireStoreManager.shared.updateChannelSender(thread: self.thread, sender: self.currentName, host: self.channelInfo?.host ?? "n/a", guest: self.channelInfo?.guest ?? "n/a")
         }
     }
 }
@@ -281,48 +285,37 @@ extension ChatDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = chats[indexPath.row]
 
-        if indexPath.row == 0 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatAlertCell.identifier, for: indexPath) as? ChatAlertCell else { return UITableViewCell() }
-            cell.setupUI()
+        if item.sender == currentUserEmail {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: MyFeedCell.identifier, for: indexPath) as? MyFeedCell else { return UITableViewCell() }
+
+            cell.myChatContent.text = item.content
+            cell.myChatTime.text = dateFormatter(strDate: item.date)
+
+            DispatchQueue.main.async {
+                cell.setupUI()
+            }
+
             cell.backgroundColor = .clear
             let background = UIView()
             background.backgroundColor = .clear
             cell.selectedBackgroundView = background
             return cell
-
         } else {
-            if item.sender == currentUserEmail {
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: MyFeedCell.identifier, for: indexPath) as? MyFeedCell else { return UITableViewCell() }
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: YourFeedCell.identifier, for: indexPath) as? YourFeedCell else { return UITableViewCell() }
 
-                cell.myChatContent.text = item.content
-                cell.myChatTime.text = dateFormatter(strDate: item.date)
+            cell.yourChatContent.text = item.content
+            cell.yourChatTime.text = dateFormatter(strDate: item.date)
+            cell.yourProfileImage.image = UIImage(named: channelInfo?.hostProfile ?? "Default")
 
-                DispatchQueue.main.async {
-                    cell.setupUI()
-                }
-
-                cell.backgroundColor = .clear
-                let background = UIView()
-                background.backgroundColor = .clear
-                cell.selectedBackgroundView = background
-                return cell
-            } else {
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: YourFeedCell.identifier, for: indexPath) as? YourFeedCell else { return UITableViewCell() }
-
-                cell.yourChatContent.text = item.content
-                cell.yourChatTime.text = dateFormatter(strDate: item.date)
-                cell.yourProfileImage.image = UIImage(named: channelInfo?.hostProfile ?? "Default")
-
-                DispatchQueue.main.async {
-                    cell.setupUI()
-                }
-
-                cell.backgroundColor = .clear
-                let background = UIView()
-                background.backgroundColor = .clear
-                cell.selectedBackgroundView = background
-                return cell
+            DispatchQueue.main.async {
+                cell.setupUI()
             }
+
+            cell.backgroundColor = .clear
+            let background = UIView()
+            background.backgroundColor = .clear
+            cell.selectedBackgroundView = background
+            return cell
         }
     }
 }
@@ -331,10 +324,6 @@ extension ChatDetailViewController: UITableViewDataSource {
 
 extension ChatDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 0 {
-            return 110
-        }
-
         return tableView.rowHeight
     }
 
