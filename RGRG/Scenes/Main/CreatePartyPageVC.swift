@@ -64,6 +64,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     let topPositionbutton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "Top"), for: .normal)
+        button.subtitleLabel?.text = "Top"
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
         button.backgroundColor = .systemGray4
         button.layer.cornerRadius = 25
@@ -74,6 +75,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     let junglePositionbutton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "Jungle"), for: .normal)
+        button.subtitleLabel?.text = "Jungle"
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
         button.backgroundColor = .systemGray4
         button.layer.cornerRadius = 25
@@ -84,6 +86,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     let midPositionbutton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "Mid"), for: .normal)
+        button.subtitleLabel?.text = "Mid"
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
         button.backgroundColor = .systemGray4
         button.layer.cornerRadius = 25
@@ -94,6 +97,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     let bottomPositionbutton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "Bottom"), for: .normal)
+        button.subtitleLabel?.text = "Bottom"
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
         button.backgroundColor = .systemGray4
         button.layer.cornerRadius = 25
@@ -104,6 +108,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     let supportPositionbutton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "Support"), for: .normal)
+        button.subtitleLabel?.text = "Support"
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
         button.backgroundColor = .systemGray4
         button.layer.cornerRadius = 25
@@ -460,5 +465,19 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
             $0.height.equalTo(60)
             $0.centerX.equalTo(view)
         }
+    }
+}
+
+extension SettingViewController: UITextFieldDelegate {
+    func textField(_ partyNameTextField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+       // 백스페이스 처리
+       if let char = string.cString(using: String.Encoding.utf8) {
+              let isBackSpace = strcmp(char, "\\b")
+              if isBackSpace == -92 {
+                  return true
+              }
+        }
+        guard partyNameTextField.text!.count < 20 else { return false } // 10 글자로 제한
+        return true
     }
 }

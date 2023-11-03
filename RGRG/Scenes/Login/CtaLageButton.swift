@@ -13,6 +13,7 @@ class CtaLargeButton : UIButton {
     
     let title: UILabel = {
         let label = UILabel()
+        label.font = UIFont(name: AppFontName.bold, size: 15)
         return label
     }()
         
@@ -37,7 +38,6 @@ class CtaLargeButton : UIButton {
         
         self.addSubview(title)
         title.textColor = UIColor.white
-        title.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
         title.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()

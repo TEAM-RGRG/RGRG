@@ -32,12 +32,14 @@ class CustomMemberInfoBox : UIView {
     let inputBox = {
         let box = UITextField()
         box.autocapitalizationType = .none
+        box.font = UIFont(name: AppFontName.bold, size: 16)
         return box
     }()
     
     let conditionText = {
         let text = UILabel()
         text.isHidden = true
+        text.font = UIFont(name: AppFontName.regular, size: 14)
         return text
     }()
     
@@ -62,6 +64,7 @@ class CustomMemberInfoBox : UIView {
     let passMessage = {
         let text = UILabel()
         text.isHidden = true
+        text.font = UIFont(name: AppFontName.regular, size: 14)
         return text
         
     }()
@@ -69,6 +72,7 @@ class CustomMemberInfoBox : UIView {
     lazy var duplicationMessage = {
         let text = UILabel()
         text.isHidden = true
+        text.font = UIFont(name: AppFontName.regular, size: 14)
         return text
     }()
     
@@ -77,7 +81,6 @@ class CustomMemberInfoBox : UIView {
         self.conditon = condition
         self.cellHeightValue = cellHeight
         self.conditionText.text = conditionText
-        //        self.passMessage.text = passText
         self.inputBox.placeholder = placeHolder
         self.cellID = id
         super.init(frame: CGRect())
@@ -264,6 +267,7 @@ class CustomMemberInfoBox : UIView {
     
     //MARK: UI
     func setupUI(){
+        self.setupShadow(alpha: 0.25, offset: CGSize(width: 2, height: 3), radius: 4, opacity: 0.5)
         self.layer.borderWidth = 2
         self.layer.cornerRadius = 10
         self.snp.makeConstraints { make in
@@ -305,6 +309,7 @@ class CustomMemberInfoBox : UIView {
         checkIcon.contentMode = .scaleAspectFit
         checkIcon.snp.makeConstraints { make in
             make.width.equalTo(20)
+            make.left.equalTo(isSecureControllView.snp.right).offset(10)
         }
         
         stackView.addArrangedSubview(passMessage)

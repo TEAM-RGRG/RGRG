@@ -139,16 +139,6 @@ extension ChatListViewController {
     func makeRightBarButton() {
         // 액션 만들기 >> 메뉴 만들기 >> UIBarButtonItem 만들기
         let latestSortAction = rightBarButtonItem.makeSingleAction(title: "최신 메시지 순", state: .off) { _ in
-            if let currentUser = self.currentUser {
-                FireStoreManager.shared.addChannel(channelTitle: "테스트1", guest: "testuser2@naver.com", host: currentUser.userName, channelID: UUID().uuidString, date: FireStoreManager.shared.dateFormatter(value: Date.now), users: [currentUser.userName, "testuser2@naver.com"], guestProfile: "Ashe", hostProfile: "Teemo", hostSender: false, guestSender: false) { channel in
-                    print("### 성공적으로 저장됨.")
-                    self.channels.append(channel)
-                }
-
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            }
             print("### 최신순으로 정렬하기 알파입니다.")
         }
 
@@ -193,10 +183,10 @@ extension ChatListViewController: UITableViewDataSource {
             cell.userProfileImage.image = UIImage(named: item.guestProfile)
             cell.userProfileImage.layer.masksToBounds = true
 
-            if item.guestSender == true {
-                cell.chatAlert.isHidden = true
-            } else {
+            if item.hostSender == true {
                 cell.chatAlert.isHidden = false
+            } else {
+                cell.chatAlert.isHidden = true
             }
 
         } else {
@@ -206,10 +196,10 @@ extension ChatListViewController: UITableViewDataSource {
             cell.userProfileImage.image = UIImage(named: item.hostProfile)
             cell.userProfileImage.layer.masksToBounds = true
 
-            if item.hostSender == true {
-                cell.chatAlert.isHidden = true
-            } else {
+            if item.guestSender == true {
                 cell.chatAlert.isHidden = false
+            } else {
+                cell.chatAlert.isHidden = true
             }
         }
 
