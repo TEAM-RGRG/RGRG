@@ -18,6 +18,7 @@ class EditProfileViewController: UIViewController, sendSelectedIconDelegate {
 
     var user: User?
     let wholeView = UIView()
+    var isRepeatedUserName = false
 
     var selectedImage: String?
 
@@ -51,6 +52,7 @@ class EditProfileViewController: UIViewController, sendSelectedIconDelegate {
     let userNameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "닉네임을 입력해주세요"
+        textField.font = .mySystemFont(ofSize: 16)
         return textField
     }()
 
@@ -100,7 +102,6 @@ extension EditProfileViewController {
         FirebaseUserManager.shared.getUserInfo { user in
             self.user = user
             self.selectedImage = user.profilePhoto
-            print("~~~~~~~~~~~viewdidload")
             DispatchQueue.main.async {
                 self.tierButton.titleLabel?.textColor = UIColor(named: user.tier)
                 self.setBeforeInfo()
@@ -137,7 +138,7 @@ extension EditProfileViewController {
             make.width.height.equalTo(25)
         }
 
-        [profileImage, outerImageView, userNameTitle, userNameTextField, buttonStackView, tierTitle, positionTitle, mostChampButton, mostChampImgStackView, doneEditButton].forEach { wholeView.addSubview($0) }
+        [profileImage, outerImageView, userNameTitle, userNameTextField, noticeLabel, buttonStackView, tierTitle, positionTitle, mostChampButton, mostChampImgStackView, doneEditButton].forEach { wholeView.addSubview($0) }
         [firstImage, secondImage, thirdImage].forEach { mostChampImgStackView.addArrangedSubview($0) }
         [tierButton, positionButton].forEach { buttonStackView.addArrangedSubview($0) }
 
@@ -162,6 +163,11 @@ extension EditProfileViewController {
             make.top.equalTo(userNameTitle.snp.bottom).offset(8)
             make.left.right.equalToSuperview().inset(46)
             make.height.equalTo(52)
+        }
+
+        noticeLabel.snp.makeConstraints { make in
+            make.top.equalTo(userNameTextField.snp.bottom).offset(8)
+            make.left.equalTo(userNameTitle)
         }
 
         buttonStackView.snp.makeConstraints { make in
@@ -211,14 +217,15 @@ extension EditProfileViewController {
             $0.font = UIFont(name: "NotoSansKR-Bold", size: 16)
         }
 
-        noticeLabel.text = "닉네임을 입력해주세요!"
+        noticeLabel.text = ""
         noticeLabel.textColor = UIColor.red
-        noticeLabel.font = UIFont(name: "NotoSansKR-Bold", size: 12)
+        noticeLabel.font = UIFont(name: "NotoSansKR-Regular", size: 12)
     }
 
     func setupTextFields() {
         userNameTextField.layer.cornerRadius = 10
         userNameTextField.layer.backgroundColor = UIColor.white.cgColor
+        userNameTextField.addTarget(self, action: #selector(checkAvailable), for: .editingChanged)
     }
 
     func setupButtons() {
@@ -370,7 +377,19 @@ extension EditProfileViewController {
 
     @objc func mostChampButtonPressed() {
         let chooseChampVC = ChooseChampViewController()
-
         navigationController?.pushViewController(chooseChampVC, animated: true)
+    }
+
+    @objc func checkAvailable() {
+        if user?.userName != userNameTextField.text {
+            FirebaseUserManager.shared.checkUserNameRepeat(inputText: userNameTextField.text ?? "", completion: { boolean in
+                if boolean == true {
+                    self.noticeLabel.text = "중복된 닉네임입니다!"
+                } else {
+                    self.noticeLabel.text = ""
+                }
+
+            })
+        }
     }
 }
