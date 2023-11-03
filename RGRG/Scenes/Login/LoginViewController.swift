@@ -4,7 +4,6 @@
 //
 //  Created by kiakim iMac on 2023/10/11.
 
-
 import FirebaseAuth
 import FirebaseCore
 import SnapKit
@@ -125,7 +124,6 @@ extension LoginViewController {
         passwordLine.passHandler = { pass in
             self.loginPwPass = pass
             print("loginPwPass??", self.loginPwPass)
-            
         }
     }
     
@@ -139,7 +137,6 @@ extension LoginViewController {
     }
     
     func setupUI() {
-        
         view.addSubview(bodyContainer)
         bodyContainer.addSubview(imageArea)
         imageArea.addSubview(mainImage)

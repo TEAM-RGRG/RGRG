@@ -28,7 +28,7 @@ class FirebaseUserManager {
             }
         }
     }
-    
+
     func updateUserInfo(userInfo: User) {
         let path = FirebaseUserManager.db.collection("users").document(Auth.auth().currentUser?.uid ?? "")
         path.getDocument { snapshot, error in
@@ -45,5 +45,19 @@ class FirebaseUserManager {
                 }
             }
         }
+    }
+
+    func checkUserNameRepeat(inputText: String, completion: @escaping (Bool) -> Void) {
+        var boolean = false
+        FirebaseUserManager.db.collection("users").whereField("userName", isEqualTo: inputText).getDocuments { snapShot, error in
+            if let error = error {
+                print("오류 발생: \(error.localizedDescription)")
+            } else {
+                if snapShot?.isEmpty == false {
+                    completion(true)
+                }
+            }
+        }
+        completion(false)
     }
 }
