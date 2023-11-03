@@ -181,6 +181,7 @@ class PartyTableViewCell: UITableViewCell {
         tierLabelFrame.snp.makeConstraints {
             $0.top.equalTo(userNameLabel.snp.bottom).offset(8)
             $0.leading.equalTo(profileImage.snp.trailing).offset(16)
+            $0.width.equalTo(130)
             $0.bottom.equalTo(cellFrameView.snp.bottom).offset(-14)
         }
         
@@ -195,7 +196,8 @@ class PartyTableViewCell: UITableViewCell {
             $0.top.equalTo(tierLabelFrame.snp.top).offset(0)
             $0.height.equalTo(24)
             $0.width.equalTo(76)
-            $0.trailing.equalTo(cellFrameView.snp.trailing).offset(-100)
+            $0.leading.equalTo(tierLabelFrame.snp.trailing).offset(10)
+//            $0.trailing.equalTo(cellFrameView.snp.trailing).offset(-100)
         }
         
         fitstRequiredPositionFrame.snp.makeConstraints {

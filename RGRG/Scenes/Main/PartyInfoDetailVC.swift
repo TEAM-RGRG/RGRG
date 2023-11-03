@@ -162,7 +162,7 @@ class PartyInfoDetailVC: UIViewController {
     let championLabel: UILabel = {
         let label = UILabel()
         label.text = "주 챔피언"
-        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         label.textColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 1)
         return label
     }()
@@ -214,7 +214,7 @@ class PartyInfoDetailVC: UIViewController {
     let requiredPositionLabel: UILabel = {
         let label = UILabel()
         label.text = "듀오 희망 포지션"
-        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         label.textColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 1)
         return label
     }()
