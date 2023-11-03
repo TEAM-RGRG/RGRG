@@ -241,7 +241,6 @@ class PartyInfoDetailVC: UIViewController {
         return imageView
     }()
 
-
     let confirmationButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
@@ -266,7 +265,7 @@ class PartyInfoDetailVC: UIViewController {
         requiredPositionImage.image = UIImage(named: party?.hopePosition[0] ?? "Top")
         
         tierLabel.text = party?.tier
-        if let tier = party?.tier{
+        if let tier = party?.tier {
             tierLabel.textColor = getColorForTier(tier)
         }
         func getColorForTier(_ tier: String) -> UIColor {
@@ -330,7 +329,7 @@ class PartyInfoDetailVC: UIViewController {
     
     @objc func menuButtonTapped() {
         if let user = user {
-            FireStoreManager.shared.addChannel(channelTitle: party?.userName ?? "n/a", requester: party?.userName ?? "n/a", writer: user.userName, channelID: UUID().uuidString, date: FireStoreManager.shared.dateFormatter(value: Date.now), users: [party?.userName ?? "n/a", user.userName], requesterProfile: party?.profileImage ?? "n/a", writerProfile: "1") { channel in
+            FireStoreManager.shared.addChannel(channelTitle: party?.userName ?? "n/a", guest: party?.userName ?? "n/a", host: user.userName, channelID: UUID().uuidString, date: FireStoreManager.shared.dateFormatter(value: Date.now), users: [party?.userName ?? "n/a", user.userName], guestProfile: party?.profileImage ?? "n/a", hostProfile: user.profilePhoto, hostSender: false, guestSender: false) { channel in
                 print("### 채널 추가 하기 :: \(channel)")
             }
             navigationController?.popViewController(animated: true)

@@ -198,7 +198,8 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     
     func task() {
         if let user = user {
-            let hopePosition = [positionOptionButtonArry[0].subtitleLabel?.text ?? "Top", positionOptionButtonArry[1].subtitleLabel?.text ?? "Mid"]
+            let hopePosition = [positionOptionButtonArry[0].subtitleLabel?.text ?? "Top", positionOptionButtonArry[1].subtitleLabel?.text ?? "Top"]
+            
             let party = PartyInfo(champion: ["Ahri", "Teemo", "Ashe"], content: infoTextView.text ?? "", date: FireStoreManager.shared.dateFormatter(value: Date.now), hopePosition: hopePosition, profileImage: user.profilePhoto, tier: user.tier, title: partyNameTextField.text ?? "", userName: user.userName, writer: user.userName, position: user.position)
             
             Task {
