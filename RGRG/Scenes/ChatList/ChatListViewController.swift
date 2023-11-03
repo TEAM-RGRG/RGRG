@@ -186,6 +186,7 @@ extension ChatListViewController: UITableViewDataSource {
 
         let item = channels[indexPath.row]
 
+        // 내가 호스트일 때,
         if currentUser?.userName == item.host {
             cell.setupUI()
             cell.userProfileName.text = item.guest
@@ -194,11 +195,10 @@ extension ChatListViewController: UITableViewDataSource {
             cell.userProfileImage.layer.masksToBounds = true
 
             if item.guestSender == true {
-                cell.chatAlert.isHidden = true
-            } else {
                 cell.chatAlert.isHidden = false
             }
 
+            // 내가 게스트일 때,
         } else {
             cell.setupUI()
             cell.userProfileName.text = item.host
@@ -207,8 +207,6 @@ extension ChatListViewController: UITableViewDataSource {
             cell.userProfileImage.layer.masksToBounds = true
 
             if item.hostSender == true {
-                cell.chatAlert.isHidden = true
-            } else {
                 cell.chatAlert.isHidden = false
             }
         }

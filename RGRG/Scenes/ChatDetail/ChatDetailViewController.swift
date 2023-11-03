@@ -59,8 +59,6 @@ extension ChatDetailViewController {
 
             self.chats = data
 
-            FireStoreManager.shared.updateChannel(currentMessage: self.chats.last?.content ?? "", thread: thread, sender: currentName, host: channelInfo?.host ?? "n/a", guest: channelInfo?.guest ?? "n/a")
-
             if chats.isEmpty == true {
                 blankMessage.isHidden = false
             } else {
@@ -75,12 +73,16 @@ extension ChatDetailViewController {
                     self.tableView.scrollToRow(at: endexIndex, at: .bottom, animated: true)
                 }
             }
+
+            FireStoreManager.shared.updateChannel(currentMessage: self.chats.last?.content ?? "", thread: thread, sender: currentName, host: channelInfo?.host ?? "n/a", guest: channelInfo?.guest ?? "n/a")
         }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         view.endEditing(true)
         chats.removeAll()
+        currentName = ""
+        currentUserEmail = ""
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -256,6 +258,8 @@ extension ChatDetailViewController {
         FireStoreManager.shared.addChat(thread: thread, sender: currentUserEmail, date: FireStoreManager.shared.dateFormatter(value: Date.now), read: false, content: textView.text ?? "n/a") { chat in
             self.chats.append(chat)
 
+            FireStoreManager.shared.updateChannelSender(thread: self.thread, sender: self.currentName, host: self.channelInfo?.host ?? "n/a", guest: self.channelInfo?.guest ?? "n/a")
+
             DispatchQueue.main.async {
                 self.textView.text = self.placeholder
                 self.textView.textColor = UIColor(hex: "#ADADAD")
@@ -269,8 +273,6 @@ extension ChatDetailViewController {
                 self.textView.endEditing(true)
                 self.sendMessageIcon.image = UIImage(named: "Send_fill")
             }
-
-            FireStoreManager.shared.updateChannelSender(thread: self.thread, sender: self.currentName, host: self.channelInfo?.host ?? "n/a", guest: self.channelInfo?.guest ?? "n/a")
         }
     }
 }
