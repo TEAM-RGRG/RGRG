@@ -32,12 +32,14 @@ class CustomMemberInfoBox : UIView {
     let inputBox = {
         let box = UITextField()
         box.autocapitalizationType = .none
+        box.font = UIFont(name: AppFontName.bold, size: 16)
         return box
     }()
     
     let conditionText = {
         let text = UILabel()
         text.isHidden = true
+        text.font = UIFont(name: AppFontName.regular, size: 14)
         return text
     }()
     
@@ -62,6 +64,7 @@ class CustomMemberInfoBox : UIView {
     let passMessage = {
         let text = UILabel()
         text.isHidden = true
+        text.font = UIFont(name: AppFontName.regular, size: 14)
         return text
         
     }()
@@ -69,6 +72,7 @@ class CustomMemberInfoBox : UIView {
     lazy var duplicationMessage = {
         let text = UILabel()
         text.isHidden = true
+        text.font = UIFont(name: AppFontName.regular, size: 14)
         return text
     }()
     
