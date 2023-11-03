@@ -77,7 +77,6 @@ class CustomMemberInfoBox : UIView {
         self.conditon = condition
         self.cellHeightValue = cellHeight
         self.conditionText.text = conditionText
-        //        self.passMessage.text = passText
         self.inputBox.placeholder = placeHolder
         self.cellID = id
         super.init(frame: CGRect())
@@ -264,6 +263,7 @@ class CustomMemberInfoBox : UIView {
     
     //MARK: UI
     func setupUI(){
+        self.setupShadow(alpha: 0.25, offset: CGSize(width: 2, height: 3), radius: 4, opacity: 0.5)
         self.layer.borderWidth = 2
         self.layer.cornerRadius = 10
         self.snp.makeConstraints { make in
