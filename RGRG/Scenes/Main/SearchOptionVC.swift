@@ -12,13 +12,13 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     var selectedTierOption: String?
     var selectedPositionOption: String?
-    var onConfirmation: ((String, String) -> Void)?
+    var onConfirmation: (([String], [String]) -> Void)?
     
     let upperSectionItemCount = 7 // 윗쪽 섹션의 항목 개수
     let lowerSectionItemCount = 5 // 아랫쪽 섹션의 항목 개수
 
     let tierName = ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Emerald", "Diamond"]
-    let positionName = ["Top", "Jug", "Mid", "Sup", "Bot"]
+    let positionName = ["Top", "Jug", "Mid", "Bot", "Sup"]
 
     var selectedTierIndexPath: IndexPath?
     var selectedSection: Int?
@@ -56,24 +56,10 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     @objc func confirmationButtonTapped() {
         if let selectedTier = selectedTierOption,
            let selectedPosition = selectedPositionOption {
-           
-            onConfirmation?(selectedTier, selectedPosition)
-//            saveSelectedCellInfo()
+            print ("%%%%%%%%%%%%%\(selectedTierOption)%%%%%%%%%%%%%%%")
+            onConfirmation?([selectedTier], [selectedPosition])
         }
-        
-//        if selectedTierIndexPath == nil && selectedPositionIndexPath == nil {
-//                // 선택된 셀이 없는 경우 UserDefaults에서 저장된 정보를 제거
-//                UserDefaults.standard.removeObject(forKey: "selectedTierIndexPath")
-//                UserDefaults.standard.removeObject(forKey: "selectedPositionIndexPath")
-//            selectedTierIndexPath = nil
-//            selectedTierOption = nil
-//            selectedPositionIndexPath = nil
-//            selectedPositionOption = nil
-//            collectionView.reloadData()
-//            } 
-//        else {
-//                saveSelectedCellInfo()
-//            }
+       
         saveSelectedCellInfo()
         dismiss(animated: true, completion: nil)
     }
@@ -123,7 +109,7 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         if let sheetPresentationController = sheetPresentationController {
             sheetPresentationController.detents = [
                 .custom { _ in
-                    340
+                    305
                 }
             ]
         }
@@ -233,11 +219,14 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             if indexPath == selectedTierIndexPath {
                 // 이미 선택된 셀을 다시 탭한 경우, 선택 해제
                 selectedTierIndexPath = nil
-                selectedTierOption = nil
+                selectedTierOption = "default"
                 UserDefaults.standard.removeObject(forKey: "selectedTierIndexPath")
+                print ("%%%%%%%%%%%%%%\(selectedTierOption)%%%%%%%%%")
                 
                 if let selectedCell = collectionView.cellForItem(at: indexPath) as? CollectionViewCell {
                     selectedCell.tierLabel.layer.borderColor = UIColor.systemGray4.cgColor
+                    
+                    print ("%%%%%%%%%%%%%%\(selectedTierOption)%%%%%%%%%")
                 }
             } else {
                 if let previousIndexPath = selectedTierIndexPath {
@@ -257,7 +246,7 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             if indexPath == selectedPositionIndexPath {
                 // 이미 선택된 셀을 다시 탭한 경우, 선택 해제
                 selectedPositionIndexPath = nil
-                selectedPositionOption = nil
+                selectedPositionOption = "default"
                 UserDefaults.standard.removeObject(forKey: "selectedPositionIndexPath")
 
                 if let selectedCell = collectionView.cellForItem(at: indexPath) as? PositionCell {
@@ -423,7 +412,6 @@ class PositionCell: UICollectionViewCell {
 
     let positionImage: UIImageView = {
         var imageView = UIImageView()
-        imageView.image = UIImage(named: "미드w")?.withRenderingMode(.alwaysTemplate)
         imageView.tintColor = .systemGray2
         imageView.contentMode = .scaleToFill
         return imageView
