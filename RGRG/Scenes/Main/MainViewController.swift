@@ -10,8 +10,24 @@ import UIKit
 
 class MainViewController: UIViewController {
     let testButton = CustomButton(frame: .zero)
-    var selectedTier: String? = nil
-    var selectedPosition: String? = nil
+    var selectedTier: String? = nil{
+        didSet {
+            updateOptionLabel()
+        }
+    }
+    
+    var selectedPosition: String? = nil{
+        didSet {
+            updateOptionLabel()
+        }
+    }
+    
+    var selectedTiers: [String] = []{
+        didSet{
+        }
+    }
+    
+    var selectiedTierArray:[String] = []
 
     var currentUser: User?
     var partyList: [PartyInfo] = []
@@ -90,18 +106,11 @@ class MainViewController: UIViewController {
         return view
     }()
     
-//    let optionFrame: UIView = {
-//        let view = UIView()
-//        return view
-//    }()
-    
     var tierOptionLabel: UIButton = {
         var button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
         button.setTitle("티어 ", for: .normal)
         button.setTitleColor(.systemGray3, for: .normal)
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        button.titleLabel?.adjustsFontForContentSizeCategory = true
         button.semanticContentAttribute = .forceRightToLeft
         button.setImage(UIImage(systemName: "chevron.down")?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.tintColor = .systemGray4
@@ -111,27 +120,12 @@ class MainViewController: UIViewController {
         button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
         return button
     }()
-    
-    var tierOptionLabelText: UILabel = {
-        var label = UILabel()
-        label.text = "티어"
-        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-        return label
-    }()
-    
-    let tierOptionLabelImage: UIImageView = {
-       let image = UIImageView()
-        image.image = UIImage(systemName: "chevron.down")?.withRenderingMode(.alwaysTemplate)
-        return image
-    }()
         
     var positionOptionLabel: UIButton = {
         var button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-        button.setTitle("희망 포지션", for: .normal)
+        button.setTitle("포지션 ", for: .normal)
         button.setTitleColor(.systemGray3, for: .normal)
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        button.titleLabel?.adjustsFontForContentSizeCategory = true
         button.semanticContentAttribute = .forceRightToLeft
         button.setImage(UIImage(systemName: "chevron.down")?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.tintColor = .systemGray4
@@ -141,25 +135,6 @@ class MainViewController: UIViewController {
         button.layer.borderColor = UIColor.systemGray4.cgColor
         button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
         return button
-    }()
-    
-    var positionOptionLabelText: UILabel = {
-        var label = UILabel()
-        label.text = "희망 포지션"
-        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-        return label
-    }()
-    
-    let positionOptionLabelImage: UIImageView = {
-       let image = UIImageView()
-        image.image = UIImage(systemName: "chevron.down")?.withRenderingMode(.alwaysTemplate)
-        return image
-    }()
-    
-    let emptyViewForOption: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.rgrgColor5
-        return view
     }()
     
     let listUnderline: UIView = {
@@ -200,35 +175,56 @@ class MainViewController: UIViewController {
         navigationController?.pushViewController(NoticePageVC, animated: true)
     }
     
+    
     @objc func searchOptionButtonTapped() {
         let searchOptionVC = SearchOptionVC()
-        
-       
-        
-        searchOptionVC.modalPresentationStyle = .pageSheet
         searchOptionVC.selectedTierOption = selectedTier
         searchOptionVC.selectedPositionOption = selectedPosition
         
         searchOptionVC.onConfirmation = { [weak self] selectedTier, selectedPosition in
             self?.selectedTier = selectedTier
             self?.selectedPosition = selectedPosition
-                
-            self?.tierOptionLabel.setTitle(" \(selectedTier) ", for: .normal)
-            self?.tierOptionLabel.tintColor = .rgrgColor3
-            
-            if let tierColor = self?.tierColors[selectedTier] {
-                self?.tierOptionLabel.setTitleColor(tierColor, for: .normal)
-            }
-            
-            
-            self?.tierOptionLabel.layer.borderColor = UIColor.rgrgColor3.cgColor
-            self?.positionOptionLabel.setTitle(" \(selectedPosition) ", for: .normal)
-            self?.positionOptionLabel.tintColor = .rgrgColor3
-            self?.positionOptionLabel.setTitleColor(.rgrgColor3, for: .normal)
-            self?.positionOptionLabel.layer.borderColor = UIColor.rgrgColor3.cgColor
+            self?.updateOptionLabel()
         }
+        
         present(searchOptionVC, animated: true, completion: nil)
     }
+
+    func updateOptionLabel() {
+        // selectedTier 및 selectedPosition의 값에 따라 tierOptionLabel 업데이트
+        if let tier = selectedTier, let position = selectedPosition {
+            // 선택된 티어와 포지션이 모두 nil이 아닌 경우
+            tierOptionLabel.setTitle(" \(tier) ", for: .normal)
+            tierOptionLabel.tintColor = .rgrgColor3
+            selectedTiers.append(tier)
+            if let tierColor = tierColors[tier] {
+                tierOptionLabel.setTitleColor(tierColor, for: .normal)
+            }
+            selectiedTierArray.append(selectedTier ?? "")
+//            task.selectedTier = selectiedTierArray
+            
+            tierOptionLabel.layer.borderColor = UIColor.rgrgColor3.cgColor
+            positionOptionLabel.setTitle(" \(position) ", for: .normal)
+            positionOptionLabel.tintColor = .rgrgColor3
+            positionOptionLabel.setTitleColor(.rgrgColor3, for: .normal)
+            positionOptionLabel.layer.borderColor = UIColor.rgrgColor3.cgColor
+        } else if let tier = selectedTier {
+            // 티어만 선택된 경우
+            tierOptionLabel.setTitle(" \(tier) ", for: .normal)
+            positionOptionLabel.setTitle("포지션 ", for: .normal) // 다른 레이블을 초기화
+        } else if let position = selectedPosition {
+            // 포지션만 선택된 경우
+            tierOptionLabel.setTitle("티어 ", for: .normal) // 다른 레이블을 초기화
+            positionOptionLabel.setTitle(" \(position) ", for: .normal)
+        } else {
+            // 둘 다 nil인 경우
+            tierOptionLabel.setTitle("티어 ", for: .normal)
+            positionOptionLabel.setTitle("포지션 ", for: .normal)
+        }
+    }
+
+    
+    
     
     func configureUI() {
         view.backgroundColor = .rgrgColor5
@@ -240,11 +236,7 @@ class MainViewController: UIViewController {
         topFrame.addSubview(optionFrame)
 
         optionFrame.addArrangedSubview(tierOptionLabel)
-//        tierOptionLabel.addSubview(tierOptionLabelText)
-//        tierOptionLabel.addSubview(tierOptionLabelImage)
         optionFrame.addArrangedSubview(positionOptionLabel)
-//        positionOptionLabel.addSubview(positionOptionLabel)
-//        positionOptionLabel.addSubview(positionOptionLabelImage)
         
         view.addSubview(contentView)
         contentView.addSubview(patryListTable)
@@ -276,20 +268,14 @@ class MainViewController: UIViewController {
         optionFrame.snp.makeConstraints {
             $0.top.equalTo(pageTitleLabel.snp.bottom).offset(15)
             $0.height.equalTo(30)
-            $0.leading.equalTo(topFrame.snp.leading).offset(10)
+            $0.leading.equalTo(topFrame.snp.leading).offset(20)
             $0.trailing.equalTo(topFrame.snp.trailing).offset(-165)
         }
         
         tierOptionLabel.snp.makeConstraints {
             $0.width.greaterThanOrEqualTo(78)
         }
-    
-//        positionOptionLabel.snp.makeConstraints {
-//            $0.top.equalTo(optionFrame.snp.top).offset(5)
-//            $0.leading.equalTo(tierOptionLabel.snp.trailing).offset(12)
-//            $0.height.equalTo(29)
-//            $0.width.equalTo(115)
-//        }
+        
         contentView.snp.makeConstraints {
             $0.top.equalTo(topFrame.snp.bottom).offset(0)
             $0.bottom.equalTo(view.snp.bottom).offset(-45)
@@ -307,6 +293,7 @@ class MainViewController: UIViewController {
 }
 
 extension MainViewController {
+    
     func task() {
         Task {
             await FirebaseUserManager.shared.getUserInfo(complition: { user in
@@ -315,11 +302,17 @@ extension MainViewController {
             })
             
             let tier = ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Emerald", "Diamond", "Master", "GrandMaster", "Challenger"]
-            let selectedTier = ["Emerald"]
-            let hopePosition = ["Top", "Jungle", "Mid", "Bottom", "Support"]
-            let selectedHopePosition = ["Bottom"]
-            
-            await PartyManager.shared.loadParty(tier: tier, hopePosition: hopePosition) { [weak self] parties in
+            var selectedTiers: [String] = ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Emerald", "Diamond", "Master", "GrandMaster", "Challenger"]
+//            if let selectedTier = selectedTier {
+//                selectedTiers.append(selectedTier)
+//            }
+            let position = ["Top", "Jungle", "Mid", "Bottom", "Support"]
+            var selectedPositions = ["Top", "Jungle", "Mid", "Bottom", "Support"]
+//            if let selectedPosition = selectedPosition {
+//                selectedPositions.append(selectedPosition)
+//            }
+            await PartyManager.shared.loadParty(tier: selectedTiers, position: selectedPositions) { [weak self] parties in
+
                 self?.partyList = parties // [PartyInfo] = [PartyInfo]
                 print("### \(self?.partyList)")
                 DispatchQueue.main.async {

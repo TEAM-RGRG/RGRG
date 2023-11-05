@@ -89,6 +89,7 @@ class SignUpViewController: UIViewController {
         passValueCheck()
         showTierSelector()
         showPositionSelector()
+        setupKeyboardEvent()
         
     }
 }
@@ -226,7 +227,38 @@ extension SignUpViewController {
         present(alertController, animated: true, completion: nil)
     }
 
-    
+}
+
+extension SignUpViewController {
+    func setupKeyboardEvent() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+    @objc func keyboardWillShow(_ sender: Notification) {
+        // 키보드 표시 이벤트 처리
+        guard let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        let keyboardHeight = keyboardFrame.cgRectValue.height
+        
+        if view.frame.origin.y == 0 {
+            view.frame.origin.y -= keyboardHeight - 160
+        }
+    }
+    @objc func keyboardWillHide(_ notification: Notification) {
+        // 키보드 숨김 이벤트 처리
+        if view.frame.origin.y != 0 {
+            view.frame.origin.y = 0
+        }
+        
+    }
+}
+
+extension SignUpViewController {
     func setupUI() {
         view.addSubview(bodyContainer)
         bodyContainer.addSubview(imageArea)
@@ -257,7 +289,7 @@ extension SignUpViewController {
             make.top.equalToSuperview()
             make.left.equalToSuperview().offset(20)
             make.right.equalToSuperview().inset(20)
-            make.height.equalToSuperview().dividedBy(6)
+            make.height.equalTo(100)
         }
         
         mainImage.image = UIImage(named: "SignupMain")
@@ -271,7 +303,7 @@ extension SignUpViewController {
         methodArea.spacing = 15
         methodArea.distribution = .fillProportionally
         methodArea.snp.makeConstraints { make in
-            make.top.equalTo(imageArea.snp.bottom).offset(40)
+            make.top.equalTo(imageArea.snp.bottom).offset(30)
             make.left.right.equalToSuperview()
         }
         
