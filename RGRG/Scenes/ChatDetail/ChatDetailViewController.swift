@@ -27,8 +27,7 @@ class ChatDetailViewController: UIViewController {
     var fetchingMore = false
     var count = 1
 
-    var currentUserEmail = ""
-    var currentName = ""
+    var currentUserName = ""
     var placeholder = "메세지 보내기"
     var textViewPosY = CGFloat(0)
 
@@ -42,14 +41,12 @@ extension ChatDetailViewController {
         super.viewDidLoad()
         setupUI()
 
-        if let user = Auth.auth().currentUser {
-            currentUserEmail = user.email ?? "n/a"
-
-        } else {
-            print("### Login : Error")
-        }
-
-//        FireStoreManager.shared.updateReadChat(thread: thread, currentUser: currentUserEmail)
+//        if let user = Auth.auth().currentUser {
+//            currentUid = user.uid ?? "n/a"
+//
+//        } else {
+//            print("### Login : Error")
+//        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -74,15 +71,14 @@ extension ChatDetailViewController {
                 }
             }
 
-            FireStoreManager.shared.updateChannel(currentMessage: self.chats.last?.content ?? "", thread: thread, sender: currentName, host: channelInfo?.host ?? "n/a", guest: channelInfo?.guest ?? "n/a")
+            FireStoreManager.shared.updateChannel(currentMessage: self.chats.last?.content ?? "", thread: thread, sender: currentUserName, host: channelInfo?.host ?? "n/a", guest: channelInfo?.guest ?? "n/a")
         }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         view.endEditing(true)
         chats.removeAll()
-        currentName = ""
-        currentUserEmail = ""
+        currentUserName = ""
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -157,8 +153,6 @@ extension ChatDetailViewController {
 
         blankMessage.snp.makeConstraints { make in
             make.centerX.centerY.equalToSuperview()
-            make.top.equalTo(view).offset(416)
-            make.leading.equalTo(view).offset(40)
             make.height.equalTo(20)
         }
     }
@@ -226,7 +220,6 @@ extension ChatDetailViewController {
         emptyView.layer.cornerRadius = 10
 
         emptyView.snp.makeConstraints { make in
-//            make.top.equalTo(textView.snp.top).offset(1)
             make.height.equalTo(36)
             make.bottom.equalTo(textView.snp.bottom).offset(-1)
             make.leading.equalTo(textView.snp.trailing).offset(4)
@@ -255,10 +248,10 @@ extension ChatDetailViewController {
             self.sendMessageIcon.image = UIImage(named: "ChangeSend_fill")
         })
 
-        FireStoreManager.shared.addChat(thread: thread, sender: currentUserEmail, date: FireStoreManager.shared.dateFormatter(value: Date.now), read: false, content: textView.text ?? "n/a") { chat in
+        FireStoreManager.shared.addChat(thread: thread, sender: currentUserName, date: FireStoreManager.shared.dateFormatter(value: Date.now), read: false, content: textView.text ?? "n/a") { chat in
             self.chats.append(chat)
 
-            FireStoreManager.shared.updateChannelSender(thread: self.thread, sender: self.currentName, host: self.channelInfo?.host ?? "n/a", guest: self.channelInfo?.guest ?? "n/a")
+            FireStoreManager.shared.updateChannelSender(thread: self.thread, sender: self.currentUserName, host: self.channelInfo?.host ?? "n/a", guest: self.channelInfo?.guest ?? "n/a", date: FireStoreManager.shared.dateFormatter(value: Date.now))
 
             DispatchQueue.main.async {
                 self.textView.text = self.placeholder
@@ -287,7 +280,7 @@ extension ChatDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = chats[indexPath.row]
 
-        if item.sender == currentUserEmail {
+        if item.sender == currentUserName {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MyFeedCell.identifier, for: indexPath) as? MyFeedCell else { return UITableViewCell() }
 
             cell.myChatContent.text = item.content
@@ -380,12 +373,24 @@ extension ChatDetailViewController: UITextViewDelegate {
             textView.text = nil
             textView.textColor = UIColor(hex: "#505050")
         }
+
+        blankMessage.snp.remakeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(bottomBaseView.snp.top).offset(-175)
+            make.leading.equalTo(view).offset(50)
+            make.height.equalTo(20)
+        }
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             textView.text = placeholder
             textView.textColor = UIColor(hex: "#ADADAD")
+        }
+
+        blankMessage.snp.remakeConstraints { make in
+            make.height.equalTo(20)
+            make.centerX.centerY.equalToSuperview()
         }
     }
 
