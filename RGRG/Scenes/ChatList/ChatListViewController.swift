@@ -14,7 +14,6 @@ import UIKit
 class ChatListViewController: UIViewController {
     let db = FireStoreManager.db
     var channels: [Channel] = []
-    var receiveSendingMessage: [Bool] = []
     var currentUser: User?
 
     let vc = ChatDetailViewController()
