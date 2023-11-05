@@ -77,6 +77,11 @@ class LoginViewController: UIViewController {
         passValueCheck()
         makeBackButton()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        emailLine.inputBox.text = ""
+        passwordLine.inputBox.text = ""
+    }
 }
 
 extension LoginViewController {

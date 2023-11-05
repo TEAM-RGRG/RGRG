@@ -48,8 +48,6 @@ extension ChatDetailViewController {
         } else {
             print("### Login : Error")
         }
-
-//        FireStoreManager.shared.updateReadChat(thread: thread, currentUser: currentUserEmail)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -157,8 +155,6 @@ extension ChatDetailViewController {
 
         blankMessage.snp.makeConstraints { make in
             make.centerX.centerY.equalToSuperview()
-            make.top.equalTo(view).offset(416)
-            make.leading.equalTo(view).offset(40)
             make.height.equalTo(20)
         }
     }
@@ -226,7 +222,6 @@ extension ChatDetailViewController {
         emptyView.layer.cornerRadius = 10
 
         emptyView.snp.makeConstraints { make in
-//            make.top.equalTo(textView.snp.top).offset(1)
             make.height.equalTo(36)
             make.bottom.equalTo(textView.snp.bottom).offset(-1)
             make.leading.equalTo(textView.snp.trailing).offset(4)
@@ -380,12 +375,24 @@ extension ChatDetailViewController: UITextViewDelegate {
             textView.text = nil
             textView.textColor = UIColor(hex: "#505050")
         }
+
+        blankMessage.snp.remakeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(bottomBaseView.snp.top).offset(-175)
+            make.leading.equalTo(view).offset(50)
+            make.height.equalTo(20)
+        }
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             textView.text = placeholder
             textView.textColor = UIColor(hex: "#ADADAD")
+        }
+
+        blankMessage.snp.remakeConstraints { make in
+            make.height.equalTo(20)
+            make.centerX.centerY.equalToSuperview()
         }
     }
 
