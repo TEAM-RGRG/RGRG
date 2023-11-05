@@ -10,22 +10,11 @@ import UIKit
 
 class MainViewController: UIViewController {
     let testButton = CustomButton(frame: .zero)
-    var selectedTier: String? = nil{
-        didSet {
-            updateOptionLabel()
-        }
-    }
+//    var selectedTier: [String] = ["Emerald"]
+//    var selectedPosition: [String] = ["Top"]
     
-    var selectedPosition: String? = nil{
-        didSet {
-            updateOptionLabel()
-        }
-    }
-    
-    var selectedTiers: [String] = []{
-        didSet{
-        }
-    }
+    var selectedTier: [String] = ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Emerald", "Diamond", "Master", "GrandMaster", "Challenger"]
+    var selectedPosition: [String] = ["Top", "Jungle", "Mid", "Bottom", "Support"]
     
     var selectiedTierArray:[String] = []
 
@@ -178,48 +167,47 @@ class MainViewController: UIViewController {
     
     @objc func searchOptionButtonTapped() {
         let searchOptionVC = SearchOptionVC()
-        searchOptionVC.selectedTierOption = selectedTier
-        searchOptionVC.selectedPositionOption = selectedPosition
+//        searchOptionVC.selectedTierOption = selectedTier.first
+//        searchOptionVC.selectedPositionOption = selectedPosition.first
         
         searchOptionVC.onConfirmation = { [weak self] selectedTier, selectedPosition in
             self?.selectedTier = selectedTier
             self?.selectedPosition = selectedPosition
-            self?.updateOptionLabel()
+            self?.updateOptionLabel(tier: selectedTier.first ?? "", position: selectedPosition.first ?? "")
+            
+            self?.viewWillAppear(true)
+            print ("**************\(selectedTier)*************")
         }
-        
         present(searchOptionVC, animated: true, completion: nil)
     }
 
-    func updateOptionLabel() {
+    func updateOptionLabel( tier: String, position: String) {
         // selectedTier 및 selectedPosition의 값에 따라 tierOptionLabel 업데이트
-        if let tier = selectedTier, let position = selectedPosition {
-            // 선택된 티어와 포지션이 모두 nil이 아닌 경우
+        if tier != "default" && position != "default" {
             tierOptionLabel.setTitle(" \(tier) ", for: .normal)
             tierOptionLabel.tintColor = .rgrgColor3
-            selectedTiers.append(tier)
-            if let tierColor = tierColors[tier] {
+            if let tierColor = tierColors[tier ?? "Gold"] {
                 tierOptionLabel.setTitleColor(tierColor, for: .normal)
             }
-            selectiedTierArray.append(selectedTier ?? "")
-//            task.selectedTier = selectiedTierArray
-            
             tierOptionLabel.layer.borderColor = UIColor.rgrgColor3.cgColor
             positionOptionLabel.setTitle(" \(position) ", for: .normal)
             positionOptionLabel.tintColor = .rgrgColor3
             positionOptionLabel.setTitleColor(.rgrgColor3, for: .normal)
             positionOptionLabel.layer.borderColor = UIColor.rgrgColor3.cgColor
-        } else if let tier = selectedTier {
+        } else if tier != "default" && position == "default" {
             // 티어만 선택된 경우
             tierOptionLabel.setTitle(" \(tier) ", for: .normal)
-            positionOptionLabel.setTitle("포지션 ", for: .normal) // 다른 레이블을 초기화
-        } else if let position = selectedPosition {
+            positionOptionLabel.setTitle("포지션 ", for: .normal)
+        } else if tier == "default" && position != "default" {
             // 포지션만 선택된 경우
-            tierOptionLabel.setTitle("티어 ", for: .normal) // 다른 레이블을 초기화
+            tierOptionLabel.setTitle("티어 ", for: .normal) 
             positionOptionLabel.setTitle(" \(position) ", for: .normal)
-        } else {
+        } else if tier == "default" && position == "default" {
             // 둘 다 nil인 경우
             tierOptionLabel.setTitle("티어 ", for: .normal)
             positionOptionLabel.setTitle("포지션 ", for: .normal)
+            selectedTier = ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Emerald", "Diamond", "Master", "GrandMaster", "Challenger"]
+            selectedPosition = ["Top", "Jungle", "Mid", "Bottom", "Support"]
         }
     }
 
@@ -296,23 +284,12 @@ extension MainViewController {
     
     func task() {
         Task {
+            print ("############\(selectedTier)#####\(selectedPosition)##########")
             await FirebaseUserManager.shared.getUserInfo(complition: { user in
                 print("### CurrentUser Info ::: \(user)")
                 self.currentUser = user
             })
-            
-            let tier = ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Emerald", "Diamond", "Master", "GrandMaster", "Challenger"]
-            var selectedTiers: [String] = ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Emerald", "Diamond", "Master", "GrandMaster", "Challenger"]
-//            if let selectedTier = selectedTier {
-//                selectedTiers.append(selectedTier)
-//            }
-            let position = ["Top", "Jungle", "Mid", "Bottom", "Support"]
-            var selectedPositions = ["Top", "Jungle", "Mid", "Bottom", "Support"]
-//            if let selectedPosition = selectedPosition {
-//                selectedPositions.append(selectedPosition)
-//            }
-            await PartyManager.shared.loadParty(tier: selectedTiers, position: selectedPositions) { [weak self] parties in
-
+            await PartyManager.shared.loadParty(tier: selectedTier, position: selectedPosition) { [weak self] parties in
                 self?.partyList = parties // [PartyInfo] = [PartyInfo]
                 print("### \(self?.partyList)")
                 DispatchQueue.main.async {
