@@ -15,6 +15,7 @@ final class FireStoreManager {
     func loadChannels(collectionName: String, hostName: String, filter: String, completion: @escaping ([Channel]) -> Void) {
         FireStoreManager.db.collection("channels")
             .whereField("users", arrayContains: filter)
+            .order(by: "date", descending: true)
             .addSnapshotListener { (querySnapshot, error) in
                 var channels: [Channel] = []
                 if let e = error {
@@ -120,7 +121,7 @@ final class FireStoreManager {
     }
 
     // 채팅 보낼 때
-    func updateChannelSender(thread: String, sender: String, host: String, guest: String) {
+    func updateChannelSender(thread: String, sender: String, host: String, guest: String, date: String) {
         let path = FireStoreManager.db.collection("channels")
 
         if sender == host {
@@ -128,6 +129,7 @@ final class FireStoreManager {
         } else {
             path.document(thread).updateData(["guestSender": true])
         }
+        path.document(thread).updateData(["date": date])
     }
 
     func updateReadChat(thread: String, currentUser: String) {

@@ -104,6 +104,7 @@
 		4EF3A7162AE6510C00A1D32D /* FireStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF3A7152AE6510C00A1D32D /* FireStoreManager.swift */; };
 		4EF3A7182AE6511100A1D32D /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF3A7172AE6511100A1D32D /* Channel.swift */; };
 		4EF3A71A2AE6518500A1D32D /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 4EF3A7192AE6518500A1D32D /* FirebaseFirestore */; };
+		4EFC9C8B2AF7755200A17FC3 /* FirebaseUpdateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFC9C8A2AF7755200A17FC3 /* FirebaseUpdateManager.swift */; };
 		96A7B3FA2AD9365D00B218EB /* CtaLageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A7B3F92AD9365D00B218EB /* CtaLageButton.swift */; };
 		96A7B3FC2AD936E800B218EB /* CustomMemberInfoBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A7B3FB2AD936E800B218EB /* CustomMemberInfoBox.swift */; };
 		96F690652AE20DA200667F35 /* UIcolor+CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F690642AE20DA200667F35 /* UIcolor+CALayer.swift */; };
@@ -172,6 +173,7 @@
 		4EE5E9D92AEBCBB800B7849E /* PartyInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyInfo.swift; sourceTree = "<group>"; };
 		4EF3A7152AE6510C00A1D32D /* FireStoreManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireStoreManager.swift; sourceTree = "<group>"; };
 		4EF3A7172AE6511100A1D32D /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
+		4EFC9C8A2AF7755200A17FC3 /* FirebaseUpdateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUpdateManager.swift; sourceTree = "<group>"; };
 		96A7B3F92AD9365D00B218EB /* CtaLageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CtaLageButton.swift; sourceTree = "<group>"; };
 		96A7B3FB2AD936E800B218EB /* CustomMemberInfoBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMemberInfoBox.swift; sourceTree = "<group>"; };
 		96F690642AE20DA200667F35 /* UIcolor+CALayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIcolor+CALayer.swift"; sourceTree = "<group>"; };
@@ -353,6 +355,7 @@
 				4E8B84F12AD8120D009BCF4B /* ChatInfo.swift */,
 				4EE5E9D92AEBCBB800B7849E /* PartyInfo.swift */,
 				1DB94CDF2AE8024000851A18 /* FirebaseUserManager.swift */,
+				4EFC9C8A2AF7755200A17FC3 /* FirebaseUpdateManager.swift */,
 				4EF3A7152AE6510C00A1D32D /* FireStoreManager.swift */,
 				1DB94CDD2AE760AB00851A18 /* StorageManager.swift */,
 				4EE5E9D72AEBCAFB00B7849E /* PartyManager.swift */,
@@ -684,6 +687,7 @@
 				4E8195EE2ADD404000881C88 /* CustomImageView.swift in Sources */,
 				4E593C4E2AF0DA0700043C7C /* CustomTextView.swift in Sources */,
 				4E8B853E2AD81515009BCF4B /* RecuitmentViewController.swift in Sources */,
+				4EFC9C8B2AF7755200A17FC3 /* FirebaseUpdateManager.swift in Sources */,
 				4E8B85352AD81411009BCF4B /* Extension.swift in Sources */,
 				1DB9391F2AE24AB300BD4F41 /* SettingCell.swift in Sources */,
 				96A7B3FA2AD9365D00B218EB /* CtaLageButton.swift in Sources */,

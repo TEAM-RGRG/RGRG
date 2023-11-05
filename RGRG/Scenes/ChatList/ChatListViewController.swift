@@ -142,8 +142,8 @@ extension ChatListViewController {
         }
 
         let bookMarkAction = rightBarButtonItem.makeSingleAction(title: "안 읽은 메시지 순", state: .off) { _ in
-
-            print("### 즐겨찾기으로 정렬하기 알파입니다.")
+            FirebaseUpdateManager.shared.channelsUserUpdate(filterName: self.currentUser?.userName ?? "n/a", updateName: "도라에몽", updateProfile: "1")
+            print("### 안 읽은 메시지 순으로 정렬하기 알파입니다.")
         }
 
         let menu = [latestSortAction, bookMarkAction]
@@ -220,8 +220,7 @@ extension ChatListViewController: UITableViewDelegate {
         let item = channels[indexPath.row]
         vc.thread = item.channelID
         vc.channelInfo = item
-        vc.currentName = currentUser?.userName ?? "N/A"
-
+        vc.currentUserName = currentUser?.userName ?? "N/A"
         if currentUser?.userName == item.host {
             vc.navigationItem.title = item.guest
         } else {
