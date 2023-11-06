@@ -12,22 +12,9 @@ import UIKit
 class EditProfileViewController: UIViewController, SendSelectedIconDelegate, SendSelectedChampDelegate {
     func sendSelectedChamp(champArray: [String]) {
         selectedChamp = champArray
-        if selectedChamp?.count ?? 0 > 0 {
-            firstImage.image = UIImage(named: selectedChamp?[0] ?? "Aatrox")
-            if selectedChamp?.count ?? 0 > 1 {
-                secondImage.image = UIImage(named: selectedChamp?[1] ?? "Aatrox")
-                if selectedChamp?.count ?? 0 > 2 {
-                    thirdImage.image = UIImage(named: selectedChamp?[2] ?? "Aatrox")
-                } else {
-                    thirdImage.image = UIImage(named: "None")
-                }
-            } else {
-                [secondImage, thirdImage].forEach { $0.image = UIImage(named: "None") }
-            }
-
-        } else {
-            [firstImage, secondImage, thirdImage].forEach { $0.image = UIImage(named: "None") }
-        }
+        firstImage.image = UIImage(named: champArray[0])
+        secondImage.image = UIImage(named: champArray[1])
+        thirdImage.image = UIImage(named: champArray[2])
     }
 
     func sendSelectedIcon(iconString: String) {
@@ -360,15 +347,10 @@ extension EditProfileViewController {
 extension EditProfileViewController {
     func setBeforeInfo() {
         profileImage.image = UIImage(named: user?.profilePhoto ?? "Default")
-        StorageManager.shared.getImage("champ", user?.mostChampion[0] ?? "None") { [weak self] image in
-            self?.firstImage.image = image
-        }
-        StorageManager.shared.getImage("champ", user?.mostChampion[1] ?? "") { [weak self] image in
-            self?.secondImage.image = image
-        }
-        StorageManager.shared.getImage("champ", user?.mostChampion[2] ?? "") { [weak self] image in
-            self?.thirdImage.image = image
-        }
+        print(user?.mostChampion)
+        firstImage.image = UIImage(named: user?.mostChampion[0] ?? "None")
+        secondImage.image = UIImage(named: user?.mostChampion[1] ?? "None")
+        thirdImage.image = UIImage(named: user?.mostChampion[2] ?? "None")
 
         userNameTextField.text = user?.userName
         tierButton.setTitle(user?.tier, for: .normal)

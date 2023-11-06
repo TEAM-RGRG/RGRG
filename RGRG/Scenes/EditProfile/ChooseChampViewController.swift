@@ -136,18 +136,15 @@ extension ChooseChampViewController {
     }
     
     @objc func selectButtonPressed() {
+        arrangeSelectedChamp()
         delegate?.sendSelectedChamp(champArray: selectedChamp)
+        
         navigationController?.popViewController(animated: true)
     }
     
-    func appendChamp(champName: String) {
-        if selectedChamp.count < 3 {
-            selectedChamp.append(champName)
-        } else {
-            let alert = UIAlertController(title: "", message: "선택된 것이 3이상임", preferredStyle: .alert)
-            let ok = UIAlertAction(title: "확인", style: .default)
-            alert.addAction(ok)
-            present(alert, animated: true)
+    func arrangeSelectedChamp() {
+        while selectedChamp.count <= 3 {
+            selectedChamp.append("None")
         }
     }
 }
@@ -223,7 +220,7 @@ extension ChooseChampViewController: UICollectionViewDelegate, UICollectionViewD
             if !selectedChamp.contains(champName[indexPath.row]) {
                 selectedChamp.append(champName[indexPath.row])
             }
-            cell.layer.borderColor = UIColor.rgrgColor2.cgColor
+            cell.layer.borderColor = UIColor.rgrgColor3.cgColor
             cell.layer.borderWidth = 3
             print(selectedChamp)
         }
@@ -234,7 +231,7 @@ extension ChooseChampViewController: UICollectionViewDelegate, UICollectionViewD
             if selectedChamp.contains(champName[indexPath.row]) {
                 selectedChamp.remove(at: selectedChamp.firstIndex(of: champName[indexPath.row]) ?? 0)
             }
-            cell.layer.borderColor = UIColor.rgrgColor2.cgColor
+            cell.layer.borderColor = UIColor.rgrgColor3.cgColor
             cell.layer.borderWidth = 0
         }
     }
