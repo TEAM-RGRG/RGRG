@@ -506,6 +506,7 @@ extension ChatDetailViewController {
     }
 
     @objc func keyboardWillHide(notification: NSNotification) {
+
         print("#### \(#function)")
 
         bottomBaseView.snp.remakeConstraints { make in
@@ -521,6 +522,7 @@ extension ChatDetailViewController {
             make.leading.equalToSuperview()
             make.bottom.equalTo(bottomBaseView.snp.top)
             make.height.greaterThanOrEqualTo(600)
+
         }
     }
 }
