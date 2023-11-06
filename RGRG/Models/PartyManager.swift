@@ -11,11 +11,10 @@ import Foundation
 class PartyManager {
     static let shared = PartyManager()
     static let db = Firestore.firestore()
-
-    func loadParty(tier: [String], hopePosition: [String], completion: @escaping ([PartyInfo]) -> Void) {
+    func loadParty(tier: [String], position: [String], completion: @escaping ([PartyInfo]) -> Void) {
         PartyManager.db.collection("party")
             .whereField("tier", in: tier)
-            .whereField("hopePosition", arrayContainsAny: hopePosition)
+            .whereField("position", in: position)
             .addSnapshotListener { (querySnapshot, error) in
                 var partyList: [PartyInfo] = []
 

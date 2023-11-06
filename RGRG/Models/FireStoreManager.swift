@@ -12,9 +12,10 @@ final class FireStoreManager {
     static let shared = FireStoreManager()
     static let db = Firestore.firestore()
 
-    func loadChannels(collectionName: String, writerName: String, filter: String, completion: @escaping ([Channel]) -> Void) {
+    func loadChannels(collectionName: String, hostName: String, filter: String, completion: @escaping ([Channel]) -> Void) {
         FireStoreManager.db.collection("channels")
             .whereField("users", arrayContains: filter)
+            .order(by: "date", descending: true)
             .addSnapshotListener { (querySnapshot, error) in
                 var channels: [Channel] = []
                 if let e = error {
@@ -25,9 +26,10 @@ final class FireStoreManager {
                         for doc in snapshotDocument {
                             let data = doc.data()
                             let thread = doc.documentID
+                            let decoder = PropertyListDecoder()
 
-                            if let writer = data["writer"] as? String, let channelTitle = data["channelTitle"] as? String, let requester = data["requester"] as? String, let channelID = data["channelID"] as? String, let currentMessage = data["currentMessage"] as? String, let requesterProfile = data["requesterProfile"] as? String, let writerProfile = data["writerProfile"] as? String {
-                                let channel = Channel(channelName: channelTitle, requester: requester, writer: writer, channelID: thread, currentMessage: currentMessage, writerProfile: writerProfile, requesterProfile: requesterProfile)
+                            if let host = data["host"] as? String, let channelTitle = data["channelTitle"] as? String, let guest = data["guest"] as? String, let channelID = data["channelID"] as? String, let currentMessage = data["currentMessage"] as? String, let guestProfile = data["guestProfile"] as? String, let hostProfile = data["hostProfile"] as? String, let hostSender = data["hostSender"] as? Bool, let guestSender = data["guestSender"] as? Bool {
+                                let channel = Channel(channelName: channelTitle, guest: guest, host: host, channelID: thread, currentMessage: currentMessage, hostProfile: hostProfile, guestProfile: guestProfile, hostSender: hostSender, guestSender: guestSender)
                                 channels.append(channel)
                             }
                         }
@@ -61,25 +63,27 @@ final class FireStoreManager {
             }
     }
 
-    func addChannel(channelTitle: String, requester: String, writer: String, channelID: String, date: String, users: [String], requesterProfile: String, writerProfile: String, completion: @escaping (Channel) -> Void) {
+    func addChannel(channelTitle: String, guest: String, host: String, channelID: String, date: String, users: [String], guestProfile: String, hostProfile: String, hostSender: Bool, guestSender: Bool, completion: @escaping (Channel) -> Void) {
         FireStoreManager.db
             .collection("channels")
             .addDocument(data: [
                 "channelID": channelID,
                 "date": date,
                 "channelTitle": channelTitle,
-                "requester": requester,
-                "writer": writer,
+                "guest": guest,
+                "host": host,
                 "users": users,
                 "currentMessage": "",
-                "requesterProfile": requesterProfile,
-                "writerProfile": writerProfile
+                "guestProfile": guestProfile,
+                "hostProfile": hostProfile,
+                "hostSender": hostSender,
+                "guestSender": guestSender
             ]) { (error) in
                 if let e = error {
                     print("There was an issue saving data to firestore, \(e)")
                 } else {
                     print("Successfully saved data.")
-                    let channel = Channel(channelName: channelTitle, requester: requester, writer: writer, channelID: channelID, currentMessage: "", writerProfile: writerProfile, requesterProfile: requesterProfile)
+                    let channel = Channel(channelName: channelTitle, guest: guest, host: host, channelID: channelID, currentMessage: "", hostProfile: hostProfile, guestProfile: guestProfile, hostSender: hostSender, guestSender: guestSender)
                     completion(channel)
                 }
             }
@@ -104,13 +108,33 @@ final class FireStoreManager {
             }
     }
 
-    func updateChannel(currentMessage: String, thread: String) {
+    // 채팅방 들어갈 때
+    func updateChannel(currentMessage: String, thread: String, sender: String, host: String, guest: String) {
         let path = FireStoreManager.db.collection("channels")
         path.document(thread).updateData(["currentMessage": currentMessage])
+
+        if sender == host {
+            path.document(thread).updateData(["guestSender": false])
+        } else {
+            path.document(thread).updateData(["hostSender": false])
+        }
+    }
+
+    // 채팅 보낼 때
+    func updateChannelSender(thread: String, sender: String, host: String, guest: String, date: String) {
+        let path = FireStoreManager.db.collection("channels")
+
+        if sender == host {
+            path.document(thread).updateData(["hostSender": true])
+        } else {
+            path.document(thread).updateData(["guestSender": true])
+        }
+        path.document(thread).updateData(["date": date])
     }
 
     func updateReadChat(thread: String, currentUser: String) {
         let path = FireStoreManager.db.collection("channels/\(thread)/thread")
+        let senderChatPath = FireStoreManager.db.collection("channels/\(thread)")
         FireStoreManager.db
             .collection("channels/\(thread)/thread")
             .whereField("sender", isNotEqualTo: currentUser)

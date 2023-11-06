@@ -75,9 +75,11 @@ class LoginViewController: UIViewController {
         setupUI()
         passValueCheck()
         makeBackButton()
-        emailLine.inputBox.text = "111@naver.com"
-        passwordLine.inputBox.text = "1111aaaa"
-        setupKeyboardEvent()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        emailLine.inputBox.text = ""
+        passwordLine.inputBox.text = ""
     }
 }
 
