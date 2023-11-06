@@ -9,7 +9,27 @@ import FirebaseAuth
 import SnapKit
 import UIKit
 
-class EditProfileViewController: UIViewController, sendSelectedIconDelegate {
+class EditProfileViewController: UIViewController, SendSelectedIconDelegate, SendSelectedChampDelegate {
+    func sendSelectedChamp(champArray: [String]) {
+        selectedChamp = champArray
+        if selectedChamp?.count ?? 0 > 0 {
+            firstImage.image = UIImage(named: selectedChamp?[0] ?? "Aatrox")
+            if selectedChamp?.count ?? 0 > 1 {
+                secondImage.image = UIImage(named: selectedChamp?[1] ?? "Aatrox")
+                if selectedChamp?.count ?? 0 > 2 {
+                    thirdImage.image = UIImage(named: selectedChamp?[2] ?? "Aatrox")
+                } else {
+                    thirdImage.image = UIImage(named: "None")
+                }
+            } else {
+                [secondImage, thirdImage].forEach { $0.image = UIImage(named: "None") }
+            }
+
+        } else {
+            [firstImage, secondImage, thirdImage].forEach { $0.image = UIImage(named: "None") }
+        }
+    }
+
     func sendSelectedIcon(iconString: String) {
         selectedImage = iconString
         profileImage.image = UIImage(named: selectedImage ?? "Default")
@@ -21,6 +41,7 @@ class EditProfileViewController: UIViewController, sendSelectedIconDelegate {
     var isRepeatedUserName = false
 
     var selectedImage: String?
+    var selectedChamp: [String]?
 
     let profileImage: UIImageView = {
         let imageView = UIImageView()
@@ -102,6 +123,7 @@ extension EditProfileViewController {
         FirebaseUserManager.shared.getUserInfo { user in
             self.user = user
             self.selectedImage = user.profilePhoto
+            self.selectedChamp = user.mostChampion
             DispatchQueue.main.async {
                 self.tierButton.titleLabel?.textColor = UIColor(named: user.tier)
                 self.setBeforeInfo()
@@ -356,7 +378,7 @@ extension EditProfileViewController {
 
 extension EditProfileViewController {
     @objc func confirmButtonPressed(_ sender: UIButton) {
-        let updatedUser = User(email: user?.email ?? "", userName: (userNameTextField.text ?? user?.userName) ?? "", tier: tierButton.titleLabel?.text ?? "", position: positionButton.titleLabel?.text ?? "", profilePhoto: selectedImage ?? "Default", mostChampion: ["None", "None", "None"])
+        let updatedUser = User(email: user?.email ?? "", userName: (userNameTextField.text ?? user?.userName) ?? "", tier: tierButton.titleLabel?.text ?? "", position: positionButton.titleLabel?.text ?? "", profilePhoto: selectedImage ?? "Default", mostChampion: selectedChamp ?? ["None", "None", "None"])
         if updatedUser.userName == user?.userName, updatedUser.position == user?.position, updatedUser.profilePhoto == user?.profilePhoto, updatedUser.tier == user?.tier, updatedUser.mostChampion == user?.mostChampion {
             let alert = UIAlertController(title: "수정 내역이 없습니다!", message: nil, preferredStyle: .alert)
             let ok = UIAlertAction(title: "확인", style: .default)
@@ -377,6 +399,8 @@ extension EditProfileViewController {
 
     @objc func mostChampButtonPressed() {
         let chooseChampVC = ChooseChampViewController()
+        chooseChampVC.delegate = self
+        chooseChampVC.presentChamp = selectedChamp
         navigationController?.pushViewController(chooseChampVC, animated: true)
     }
 

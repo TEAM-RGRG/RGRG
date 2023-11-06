@@ -8,14 +8,14 @@
 import FirebaseStorage
 import UIKit
 
-protocol sendSelectedIconDelegate {
+protocol SendSelectedIconDelegate {
     func sendSelectedIcon(iconString: String)
 }
 
 class ChooseIconViewController: UIViewController {
     let iconsName = ["Default", "1", "2", "3", "4", "5", "6", "7", "8", "13", "18", "20", "22", "25", "28"]
     
-    var delegate: sendSelectedIconDelegate?
+    var delegate: SendSelectedIconDelegate?
     
     var currentImageString: String?
     var selectedImageString: String?
@@ -124,7 +124,7 @@ extension ChooseIconViewController: UICollectionViewDelegate, UICollectionViewDa
         var imageIndex = iconsName.firstIndex(of: currentImageString ?? "Default")
         if indexPath.row == imageIndex {
             cell.layer.borderColor = UIColor.rgrgColor3.cgColor
-            cell.layer.borderWidth = 2
+            cell.layer.borderWidth = 3
         }
         return cell
     }
@@ -155,7 +155,7 @@ extension ChooseIconViewController: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let cell = collectionView.cellForItem(at: indexPath) as? UICollectionViewCell {
             cell.layer.borderColor = UIColor.rgrgColor2.cgColor
-            cell.layer.borderWidth = 2
+            cell.layer.borderWidth = 3
             profileImage.image = UIImage(named: iconsName[indexPath.row])
             selectedImageString = iconsName[indexPath.row]
         }
@@ -167,7 +167,7 @@ extension ChooseIconViewController: UICollectionViewDelegate, UICollectionViewDa
             var imageIndex = iconsName.firstIndex(of: currentImageString ?? "Default")
             if indexPath.row == imageIndex {
                 cell.layer.borderColor = UIColor.rgrgColor3.cgColor
-                cell.layer.borderWidth = 2
+                cell.layer.borderWidth = 3
             }
         }
     }
