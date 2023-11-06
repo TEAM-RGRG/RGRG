@@ -189,7 +189,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         button.setTitle("작성 완료", for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
         button.backgroundColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1)
-        button.layer.cornerRadius = (12)
+        button.layer.cornerRadius = 12
         button.addTarget(self, action: #selector(tappedConfirmationButton), for: .touchUpInside)
         return button
     }()
@@ -470,12 +470,12 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
 
 extension SettingViewController: UITextFieldDelegate {
     func textField(_ partyNameTextField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-       // 백스페이스 처리
-       if let char = string.cString(using: String.Encoding.utf8) {
-              let isBackSpace = strcmp(char, "\\b")
-              if isBackSpace == -92 {
-                  return true
-              }
+        // 백스페이스 처리
+        if let char = string.cString(using: String.Encoding.utf8) {
+            let isBackSpace = strcmp(char, "\\b")
+            if isBackSpace == -92 {
+                return true
+            }
         }
         guard partyNameTextField.text!.count < 20 else { return false } // 10 글자로 제한
         return true
