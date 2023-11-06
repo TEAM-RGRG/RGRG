@@ -167,9 +167,11 @@ class CustomMemberInfoBox : UIView {
         case .email:
             updateUIvalid(passView: passMessage, nonPassView: self.conditionText)
         case .pw:
+//            isSecureControllView.isHidden = false
             updateUIvalid(passView: checkIcon, nonPassView: conditionText)
             savePasswordValue()
         case .pwCheck:
+//            isSecureControllView.isHidden = false
             let pwCheckInputValue = inputBox.text
             let pwCheckValue = pwBringValue == pwCheckInputValue
             updateUIvalid(validation: pwCheckValue, passView: checkIcon, nonPassView: conditionText)
@@ -294,6 +296,9 @@ class CustomMemberInfoBox : UIView {
         stackView.addArrangedSubview(isSecureControllView)
         isSecureControllView.addTarget(self, action: #selector(switchisSecure), for: .touchUpInside)
         isSecureControllView.addSubview(eyesIcon)
+        
+//        isSecureControllView.layer.borderColor = UIColor.red.cgColor
+//        isSecureControllView.layer.borderWidth = 1
         
         eyesIcon.image = UIImage(systemName: "eye.slash")
         eyesIcon.tintColor = UIColor.white
