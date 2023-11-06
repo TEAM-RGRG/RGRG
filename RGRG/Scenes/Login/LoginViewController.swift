@@ -76,6 +76,7 @@ class LoginViewController: UIViewController {
         setupUI()
         passValueCheck()
         makeBackButton()
+        setupKeyboardEvent()
     }
     
     override func viewWillAppear(_ animated: Bool) {
