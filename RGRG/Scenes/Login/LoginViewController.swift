@@ -79,6 +79,8 @@ class LoginViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = true
+        emailLine.becomeFirstResponder()
         emailLine.inputBox.text = ""
         passwordLine.inputBox.text = ""
     }
@@ -222,6 +224,7 @@ extension LoginViewController {
         navigationController?.popViewController(animated: true)
     }
 }
+
 // 키보드 표시 이벤트 처리
 extension LoginViewController {
     func setupKeyboardEvent() {
@@ -234,6 +237,7 @@ extension LoginViewController {
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
     }
+
     @objc func keyboardWillShow(_ sender: Notification) {
         // 키보드 표시 이벤트 처리
         guard let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
@@ -243,11 +247,11 @@ extension LoginViewController {
             view.frame.origin.y -= keyboardHeight
         }
     }
+
     @objc func keyboardWillHide(_ notification: Notification) {
         // 키보드 숨김 이벤트 처리
         if view.frame.origin.y != 0 {
             view.frame.origin.y = 0
         }
-        
     }
 }
