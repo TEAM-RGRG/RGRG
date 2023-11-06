@@ -11,9 +11,7 @@ import SnapKit
 import UIKit
 
 class SettingViewController: UIViewController {
-    let settingList = [
-        "알림 설정", "차단 목록", "테마 설정", "앱 아이콘 설정", "로그아웃", "회원탈퇴"
-    ]
+    let settingList = ["알림 설정", "차단 목록", "테마 설정", "앱 아이콘 설정", "로그아웃", "회원탈퇴"]
 
     let settingTable: UITableView = {
         let tableView = UITableView()
@@ -60,7 +58,6 @@ extension SettingViewController {
             try firebaseAuth.signOut()
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
-            navigationController?.popToViewController(loginVC, animated: true)
         }
     }
 
@@ -99,11 +96,23 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 4 {
             signOut()
-            navigationController?.popToRootViewController(animated: true)
+            navigationController?.pushViewController(loginVC, animated: true)
+            removeAllNavigationStack()
         }
         if indexPath.row == 5 {
             deleteUser()
             navigationController?.popToRootViewController(animated: true)
         }
+    }
+}
+
+extension SettingViewController {
+    func removeAllNavigationStack() {
+        guard let navigationController = navigationController else { return }
+        var navigationArray = navigationController.viewControllers // To get all UIViewController stack as Array
+        let temp = navigationArray.last
+        navigationArray.removeAll()
+        navigationArray.append(temp!) // To remove all previous UIViewController except the last one
+        self.navigationController?.viewControllers = navigationArray
     }
 }
