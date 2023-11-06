@@ -12,7 +12,7 @@ import UIKit
 
 class SettingViewController: UIViewController {
     let settingList = [
-        "알림 설정", "차단 목록", "테마 설정", "앱 아이콘 설정", "로그아웃", "회원탈퇴"
+        "로그아웃", "회원탈퇴"
     ]
 
     let settingTable: UITableView = {
@@ -97,11 +97,11 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 4 {
+        if indexPath.row == 0 {
             signOut()
             navigationController?.popToRootViewController(animated: true)
         }
-        if indexPath.row == 5 {
+        if indexPath.row == 1 {
             deleteUser()
             navigationController?.popToRootViewController(animated: true)
         }

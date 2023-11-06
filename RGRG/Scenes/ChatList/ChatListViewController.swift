@@ -142,7 +142,6 @@ extension ChatListViewController {
         }
 
         let bookMarkAction = rightBarButtonItem.makeSingleAction(title: "안 읽은 메시지 순", state: .off) { _ in
-            FirebaseUpdateManager.shared.channelsUserUpdate(filterName: self.currentUser?.userName ?? "n/a", updateName: "도라에몽", updateProfile: "1")
             print("### 안 읽은 메시지 순으로 정렬하기 알파입니다.")
         }
 
