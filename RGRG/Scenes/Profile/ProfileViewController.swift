@@ -10,7 +10,15 @@ import FirebaseCore
 import SnapKit
 import UIKit
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, SendUpdatedUserDelegate {
+    func sendUpdatedUser(user: User) {
+        profileImageView.image = UIImage(named: user.profilePhoto)
+        userNameLabel.text = user.userName
+        positionImageView.image = UIImage(named: user.position)
+        tierLabel.text = user.tier
+        tierLabel.textColor = UIColor(named: user.tier)
+    }
+
     var user: User?
 
     let wholeView = UIView()
@@ -79,15 +87,6 @@ extension ProfileViewController {
         configureUI()
         setupProfileView()
         setImageTapGesture()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        setupNavigationBar()
-        tabBarController?.navigationItem.title = "마이페이지"
-        tabBarController?.navigationItem.rightBarButtonItem?.isHidden = true
-        tabBarController?.navigationItem.hidesBackButton = true
-        tabBarController?.navigationController?.navigationBar.isHidden = false
-
         FirebaseUserManager.shared.getUserInfo { user in
             self.user = user
             print("### \(user)")
@@ -96,6 +95,14 @@ extension ProfileViewController {
                 self.setupImages()
             }
         }
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        setupNavigationBar()
+        tabBarController?.navigationItem.title = "마이페이지"
+        tabBarController?.navigationItem.rightBarButtonItem?.isHidden = true
+        tabBarController?.navigationItem.hidesBackButton = true
+        tabBarController?.navigationController?.navigationBar.isHidden = false
     }
 }
 
@@ -255,6 +262,7 @@ extension ProfileViewController {
 
     @objc func toEditProfile() {
         let editProfileVC = EditProfileViewController()
+        editProfileVC.delegate = self
         navigationController?.pushViewController(editProfileVC, animated: true)
     }
 }

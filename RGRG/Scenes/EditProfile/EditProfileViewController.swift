@@ -8,6 +8,9 @@
 import FirebaseAuth
 import SnapKit
 import UIKit
+protocol SendUpdatedUserDelegate {
+    func sendUpdatedUser(user: User)
+}
 
 class EditProfileViewController: UIViewController, SendSelectedIconDelegate, SendSelectedChampDelegate {
     func sendSelectedChamp(champArray: [String]) {
@@ -20,8 +23,9 @@ class EditProfileViewController: UIViewController, SendSelectedIconDelegate, Sen
     func sendSelectedIcon(iconString: String) {
         selectedImage = iconString
         profileImage.image = UIImage(named: selectedImage ?? "Default")
-        print("~~~~~~~~~~\(selectedImage)")
     }
+    
+    var delegate : SendUpdatedUserDelegate?
 
     var user: User?
     let wholeView = UIView()
@@ -287,6 +291,9 @@ extension EditProfileViewController {
     func setNavigationController() {
         navigationController?.navigationBar.isHidden = false
         navigationItem.title = "프로필 수정"
+        self.navigationController?.navigationBar.topItem?.title = ""
+        self.navigationController?.navigationBar.tintColor = .rgrgColor4
+        
     }
 
     func setupTextField() {
@@ -348,7 +355,6 @@ extension EditProfileViewController {
     func setBeforeInfo() {
         profileImage.image = UIImage(named: user?.profilePhoto ?? "Default")
 
-        print(user?.mostChampion)
         firstImage.image = UIImage(named: user?.mostChampion[0] ?? "None")
         secondImage.image = UIImage(named: user?.mostChampion[1] ?? "None")
         thirdImage.image = UIImage(named: user?.mostChampion[2] ?? "None")
@@ -371,6 +377,8 @@ extension EditProfileViewController {
             FirebaseUserManager.shared.updateUserInfo(userInfo: updatedUser)
             FirebaseUpdateManager.shared.partyUserUpdate(user: updatedUser)
             FirebaseUpdateManager.shared.channelsUserUpdate(updateProfile: updatedUser.profilePhoto)
+            
+            delegate?.sendUpdatedUser(user: updatedUser)
             navigationController?.popViewController(animated: true)
         }
     }

@@ -95,6 +95,9 @@ extension ChooseChampViewController {
     func configureUI() {
         setupButton()
         setupImage()
+        
+        self.navigationController?.navigationBar.topItem?.title = ""
+        navigationItem.title = "선호 챔피언 변경"
         view.backgroundColor = .rgrgColor5
         
         [firstImage, secondImage, thirdImage].forEach { mostChampImgStackView.addArrangedSubview($0) }
@@ -161,8 +164,10 @@ extension ChooseChampViewController: UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? ChampCollectionViewCell else { return UICollectionViewCell()
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? ChampCollectionViewCell else { 
+            return UICollectionViewCell()
         }
+        
         cell.iconImage.image = UIImage(named: champName[indexPath.row])
         if presentChamp?[0] != "None" {
             if indexPath.row == champName.firstIndex(of: presentChamp?[0] ?? "Aatrox") {
@@ -192,26 +197,17 @@ extension ChooseChampViewController: UICollectionViewDelegate, UICollectionViewD
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize
-    {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let interval: CGFloat = 20
         let width: CGFloat = (collectionView.frame.width - interval * 2 - 56 * 2) / 3
         return CGSize(width: width, height: width)
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAt section: Int) -> CGFloat
-    {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 20
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat
-    {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 20
     }
     

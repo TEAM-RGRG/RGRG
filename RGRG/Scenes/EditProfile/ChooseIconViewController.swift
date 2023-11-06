@@ -57,14 +57,16 @@ extension ChooseIconViewController {
     override func viewWillAppear(_ animated: Bool) {
         imageCollectionView.reloadData()
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {}
 }
 
 extension ChooseIconViewController {
     func configureUI() {
         setupButton()
         setImage()
+        
+        self.navigationController?.navigationBar.topItem?.title = ""
+        navigationItem.title = "프로필 아이콘 변경"
+        
         view.backgroundColor = .rgrgColor5
         [profileImage, imageCollectionView, selectButton].forEach { view.addSubview($0) }
         
@@ -118,9 +120,10 @@ extension ChooseIconViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? IconCollectionViewCell else { return UICollectionViewCell()
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? IconCollectionViewCell else {
+            return UICollectionViewCell()
         }
-        cell.iconImage.image = UIImage(named: iconsName[indexPath.row])
+        cell.iconImage.image = UIImage(named: iconsName[indexPath.row] )
         var imageIndex = iconsName.firstIndex(of: currentImageString ?? "Default")
         if indexPath.row == imageIndex {
             cell.layer.borderColor = UIColor.rgrgColor3.cgColor
