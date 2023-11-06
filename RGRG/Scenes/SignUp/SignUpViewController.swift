@@ -101,7 +101,7 @@ extension SignUpViewController {
             createUser()
             movetoLogin()
         } else {
-            showAlert(title: "not Yet", message: "필수항목 확인 필요")
+            showAlert(title: "필수항목 확인 필요", message: "")
         }
     }
     
@@ -244,7 +244,7 @@ extension SignUpViewController {
         let keyboardHeight = keyboardFrame.cgRectValue.height
         
         if view.frame.origin.y == 0 {
-            view.frame.origin.y -= keyboardHeight - 160
+            view.frame.origin.y -= keyboardHeight - 180
         }
     }
 
