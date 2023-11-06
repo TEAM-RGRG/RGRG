@@ -347,10 +347,12 @@ extension EditProfileViewController {
 extension EditProfileViewController {
     func setBeforeInfo() {
         profileImage.image = UIImage(named: user?.profilePhoto ?? "Default")
+
         print(user?.mostChampion)
         firstImage.image = UIImage(named: user?.mostChampion[0] ?? "None")
         secondImage.image = UIImage(named: user?.mostChampion[1] ?? "None")
         thirdImage.image = UIImage(named: user?.mostChampion[2] ?? "None")
+
 
         userNameTextField.text = user?.userName
         tierButton.setTitle(user?.tier, for: .normal)
