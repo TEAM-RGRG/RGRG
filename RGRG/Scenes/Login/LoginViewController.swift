@@ -76,6 +76,7 @@ class LoginViewController: UIViewController {
         passValueCheck()
         makeBackButton()
         setupKeyboardEvent()
+        hideKeyboardEvent()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -156,6 +157,7 @@ extension LoginViewController {
 
 // 키보드 표시 이벤트 처리
 extension LoginViewController {
+    
     func setupKeyboardEvent() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow),
@@ -182,6 +184,26 @@ extension LoginViewController {
         if view.frame.origin.y != 0 {
             view.frame.origin.y = 0
         }
+    }
+    
+    func hideKeyboardEvent() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(LoginViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    func hideKeyboardEvent() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(LoginViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 }
 

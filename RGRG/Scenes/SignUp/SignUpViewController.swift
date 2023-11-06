@@ -19,6 +19,7 @@ class SignUpViewController: UIViewController {
     var nickNamePass: Bool = false
     
     let bodyContainer = {
+        //scrollView
         let stactview = UIView()
         return stactview
     }()
@@ -91,6 +92,7 @@ class SignUpViewController: UIViewController {
         showTierSelector()
         showPositionSelector()
         setupKeyboardEvent()
+        hideKeyboardEvent()
     }
 }
 
@@ -170,6 +172,7 @@ extension SignUpViewController {
         tierButton.setupShadow(alpha: 0.25, offset: CGSize(width: 2, height: 3), radius: 4, opacity: 0.5)
         tierButton.layer.borderColor = UIColor.rgrgColor6.cgColor
         tierButton.layer.borderWidth = 2
+
     }
     
     func showPositionSelector() {
@@ -225,9 +228,21 @@ extension SignUpViewController {
         
         present(alertController, animated: true, completion: nil)
     }
+    
 }
 
 extension SignUpViewController {
+    
+    func hideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(SignUpViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     func setupKeyboardEvent() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow),
@@ -252,6 +267,16 @@ extension SignUpViewController {
         if view.frame.origin.y != 0 {
             view.frame.origin.y = 0
         }
+    }
+    
+    func hideKeyboardEvent() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(SignUpViewController.dismissKeyboardSignup))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboardSignup() {
+        view.endEditing(true)
     }
 }
 
@@ -333,7 +358,7 @@ extension SignUpViewController {
         
         tierButton.snp.makeConstraints { make in
             make.width.equalToSuperview().dividedBy(2.2)
-
+            
         }
         
         positionButton.layer.cornerRadius = 10
