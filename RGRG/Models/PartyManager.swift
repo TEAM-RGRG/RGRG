@@ -7,6 +7,7 @@
 
 import FirebaseFirestore
 import Foundation
+import FirebaseAuth
 
 class PartyManager {
     static let shared = PartyManager()
@@ -40,6 +41,7 @@ class PartyManager {
     }
 
     func addParty(party: PartyInfo, completion: @escaping (PartyInfo) -> Void) {
+        let current = Auth.auth().currentUser?.uid
         PartyManager.db.collection("party")
             .addDocument(data: [
                 "champions": party.champion,
@@ -50,7 +52,7 @@ class PartyManager {
                 "tier": party.tier,
                 "title": party.title,
                 "userName": party.userName,
-                "writer": party.writer,
+                "writer": current,
                 "requester": party.requester,
                 "position": party.position
             ]) { (error) in
