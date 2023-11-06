@@ -19,6 +19,7 @@ class SignUpViewController: UIViewController {
     var nickNamePass: Bool = false
     
     let bodyContainer = {
+        //scrollView
         let stactview = UIView()
         return stactview
     }()
@@ -78,7 +79,7 @@ class SignUpViewController: UIViewController {
     }()
     
     let signupButton = {
-        let button = CtaLargeButton(titleText: "회원가입")
+        let button = CtaLargeButton(titleText: "가입하기")
         return button
     }()
     
@@ -90,7 +91,7 @@ class SignUpViewController: UIViewController {
         showTierSelector()
         showPositionSelector()
         setupKeyboardEvent()
-        
+        hideKeyboardEvent()
     }
 }
 
@@ -101,7 +102,7 @@ extension SignUpViewController {
             createUser()
             movetoLogin()
         } else {
-            showAlert(title: "not Yet", message: "필수항목 확인 필요")
+            showAlert(title: "필수항목 확인 필요", message: "")
         }
     }
     
@@ -169,7 +170,7 @@ extension SignUpViewController {
         tierButton.setupShadow(alpha: 0.25, offset: CGSize(width: 2, height: 3), radius: 4, opacity: 0.5)
         tierButton.layer.borderColor = UIColor.rgrgColor6.cgColor
         tierButton.layer.borderWidth = 2
-
+        
     }
     
     func showPositionSelector() {
@@ -199,8 +200,6 @@ extension SignUpViewController {
             signupButton.backgroundColor = UIColor.black
         }
         
-        // idPass값이 안바뀌는 것처럼 보이는건, ViewDidLoad에서 이미 그려졌기 때문
-        // 클로져는 독립젹인 코드블럭이기에 이 안에서는 업데이트가 가능
         emailLine.passHandler = { pass in
             self.idPass = pass
         }
@@ -226,10 +225,21 @@ extension SignUpViewController {
         
         present(alertController, animated: true, completion: nil)
     }
-
+    
 }
 
 extension SignUpViewController {
+    
+    func hideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(SignUpViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     func setupKeyboardEvent() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow),
@@ -241,20 +251,27 @@ extension SignUpViewController {
                                                object: nil)
     }
     @objc func keyboardWillShow(_ sender: Notification) {
-        // 키보드 표시 이벤트 처리
         guard let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         let keyboardHeight = keyboardFrame.cgRectValue.height
         
         if view.frame.origin.y == 0 {
-            view.frame.origin.y -= keyboardHeight - 160
+            view.frame.origin.y -= keyboardHeight - 180
         }
     }
     @objc func keyboardWillHide(_ notification: Notification) {
-        // 키보드 숨김 이벤트 처리
         if view.frame.origin.y != 0 {
             view.frame.origin.y = 0
         }
-        
+    }
+    
+    func hideKeyboardEvent() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(SignUpViewController.dismissKeyboardSignup))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboardSignup() {
+        view.endEditing(true)
     }
 }
 
@@ -273,27 +290,24 @@ extension SignUpViewController {
         positionLine.addArrangedSubview(tierButton)
         positionLine.addArrangedSubview(positionButton)
         
-        //        bodyContainer.layer.borderWidth = 1
         bodyContainer.layer.cornerRadius = 10
         bodyContainer.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(30)
             make.bottom.equalTo(view.safeAreaLayoutGuide)
-            make.left.equalToSuperview().offset(40)
-            make.right.equalToSuperview().inset(40)
-            //            make.centerY.equalToSuperview()
+            make.left.equalToSuperview().offset(51)
+            make.right.equalToSuperview().inset(51)
         }
         
-        imageArea.backgroundColor = UIColor.rgrgColor6
         imageArea.layer.cornerRadius = 10
         imageArea.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.left.equalToSuperview().offset(20)
-            make.right.equalToSuperview().inset(20)
-            make.height.equalTo(100)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalTo(83)
         }
         
         mainImage.image = UIImage(named: "SignupMain")
-        mainImage.contentMode = .scaleAspectFit
+        mainImage.contentMode = .center
         mainImage.snp.makeConstraints { make in
             make.width.equalTo(imageArea.snp.width).multipliedBy(0.8)
             make.height.equalToSuperview()
@@ -303,7 +317,7 @@ extension SignUpViewController {
         methodArea.spacing = 15
         methodArea.distribution = .fillProportionally
         methodArea.snp.makeConstraints { make in
-            make.top.equalTo(imageArea.snp.bottom).offset(30)
+            make.top.equalTo(imageArea.snp.bottom).offset(15)
             make.left.right.equalToSuperview()
         }
         
@@ -330,7 +344,7 @@ extension SignUpViewController {
         positionLine.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.top.equalTo(nickNameLine.snp.bottom).offset(20)
-            make.height.equalTo(60)
+            make.height.equalTo(52)
         }
         
         tierButton.layer.cornerRadius = 10
@@ -339,6 +353,7 @@ extension SignUpViewController {
         
         tierButton.snp.makeConstraints { make in
             make.width.equalToSuperview().dividedBy(2.2)
+            
         }
         
         positionButton.layer.cornerRadius = 10

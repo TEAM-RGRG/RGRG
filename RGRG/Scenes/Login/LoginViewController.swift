@@ -38,18 +38,17 @@ class LoginViewController: UIViewController {
     }()
     
     let methodArea = {
-        let view = UIStackView()
-        view.axis = .vertical
+        let view = UIView()
         return view
     }()
     
     let emailLine = {
-        let line = CustomMemberInfoBox(id: .loginEmail, placeHolder: "Email", condition: "^[A-Za-z0-9+_.-]+@(.+)$", cellHeight: 70, style: "Login")
+        let line = CustomMemberInfoBox(id: .loginEmail, placeHolder: "Email", condition: "^[A-Za-z0-9+_.-]+@(.+)$", cellHeight: 60, style: "Login")
         return line
     }()
     
     let passwordLine = {
-        let line = CustomMemberInfoBox(id: .loginPW, placeHolder: "Password", condition: "^[a-zA-Z0-9]{7,}$", cellHeight: 70, style: "Login")
+        let line = CustomMemberInfoBox(id: .loginPW, placeHolder: "Password", condition: "^[a-zA-Z0-9]{7,}$", cellHeight: 60, style: "Login")
         line.inputBox.isSecureTextEntry = true
         return line
     }()
@@ -76,6 +75,8 @@ class LoginViewController: UIViewController {
         setupUI()
         passValueCheck()
         makeBackButton()
+        setupKeyboardEvent()
+        hideKeyboardEvent()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -139,77 +140,6 @@ extension LoginViewController {
         present(alertController, animated: true, completion: nil)
     }
     
-    func setupUI() {
-        view.addSubview(bodyContainer)
-        bodyContainer.addSubview(imageArea)
-        imageArea.addSubview(mainImage)
-        bodyContainer.addSubview(methodArea)
-        methodArea.addArrangedSubview(emailLine)
-        methodArea.addArrangedSubview(passwordLine)
-        loginButton.addTarget(self, action: #selector(tapLogin), for: .touchUpInside)
-        methodArea.addArrangedSubview(loginButton)
-        methodArea.addArrangedSubview(signupButton)
-        
-        bodyContainer.layer.cornerRadius = 10
-        bodyContainer.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
-            make.bottom.equalTo(view.safeAreaLayoutGuide)
-            make.left.equalToSuperview().offset(45)
-            make.right.equalToSuperview().inset(45)
-        }
-        
-        imageArea.layer.borderColor = UIColor.systemGray5.cgColor
-        imageArea.snp.makeConstraints { make in
-            make.left.top.right.equalToSuperview()
-            make.height.equalToSuperview().dividedBy(2)
-        }
-        
-        mainImage.layer.borderColor = UIColor.systemGray5.cgColor
-        mainImage.image = UIImage(named: "LoginMain")
-        mainImage.contentMode = .scaleAspectFit
-        mainImage.snp.makeConstraints { make in
-            make.height.equalToSuperview().dividedBy(2)
-            make.left.equalToSuperview().offset(60)
-            make.right.equalToSuperview().inset(60)
-            make.centerY.equalToSuperview()
-            make.centerX.equalToSuperview()
-        }
-        
-        methodArea.snp.makeConstraints { make in
-            make.left.bottom.right.equalToSuperview()
-            make.height.equalToSuperview().dividedBy(2)
-        }
-        
-        emailLine.snp.makeConstraints { make in
-            make.height.equalToSuperview().dividedBy(5)
-            make.bottom.equalTo(passwordLine.snp.top).offset(-20)
-        }
-        
-        passwordLine.snp.makeConstraints { make in
-            make.height.equalToSuperview().dividedBy(5)
-            make.bottom.equalTo(loginButton.snp.top).offset(-20)
-        }
-        
-        loginButton.snp.makeConstraints { make in
-            make.height.equalToSuperview().dividedBy(5)
-            make.bottom.equalTo(signupButton.snp.top)
-        }
-        
-        let attributedTitle = NSAttributedString(string: "회원가입", attributes: [
-            NSAttributedString.Key.foregroundColor: UIColor.white,
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15),
-            NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue
-        ])
-        
-        signupButton.setAttributedTitle(attributedTitle, for: .normal)
-        signupButton.setTitleColor(UIColor.white, for: .normal)
-        signupButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
-        signupButton.addTarget(self, action: #selector(gotoSignupPage), for: .touchUpInside)
-        signupButton.snp.makeConstraints { make in
-            make.height.equalToSuperview().dividedBy(10)
-            make.bottom.equalTo(bodyContainer.snp.bottom).offset(-60)
-        }
-    }
 }
 
 extension LoginViewController {
@@ -224,6 +154,7 @@ extension LoginViewController {
 }
 // 키보드 표시 이벤트 처리
 extension LoginViewController {
+    
     func setupKeyboardEvent() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow),
@@ -249,5 +180,86 @@ extension LoginViewController {
             view.frame.origin.y = 0
         }
         
+    }
+    
+    func hideKeyboardEvent() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(LoginViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
+
+extension LoginViewController {
+    func setupUI() {
+        view.addSubview(bodyContainer)
+        bodyContainer.addSubview(imageArea)
+        imageArea.addSubview(mainImage)
+        bodyContainer.addSubview(methodArea)
+        methodArea.addSubview(emailLine)
+        methodArea.addSubview(passwordLine)
+        loginButton.addTarget(self, action: #selector(tapLogin), for: .touchUpInside)
+        methodArea.addSubview(loginButton)
+        methodArea.addSubview(signupButton)
+        
+        bodyContainer.layer.borderColor = UIColor.systemGray5.cgColor
+        bodyContainer.layer.cornerRadius = 10
+        bodyContainer.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.left.equalToSuperview().offset(47)
+            make.right.equalToSuperview().inset(46)
+        }
+        imageArea.layer.borderColor = UIColor.systemGray5.cgColor
+        imageArea.snp.makeConstraints { make in
+            make.left.top.right.equalToSuperview()
+            make.height.equalToSuperview().dividedBy(2)
+        }
+        mainImage.layer.borderColor = UIColor.systemGray5.cgColor
+        mainImage.image = UIImage(named: "LoginMain")
+        mainImage.contentMode = .scaleAspectFit
+        mainImage.snp.makeConstraints { make in
+            make.height.equalTo(263)
+            make.width.equalTo(270)
+            make.centerY.equalToSuperview()
+            make.centerX.equalToSuperview()
+        }
+        methodArea.snp.makeConstraints { make in
+            make.left.bottom.right.equalToSuperview()
+            make.height.equalToSuperview().dividedBy(2)
+        }
+        emailLine.snp.makeConstraints { make in
+            make.height.equalToSuperview().dividedBy(5)
+            make.bottom.equalTo(passwordLine.snp.top).offset(-20)
+            make.left.right.equalToSuperview()
+        }
+        passwordLine.snp.makeConstraints { make in
+            make.height.equalToSuperview().dividedBy(5)
+            make.bottom.equalTo(loginButton.snp.top).offset(-20)
+            make.left.right.equalToSuperview()
+        }
+        loginButton.snp.makeConstraints { make in
+            make.height.equalToSuperview().dividedBy(5)
+            make.bottom.equalTo(signupButton.snp.top)
+            make.left.right.equalToSuperview()
+        }
+        
+        let attributedTitle = NSAttributedString(string: "회원가입", attributes: [
+            NSAttributedString.Key.foregroundColor: UIColor.white,
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15),
+            NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue
+        ])
+        signupButton.setAttributedTitle(attributedTitle, for: .normal)
+        signupButton.setTitleColor(UIColor.white, for: .normal)
+        signupButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        signupButton.addTarget(self, action: #selector(gotoSignupPage), for: .touchUpInside)
+        signupButton.snp.makeConstraints { make in
+            make.height.equalToSuperview().dividedBy(10)
+            make.bottom.equalTo(bodyContainer.snp.bottom).offset(-60)
+            make.centerX.equalToSuperview()
+        }
     }
 }
