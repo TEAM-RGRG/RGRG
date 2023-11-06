@@ -172,7 +172,7 @@ extension SignUpViewController {
         tierButton.setupShadow(alpha: 0.25, offset: CGSize(width: 2, height: 3), radius: 4, opacity: 0.5)
         tierButton.layer.borderColor = UIColor.rgrgColor6.cgColor
         tierButton.layer.borderWidth = 2
-
+        
     }
     
     func showPositionSelector() {
