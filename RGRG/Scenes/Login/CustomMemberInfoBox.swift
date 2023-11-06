@@ -76,7 +76,7 @@ class CustomMemberInfoBox : UIView {
         return text
     }()
     
-    init(id:MemberInfoBox, conditionText:String? = nil, passText:String? = nil, placeHolder: String, condition: String, cellHeight:Int = 60 , style: String = "SignUp") {
+    init(id:MemberInfoBox, conditionText:String? = nil, passText:String? = nil, placeHolder: String, condition: String, cellHeight:Int = 52 , style: String = "SignUp") {
         
         self.conditon = condition
         self.cellHeightValue = cellHeight
