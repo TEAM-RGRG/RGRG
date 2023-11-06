@@ -353,7 +353,6 @@ extension EditProfileViewController {
         secondImage.image = UIImage(named: user?.mostChampion[1] ?? "None")
         thirdImage.image = UIImage(named: user?.mostChampion[2] ?? "None")
 
-
         userNameTextField.text = user?.userName
         tierButton.setTitle(user?.tier, for: .normal)
         positionButton.setTitle(user?.position, for: .normal)
@@ -370,6 +369,8 @@ extension EditProfileViewController {
             present(alert, animated: true)
         } else {
             FirebaseUserManager.shared.updateUserInfo(userInfo: updatedUser)
+            FirebaseUpdateManager.shared.partyUserUpdate(user: updatedUser)
+            FirebaseUpdateManager.shared.channelsUserUpdate(updateProfile: updatedUser.profilePhoto)
             navigationController?.popViewController(animated: true)
         }
     }

@@ -143,7 +143,7 @@ extension ChooseChampViewController {
     }
     
     func arrangeSelectedChamp() {
-        while selectedChamp.count <= 3 {
+        while selectedChamp.count < 3 {
             selectedChamp.append("None")
         }
     }
