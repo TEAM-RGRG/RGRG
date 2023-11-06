@@ -85,6 +85,7 @@ class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.isHidden = false
         view.backgroundColor = UIColor.rgrgColor5
         setupUI()
         passValueCheck()
@@ -130,7 +131,7 @@ extension SignUpViewController {
                     "tier": tier,
                     "position": position,
                     "profilePhoto": "Default",
-                    "mostChampion" : ["None","None","None"] //Defaults 이미지
+                    "mostChampion": ["None", "None", "None"] // Defaults 이미지
                     
                 ]) { error in
                     if let error = error {
@@ -148,21 +149,22 @@ extension SignUpViewController {
         navigationController?.pushViewController(movePage, animated: true)
     }
     
-    func showTierSelector(){
-        let optionalClosure = {(action : UIAction) in
-            print(action.title)}
+    func showTierSelector() {
+        let optionalClosure = { (action: UIAction) in
+            print(action.title)
+        }
         
-        tierButton.menu = UIMenu( children : [
-            UIAction(title : "Iron", state: .on, handler: optionalClosure),
-            UIAction(title : "Bronze", state: .off, handler: optionalClosure),
-            UIAction(title : "Silver", state: .off,  handler: optionalClosure),
-            UIAction(title : "Gold", state: .off, handler: optionalClosure),
-            UIAction(title : "Platinum", state: .off, handler: optionalClosure),
-            UIAction(title : "Emerald", state: .off,  handler: optionalClosure),
-            UIAction(title : "Diamond", state: .off, handler: optionalClosure),
-            UIAction(title : "Master", state: .off, handler: optionalClosure),
-            UIAction(title : "Grand Master", state: .off,  handler: optionalClosure),
-            UIAction(title : "Challenger", state: .off,  handler: optionalClosure)
+        tierButton.menu = UIMenu(children: [
+            UIAction(title: "Iron", state: .on, handler: optionalClosure),
+            UIAction(title: "Bronze", state: .off, handler: optionalClosure),
+            UIAction(title: "Silver", state: .off, handler: optionalClosure),
+            UIAction(title: "Gold", state: .off, handler: optionalClosure),
+            UIAction(title: "Platinum", state: .off, handler: optionalClosure),
+            UIAction(title: "Emerald", state: .off, handler: optionalClosure),
+            UIAction(title: "Diamond", state: .off, handler: optionalClosure),
+            UIAction(title: "Master", state: .off, handler: optionalClosure),
+            UIAction(title: "Grand Master", state: .off, handler: optionalClosure),
+            UIAction(title: "Challenger", state: .off, handler: optionalClosure)
         ])
         
         tierButton.showsMenuAsPrimaryAction = true
@@ -174,15 +176,16 @@ extension SignUpViewController {
     }
     
     func showPositionSelector() {
-        let optionalClosure = {(action : UIAction) in
-            print(action.title)}
+        let optionalClosure = { (action: UIAction) in
+            print(action.title)
+        }
         
-        positionButton.menu = UIMenu( children : [
-            UIAction(title : "Top", state: .on,  handler: optionalClosure),
-            UIAction(title : "Jungle", state: .off, handler: optionalClosure),
-            UIAction(title : "Mid", state: .off, handler: optionalClosure),
-            UIAction(title : "Bottom", state: .off,  handler: optionalClosure),
-            UIAction(title : "Support", state: .off,  handler: optionalClosure)
+        positionButton.menu = UIMenu(children: [
+            UIAction(title: "Top", state: .on, handler: optionalClosure),
+            UIAction(title: "Jungle", state: .off, handler: optionalClosure),
+            UIAction(title: "Mid", state: .off, handler: optionalClosure),
+            UIAction(title: "Bottom", state: .off, handler: optionalClosure),
+            UIAction(title: "Support", state: .off, handler: optionalClosure)
         ])
         
         positionButton.showsMenuAsPrimaryAction = true
@@ -250,6 +253,7 @@ extension SignUpViewController {
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
     }
+
     @objc func keyboardWillShow(_ sender: Notification) {
         guard let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         let keyboardHeight = keyboardFrame.cgRectValue.height
@@ -258,6 +262,7 @@ extension SignUpViewController {
             view.frame.origin.y -= keyboardHeight - 180
         }
     }
+
     @objc func keyboardWillHide(_ notification: Notification) {
         if view.frame.origin.y != 0 {
             view.frame.origin.y = 0

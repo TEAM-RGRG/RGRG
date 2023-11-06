@@ -9,6 +9,11 @@ import FirebaseAuth
 import SnapKit
 import UIKit
 
+// 해야할 일
+// 1. FireStoreManager 의 데이터를 uid 로 변환
+// 2. 테이블뷰 키보드 올라오는 것에 대응
+// 3. ChatDetailVC에서 유저의 uid를 통해서 데이터 수신(내 정보는 ChatListVC => ChatDetailVC 로 전달) / (상대 정보는 넘겨받은 uid를 통해서 서버에서 해당 유저의 데이터를 전달 받거나 ChatListVC로부터 넘겨받을 것임)
+
 class ChatDetailViewController: UIViewController {
     let tableView = CustomTableView(frame: .zero, style: .plain)
 
@@ -40,13 +45,6 @@ extension ChatDetailViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-
-//        if let user = Auth.auth().currentUser {
-//            currentUid = user.uid ?? "n/a"
-//
-//        } else {
-//            print("### Login : Error")
-//        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -191,6 +189,7 @@ extension ChatDetailViewController {
         textView.layer.cornerRadius = 10
         textView.textContainerInset = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
         textView.isScrollEnabled = true
+//        textView.inputAccessoryView = nil
 
         textView.snp.makeConstraints { make in
             make.leading.equalTo(bottomBaseView).offset(8)
@@ -208,7 +207,8 @@ extension ChatDetailViewController {
         bottomBaseView.backgroundColor = UIColor(hex: "#F1F1F1")
 
         bottomBaseView.snp.makeConstraints { make in
-            make.top.equalTo(textView.snp.top).offset(-8)
+//            make.top.equalTo(textView.snp.top).offset(-8)
+            make.height.equalTo(80)
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
             make.bottom.equalTo(view)
@@ -254,8 +254,8 @@ extension ChatDetailViewController {
             FireStoreManager.shared.updateChannelSender(thread: self.thread, sender: self.currentUserName, host: self.channelInfo?.host ?? "n/a", guest: self.channelInfo?.guest ?? "n/a", date: FireStoreManager.shared.dateFormatter(value: Date.now))
 
             DispatchQueue.main.async {
-                self.textView.text = self.placeholder
-                self.textView.textColor = UIColor(hex: "#ADADAD")
+                self.textView.text = nil
+                self.textView.textColor = UIColor(hex: "#505050")
                 self.textView.font = UIFont(name: AppFontName.regular, size: 18)
                 self.textView.snp.remakeConstraints { make in
                     make.leading.equalTo(self.bottomBaseView).offset(8)
@@ -263,7 +263,6 @@ extension ChatDetailViewController {
                     make.width.equalTo(334)
                     make.height.greaterThanOrEqualTo(35)
                 }
-                self.textView.endEditing(true)
                 self.sendMessageIcon.image = UIImage(named: "Send_fill")
             }
         }
@@ -446,32 +445,82 @@ extension ChatDetailViewController {
     }
 
     @objc func keyboardWillShow(notification: NSNotification) {
+        print("#### \(#function)")
+        if chats.isEmpty != true {
+            let endexIndex = IndexPath(row: chats.count - 2, section: 0)
+            tableView.scrollToRow(at: endexIndex, at: .bottom, animated: true)
+        }
+
         textView.isScrollEnabled = false
+
         if textView.isFirstResponder {
             if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
                 if view.frame.origin.y == textViewPosY {
-                    view.frame.origin.y -= keyboardSize.height - UIApplication.shared.windows.first!.safeAreaInsets.bottom + 8
+                    bottomBaseView.snp.remakeConstraints { make in
+                        make.height.equalTo(80)
+                        make.leading.equalToSuperview()
+                        make.trailing.equalToSuperview()
+                        make.bottom.equalTo(view).inset(keyboardSize.height - 27)
+                    }
+
+                    tableView.snp.remakeConstraints { make in
+                        make.centerX.equalToSuperview()
+                        make.top.equalTo(view.safeAreaLayoutGuide)
+                        make.leading.equalToSuperview()
+                        make.bottom.equalTo(bottomBaseView.snp.top)
+                    }
                 }
             }
         }
     }
 
     @objc func keyboardDidShow(notification: NSNotification) {
+        print("#### \(#function)")
+
+        if chats.isEmpty != true {
+            let endexIndex = IndexPath(row: chats.count - 2, section: 0)
+            tableView.scrollToRow(at: endexIndex, at: .bottom, animated: true)
+        }
+
         textView.isScrollEnabled = false
+
         if textView.isFirstResponder {
             if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
                 if view.frame.origin.y == textViewPosY {
-                    view.frame.origin.y -= keyboardSize.height - UIApplication.shared.windows.first!.safeAreaInsets.bottom + 8
+                    bottomBaseView.snp.remakeConstraints { make in
+                        make.height.equalTo(80)
+                        make.leading.equalToSuperview()
+                        make.trailing.equalToSuperview()
+                        make.bottom.equalTo(view).inset(keyboardSize.height - 27)
+                    }
+
+                    tableView.snp.remakeConstraints { make in
+                        make.centerX.equalToSuperview()
+                        make.top.equalTo(view.safeAreaLayoutGuide)
+                        make.leading.equalToSuperview()
+                        make.bottom.equalTo(bottomBaseView.snp.top)
+                    }
                 }
             }
         }
     }
 
     @objc func keyboardWillHide(notification: NSNotification) {
-        if view.frame.origin.y != textViewPosY {
-            view.frame.origin.y = textViewPosY
-//            textView.isScrollEnabled = true
-//            textView.isEditable = true
+        print("#### \(#function)")
+
+        bottomBaseView.snp.remakeConstraints { make in
+            make.height.equalTo(80)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.bottom.equalTo(view)
+        }
+
+        tableView.snp.remakeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.leading.equalToSuperview()
+            make.bottom.equalTo(bottomBaseView.snp.top)
+            make.height.greaterThanOrEqualTo(600)
         }
     }
 }

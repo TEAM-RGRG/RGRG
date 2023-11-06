@@ -60,7 +60,6 @@ extension SettingViewController {
             try firebaseAuth.signOut()
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
-            navigationController?.popToViewController(loginVC, animated: true)
         }
     }
 
@@ -99,11 +98,23 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             signOut()
-            navigationController?.popToRootViewController(animated: true)
+            navigationController?.pushViewController(loginVC, animated: true)
+            removeAllNavigationStack()
         }
         if indexPath.row == 1 {
             deleteUser()
             navigationController?.popToRootViewController(animated: true)
         }
+    }
+}
+
+extension SettingViewController {
+    func removeAllNavigationStack() {
+        guard let navigationController = navigationController else { return }
+        var navigationArray = navigationController.viewControllers // To get all UIViewController stack as Array
+        let temp = navigationArray.last
+        navigationArray.removeAll()
+        navigationArray.append(temp!) // To remove all previous UIViewController except the last one
+        self.navigationController?.viewControllers = navigationArray
     }
 }
