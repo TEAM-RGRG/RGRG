@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "WelcometoRGRG(LOGO).png",
+      "filename" : "SignuoMAin 2.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "WelcometoRGRG(LOGO) 1.png",
+      "filename" : "SignuoMAin.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "WelcometoRGRG(LOGO) 2.png",
+      "filename" : "SignuoMAin 1.svg",
       "idiom" : "universal",
       "scale" : "3x"
     }

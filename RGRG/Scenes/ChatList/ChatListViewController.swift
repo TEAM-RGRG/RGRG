@@ -185,8 +185,10 @@ extension ChatListViewController: UITableViewDataSource {
 
             if item.guestSender == true {
                 cell.chatAlert.isHidden = false
+
             } else {
                 cell.chatAlert.isHidden = true
+
             }
 
             // 내가 게스트일 때,
@@ -199,8 +201,10 @@ extension ChatListViewController: UITableViewDataSource {
 
             if item.hostSender == true {
                 cell.chatAlert.isHidden = false
+
             } else {
                 cell.chatAlert.isHidden = true
+
             }
         }
 
