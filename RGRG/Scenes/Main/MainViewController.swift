@@ -11,22 +11,50 @@ import UIKit
 // MARK: 프로퍼티 생성
 
 class MainViewController: UIViewController, SendSelectedOptionDelegate {
-    func sendSelectedOption(selectedOption: [String: String]) {
-        updateOptionLabel(tier: selectedOption["tier"] ?? "", position: selectedOption["position"] ?? "")
-        if selectedOption["tier"] != "" && selectedOption["tier"] != nil {
-            selectedTier = [selectedOption["tier"]!]
+    func sendSelectedOption(tier: String, position: String) {
+        updateOptionLabel(tier: tier, position: position)
+        if tier == "" {
+            if position == "" {
+                PartyManager.shared.loadParty(tier: tierName, position: positionName) { [weak self] parties in
+                    self?.partyList = parties // [PartyInfo] = [PartyInfo]
+                    DispatchQueue.main.async {
+                        self?.patryListTable.reloadData()
+                    }
+                }
+            } else {
+                PartyManager.shared.loadParty(tier: tierName, position: [position]) { [weak self] parties in
+                    self?.partyList = parties // [PartyInfo] = [PartyInfo]
+                    DispatchQueue.main.async {
+                        self?.patryListTable.reloadData()
+                    }
+                }
+            }
+        } else {
+            if position == "" {
+                PartyManager.shared.loadParty(tier: [tier], position: positionName) { [weak self] parties in
+                    self?.partyList = parties // [PartyInfo] = [PartyInfo]
+                    DispatchQueue.main.async {
+                        self?.patryListTable.reloadData()
+                    }
+                }
+            } else {
+                PartyManager.shared.loadParty(tier: [tier], position: [position]) { [weak self] parties in
+                    self?.partyList = parties // [PartyInfo] = [PartyInfo]
+                    DispatchQueue.main.async {
+                        self?.patryListTable.reloadData()
+                    }
+                }
+            }
         }
-        if selectedOption["position"] != "" && selectedOption["position"] != nil {
-            selectedPosition = [selectedOption["position"]!]
-        }
-        print("~~~~~~~~~~~~~~111 ~\(selectedTier) , \(selectedPosition)")
-        PartyManager.shared.loadParty(tier: selectedTier, position: selectedPosition) { parties in
-            self.partyList = parties // [PartyInfo] = [PartyInfo]
+        print("~~~~~~~~~~~~~~~~~\(tier) , \(position)")
+        
+        PartyManager.shared.loadParty(tier: [tier], position: [position]) { [weak self] parties in
+            self?.partyList = parties // [PartyInfo] = [PartyInfo]
             print("~~~~~~~~~~~~~~~파티매니저실행")
-            print("~~~~~~~~~~~~~~333\(self.selectedTier)")
-            print("~~~~~~~~~~~~~~ \(self.partyList)")
+            print("~~~~~~~~~~~~~~333\(self?.selectedTier)")
+            print("~~~~~~~~~~~~~~ \(self?.partyList)")
             DispatchQueue.main.async {
-                self.patryListTable.reloadData()
+                self?.patryListTable.reloadData()
             }
         }
     }
@@ -35,6 +63,9 @@ class MainViewController: UIViewController, SendSelectedOptionDelegate {
     
     var selectedTier: [String] = ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Emerald", "Diamond", "Master", "GrandMaster", "Challenger"]
     var selectedPosition: [String] = ["Top", "Jungle", "Mid", "Bottom", "Support"]
+    
+    let tierName: [String] = ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Emerald", "Diamond", "Master", "GrandMaster", "Challenger"]
+    let positionName: [String] = ["Top", "Jungle", "Mid", "Bottom", "Support"]
     
     var selectiedTierArray: [String] = []
     
@@ -181,23 +212,21 @@ extension MainViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.navigationController?.navigationBar.isHidden = true
-        print("~~~~~~~~~~~~~~~~~~viewwillappear")
+        task()
     }
     
     // MARK: - ViewDidLoad
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureUI()
-        task()
         patryListTable.register(PartyTableViewCell.self, forCellReuseIdentifier: "PartyTableViewCell")
         patryListTable.delegate = self
         patryListTable.dataSource = self
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        partyList.removeAll()
+//        partyList.removeAll()
     }
 }
 
@@ -342,11 +371,11 @@ extension MainViewController {
     func task() {
         Task {
             print("############\(selectedTier)#####\(selectedPosition)##########")
-            FirebaseUserManager.shared.getUserInfo(complition: { user in
+            await FirebaseUserManager.shared.getUserInfo(complition: { user in
                 print("### CurrentUser Info ::: \(user)")
                 self.currentUser = user
             })
-            PartyManager.shared.loadParty(tier: selectedTier, position: selectedPosition) { [weak self] parties in
+            await PartyManager.shared.loadParty(tier: selectedTier, position: selectedPosition) { [weak self] parties in
                 self?.partyList = parties // [PartyInfo] = [PartyInfo]
                 print("~~~~~~~~~~~~~~222\(self?.selectedTier)")
                 print("### \(self?.partyList)")
