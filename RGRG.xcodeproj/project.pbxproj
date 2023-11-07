@@ -91,6 +91,9 @@
 		4ECD01E52ADE6C15003EA65C /* CustomBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECD01E42ADE6C15003EA65C /* CustomBarButton.swift */; };
 		4ECD01E92ADE9405003EA65C /* MyFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECD01E82ADE9405003EA65C /* MyFeedCell.swift */; };
 		4ECD01EB2ADE9413003EA65C /* YourFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECD01EA2ADE9413003EA65C /* YourFeedCell.swift */; };
+		4EE296202AFA32310039B45E /* DeveloperInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE2961F2AFA32310039B45E /* DeveloperInfoViewController.swift */; };
+		4EE296222AFA32380039B45E /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE296212AFA32380039B45E /* ReportViewController.swift */; };
+		4EE296242AFA3C040039B45E /* DeveloperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE296232AFA3C040039B45E /* DeveloperCell.swift */; };
 		4EE5E9D42AEBA89A00B7849E /* ChatSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE5E9D32AEBA89A00B7849E /* ChatSettingViewController.swift */; };
 		4EE5E9D82AEBCAFB00B7849E /* PartyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE5E9D72AEBCAFB00B7849E /* PartyManager.swift */; };
 		4EE5E9DA2AEBCBB800B7849E /* PartyInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE5E9D92AEBCBB800B7849E /* PartyInfo.swift */; };
@@ -174,6 +177,9 @@
 		4ECD01E42ADE6C15003EA65C /* CustomBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBarButton.swift; sourceTree = "<group>"; };
 		4ECD01E82ADE9405003EA65C /* MyFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedCell.swift; sourceTree = "<group>"; };
 		4ECD01EA2ADE9413003EA65C /* YourFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourFeedCell.swift; sourceTree = "<group>"; };
+		4EE2961F2AFA32310039B45E /* DeveloperInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperInfoViewController.swift; sourceTree = "<group>"; };
+		4EE296212AFA32380039B45E /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
+		4EE296232AFA3C040039B45E /* DeveloperCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperCell.swift; sourceTree = "<group>"; };
 		4EE5E9D32AEBA89A00B7849E /* ChatSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettingViewController.swift; sourceTree = "<group>"; };
 		4EE5E9D72AEBCAFB00B7849E /* PartyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyManager.swift; sourceTree = "<group>"; };
 		4EE5E9D92AEBCBB800B7849E /* PartyInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyInfo.swift; sourceTree = "<group>"; };
@@ -276,6 +282,7 @@
 			isa = PBXGroup;
 			children = (
 				1DB9391E2AE24AB300BD4F41 /* SettingCell.swift */,
+				4EE296232AFA3C040039B45E /* DeveloperCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -516,6 +523,8 @@
 			children = (
 				1DB9391D2AE24AB300BD4F41 /* Cell */,
 				4E8B85412AD815B6009BCF4B /* SettingViewController.swift */,
+				4EE296212AFA32380039B45E /* ReportViewController.swift */,
+				4EE2961F2AFA32310039B45E /* DeveloperInfoViewController.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -704,9 +713,11 @@
 				CB4B0BC82ADFAB970077AB3A /* SearchOptionVC.swift in Sources */,
 				4E8B84D72AD81184009BCF4B /* AppDelegate.swift in Sources */,
 				4E8B851B2AD8120E009BCF4B /* ProfileViewController.swift in Sources */,
+				4EE296242AFA3C040039B45E /* DeveloperCell.swift in Sources */,
 				4E8195EE2ADD404000881C88 /* CustomImageView.swift in Sources */,
 				4E8B853E2AD81515009BCF4B /* RecuitmentViewController.swift in Sources */,
 				4E8B85352AD81411009BCF4B /* Extension.swift in Sources */,
+				4EE296222AFA32380039B45E /* ReportViewController.swift in Sources */,
 				96A7B3FA2AD9365D00B218EB /* CtaLageButton.swift in Sources */,
 				4E8B851F2AD8120E009BCF4B /* LoginViewController.swift in Sources */,
 				4E8B85172AD8120E009BCF4B /* SignUpViewController.swift in Sources */,
@@ -716,6 +727,7 @@
 				4E8B853E2AD81515009BCF4B /* RecuitmentViewController.swift in Sources */,
 				4EFC9C8B2AF7755200A17FC3 /* FirebaseUpdateManager.swift in Sources */,
 				4E8B85352AD81411009BCF4B /* Extension.swift in Sources */,
+				4EE296202AFA32310039B45E /* DeveloperInfoViewController.swift in Sources */,
 				1DB9391F2AE24AB300BD4F41 /* SettingCell.swift in Sources */,
 				96A7B3FA2AD9365D00B218EB /* CtaLageButton.swift in Sources */,
 				1DB94CE42AE919E000851A18 /* CustomFont.swift in Sources */,
