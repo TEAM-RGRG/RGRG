@@ -16,8 +16,6 @@ var pwBringValue: String = ""
 
 class CustomMemberInfoBox : UIView {
     
-    
-    
     var passHandler:((Bool)->Void)?
     var conditon : String
     var cellHeightValue : Int
@@ -47,7 +45,6 @@ class CustomMemberInfoBox : UIView {
         let icon = UIImageView()
         icon.isHidden = true
         return icon
-        
     }()
     
     let isSecureControllView = {
@@ -66,7 +63,6 @@ class CustomMemberInfoBox : UIView {
         text.isHidden = true
         text.font = UIFont(name: AppFontName.regular, size: 14)
         return text
-        
     }()
     
     lazy var duplicationMessage = {
@@ -77,7 +73,6 @@ class CustomMemberInfoBox : UIView {
     }()
     
     init(id:MemberInfoBox, conditionText:String? = nil, passText:String? = nil, placeHolder: String, condition: String, cellHeight:Int = 52 , style: String = "SignUp") {
-        
         self.conditon = condition
         self.cellHeightValue = cellHeight
         self.conditionText.text = conditionText
@@ -88,9 +83,7 @@ class CustomMemberInfoBox : UIView {
         styleSort(style: style)
     }
     
-    
-    
-    required init?(coder: NSCoder) {
+     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -167,11 +160,11 @@ class CustomMemberInfoBox : UIView {
         case .email:
             updateUIvalid(passView: passMessage, nonPassView: self.conditionText)
         case .pw:
-//            isSecureControllView.isHidden = false
+            isSecureControllView.isHidden = false
             updateUIvalid(passView: checkIcon, nonPassView: conditionText)
             savePasswordValue()
         case .pwCheck:
-//            isSecureControllView.isHidden = false
+            isSecureControllView.isHidden = false
             let pwCheckInputValue = inputBox.text
             let pwCheckValue = pwBringValue == pwCheckInputValue
             updateUIvalid(validation: pwCheckValue, passView: checkIcon, nonPassView: conditionText)
@@ -235,8 +228,6 @@ class CustomMemberInfoBox : UIView {
         }
     }
     
-    
-    
     func savePasswordValue (){
         if cellID == .pw {
             let pwValue = inputBox.text
@@ -255,13 +246,12 @@ class CustomMemberInfoBox : UIView {
         case "Login" :
             self.layer.borderColor = UIColor.rgrgColor3.cgColor
             self.checkIcon.tintColor = UIColor.white
-            
+            self.eyesIcon.tintColor = UIColor.white
         case "SignUp":
             self.layer.borderColor = UIColor.white.cgColor
             self.backgroundColor = UIColor.white
             self.inputBox.textColor = UIColor(hex: "505050")
-            
-            
+            self.eyesIcon.tintColor = UIColor.gray
         default:
             break
         }
@@ -269,61 +259,64 @@ class CustomMemberInfoBox : UIView {
     
     //MARK: UI
     func setupUI(){
+        self.addSubview(stackView)
+        stackView.addArrangedSubview(inputBox)
+
+        stackView.addArrangedSubview(conditionText)
+        stackView.addArrangedSubview(isSecureControllView)
+        stackView.addArrangedSubview(checkIcon)
+        stackView.addArrangedSubview(passMessage)
+        stackView.addArrangedSubview(duplicationMessage)
+        isSecureControllView.addSubview(eyesIcon)
+        
         self.setupShadow(alpha: 0.25, offset: CGSize(width: 2, height: 3), radius: 4, opacity: 0.5)
         self.layer.borderWidth = 2
         self.layer.cornerRadius = 10
         self.snp.makeConstraints { make in
             make.height.equalTo(cellHeightValue)
         }
-        
-        self.addSubview(stackView)
+             
         stackView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(10)
             make.left.equalToSuperview().offset(25)
             make.bottom.equalToSuperview().inset(10)
             make.right.equalToSuperview().inset(25)
         }
-        
-        stackView.addArrangedSubview(inputBox)
+         
         inputBox.addTarget(self, action: #selector(checkInputValue), for: .editingChanged)
         inputBox.attributedPlaceholder = NSAttributedString(string: inputBox.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.rgrgColor7])
         inputBox.textColor = UIColor(hex: "FFFFFF")
-        stackView.addArrangedSubview(conditionText)
+       
         conditionText.textColor = UIColor.systemRed
+        conditionText.textAlignment = .right
+        conditionText.snp.makeConstraints { make in
+            make.right.equalTo(isSecureControllView.snp.left).offset(-10)
+            make.width.equalTo(110)
+        }
         
-        
-        
-        stackView.addArrangedSubview(isSecureControllView)
         isSecureControllView.addTarget(self, action: #selector(switchisSecure), for: .touchUpInside)
-        isSecureControllView.addSubview(eyesIcon)
-        
-//        isSecureControllView.layer.borderColor = UIColor.red.cgColor
-//        isSecureControllView.layer.borderWidth = 1
+        isSecureControllView.snp.makeConstraints { make in
+            make.width.equalTo(30)
+        }
         
         eyesIcon.image = UIImage(systemName: "eye.slash")
-        eyesIcon.tintColor = UIColor.white
         eyesIcon.contentMode = .scaleAspectFit
         eyesIcon.snp.makeConstraints { make in
-            make.width.equalTo(30)
+            make.edges.equalToSuperview()
             make.centerY.equalToSuperview()
         }
         
-        stackView.addArrangedSubview(checkIcon)
         checkIcon.image = UIImage(systemName: "checkmark")
-        checkIcon.tintColor = UIColor.black
+        checkIcon.tintColor = UIColor.gray
         checkIcon.contentMode = .scaleAspectFit
         checkIcon.snp.makeConstraints { make in
             make.width.equalTo(20)
             make.left.equalTo(isSecureControllView.snp.right).offset(10)
         }
         
-        stackView.addArrangedSubview(passMessage)
         passMessage.textColor = UIColor.systemBlue
-        
-        stackView.addArrangedSubview(duplicationMessage)
         duplicationMessage.textColor = UIColor.systemRed
     }
-    
 }
 
 
