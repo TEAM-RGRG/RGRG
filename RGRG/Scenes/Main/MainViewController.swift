@@ -10,7 +10,13 @@ import UIKit
 
 // MARK: 프로퍼티 생성
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, SendSelectedOptionDelegate {
+    func sendSelectedOption(selectedOption: [String: String]) {
+        updateOptionLabel(tier: selectedOption["tier"] ?? "", position: selectedOption["position"] ?? "")
+    }
+    
+    func sendSelectedOption(selectedIndex: [String: Int]) {}
+ 
     let testButton = CustomButton(frame: .zero)
     //    var selectedTier: [String] = ["Emerald"]
     //    var selectedPosition: [String] = ["Top"]
@@ -189,11 +195,11 @@ extension MainViewController {
 extension MainViewController {
     func updateOptionLabel(tier: String, position: String) {
         // selectedTier 및 selectedPosition의 값에 따라 tierOptionLabel 업데이트
-        if tier != "default", position != "default" {
+        if tier != "", position != "" {
             tierOptionLabel.setTitle(" \(tier) ", for: .normal)
             positionOptionLabel.setTitle(" \(position) ", for: .normal)
             
-            if let tierColor = tierColors[tier ?? "Gold"] {
+            if let tierColor = tierColors[tier] {
                 tierOptionLabel.setTitleColor(tierColor, for: .normal)
             }
             tierOptionLabel.layer.borderColor = UIColor.rgrgColor3.cgColor
@@ -201,12 +207,12 @@ extension MainViewController {
             positionOptionLabel.tintColor = .rgrgColor3
             positionOptionLabel.setTitleColor(.rgrgColor3, for: .normal)
             positionOptionLabel.layer.borderColor = UIColor.rgrgColor3.cgColor
-        } else if tier != "default", position == "default" {
+        } else if tier != "", position == "" {
             // 티어만 선택된 경우
             tierOptionLabel.setTitle(" \(tier) ", for: .normal)
             positionOptionLabel.setTitle("포지션 ", for: .normal)
             
-            if let tierColor = tierColors[tier ?? "Gold"] {
+            if let tierColor = tierColors[tier] {
                 tierOptionLabel.setTitleColor(tierColor, for: .normal)
             }
             tierOptionLabel.layer.borderColor = UIColor.rgrgColor3.cgColor
@@ -214,7 +220,7 @@ extension MainViewController {
             positionOptionLabel.tintColor = .rgrgColor7
             positionOptionLabel.setTitleColor(.rgrgColor7, for: .normal)
             positionOptionLabel.layer.borderColor = UIColor.rgrgColor7.cgColor
-        } else if tier == "default", position != "default" {
+        } else if tier == "", position != "" {
             // 포지션만 선택된 경우
             tierOptionLabel.setTitle("티어 ", for: .normal)
             positionOptionLabel.setTitle(" \(position) ", for: .normal)
@@ -227,7 +233,7 @@ extension MainViewController {
             positionOptionLabel.tintColor = .rgrgColor3
             positionOptionLabel.setTitleColor(.rgrgColor3, for: .normal)
             positionOptionLabel.layer.borderColor = UIColor.rgrgColor3.cgColor
-        } else if tier == "default", position == "default" {
+        } else if tier == "", position == "" {
             // 둘 다 nil인 경우
             tierOptionLabel.setTitle("티어 ", for: .normal)
             positionOptionLabel.setTitle("포지션 ", for: .normal)
@@ -342,18 +348,19 @@ extension MainViewController {
     }
     
     @objc func searchOptionButtonTapped() {
-        let searchOptionVC = SearchOptionVC()
+        let searchOptionVC = SearchOptionViewController()
+        searchOptionVC.delegate = self
 //        searchOptionVC.selectedTierOption = selectedTier.first
 //        searchOptionVC.selectedPositionOption = selectedPosition.first
 
-        searchOptionVC.onConfirmation = { [weak self] selectedTier, selectedPosition in
-            self?.selectedTier = selectedTier
-            self?.selectedPosition = selectedPosition
-            self?.updateOptionLabel(tier: selectedTier.first ?? "", position: selectedPosition.first ?? "")
-            
-            self?.viewWillAppear(true)
-            print("**************\(selectedTier)*************")
-        }
+//        searchOptionVC.onConfirmation = { [weak self] selectedTier, selectedPosition in
+//            self?.selectedTier = selectedTier
+//            self?.selectedPosition = selectedPosition
+//            self?.updateOptionLabel(tier: selectedTier.first ?? "", position: selectedPosition.first ?? "")
+//
+//            self?.viewWillAppear(true)
+//            print("**************\(selectedTier)*************")
+//        }
         present(searchOptionVC, animated: true, completion: nil)
     }
 }

@@ -12,24 +12,23 @@ class SearchOptionVC: UIViewController {
     var selectedTierOption: String?
     var selectedPositionOption: String?
     var onConfirmation: (([String], [String]) -> Void)?
-    
-    let upperSectionItemCount = 7 // 윗쪽 섹션의 항목 개수
-    let lowerSectionItemCount = 5 // 아랫쪽 섹션의 항목 개수
-    
+
     let tierName = ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Emerald", "Diamond"]
     let positionName = ["Top", "Jug", "Mid", "Bot", "Sup"]
-    
+
+    var selectedDic: [String: String] = ["tier": "", "position": ""]
+
     var selectedTierIndexPath: IndexPath?
     var selectedSection: Int?
-    
+
     var selectedPositionIndexPath: IndexPath?
     var positionSelectedSection: Int?
-    
+
     let contentView: UIView = {
         let view = UIView()
         return view
     }()
-    
+
     let confirmationButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 22, weight: .bold)
@@ -40,7 +39,7 @@ class SearchOptionVC: UIViewController {
         button.addTarget(self, action: #selector(confirmationButtonTapped), for: .touchUpInside)
         return button
     }()
-    
+
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -48,10 +47,10 @@ class SearchOptionVC: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.isPagingEnabled = true
         collectionView.backgroundColor = UIColor.clear
-        
+        collectionView.allowsMultipleSelection = true
         return collectionView
     }()
-    
+
     @objc func confirmationButtonTapped() {
         if let selectedTier = selectedTierOption,
            let selectedPosition = selectedPositionOption
@@ -59,17 +58,17 @@ class SearchOptionVC: UIViewController {
             print("%%%%%%%%%%%%%\(selectedTierOption)%%%%%%%%%%%%%%%")
             onConfirmation?([selectedTier], [selectedPosition])
         }
-        
+
         saveSelectedCellInfo()
         dismiss(animated: true, completion: nil)
     }
-    
+
     func saveSelectedCellInfo() {
         let defaults = UserDefaults.standard
         defaults.set(selectedTierIndexPath?.row, forKey: "selectedTierIndex")
         defaults.set(selectedPositionIndexPath?.row, forKey: "selectedPositionIndex")
     }
-    
+
     func loadSelectedCellInfo() {
         let defaults = UserDefaults.standard
         if let tierIndex = defaults.value(forKey: "selectedTierIndex") as? Int,
@@ -85,29 +84,14 @@ class SearchOptionVC: UIViewController {
 
 extension SearchOptionVC {
     // MARK: - ViewDidLoad
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureUI()
-        collectionView.register(TierCell.self, forCellWithReuseIdentifier: "CollectionViewCell")
-        collectionView.register(PositionCell.self, forCellWithReuseIdentifier: "PositionCell")
-        collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "HeaderView")
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        
-        collectionView.collectionViewLayout = createCompositionalLayout()
-        
+        setUpCollectionView()
         loadSelectedCellInfo()
-        
-        if let selectedTierIndexPath = selectedTierIndexPath {
-            collectionView.selectItem(at: selectedTierIndexPath, animated: false, scrollPosition: [])
-        }
-        if let selectedPositionIndexPath = selectedPositionIndexPath {
-            collectionView.selectItem(at: selectedPositionIndexPath, animated: false, scrollPosition: [])
-        }
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         if let sheetPresentationController = sheetPresentationController {
             sheetPresentationController.detents = [
@@ -124,24 +108,24 @@ extension SearchOptionVC {
 extension SearchOptionVC {
     func configureUI() {
         view.backgroundColor = .white
-        
+
         view.addSubview(contentView)
         contentView.addSubview(collectionView)
         view.addSubview(confirmationButton)
-        
+
         contentView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(24)
             $0.leading.trailing.equalToSuperview().offset(0)
             $0.bottom.equalTo(confirmationButton.snp.top).offset(-20)
         }
-        
+
         collectionView.snp.makeConstraints {
             $0.leading.equalTo(contentView.snp.leading).offset(10)
             $0.top.equalTo(contentView.snp.top).offset(0)
             $0.trailing.equalTo(contentView.snp.trailing).offset(-10)
             $0.bottom.equalTo(contentView.snp.bottom).offset(0)
         }
-        
+
         confirmationButton.snp.makeConstraints {
             $0.bottom.equalToSuperview().offset(-32)
             $0.leading.equalToSuperview().offset(24)
@@ -153,6 +137,23 @@ extension SearchOptionVC {
 }
 
 extension SearchOptionVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func setUpCollectionView() {
+        collectionView.register(TierCell.self, forCellWithReuseIdentifier: "CollectionViewCell")
+        collectionView.register(PositionCell.self, forCellWithReuseIdentifier: "PositionCell")
+        collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "HeaderView")
+        collectionView.dataSource = self
+        collectionView.delegate = self
+
+        collectionView.collectionViewLayout = createCompositionalLayout()
+
+        if let selectedTierIndexPath = selectedTierIndexPath {
+            collectionView.selectItem(at: selectedTierIndexPath, animated: false, scrollPosition: [])
+        }
+        if let selectedPositionIndexPath = selectedPositionIndexPath {
+            collectionView.selectItem(at: selectedPositionIndexPath, animated: false, scrollPosition: [])
+        }
+    }
+
     fileprivate func createCompositionalLayout() -> UICollectionViewLayout {
         // 코포지셔널 레이아웃 생성
         let layout = UICollectionViewCompositionalLayout {
@@ -188,15 +189,6 @@ extension SearchOptionVC: UICollectionViewDelegate, UICollectionViewDataSource, 
         return 2
     }
 
-    // 각 섹션당 항목 개수 반환
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == 0 {
-            return upperSectionItemCount
-        } else {
-            return lowerSectionItemCount
-        }
-    }
-
     // 헤더 뷰 구현
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
@@ -213,11 +205,41 @@ extension SearchOptionVC: UICollectionViewDelegate, UICollectionViewDataSource, 
         return UICollectionReusableView()
     }
 
+    // 각 섹션당 항목 개수 반환
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if section == 0 {
+            return 7
+        } else {
+            return 5
+        }
+    }
+
+    // header size
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: collectionView.bounds.width, height: 50)
     }
 
+    // cell size
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let cellWidth = collectionView.bounds.width / CGFloat(5)
+        let cellHeight = collectionView.bounds.height / CGFloat(10)
+        return CGSize(width: cellWidth, height: cellHeight)
+    }
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            if let cell = collectionView.cellForItem(at: indexPath) as? TierCell {
+                cell.tierLabel.layer.borderColor = UIColor.rgrgColor3.cgColor
+                selectedDic["tier"] = cell.tierLabel.text
+                print("~~~~~~~~~~~~~~~~~\(selectedDic)")
+            }
+        }
+        if indexPath.section == 1 {
+            if let cell = collectionView.cellForItem(at: indexPath) as? PositionCell {
+                cell.positionFrame.layer.borderColor = UIColor.rgrgColor3.cgColor
+                selectedDic["position"] = cell.positionLabel.text
+            }
+        }
         if indexPath.section == 0 {
             if indexPath == selectedTierIndexPath {
                 // 이미 선택된 셀을 다시 탭한 경우, 선택 해제
@@ -225,10 +247,10 @@ extension SearchOptionVC: UICollectionViewDelegate, UICollectionViewDataSource, 
                 selectedTierOption = "default"
                 UserDefaults.standard.removeObject(forKey: "selectedTierIndexPath")
                 print("%%%%%%%%%%%%%%\(selectedTierOption)%%%%%%%%%")
-                
+
                 if let selectedCell = collectionView.cellForItem(at: indexPath) as? TierCell {
                     selectedCell.tierLabel.layer.borderColor = UIColor.systemGray4.cgColor
-                    
+
                     print("%%%%%%%%%%%%%%\(selectedTierOption)%%%%%%%%%")
                 }
             } else {
@@ -272,11 +294,9 @@ extension SearchOptionVC: UICollectionViewDelegate, UICollectionViewDataSource, 
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellWidth = collectionView.bounds.width / CGFloat(5)
-        let cellHeight = collectionView.bounds.height / CGFloat(10)
-        return CGSize(width: cellWidth, height: cellHeight)
-    }
+//    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+//        <#code#>
+//    }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
@@ -303,13 +323,13 @@ extension SearchOptionVC: UICollectionViewDelegate, UICollectionViewDataSource, 
                     cell.tierLabel.textColor = .black
                 }
             }
-            
+
             if let selectedTierIndexPath = selectedTierIndexPath, selectedTierIndexPath == indexPath {
                 cell.tierLabel.layer.borderColor = UIColor.systemBlue.cgColor
             } else {
                 cell.tierLabel.layer.borderColor = UIColor.systemGray4.cgColor
             }
-            
+
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PositionCell", for: indexPath) as! PositionCell
@@ -328,13 +348,13 @@ extension SearchOptionVC: UICollectionViewDelegate, UICollectionViewDataSource, 
                     cell.positionImage.image = UIImage(named: "Bottom")?.withRenderingMode(.alwaysTemplate)
                 }
             }
-            
+
             if let selectedPositionIndexPath = selectedPositionIndexPath, selectedPositionIndexPath == indexPath {
                 cell.positionFrame.layer.borderColor = UIColor.systemBlue.cgColor
             } else {
                 cell.positionFrame.layer.borderColor = UIColor.systemGray4.cgColor
             }
-            
+
             return cell
         }
     }
