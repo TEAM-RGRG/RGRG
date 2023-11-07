@@ -16,6 +16,9 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     var firstPickedPosition: UIButton?
     var secondPickedPosition: UIButton?
     
+    var thread: String?
+    var tag = 1 // 생성 : 1 || 수정 : 2
+    
     let scrollView: UIScrollView = {
         let view = UIScrollView()
         return view
@@ -211,19 +214,32 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         if let user = user {
             let hopePosition = [positionOptionButtonArry[0].subtitleLabel?.text ?? "Top", positionOptionButtonArry[1].subtitleLabel?.text ?? "Top"]
             
-            let party = PartyInfo(champion: ["Ahri", "Teemo", "Ashe"], content: infoTextView.text ?? "", date: FireStoreManager.shared.dateFormatter(value: Date.now), hopePosition: hopePosition, profileImage: user.profilePhoto, tier: user.tier, title: partyNameTextField.text ?? "", userName: user.userName, writer: user.userName, position: user.position)
+            let party = PartyInfo(champion: user.mostChampion, content: infoTextView.text ?? "", date: FireStoreManager.shared.dateFormatter(value: Date.now), hopePosition: hopePosition, profileImage: user.profilePhoto, tier: user.tier, title: partyNameTextField.text ?? "", userName: user.userName, writer: user.userName, position: user.position)
             
             Task {
-                await PartyManager.shared.addParty(party: party) { party in
-                    print("### 업로드 된 :: \(party)")
-                    self.navigationController?.popViewController(animated: true)
+                if tag == 1 {
+                    await PartyManager.shared.addParty(party: party) { party in
+                        print("### 업로드 된 :: \(party)")
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                } else {
+                    if thread != nil {
+                        let paryDetailVC = PartyInfoDetailVC()
+                        await PartyManager.shared.updateParty(party: party, thread: thread ?? "n/a") {
+                            self.navigationController?.popToRootViewController(animated: true)
+                        }
+                    }
                 }
             }
         }
     }
     
     @objc func tappedConfirmationButton(_ sender: UIButton) {
-        task()
+        if positionOptionButtonArry.count != 2 {
+            showAlert()
+        } else {
+            task()
+        }
     }
     
     @objc func positionOptionButtonTapped(_ sender: UIButton) {
@@ -409,6 +425,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     // MARK: - ViewWillAppear
     
     override func viewWillAppear(_ animated: Bool) {
+        configureUI()
         navigationController?.navigationBar.isHidden = false
     }
     
@@ -417,11 +434,8 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         addKeyboardNotifications()
-    
-        title = "RG구하기"
-        
         configureUI()
-        addPlaceholderToTextView()
+        title = "RG구하기"
     }
     
     @objc func backButtonTapped() {
@@ -431,32 +445,11 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     // MARK: - configureUI
     
     func configureUI() {
-        view.backgroundColor = .rgrgColor5
+        if infoTextView.text.isEmpty == true {
+            addPlaceholderToTextView()
+        }
         
-//        view.addSubview(topFrame)
-//
-//        view.addSubview(scrollView)
-//        scrollView.addSubview(contentView)
-//
-//        contentView.addSubview(partyNameLabel)
-//        contentView.addSubview(partyNameTextField)
-//        contentView.addSubview(positionLabel)
-//        contentView.addSubview(positionFramView)
-//        positionFramView.addArrangedSubview(topPositionbutton)
-//        positionFramView.addArrangedSubview(junglePositionbutton)
-//        positionFramView.addArrangedSubview(midPositionbutton)
-//        positionFramView.addArrangedSubview(bottomPositionbutton)
-//        positionFramView.addArrangedSubview(supportPositionbutton)
-//        contentView.addSubview(positionLabelFramView)
-//        positionLabelFramView.addArrangedSubview(topLabel)
-//        positionLabelFramView.addArrangedSubview(jungleLabel)
-//        positionLabelFramView.addArrangedSubview(midLabel)
-//        positionLabelFramView.addArrangedSubview(bottomLabel)
-//        positionLabelFramView.addArrangedSubview(supportLabel)
-//
-//        contentView.addSubview(infoTextLabel)
-//        contentView.addSubview(infoTextView)
-//        contentView.addSubview(confirmationButton)
+        view.backgroundColor = .rgrgColor5
         
         view.addSubview(topFrame)
     
@@ -569,7 +562,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     }
 }
 
-extension SettingViewController: UITextFieldDelegate {
+extension CreatePartyVC: UITextFieldDelegate {
     func textField(_ partyNameTextField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         // 백스페이스 처리
         if let char = string.cString(using: String.Encoding.utf8) {
@@ -580,5 +573,17 @@ extension SettingViewController: UITextFieldDelegate {
         }
         guard partyNameTextField.text!.count < 20 else { return false } // 10 글자로 제한
         return true
+    }
+}
+
+extension CreatePartyVC {
+    func showAlert() {
+        let alert = UIAlertController(title: "포지션을 선택해주세요.", message: "", preferredStyle: .alert)
+        
+        let confirmAlert = UIAlertAction(title: "확인", style: .default) { _ in
+            print("#### 확인을 눌렀음.")
+        }
+        alert.addAction(confirmAlert)
+        present(alert, animated: true)
     }
 }
