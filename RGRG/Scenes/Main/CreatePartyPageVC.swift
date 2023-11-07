@@ -16,6 +16,8 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     var firstPickedPosition: UIButton?
     var secondPickedPosition: UIButton?
     
+    var thread: String?
+    var tag = 1 // 생성 : 1 || 수정 : 2
     
     let scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -212,19 +214,32 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         if let user = user {
             let hopePosition = [positionOptionButtonArry[0].subtitleLabel?.text ?? "Top", positionOptionButtonArry[1].subtitleLabel?.text ?? "Top"]
             
-            let party = PartyInfo(champion: ["Ahri", "Teemo", "Ashe"], content: infoTextView.text ?? "", date: FireStoreManager.shared.dateFormatter(value: Date.now), hopePosition: hopePosition, profileImage: user.profilePhoto, tier: user.tier, title: partyNameTextField.text ?? "", userName: user.userName, writer: user.userName, position: user.position)
+            let party = PartyInfo(champion: user.mostChampion, content: infoTextView.text ?? "", date: FireStoreManager.shared.dateFormatter(value: Date.now), hopePosition: hopePosition, profileImage: user.profilePhoto, tier: user.tier, title: partyNameTextField.text ?? "", userName: user.userName, writer: user.userName, position: user.position)
             
             Task {
-                await PartyManager.shared.addParty(party: party) { party in
-                    print("### 업로드 된 :: \(party)")
-                    self.navigationController?.popViewController(animated: true)
+                if tag == 1 {
+                    await PartyManager.shared.addParty(party: party) { party in
+                        print("### 업로드 된 :: \(party)")
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                } else {
+                    if thread != nil {
+                        let paryDetailVC = PartyInfoDetailVC()
+                        await PartyManager.shared.updateParty(party: party, thread: thread ?? "n/a") {
+                            self.navigationController?.popToRootViewController(animated: true)
+                        }
+                    }
                 }
             }
         }
     }
     
     @objc func tappedConfirmationButton(_ sender: UIButton) {
-        task()
+        if positionOptionButtonArry.count != 2 {
+            showAlert()
+        } else {
+            task()
+        }
     }
     
     @objc func positionOptionButtonTapped(_ sender: UIButton) {
@@ -359,59 +374,58 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         return newText.count <= maxLength
     }
     
-    
     var bottomButtonConstraint: NSLayoutConstraint?
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-           view.endEditing(true)
-       }
+        view.endEditing(true)
+    }
     
     // 노티피케이션을 추가하는 메서드
-        func addKeyboardNotifications(){
-            // 키보드가 나타날 때 앱에게 알리는 메서드 추가
-            NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification , object: nil)
-            // 키보드가 사라질 때 앱에게 알리는 메서드 추가
-            NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        }
+    func addKeyboardNotifications() {
+        // 키보드가 나타날 때 앱에게 알리는 메서드 추가
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        // 키보드가 사라질 때 앱에게 알리는 메서드 추가
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
 
-        // 노티피케이션을 제거하는 메서드
-        func removeKeyboardNotifications(){
-            // 키보드가 나타날 때 앱에게 알리는 메서드 제거
-            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification , object: nil)
-            // 키보드가 사라질 때 앱에게 알리는 메서드 제거
-            NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-        }
+    // 노티피케이션을 제거하는 메서드
+    func removeKeyboardNotifications() {
+        // 키보드가 나타날 때 앱에게 알리는 메서드 제거
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        // 키보드가 사라질 때 앱에게 알리는 메서드 제거
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
         
-        @objc func keyboardWillShow(_ noti: NSNotification){
-            // 키보드의 높이만큼 화면을 올려준다.
-            if let keyboardFrame: NSValue = noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-                let keyboardRectangle = keyboardFrame.cgRectValue
-                let keyboardHeight = keyboardRectangle.height
-                //bottomBaseView의 높이를 올려준다
-                // 노치 디자인이 있는 경우 safe area를 계산합니다.
-                if #available(iOS 11.0, *) {
-                    let bottomInset = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.safeAreaInsets.bottom ?? 0
-                    let adjustedKeyboardHeight = keyboardHeight - bottomInset
-                        // bottomBaseView의 높이를 올려준다
-                    bottomButtonConstraint?.constant = -adjustedKeyboardHeight
-                } else {
-                        // 노치 디자인이 없는 경우에는 원래대로 계산합니다.
-                    bottomButtonConstraint?.constant = -keyboardHeight
-                }
-                view.layoutIfNeeded()
+    @objc func keyboardWillShow(_ noti: NSNotification) {
+        // 키보드의 높이만큼 화면을 올려준다.
+        if let keyboardFrame: NSValue = noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            // bottomBaseView의 높이를 올려준다
+            // 노치 디자인이 있는 경우 safe area를 계산합니다.
+            if #available(iOS 11.0, *) {
+                let bottomInset = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.safeAreaInsets.bottom ?? 0
+                let adjustedKeyboardHeight = keyboardHeight - bottomInset
+                // bottomBaseView의 높이를 올려준다
+                bottomButtonConstraint?.constant = -adjustedKeyboardHeight
+            } else {
+                // 노치 디자인이 없는 경우에는 원래대로 계산합니다.
+                bottomButtonConstraint?.constant = -keyboardHeight
             }
-        }
-
-        @objc func keyboardWillHide(_ noti: NSNotification){
-            // 키보드의 높이만큼 화면을 내려준다.
-            bottomButtonConstraint?.constant = 0
             view.layoutIfNeeded()
         }
-    
+    }
 
+    @objc func keyboardWillHide(_ noti: NSNotification) {
+        // 키보드의 높이만큼 화면을 내려준다.
+        bottomButtonConstraint?.constant = 0
+        view.layoutIfNeeded()
+    }
+    
     // MARK: - ViewWillAppear
     
     override func viewWillAppear(_ animated: Bool) {
+        configureUI()
         navigationController?.navigationBar.isHidden = false
     }
     
@@ -419,12 +433,9 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.addKeyboardNotifications()
-    
-        title = "RG구하기"
-        
+        addKeyboardNotifications()
         configureUI()
-        addPlaceholderToTextView()
+        title = "RG구하기"
     }
     
     @objc func backButtonTapped() {
@@ -434,36 +445,11 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     // MARK: - configureUI
     
     func configureUI() {
+        if infoTextView.text.isEmpty == true {
+            addPlaceholderToTextView()
+        }
+        
         view.backgroundColor = .rgrgColor5
-        
-        
-        
-//        view.addSubview(topFrame)
-//        
-//        view.addSubview(scrollView)
-//        scrollView.addSubview(contentView)
-//        
-//        contentView.addSubview(partyNameLabel)
-//        contentView.addSubview(partyNameTextField)
-//        contentView.addSubview(positionLabel)
-//        contentView.addSubview(positionFramView)
-//        positionFramView.addArrangedSubview(topPositionbutton)
-//        positionFramView.addArrangedSubview(junglePositionbutton)
-//        positionFramView.addArrangedSubview(midPositionbutton)
-//        positionFramView.addArrangedSubview(bottomPositionbutton)
-//        positionFramView.addArrangedSubview(supportPositionbutton)
-//        contentView.addSubview(positionLabelFramView)
-//        positionLabelFramView.addArrangedSubview(topLabel)
-//        positionLabelFramView.addArrangedSubview(jungleLabel)
-//        positionLabelFramView.addArrangedSubview(midLabel)
-//        positionLabelFramView.addArrangedSubview(bottomLabel)
-//        positionLabelFramView.addArrangedSubview(supportLabel)
-//    
-//        contentView.addSubview(infoTextLabel)
-//        contentView.addSubview(infoTextView)
-//        contentView.addSubview(confirmationButton)
-        
-        
         
         view.addSubview(topFrame)
     
@@ -487,7 +473,6 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         view.addSubview(infoTextView)
         view.addSubview(confirmationButton)
         
-        
         // 네비게이션 바 왼쪽 버튼
         let backButton = UIButton(type: .custom)
         backButton.setImage(UIImage(systemName: "multiply")?.withRenderingMode(.alwaysTemplate), for: .normal)
@@ -504,10 +489,6 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         let rightButton = UIBarButtonItem(title: "임시 저장", style: .plain, target: self, action: #selector(backButtonTapped))
         navigationItem.rightBarButtonItem = rightButton
         
-        
-        
-       
-        
         topFrame.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo(97)
@@ -517,13 +498,12 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
 //            $0.top.equalTo(topFrame.snp.bottom).offset(0)
 //            $0.trailing.leading.bottom.equalTo(self.view.safeAreaLayoutGuide)
 //        }
-//        
+//
 //        contentView.snp.makeConstraints{
-////            $0.top.trailing.leading.bottom.equalTo(scrollView)
+        ////            $0.top.trailing.leading.bottom.equalTo(scrollView)
 //            $0.edges.equalTo(scrollView)
 //            $0.width.equalTo(scrollView)
 //        }
-        
         
         partyNameLabel.snp.makeConstraints {
             $0.top.equalTo(topFrame.snp.bottom).offset(32)
@@ -582,7 +562,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     }
 }
 
-extension SettingViewController: UITextFieldDelegate {
+extension CreatePartyVC: UITextFieldDelegate {
     func textField(_ partyNameTextField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         // 백스페이스 처리
         if let char = string.cString(using: String.Encoding.utf8) {
@@ -593,5 +573,17 @@ extension SettingViewController: UITextFieldDelegate {
         }
         guard partyNameTextField.text!.count < 20 else { return false } // 10 글자로 제한
         return true
+    }
+}
+
+extension CreatePartyVC {
+    func showAlert() {
+        let alert = UIAlertController(title: "포지션을 선택해주세요.", message: "", preferredStyle: .alert)
+        
+        let confirmAlert = UIAlertAction(title: "확인", style: .default) { _ in
+            print("#### 확인을 눌렀음.")
+        }
+        alert.addAction(confirmAlert)
+        present(alert, animated: true)
     }
 }

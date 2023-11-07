@@ -411,6 +411,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         let detailController = PartyInfoDetailVC()
         detailController.party = item
         detailController.user = currentUser
+        detailController.partyID = item.thread ?? "n/a"
         navigationController?.pushViewController(detailController, animated: true)
     }
 }

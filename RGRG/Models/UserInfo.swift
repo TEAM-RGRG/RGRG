@@ -14,4 +14,5 @@ struct User {
     let position: String
     var profilePhoto: String = "Default"
     var mostChampion: [String] = []
+    let uid: String
 }
