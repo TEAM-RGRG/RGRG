@@ -10,8 +10,6 @@ import SnapKit
 import UIKit
 
 class DeveloperInfoViewController: UIViewController {
-    // 테이블뷰
-    // 테이블뷰 -> 해당 깃허브 링크로 이동
     var pageTitle: String?
 
     let developerList = Developer.developList
