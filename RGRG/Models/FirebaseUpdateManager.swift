@@ -10,12 +10,6 @@ import FirebaseFirestore
 import Foundation
 
 class FirebaseUpdateManager {
-    /*
-     프로필 수정시, 변경되어야할 부분들 --> 유저 uid 이용
-     1. 파티의 유저 데이터
-     2. 채팅 유저 데이터 ✅
-     */
-
     static let shared = FirebaseUpdateManager()
     static let db = Firestore.firestore()
 }

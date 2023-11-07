@@ -11,8 +11,9 @@ import UIKit
 
 // 해야할 일
 // 1. FireStoreManager 의 데이터를 uid 로 변환
-// 2. 테이블뷰 키보드 올라오는 것에 대응
+// 2. 테이블뷰 키보드 올라오는 것에 대응 ✅
 // 3. ChatDetailVC에서 유저의 uid를 통해서 데이터 수신(내 정보는 ChatListVC => ChatDetailVC 로 전달) / (상대 정보는 넘겨받은 uid를 통해서 서버에서 해당 유저의 데이터를 전달 받거나 ChatListVC로부터 넘겨받을 것임)
+// 4. 기존의 유저와 대화하는 채팅방 존재시, 그 방으로 이동
 
 class ChatDetailViewController: UIViewController {
     let tableView = CustomTableView(frame: .zero, style: .plain)
@@ -435,7 +436,7 @@ extension ChatDetailViewController {
     @objc func keyboardWillShow(notification: NSNotification) {
         print("#### \(#function)")
         if chats.isEmpty != true {
-            let endexIndex = IndexPath(row: chats.count - 2, section: 0)
+            let endexIndex = IndexPath(row: chats.count - 1, section: 0)
             tableView.scrollToRow(at: endexIndex, at: .bottom, animated: true)
         }
 
@@ -473,7 +474,7 @@ extension ChatDetailViewController {
         print("#### \(#function)")
 
         if chats.isEmpty != true {
-            let endexIndex = IndexPath(row: chats.count - 2, section: 0)
+            let endexIndex = IndexPath(row: chats.count - 1, section: 0)
             tableView.scrollToRow(at: endexIndex, at: .bottom, animated: true)
         }
 
@@ -508,7 +509,6 @@ extension ChatDetailViewController {
     }
 
     @objc func keyboardWillHide(notification: NSNotification) {
-
         print("#### \(#function)")
 
         blankMessage.snp.remakeConstraints { make in
@@ -529,7 +529,6 @@ extension ChatDetailViewController {
             make.leading.equalToSuperview()
             make.bottom.equalTo(bottomBaseView.snp.top)
             make.height.greaterThanOrEqualTo(600)
-
         }
     }
 }
