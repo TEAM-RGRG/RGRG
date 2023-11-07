@@ -256,6 +256,11 @@ class PartyInfoDetailVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if party?.writer == user?.uid {
+            confirmationButton.isHidden = true
+        }
+        
         userNameLabel.text = party?.userName
         textTitleLabel.text = party?.title
         textView.text = party?.content
@@ -329,7 +334,8 @@ class PartyInfoDetailVC: UIViewController {
     
     @objc func menuButtonTapped() {
         if let user = user {
-            FireStoreManager.shared.addChannel(channelTitle: party?.userName ?? "n/a", guest: party?.userName ?? "n/a", host: user.userName, channelID: UUID().uuidString, date: FireStoreManager.shared.dateFormatter(value: Date.now), users: [party?.userName ?? "n/a", user.userName], guestProfile: party?.profileImage ?? "n/a", hostProfile: user.profilePhoto, hostSender: false, guestSender: false) { channel in
+            // 자기 자신 user의 uid 필드 필요
+            FireStoreManager.shared.addChannel(channelTitle: party?.writer ?? "n/a", guest: party?.writer ?? "n/a", host: user.uid, channelID: party?.writer ?? "", date: FireStoreManager.shared.dateFormatter(value: Date.now), users: [party?.writer ?? "n/a", user.uid], guestProfile: party?.profileImage ?? "n/a", hostProfile: user.profilePhoto, hostSender: false, guestSender: false) { channel in
                 print("### 채널 추가 하기 :: \(channel)")
             }
             navigationController?.popViewController(animated: true)

@@ -38,7 +38,7 @@ extension ChatListViewController {
 
             guard let currentUser = currentUser else { return }
 
-            await FireStoreManager.shared.loadChannels(collectionName: "channels", hostName: currentUser.userName, filter: currentUser.userName) { channel in
+            await FireStoreManager.shared.loadChannels(collectionName: "channels", filter: currentUser.uid) { channel in
                 self.channels = channel
 
                 if self.channels.isEmpty == true {
@@ -175,27 +175,15 @@ extension ChatListViewController: UITableViewDataSource {
         let item = channels[indexPath.row]
 
         // 내가 호스트일 때,
-        if currentUser?.userName == item.host {
+        if currentUser?.uid == item.host {
             cell.setupUI()
-            cell.userProfileName.text = item.guest
-            cell.currentChat.text = item.currentMessage
-            cell.userProfileImage.image = UIImage(named: item.guestProfile)
-            cell.userProfileImage.layer.masksToBounds = true
-
-            if item.guestSender == true {
-                cell.chatAlert.isHidden = false
-
-            } else {
-                cell.chatAlert.isHidden = true
-
+            FirebaseUserManager.shared.getUserInfo(searchUser: item.guest) { guest in
+                DispatchQueue.main.async {
+                    cell.userProfileName.text = guest.userName
+                    cell.userProfileImage.image = UIImage(named: guest.profilePhoto)
+                }
             }
-
-            // 내가 게스트일 때,
-        } else {
-            cell.setupUI()
-            cell.userProfileName.text = item.host
             cell.currentChat.text = item.currentMessage
-            cell.userProfileImage.image = UIImage(named: item.hostProfile)
             cell.userProfileImage.layer.masksToBounds = true
 
             if item.hostSender == true {
@@ -203,7 +191,25 @@ extension ChatListViewController: UITableViewDataSource {
 
             } else {
                 cell.chatAlert.isHidden = true
+            }
 
+            // 내가 게스트일 때,
+        } else {
+            cell.setupUI()
+            FirebaseUserManager.shared.getUserInfo(searchUser: item.host) { host in
+                DispatchQueue.main.async {
+                    cell.userProfileName.text = host.userName
+                    cell.userProfileImage.image = UIImage(named: host.profilePhoto)
+                }
+            }
+            cell.currentChat.text = item.currentMessage
+            cell.userProfileImage.layer.masksToBounds = true
+
+            if item.guestSender == true {
+                cell.chatAlert.isHidden = false
+
+            } else {
+                cell.chatAlert.isHidden = true
             }
         }
 
@@ -224,10 +230,15 @@ extension ChatListViewController: UITableViewDelegate {
         vc.thread = item.channelID
         vc.channelInfo = item
         vc.currentUserName = currentUser?.userName ?? "N/A"
-        if currentUser?.userName == item.host {
-            vc.navigationItem.title = item.guest
+        if currentUser?.uid == item.host {
+            FirebaseUserManager.shared.getUserInfo(searchUser: item.guest) { guest in
+                self.vc.navigationItem.title = guest.userName
+            }
+
         } else {
-            vc.navigationItem.title = item.host
+            FirebaseUserManager.shared.getUserInfo(searchUser: item.host) { host in
+                self.vc.navigationItem.title = host.userName
+            }
         }
 
         vc.viewWillAppear(true)
