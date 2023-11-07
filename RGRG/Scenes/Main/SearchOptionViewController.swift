@@ -143,22 +143,6 @@ extension SearchOptionViewController {
         delegate?.sendSelectedOption(selectedOption: selectedOption)
         dismiss(animated: true, completion: nil)
     }
-
-//    func loadSelectedCellInfo() {
-//        if UserDefaults.standard.value(forKey: "selectedOptions") != nil {
-//            selectedIndex = UserDefaults.standard.value(forKey: "selectedOptions") as? [String: Int] ?? ["tier": nil, "position": nil]
-//            if selectedIndex["tier"] != nil {
-//                selectedTierArray[(selectedIndex["tier"] ?? 0) ?? 0] = true
-//            }
-//            if selectedIndex["position"] != nil {
-//                selectedPositionArray[(selectedIndex["position"] ?? 0) ?? 0] = true
-//            }
-//            print("~~~~~~~~~~~loadSelectedCellInfo~~~~~~~~~~~~~~~~~~~~~~")
-//            print("~~~~~~~~~~~selectedTierArray : \(selectedTierArray)")
-//            print("~~~~~~~~~~~selectedPositionArray : \(selectedPositionArray)")
-//            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-//        }
-//    }
 }
 
 // MARK: collectionview
