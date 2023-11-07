@@ -14,6 +14,9 @@ import UIKit
 class PartyInfoDetailVC: UIViewController {
     var party: PartyInfo?
     var user: User?
+    var partyID = ""
+    
+    let rightBarButtonItem = CustomBarButton()
     
     let topFrame: UIView = {
         let view = UIView()
@@ -319,6 +322,10 @@ class PartyInfoDetailVC: UIViewController {
         }
 
         configureUI()
+        makeBackButton()
+        if user?.uid == party?.writer {
+            makeRightBarButton()
+        }
     }
     
     // MARK: - ViewWillAppear
@@ -374,25 +381,25 @@ class PartyInfoDetailVC: UIViewController {
         bottomframeView.addSubview(confirmationButton)
         
         // 네비게이션 바 왼쪽 버튼
-        let backButton = UIButton(type: .custom)
-        backButton.setImage(UIImage(systemName: "chevron.left")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        backButton.tintColor = .black
-        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        backButton.imageEdgeInsets = .init(top: -18, left: -18, bottom: -18, right: -18)
+//        let backButton = UIButton(type: .custom)
+//        backButton.setImage(UIImage(systemName: "chevron.left")?.withRenderingMode(.alwaysTemplate), for: .normal)
+//        backButton.tintColor = .black
+//        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+//        backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+//        backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+//        backButton.imageEdgeInsets = .init(top: -18, left: -18, bottom: -18, right: -18)
+//
+//        let customItem = UIBarButtonItem(customView: backButton)
+//        navigationItem.leftBarButtonItem = customItem
         
-        let customItem = UIBarButtonItem(customView: backButton)
-        navigationItem.leftBarButtonItem = customItem
-        
-        let menuButton = UIButton(type: .custom)
-        menuButton.setImage(UIImage(named: "verticalEllipsis"), for: .normal)
-        menuButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        menuButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        menuButton.imageEdgeInsets = .init(top: -18, left: -18, bottom: -18, right: -18)
+//        let menuButton = UIButton(type: .custom)
+//        menuButton.setImage(UIImage(named: "verticalEllipsis"), for: .normal)
+//        menuButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+//        menuButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+//        menuButton.imageEdgeInsets = .init(top: -18, left: -18, bottom: -18, right: -18)
         // 네비게이션바 오른쪽 버튼
-        let rightButton = UIBarButtonItem(customView: menuButton)
-        navigationItem.rightBarButtonItem = rightButton
+//        let rightButton = UIBarButtonItem(customView: menuButton)
+//        navigationItem.rightBarButtonItem = rightButton
         
         topFrame.snp.makeConstraints {
             $0.top.leading.equalToSuperview().offset(0)
@@ -547,5 +554,47 @@ class PartyInfoDetailVC: UIViewController {
             $0.height.equalTo(60)
         }
         scrollView.contentSize = contentView.bounds.size
+    }
+}
+
+extension PartyInfoDetailVC {
+    func makeRightBarButton() {
+        // 액션 만들기 >> 메뉴 만들기 >> UIBarButtonItem 만들기
+        let latestSortAction = rightBarButtonItem.makeSingleAction(title: "게시글 수정", attributes: .keepsMenuPresented, state: .off) { _ in
+            print("### 수정하기 알파입니다.")
+            let editVC = CreatePartyVC()
+            
+            self.navigationController?.pushViewController(editVC, animated: true)
+        }
+
+        let bookMarkAction = rightBarButtonItem.makeSingleAction(title: "삭제", attributes: .destructive, state: .off) { [weak self] _ in
+            guard let self = self else { return }
+            
+            PartyManager.shared.deleteParty(thread: partyID) {
+                self.navigationController?.popViewController(animated: true)
+            }
+            print("### 삭제하기 알파입니다.")
+        }
+
+        let menu = [latestSortAction, bookMarkAction]
+
+        let uiMenu = rightBarButtonItem.makeUIMenu(title: "", opetions: .displayInline, uiActions: menu)
+
+        navigationItem.rightBarButtonItem?.changesSelectionAsPrimaryAction = false
+
+        rightBarButtonItem.image = UIImage(named: "verticalEllipsis")
+        rightBarButtonItem.menu = uiMenu
+        rightBarButtonItem.tintColor = UIColor(hex: "#0C356A")
+        navigationItem.rightBarButtonItem = rightBarButtonItem
+    }
+    
+    func makeBackButton() {
+        let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "chevron.left"), style: .plain, target: self, action: #selector(tappedBackButton))
+        backBarButtonItem.tintColor = UIColor(hex: "#0C356A")
+        navigationItem.leftBarButtonItem = backBarButtonItem
+    }
+
+    @objc func tappedBackButton(_ sender: UIBarButtonItem) {
+        navigationController?.popViewController(animated: true)
     }
 }

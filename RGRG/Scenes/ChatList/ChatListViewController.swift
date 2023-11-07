@@ -137,11 +137,11 @@ extension ChatListViewController {
 
     func makeRightBarButton() {
         // 액션 만들기 >> 메뉴 만들기 >> UIBarButtonItem 만들기
-        let latestSortAction = rightBarButtonItem.makeSingleAction(title: "최신 메시지 순", state: .off) { _ in
+        let latestSortAction = rightBarButtonItem.makeSingleAction(title: "최신 메시지 순", attributes: .keepsMenuPresented, state: .off) { _ in
             print("### 최신순으로 정렬하기 알파입니다.")
         }
 
-        let bookMarkAction = rightBarButtonItem.makeSingleAction(title: "안 읽은 메시지 순", state: .off) { _ in
+        let bookMarkAction = rightBarButtonItem.makeSingleAction(title: "안 읽은 메시지 순", attributes: .keepsMenuPresented, state: .off) { _ in
             print("### 안 읽은 메시지 순으로 정렬하기 알파입니다.")
         }
 

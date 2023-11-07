@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D9889132AF9F3580074A860 /* TierCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9889122AF9F3580074A860 /* TierCell.swift */; };
+		1D9889152AF9F3800074A860 /* PositionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9889142AF9F3800074A860 /* PositionCell.swift */; };
 		1D9D0DD42AF86DA50021268E /* ChampCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9D0DD32AF86DA50021268E /* ChampCollectionViewCell.swift */; };
 		1DB9391F2AE24AB300BD4F41 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB9391E2AE24AB300BD4F41 /* SettingCell.swift */; };
 		1DB94CA82AE61B4D00851A18 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1DB94CA72AE61B4D00851A18 /* FirebaseAnalytics */; };
@@ -120,6 +122,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1D9889122AF9F3580074A860 /* TierCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TierCell.swift; sourceTree = "<group>"; };
+		1D9889142AF9F3800074A860 /* PositionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionCell.swift; sourceTree = "<group>"; };
 		1D9D0DD32AF86DA50021268E /* ChampCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChampCollectionViewCell.swift; sourceTree = "<group>"; };
 		1DB9391E2AE24AB300BD4F41 /* SettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 		1DB94CDD2AE760AB00851A18 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
@@ -250,6 +254,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1D9889112AF9F2B10074A860 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				1D9889122AF9F3580074A860 /* TierCell.swift */,
+				1D9889142AF9F3800074A860 /* PositionCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		1D9D0DD22AF86D8A0021268E /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -460,6 +473,7 @@
 		4E8B85082AD8120E009BCF4B /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				1D9889112AF9F2B10074A860 /* Cell */,
 				4E8B85092AD8120E009BCF4B /* MainViewController.swift */,
 				CB2D8FEA2AF1376300964CFE /* PartyTableViewCell.swift */,
 				CB4B0BC32ADFAB600077AB3A /* CreatePartyPageVC.swift */,
@@ -671,6 +685,7 @@
 			files = (
 				4EE5E9D82AEBCAFB00B7849E /* PartyManager.swift in Sources */,
 				CB2598FB2AF366FE00022AC9 /* SearchOptionHeaderCell.swift in Sources */,
+				1D9889132AF9F3580074A860 /* TierCell.swift in Sources */,
 				1DB94CDE2AE760AB00851A18 /* StorageManager.swift in Sources */,
 				CBECDD392AE174320097C7CF /* PartyInfoDetailVC.swift in Sources */,
 				4E8B85132AD8120E009BCF4B /* EditProfileViewController.swift in Sources */,
@@ -678,6 +693,7 @@
 				4E562AB32AE79BCB00E9A916 /* CustomBackButton.swift in Sources */,
 				96A7B3FC2AD936E800B218EB /* CustomMemberInfoBox.swift in Sources */,
 				4ECD01EB2ADE9413003EA65C /* YourFeedCell.swift in Sources */,
+				1D9889152AF9F3800074A860 /* PositionCell.swift in Sources */,
 				4E8B85162AD8120E009BCF4B /* NotificationViewController.swift in Sources */,
 				CB4B0BC42ADFAB600077AB3A /* CreatePartyPageVC.swift in Sources */,
 				4E8B850F2AD8120E009BCF4B /* UserInfo.swift in Sources */,

@@ -45,8 +45,9 @@ extension CustomBarButton {
         return menu
     }
 
-    func makeSingleAction(title: String, state: UIMenuElement.State, handler: @escaping UIActionHandler) -> UIAction {
-        let action = UIAction(title: title, image: nil, state: state, handler: handler)
+    func makeSingleAction(title: String, attributes: UIAction.Attributes, state: UIMenuElement.State, handler: @escaping UIActionHandler) -> UIAction {
+        let action = UIAction(title: title, image: nil, attributes: attributes, state: state, handler: handler)
+
         return action
     }
 }
