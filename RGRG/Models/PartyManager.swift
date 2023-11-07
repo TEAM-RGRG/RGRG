@@ -93,3 +93,17 @@ class PartyManager {
         completion()
     }
 }
+
+extension PartyManager {
+    func dateFormatter(strDate: String) -> String {
+        let strDateFormatter = DateFormatter()
+        strDateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        strDateFormatter.timeZone = TimeZone(identifier: "UTC")
+        guard var date = strDateFormatter.date(from: strDate) else { return "" }
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.timeZone = TimeZone(identifier: "UTC")
+        return dateFormatter.string(from: date)
+    }
+}

@@ -291,7 +291,7 @@ class PartyInfoDetailVC: UIViewController {
         userNameLabel.text = party?.userName
         textTitleLabel.text = party?.title
         textView.text = party?.content
-        timeLabel.text = party?.date
+        timeLabel.text = PartyManager.shared.dateFormatter(strDate: party?.date ?? "No Date")
         profileImage.image = UIImage(named: party?.profileImage ?? "Default")
         positionImage.image = UIImage(named: party?.position ?? "Top")
         requiredPositionImage.image = UIImage(named: party?.hopePosition[0] ?? "Top")
