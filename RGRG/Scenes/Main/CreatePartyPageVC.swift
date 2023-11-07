@@ -11,6 +11,7 @@ import UIKit
 
 class CreatePartyVC: UIViewController, UITextViewDelegate {
     var user: User?
+    var hopePositionArray: [String]?
     var positionOptionButtonArry = [UIButton]()
     var firstPickedPosition: UIButton?
     var secondPickedPosition: UIButton?

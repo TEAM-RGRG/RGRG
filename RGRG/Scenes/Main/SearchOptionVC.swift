@@ -8,21 +8,20 @@
 import SnapKit
 import UIKit
 
-class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
+class SearchOptionVC: UIViewController {
     var selectedTierOption: String?
     var selectedPositionOption: String?
     var onConfirmation: (([String], [String]) -> Void)?
     
     let upperSectionItemCount = 7 // 윗쪽 섹션의 항목 개수
     let lowerSectionItemCount = 5 // 아랫쪽 섹션의 항목 개수
-
+    
     let tierName = ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Emerald", "Diamond"]
     let positionName = ["Top", "Jug", "Mid", "Bot", "Sup"]
-
+    
     var selectedTierIndexPath: IndexPath?
     var selectedSection: Int?
-
+    
     var selectedPositionIndexPath: IndexPath?
     var positionSelectedSection: Int?
     
@@ -30,7 +29,7 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         let view = UIView()
         return view
     }()
-
+    
     let confirmationButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 22, weight: .bold)
@@ -41,7 +40,7 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         button.addTarget(self, action: #selector(confirmationButtonTapped), for: .touchUpInside)
         return button
     }()
-
+    
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -55,56 +54,60 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     @objc func confirmationButtonTapped() {
         if let selectedTier = selectedTierOption,
-           let selectedPosition = selectedPositionOption {
-            print ("%%%%%%%%%%%%%\(selectedTierOption)%%%%%%%%%%%%%%%")
+           let selectedPosition = selectedPositionOption
+        {
+            print("%%%%%%%%%%%%%\(selectedTierOption)%%%%%%%%%%%%%%%")
             onConfirmation?([selectedTier], [selectedPosition])
         }
-       
+        
         saveSelectedCellInfo()
         dismiss(animated: true, completion: nil)
     }
-
     
     func saveSelectedCellInfo() {
         let defaults = UserDefaults.standard
         defaults.set(selectedTierIndexPath?.row, forKey: "selectedTierIndex")
         defaults.set(selectedPositionIndexPath?.row, forKey: "selectedPositionIndex")
     }
-
+    
     func loadSelectedCellInfo() {
         let defaults = UserDefaults.standard
         if let tierIndex = defaults.value(forKey: "selectedTierIndex") as? Int,
-           let positionIndex = defaults.value(forKey: "selectedPositionIndex") as? Int {
+           let positionIndex = defaults.value(forKey: "selectedPositionIndex") as? Int
+        {
             selectedTierIndexPath = IndexPath(row: tierIndex, section: 0)
             selectedPositionIndexPath = IndexPath(row: positionIndex, section: 1)
         }
     }
-    
-    
-    // MARK: - ViewDidLoad
+}
 
+// MARK: viewController의 생명주기
+
+extension SearchOptionVC {
+    // MARK: - ViewDidLoad
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         configureUI()
-        collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "CollectionViewCell")
+        collectionView.register(TierCell.self, forCellWithReuseIdentifier: "CollectionViewCell")
         collectionView.register(PositionCell.self, forCellWithReuseIdentifier: "PositionCell")
         collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "HeaderView")
         collectionView.dataSource = self
         collectionView.delegate = self
-
+        
         collectionView.collectionViewLayout = createCompositionalLayout()
         
         loadSelectedCellInfo()
         
         if let selectedTierIndexPath = selectedTierIndexPath {
-                collectionView.selectItem(at: selectedTierIndexPath, animated: false, scrollPosition: [])
-            }
-            if let selectedPositionIndexPath = selectedPositionIndexPath {
-                collectionView.selectItem(at: selectedPositionIndexPath, animated: false, scrollPosition: [])
-            }
+            collectionView.selectItem(at: selectedTierIndexPath, animated: false, scrollPosition: [])
+        }
+        if let selectedPositionIndexPath = selectedPositionIndexPath {
+            collectionView.selectItem(at: selectedPositionIndexPath, animated: false, scrollPosition: [])
+        }
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         if let sheetPresentationController = sheetPresentationController {
             sheetPresentationController.detents = [
@@ -114,27 +117,31 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             ]
         }
     }
+}
 
+// MARK: UI configure
+
+extension SearchOptionVC {
     func configureUI() {
         view.backgroundColor = .white
-
+        
         view.addSubview(contentView)
         contentView.addSubview(collectionView)
         view.addSubview(confirmationButton)
-
+        
         contentView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(24)
             $0.leading.trailing.equalToSuperview().offset(0)
             $0.bottom.equalTo(confirmationButton.snp.top).offset(-20)
         }
-
+        
         collectionView.snp.makeConstraints {
             $0.leading.equalTo(contentView.snp.leading).offset(10)
             $0.top.equalTo(contentView.snp.top).offset(0)
             $0.trailing.equalTo(contentView.snp.trailing).offset(-10)
             $0.bottom.equalTo(contentView.snp.bottom).offset(0)
         }
-
+        
         confirmationButton.snp.makeConstraints {
             $0.bottom.equalToSuperview().offset(-32)
             $0.leading.equalToSuperview().offset(24)
@@ -143,12 +150,9 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             $0.centerX.equalTo(view)
         }
     }
+}
 
-    
-    
-    
-    
-    
+extension SearchOptionVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     fileprivate func createCompositionalLayout() -> UICollectionViewLayout {
         // 코포지셔널 레이아웃 생성
         let layout = UICollectionViewCompositionalLayout {
@@ -213,7 +217,6 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
         return CGSize(width: collectionView.bounds.width, height: 50)
     }
 
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             if indexPath == selectedTierIndexPath {
@@ -221,23 +224,23 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
                 selectedTierIndexPath = nil
                 selectedTierOption = "default"
                 UserDefaults.standard.removeObject(forKey: "selectedTierIndexPath")
-                print ("%%%%%%%%%%%%%%\(selectedTierOption)%%%%%%%%%")
+                print("%%%%%%%%%%%%%%\(selectedTierOption)%%%%%%%%%")
                 
-                if let selectedCell = collectionView.cellForItem(at: indexPath) as? CollectionViewCell {
+                if let selectedCell = collectionView.cellForItem(at: indexPath) as? TierCell {
                     selectedCell.tierLabel.layer.borderColor = UIColor.systemGray4.cgColor
                     
-                    print ("%%%%%%%%%%%%%%\(selectedTierOption)%%%%%%%%%")
+                    print("%%%%%%%%%%%%%%\(selectedTierOption)%%%%%%%%%")
                 }
             } else {
                 if let previousIndexPath = selectedTierIndexPath {
-                    if let previousCell = collectionView.cellForItem(at: previousIndexPath) as? CollectionViewCell {
+                    if let previousCell = collectionView.cellForItem(at: previousIndexPath) as? TierCell {
                         previousCell.tierLabel.layer.borderColor = UIColor.systemGray4.cgColor
                     }
                 }
 
                 selectedTierIndexPath = indexPath
 
-                if let selectedCell = collectionView.cellForItem(at: indexPath) as? CollectionViewCell {
+                if let selectedCell = collectionView.cellForItem(at: indexPath) as? TierCell {
                     selectedCell.tierLabel.layer.borderColor = UIColor.systemBlue.cgColor
                     selectedTierOption = tierName[indexPath.row]
                 }
@@ -277,7 +280,7 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! CollectionViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! TierCell
             cell.tierLabel.text = tierName[indexPath.row]
 
             if let tierText = cell.tierLabel.text {
@@ -302,10 +305,10 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             }
             
             if let selectedTierIndexPath = selectedTierIndexPath, selectedTierIndexPath == indexPath {
-                       cell.tierLabel.layer.borderColor = UIColor.systemBlue.cgColor
-                   } else {
-                       cell.tierLabel.layer.borderColor = UIColor.systemGray4.cgColor
-                   }
+                cell.tierLabel.layer.borderColor = UIColor.systemBlue.cgColor
+            } else {
+                cell.tierLabel.layer.borderColor = UIColor.systemGray4.cgColor
+            }
             
             return cell
         } else {
@@ -327,135 +330,12 @@ class SearchOptionVC: UIViewController, UICollectionViewDelegate, UICollectionVi
             }
             
             if let selectedPositionIndexPath = selectedPositionIndexPath, selectedPositionIndexPath == indexPath {
-                       cell.positionFrame.layer.borderColor = UIColor.systemBlue.cgColor
-                   } else {
-                       cell.positionFrame.layer.borderColor = UIColor.systemGray4.cgColor
-                   }
+                cell.positionFrame.layer.borderColor = UIColor.systemBlue.cgColor
+            } else {
+                cell.positionFrame.layer.borderColor = UIColor.systemGray4.cgColor
+            }
             
             return cell
         }
     }
-
-    class CollectionViewCell: UICollectionViewCell {
-        let cellFrameView: UIView = {
-            let view = UIView()
-            view.backgroundColor = UIColor.white
-            view.layer.cornerRadius = 10
-            return view
-        }()
-
-        let tierLabel: UILabel = {
-            let label = UILabel()
-            label.translatesAutoresizingMaskIntoConstraints = false
-            label.font = UIFont.systemFont(ofSize: 15, weight: .bold)
-            label.textColor = .black
-            label.layer.cornerRadius = 12
-            label.layer.borderWidth = 1
-            label.layer.borderColor = UIColor.systemGray4.cgColor
-            label.textAlignment = .center
-            return label
-        }()
-
-        override init(frame: CGRect) {
-            super.init(frame: frame)
-            setupUI()
-        }
-
-        @available(*, unavailable)
-        required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
-
-        private func setupUI() {
-            contentView.backgroundColor = .clear
-
-            contentView.addSubview(cellFrameView)
-            cellFrameView.addSubview(tierLabel)
-
-            cellFrameView.snp.makeConstraints {
-                $0.edges.equalToSuperview().inset(5)
-            }
-
-            tierLabel.snp.makeConstraints {
-                $0.height.equalTo(24)
-                $0.width.equalTo(85)
-                $0.top.equalTo(cellFrameView.snp.top).offset(0)
-            }
-        }
-    }
 }
-
-class PositionCell: UICollectionViewCell {
-    let cellFrameView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.white
-        view.layer.cornerRadius = 10
-        return view
-    }()
-
-    let positionFrame: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 12
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.systemGray4.cgColor
-        return view
-    }()
-
-    let positionLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 15, weight: .bold)
-        label.textColor = .gray
-        label.textAlignment = .center
-        return label
-    }()
-
-    let positionImage: UIImageView = {
-        var imageView = UIImageView()
-        imageView.tintColor = .systemGray2
-        imageView.contentMode = .scaleToFill
-        return imageView
-    }()
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupUI()
-    }
-
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    private func setupUI() {
-        contentView.backgroundColor = .clear
-
-        contentView.addSubview(cellFrameView)
-        cellFrameView.addSubview(positionFrame)
-        positionFrame.addSubview(positionLabel)
-        positionFrame.addSubview(positionImage)
-
-        cellFrameView.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(5)
-        }
-
-        positionFrame.snp.makeConstraints {
-            $0.height.equalTo(24)
-            $0.width.equalTo(85)
-            $0.top.equalTo(cellFrameView.snp.top).offset(0)
-        }
-
-        positionLabel.snp.makeConstraints {
-            $0.top.equalTo(positionFrame.snp.top).offset(2)
-            $0.leading.equalTo(positionFrame.snp.leading).offset(19)
-        }
-
-        positionImage.snp.makeConstraints {
-            $0.top.equalTo(positionFrame.snp.top).offset(2)
-            $0.height.width.equalTo(20)
-            $0.leading.equalTo(positionLabel.snp.trailing).offset(3)
-        }
-    }
-}
-
-

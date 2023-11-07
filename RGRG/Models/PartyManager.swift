@@ -16,6 +16,7 @@ class PartyManager {
         PartyManager.db.collection("party")
             .whereField("tier", in: tier)
             .whereField("position", in: position)
+            .order(by: "date", descending: true)
             .addSnapshotListener { (querySnapshot, error) in
                 var partyList: [PartyInfo] = []
 
