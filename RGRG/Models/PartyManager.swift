@@ -13,13 +13,14 @@ class PartyManager {
     static let shared = PartyManager()
     static let db = Firestore.firestore()
     func loadParty(tier: [String], position: [String], completion: @escaping ([PartyInfo]) -> Void) {
+        print("~~~~~~~~~~로드 파티 호출")
+        var partyList: [PartyInfo] = []
+
         PartyManager.db.collection("party")
             .whereField("tier", in: tier)
             .whereField("position", in: position)
             .order(by: "date", descending: true)
-            .addSnapshotListener { (querySnapshot, error) in
-                var partyList: [PartyInfo] = []
-
+            .addSnapshotListener { querySnapshot, error in
                 if let e = error {
                     print("There was an issue retrieving data from Firestore. \(e)")
                 } else {
@@ -56,7 +57,7 @@ class PartyManager {
                 "writer": current,
                 "requester": party.requester,
                 "position": party.position
-            ]) { (error) in
+            ]) { error in
                 if let e = error {
                     print("There was an issue saving data to firestore, \(e)")
                 } else {
@@ -72,16 +73,16 @@ class PartyManager {
         let current = Auth.auth().currentUser?.uid
         path.document(thread)
             .updateData(["champions": party.champion,
-                        "content": party.content,
-                        "date": party.date,
-                        "hopePosition": party.hopePosition,
-                        "profileImage": party.profileImage,
-                        "tier": party.tier,
-                        "title": party.title,
-                        "userName": party.userName,
-                        "writer": current,
-                        "requester": party.requester,
-                        "position": party.position])
+                         "content": party.content,
+                         "date": party.date,
+                         "hopePosition": party.hopePosition,
+                         "profileImage": party.profileImage,
+                         "tier": party.tier,
+                         "title": party.title,
+                         "userName": party.userName,
+                         "writer": current,
+                         "requester": party.requester,
+                         "position": party.position])
         completion()
     }
 
@@ -91,20 +92,6 @@ class PartyManager {
             .document(thread)
             .delete()
         completion()
-    }
-}
-
-extension PartyManager {
-    func dateFormatter(strDate: String) -> String {
-        let strDateFormatter = DateFormatter()
-        strDateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        strDateFormatter.timeZone = TimeZone(identifier: "UTC")
-        guard var date = strDateFormatter.date(from: strDate) else { return "" }
-
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        dateFormatter.timeZone = TimeZone(identifier: "UTC")
-        return dateFormatter.string(from: date)
     }
 }
 

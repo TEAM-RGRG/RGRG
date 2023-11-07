@@ -9,7 +9,7 @@ import SnapKit
 import UIKit
 
 protocol SendSelectedOptionDelegate {
-    func sendSelectedOption(selectedOption: [String: String])
+    func sendSelectedOption(tier: String, position: String)
 }
 
 class SearchOptionViewController: UIViewController {
@@ -17,8 +17,11 @@ class SearchOptionViewController: UIViewController {
 
     let tierName = ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Emerald", "Diamond"]
     let positionName = ["Top", "Jug", "Mid", "Bot", "Sup"]
+    let positionFullName = ["Top", "Jungle", "Mid", "Bottom", "Support"]
 
     var selectedOption: [String: String] = ["tier": "", "position": ""]
+    var selectedTier: String = ""
+    var selectedPosition: String = ""
 
     let tierTitleLabel = CustomLabel()
 
@@ -140,7 +143,8 @@ extension SearchOptionViewController {
 
 extension SearchOptionViewController {
     @objc func confirmationButtonTapped() {
-        delegate?.sendSelectedOption(selectedOption: selectedOption)
+        
+        delegate?.sendSelectedOption(tier: selectedTier, position: selectedPosition)
         dismiss(animated: true, completion: nil)
     }
 }
@@ -221,11 +225,13 @@ extension SearchOptionViewController: UICollectionViewDelegate, UICollectionView
             if let cell = collectionView.cellForItem(at: indexPath) as? TierCell {
                 cell.tierLabel.layer.borderColor = UIColor.rgrgColor3.cgColor
                 selectedOption["tier"] = tierName[indexPath.row]
+                selectedTier = tierName[indexPath.row]
             }
         } else {
             if let cell = collectionView.cellForItem(at: indexPath) as? PositionCell {
                 cell.positionFrame.layer.borderColor = UIColor.rgrgColor3.cgColor
                 selectedOption["position"] = positionName[indexPath.row]
+                selectedPosition = positionFullName[indexPath.row]
             }
         }
     }
@@ -249,6 +255,7 @@ extension SearchOptionViewController: UICollectionViewDelegate, UICollectionView
                     collectionView.deselectItem(at: indexPath, animated: true)
                     cell.tierLabel.layer.borderColor = UIColor.systemGray4.cgColor
                     selectedOption["tier"] = ""
+                    selectedTier = ""
 
                     return false
                 } else {
@@ -262,6 +269,7 @@ extension SearchOptionViewController: UICollectionViewDelegate, UICollectionView
                     collectionView.deselectItem(at: indexPath, animated: true)
                     cell.positionFrame.layer.borderColor = UIColor.systemGray4.cgColor
                     selectedOption["position"] = ""
+                    selectedPosition = ""
                     return false
                 } else {
                     return true
