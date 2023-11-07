@@ -372,24 +372,12 @@ extension ChatDetailViewController: UITextViewDelegate {
             textView.text = nil
             textView.textColor = UIColor(hex: "#505050")
         }
-
-        blankMessage.snp.remakeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.bottom.equalTo(bottomBaseView.snp.top).offset(-175)
-            make.leading.equalTo(view).offset(50)
-            make.height.equalTo(20)
-        }
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             textView.text = placeholder
             textView.textColor = UIColor(hex: "#ADADAD")
-        }
-
-        blankMessage.snp.remakeConstraints { make in
-            make.height.equalTo(20)
-            make.centerX.centerY.equalToSuperview()
         }
     }
 
@@ -456,6 +444,13 @@ extension ChatDetailViewController {
         if textView.isFirstResponder {
             if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
                 if view.frame.origin.y == textViewPosY {
+                    blankMessage.snp.remakeConstraints { make in
+                        make.centerX.equalToSuperview()
+                        make.bottom.equalTo(bottomBaseView.snp.top).offset(-175)
+                        make.leading.equalTo(view).offset(50)
+                        make.height.equalTo(20)
+                    }
+
                     bottomBaseView.snp.remakeConstraints { make in
                         make.height.equalTo(80)
                         make.leading.equalToSuperview()
@@ -487,6 +482,13 @@ extension ChatDetailViewController {
         if textView.isFirstResponder {
             if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
                 if view.frame.origin.y == textViewPosY {
+                    blankMessage.snp.remakeConstraints { make in
+                        make.centerX.equalToSuperview()
+                        make.bottom.equalTo(bottomBaseView.snp.top).offset(-175)
+                        make.leading.equalTo(view).offset(50)
+                        make.height.equalTo(20)
+                    }
+
                     bottomBaseView.snp.remakeConstraints { make in
                         make.height.equalTo(80)
                         make.leading.equalToSuperview()
@@ -507,6 +509,11 @@ extension ChatDetailViewController {
 
     @objc func keyboardWillHide(notification: NSNotification) {
         print("#### \(#function)")
+
+        blankMessage.snp.remakeConstraints { make in
+            make.height.equalTo(20)
+            make.centerX.centerY.equalToSuperview()
+        }
 
         bottomBaseView.snp.remakeConstraints { make in
             make.height.equalTo(80)
