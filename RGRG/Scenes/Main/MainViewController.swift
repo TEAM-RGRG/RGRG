@@ -226,7 +226,7 @@ extension MainViewController {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-//        partyList.removeAll()
+        partyList.removeAll()
     }
 }
 
@@ -377,8 +377,8 @@ extension MainViewController {
             })
             await PartyManager.shared.loadParty(tier: selectedTier, position: selectedPosition) { [weak self] parties in
                 self?.partyList = parties // [PartyInfo] = [PartyInfo]
-                print("~~~~~~~~~~~~~~222\(self?.selectedTier)")
-                print("### \(self?.partyList)")
+//                print("~~~~~~~~~~~~~~222\(self?.selectedTier)")
+//                print("### \(self?.partyList)")
                 DispatchQueue.main.async {
                     self?.patryListTable.reloadData()
                 }
