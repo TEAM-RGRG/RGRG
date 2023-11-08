@@ -215,7 +215,7 @@ extension MainViewController {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-//        partyList.removeAll()
+        partyList.removeAll()
     }
 }
 
