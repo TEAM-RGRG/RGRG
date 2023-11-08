@@ -45,6 +45,28 @@ extension FirebaseUpdateManager {
                 }
             }
     }
+
+    func partyDeleteAll() {
+        let current = Auth.auth().currentUser?.uid
+        FirebaseUpdateManager.db.collection("party")
+            .whereField("writer", isEqualTo: current)
+            .getDocuments { querySnapshot, error in
+                if let error = error {
+                    print("### \(error)")
+                } else {
+                    if let snapshotDocument = querySnapshot?.documents {
+                        for doc in snapshotDocument {
+                            var data = doc.data()
+                            var docID = doc.documentID
+
+                            if data["writer"] as? String == current {
+                                FirebaseUpdateManager.db.collection("party").document(docID).delete()
+                            }
+                        }
+                    }
+                }
+            }
+    }
 }
 
 // MARK: - Chatting Update
