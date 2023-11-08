@@ -108,6 +108,7 @@
 		4EFC9C8B2AF7755200A17FC3 /* FirebaseUpdateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFC9C8A2AF7755200A17FC3 /* FirebaseUpdateManager.swift */; };
 		96A7B3FA2AD9365D00B218EB /* CtaLageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A7B3F92AD9365D00B218EB /* CtaLageButton.swift */; };
 		96A7B3FC2AD936E800B218EB /* CustomMemberInfoBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A7B3FB2AD936E800B218EB /* CustomMemberInfoBox.swift */; };
+		96E49D152AFA2ADE008B07A7 /* resetPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E49D142AFA2ADE008B07A7 /* resetPassword.swift */; };
 		96F690652AE20DA200667F35 /* UIcolor+CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F690642AE20DA200667F35 /* UIcolor+CALayer.swift */; };
 		96FE5FCF2AE61AE800AB84D8 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 96FE5FCE2AE61AE800AB84D8 /* FirebaseAuth */; };
 		96FE5FD12AE6622700AB84D8 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 96FE5FD02AE6622700AB84D8 /* FirebaseFirestore */; };
@@ -178,6 +179,7 @@
 		4EFC9C8A2AF7755200A17FC3 /* FirebaseUpdateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUpdateManager.swift; sourceTree = "<group>"; };
 		96A7B3F92AD9365D00B218EB /* CtaLageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CtaLageButton.swift; sourceTree = "<group>"; };
 		96A7B3FB2AD936E800B218EB /* CustomMemberInfoBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMemberInfoBox.swift; sourceTree = "<group>"; };
+		96E49D142AFA2ADE008B07A7 /* resetPassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = resetPassword.swift; sourceTree = "<group>"; };
 		96F690642AE20DA200667F35 /* UIcolor+CALayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIcolor+CALayer.swift"; sourceTree = "<group>"; };
 		CB2598FA2AF366FE00022AC9 /* SearchOptionHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOptionHeaderCell.swift; sourceTree = "<group>"; };
 		CB2D8FEA2AF1376300964CFE /* PartyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyTableViewCell.swift; sourceTree = "<group>"; };
@@ -425,6 +427,7 @@
 			isa = PBXGroup;
 			children = (
 				4E8B84FD2AD8120D009BCF4B /* SignUpViewController.swift */,
+				96E49D142AFA2ADE008B07A7 /* resetPassword.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -677,6 +680,7 @@
 				96A7B3FC2AD936E800B218EB /* CustomMemberInfoBox.swift in Sources */,
 				4E562AB32AE79BCB00E9A916 /* CustomBackButton.swift in Sources */,
 				96A7B3FC2AD936E800B218EB /* CustomMemberInfoBox.swift in Sources */,
+				96E49D152AFA2ADE008B07A7 /* resetPassword.swift in Sources */,
 				4ECD01EB2ADE9413003EA65C /* YourFeedCell.swift in Sources */,
 				4E8B85162AD8120E009BCF4B /* NotificationViewController.swift in Sources */,
 				CB4B0BC42ADFAB600077AB3A /* CreatePartyPageVC.swift in Sources */,

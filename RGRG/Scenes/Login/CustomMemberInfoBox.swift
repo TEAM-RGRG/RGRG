@@ -138,6 +138,29 @@ class CustomMemberInfoBox : UIView {
                             passHandler?(false)
                         }
                     }
+                case .resetPW:
+                    duplicationCheckEmail { [self] isUnique in
+                        if isUnique {
+                            //unique
+                            passView?.isHidden = true
+                            duplicationMessage.isHidden = false
+                            duplicationMessage.text = "없는 계정"
+                            nonPassView?.isHidden = true
+                            passHandler?(false)
+                           
+                        } else {
+                            //Not unique
+                            passView?.isHidden = false
+                            passMessage.text = "계정확인됨"
+                            nonPassView?.isHidden = true
+                            duplicationMessage.isHidden = true
+                            passHandler?(true)
+                            
+                            // passHandler == true
+                            // 위 메일주소로 메일을 발송할까요 ? 문구 뜨게
+                        }
+                    }
+                    
                 default :
                     passView?.isHidden = false
                     nonPassView?.isHidden = true
@@ -170,6 +193,9 @@ class CustomMemberInfoBox : UIView {
             updateUIvalid(validation: pwCheckValue, passView: checkIcon, nonPassView: conditionText)
         case .userName:
             updateUIvalid(passView: passMessage, nonPassView: self.conditionText)
+        case .resetPW:
+            //중복값이 있어야 의미가 있는 Line
+            updateUIvalid(passView: passMessage)
         }
     }
     
@@ -252,6 +278,9 @@ class CustomMemberInfoBox : UIView {
             self.backgroundColor = UIColor.white
             self.inputBox.textColor = UIColor(hex: "505050")
             self.eyesIcon.tintColor = UIColor.gray
+        case "resetPW" :
+            self.layer.borderColor = UIColor.systemYellow.cgColor
+            self.inputBox.textColor = UIColor(hex: "505050")
         default:
             break
         }

@@ -41,7 +41,7 @@ class SignUpViewController: UIViewController {
     }()
     
     let emailLine = {
-        let line = CustomMemberInfoBox(id: .email, conditionText: "Email 형식 확인", passText: "사용가능 한 email입니다.", placeHolder: "Email", condition: "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]+$")
+        let line = CustomMemberInfoBox(id: .email, conditionText: "Email 형식 확인", passText: "", placeHolder: "Email", condition: "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]+$")
         return line
     }()
     
@@ -205,6 +205,7 @@ extension SignUpViewController {
         
         emailLine.passHandler = { pass in
             self.idPass = pass
+            updateUI()
         }
         passwordLine.passHandler = { pass in
             self.pwPass = pass

@@ -16,6 +16,7 @@ enum MemberInfoBox: String {
     case pw
     case pwCheck
     case userName
+    case resetPW
 }
 
 class LoginViewController: UIViewController {
@@ -58,14 +59,21 @@ class LoginViewController: UIViewController {
         return button
     }()
     
+    let underLineArea = {
+        let view = UIStackView()
+        view.axis = .vertical
+        return view
+        
+    }()
+    
     let signupButton = {
         let button = UIButton()
         return button
     }()
-    
-    let apiLoginArea = {
-        let view = UIView()
-        return view
+        
+    let resetPW = {
+        let button = UIButton()
+        return button
     }()
     
     // 오버라이딩 : 재정의
@@ -91,6 +99,11 @@ extension LoginViewController {
     @objc func gotoSignupPage() {
         let signupVC = SignUpViewController()
         navigationController?.pushViewController(signupVC, animated: true)
+    }   
+    
+    @objc func gotoResetPassword() {
+        let resetPasswordVC = resetPassword()
+        navigationController?.pushViewController(resetPasswordVC, animated: true)
     }
     
     @objc func tapLogin() {
@@ -208,7 +221,9 @@ extension LoginViewController {
         methodArea.addSubview(passwordLine)
         loginButton.addTarget(self, action: #selector(tapLogin), for: .touchUpInside)
         methodArea.addSubview(loginButton)
-        methodArea.addSubview(signupButton)
+        methodArea.addSubview(underLineArea)
+        underLineArea.addArrangedSubview(signupButton)
+        underLineArea.addArrangedSubview(resetPW)
         
         bodyContainer.layer.borderColor = UIColor.systemGray5.cgColor
         bodyContainer.layer.cornerRadius = 10
@@ -218,6 +233,7 @@ extension LoginViewController {
             make.left.equalToSuperview().offset(47)
             make.right.equalToSuperview().inset(46)
         }
+//        imageArea.layer.borderWidth = 1
         imageArea.layer.borderColor = UIColor.systemGray5.cgColor
         imageArea.snp.makeConstraints { make in
             make.left.top.right.equalToSuperview()
@@ -227,9 +243,9 @@ extension LoginViewController {
         mainImage.image = UIImage(named: "LoginMain")
         mainImage.contentMode = .scaleAspectFit
         mainImage.snp.makeConstraints { make in
-            make.height.equalTo(263)
-            make.width.equalTo(270)
-            make.centerY.equalToSuperview()
+            make.height.equalTo(310)
+            make.width.equalTo(326)
+            make.bottom.equalToSuperview()
             make.centerX.equalToSuperview()
         }
         methodArea.snp.makeConstraints { make in
@@ -237,34 +253,47 @@ extension LoginViewController {
             make.height.equalToSuperview().dividedBy(2)
         }
         emailLine.snp.makeConstraints { make in
-            make.height.equalToSuperview().dividedBy(5)
             make.bottom.equalTo(passwordLine.snp.top).offset(-20)
             make.left.right.equalToSuperview()
         }
         passwordLine.snp.makeConstraints { make in
-            make.height.equalToSuperview().dividedBy(5)
             make.bottom.equalTo(loginButton.snp.top).offset(-20)
             make.left.right.equalToSuperview()
         }
         loginButton.snp.makeConstraints { make in
-            make.height.equalToSuperview().dividedBy(5)
-            make.bottom.equalTo(signupButton.snp.top)
+            make.bottom.equalTo(underLineArea.snp.top).offset(-15)
             make.left.right.equalToSuperview()
         }
         
-        let attributedTitle = NSAttributedString(string: "회원가입", attributes: [
+
+        underLineArea.distribution = .fillEqually
+        underLineArea.snp.makeConstraints { make in
+            make.height.equalTo(50)
+            make.width.equalTo(180)
+            make.bottom.equalTo(bodyContainer.snp.bottom).offset(-60)
+            make.centerX.equalToSuperview()
+        }
+        
+        let attributedTitleSignup = NSAttributedString(string: "회원가입", attributes: [
             NSAttributedString.Key.foregroundColor: UIColor.white,
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15),
             NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue
         ])
-        signupButton.setAttributedTitle(attributedTitle, for: .normal)
+        signupButton.setAttributedTitle(attributedTitleSignup, for: .normal)
         signupButton.setTitleColor(UIColor.white, for: .normal)
         signupButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         signupButton.addTarget(self, action: #selector(gotoSignupPage), for: .touchUpInside)
         signupButton.snp.makeConstraints { make in
-            make.height.equalToSuperview().dividedBy(10)
-            make.bottom.equalTo(bodyContainer.snp.bottom).offset(-60)
-            make.centerX.equalToSuperview()
         }
+        
+        let attributedTitleResetPW = NSAttributedString(string: "비밀번호 찾기", attributes: [
+            NSAttributedString.Key.foregroundColor: UIColor.white,
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15),
+            NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue
+        ])
+        resetPW.setAttributedTitle(attributedTitleResetPW, for: .normal)
+        resetPW.setTitleColor(UIColor.white, for: .normal)
+        resetPW.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        resetPW.addTarget(self, action: #selector(gotoResetPassword), for: .touchUpInside)
     }
 }
