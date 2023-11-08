@@ -24,7 +24,7 @@ class FirebaseUserManager {
                         let user = User(email: email, userName: userName, tier: tier, position: position, profilePhoto: profilePhoto, mostChampion: mostChampion, uid: uid)
                         complition(user)
                     }
-                }
+                } 
             }
         }
     }

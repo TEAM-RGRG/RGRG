@@ -274,12 +274,20 @@ class PartyInfoDetailVC: UIViewController {
     }
     
     @objc func menuButtonTapped() {
-        if let user = user {
-            // 자기 자신 user의 uid 필드 필요
-            FireStoreManager.shared.addChannel(channelTitle: party?.writer ?? "n/a", guest: party?.writer ?? "n/a", host: user.uid, channelID: party?.writer ?? "", date: FireStoreManager.shared.dateFormatter(value: Date.now), users: [party?.writer ?? "n/a", user.uid], guestProfile: party?.profileImage ?? "n/a", hostProfile: user.profilePhoto, hostSender: false, guestSender: false) { channel in
-                print("### 채널 추가 하기 :: \(channel)")
+        if userNameLabel.text == "알 수 없음" {
+            let alert = UIAlertController(title: "탈퇴한 유저", message: "해당 유저는 탈퇴한 유저입니다.", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "확인", style: .default)
+            alert.addAction(ok)
+            
+            present(alert, animated: true)
+        } else {
+            if let user = user {
+                // 자기 자신 user의 uid 필드 필요
+                FireStoreManager.shared.addChannel(channelTitle: party?.writer ?? "n/a", guest: party?.writer ?? "n/a", host: user.uid, channelID: party?.writer ?? "", date: FireStoreManager.shared.dateFormatter(value: Date.now), users: [party?.writer ?? "n/a", user.uid], guestProfile: party?.profileImage ?? "n/a", hostProfile: user.profilePhoto, hostSender: false, guestSender: false) { channel in
+                    print("### 채널 추가 하기 :: \(channel)")
+                }
+                navigationController?.popViewController(animated: true)
             }
-            navigationController?.popViewController(animated: true)
         }
     }
     
@@ -344,13 +352,16 @@ class PartyInfoDetailVC: UIViewController {
                 }
             }
         }
+        
+        if userNameLabel.text == "알 수 없음" {
+            confirmationButton.backgroundColor = UIColor.rgrgColor6
+        }
 
         configureUI()
         makeBackButton()
         if user?.uid == party?.writer {
             makeRightBarButton()
         }
-
     }
     
     func configureUI() {
@@ -555,7 +566,6 @@ extension PartyInfoDetailVC {
             editVC.hopePositionArray = self.party?.hopePosition
             editVC.infoTextView.text = self.party?.content
 
-            
             self.navigationController?.pushViewController(editVC, animated: true)
         }
 
@@ -563,7 +573,6 @@ extension PartyInfoDetailVC {
             guard let self = self else { return }
             
             PartyManager.shared.deleteParty(thread: partyID) {
-
                 let vc = MainViewController()
                 vc.viewWillAppear(true)
                 self.navigationController?.popViewController(animated: true)
