@@ -15,14 +15,14 @@ class MainViewController: UIViewController, SendSelectedOptionDelegate {
         updateOptionLabel(tier: tier, position: position)
         if tier == "" {
             if position == "" {
-                PartyManager.shared.loadParty(tier: tierName, position: positionName) { [weak self] parties in
+                PartyManager.shared.updateParty(tier: tierName, position: positionName) { [weak self] parties in
                     self?.partyList = parties // [PartyInfo] = [PartyInfo]
                     DispatchQueue.main.async {
                         self?.patryListTable.reloadData()
                     }
                 }
             } else {
-                PartyManager.shared.loadParty(tier: tierName, position: [position]) { [weak self] parties in
+                PartyManager.shared.updateParty(tier: tierName, position: [position]) { [weak self] parties in
                     self?.partyList = parties // [PartyInfo] = [PartyInfo]
                     DispatchQueue.main.async {
                         self?.patryListTable.reloadData()
@@ -31,30 +31,19 @@ class MainViewController: UIViewController, SendSelectedOptionDelegate {
             }
         } else {
             if position == "" {
-                PartyManager.shared.loadParty(tier: [tier], position: positionName) { [weak self] parties in
+                PartyManager.shared.updateParty(tier: [tier], position: positionName) { [weak self] parties in
                     self?.partyList = parties // [PartyInfo] = [PartyInfo]
                     DispatchQueue.main.async {
                         self?.patryListTable.reloadData()
                     }
                 }
             } else {
-                PartyManager.shared.loadParty(tier: [tier], position: [position]) { [weak self] parties in
+                PartyManager.shared.updateParty(tier: [tier], position: [position]) { [weak self] parties in
                     self?.partyList = parties // [PartyInfo] = [PartyInfo]
                     DispatchQueue.main.async {
                         self?.patryListTable.reloadData()
                     }
                 }
-            }
-        }
-        print("~~~~~~~~~~~~~~~~~\(tier) , \(position)")
-        
-        PartyManager.shared.loadParty(tier: [tier], position: [position]) { [weak self] parties in
-            self?.partyList = parties // [PartyInfo] = [PartyInfo]
-            print("~~~~~~~~~~~~~~~파티매니저실행")
-            print("~~~~~~~~~~~~~~333\(self?.selectedTier)")
-            print("~~~~~~~~~~~~~~ \(self?.partyList)")
-            DispatchQueue.main.async {
-                self?.patryListTable.reloadData()
             }
         }
     }
@@ -375,9 +364,8 @@ extension MainViewController {
                 print("### CurrentUser Info ::: \(user)")
                 self.currentUser = user
             })
-            await PartyManager.shared.loadParty(tier: selectedTier, position: selectedPosition) { [weak self] parties in
+            await PartyManager.shared.loadParty { [weak self] parties in
                 self?.partyList = parties // [PartyInfo] = [PartyInfo]
-                print("~~~~~~~~~~~~~~222\(self?.selectedTier)")
                 print("### \(self?.partyList)")
                 DispatchQueue.main.async {
                     self?.patryListTable.reloadData()
