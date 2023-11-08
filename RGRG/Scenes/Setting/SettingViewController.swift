@@ -17,13 +17,14 @@ class SettingViewController: UIViewController {
     let settingList = [
         "로그아웃", "회원탈퇴", "신고하기", "개발자 정보"
     ]
-
+    var user: User?
     let settingTable: UITableView = {
         let tableView = UITableView()
         return tableView
     }()
 
     let loginVC = LoginViewController()
+    let current = Auth.auth().currentUser?.uid
 
     deinit {
         print("### NotificationViewController deinitialized")
@@ -113,7 +114,14 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.row == 1 {
             let alert = UIAlertController(title: "회원 탈퇴", message: "회원 탈퇴 시 모든 글이 삭제됩니다. 정말로 삭제하시겠습니까?", preferredStyle: .alert)
             let ok = UIAlertAction(title: "회원 탈퇴", style: .cancel, handler: { _ in
-                FirebaseUpdateManager.shared.partyDeleteAll()
+                FirebaseUserManager.shared.getUserInfo { user in
+                    self.user = user
+                }
+                let updatedUser = User(email: "알 수 없음", userName: "알 수 없음", tier: self.user?.tier ?? "Bronze", position: self.user?.position ?? "Top", mostChampion: self.user?.mostChampion ?? ["None", "None", "None"], uid: self.current ?? "")
+                FirebaseUserManager.shared.updateUserInfo(userInfo: updatedUser)
+                FirebaseUpdateManager.shared.partyUserUpdate(user: updatedUser)
+                FirebaseUpdateManager.shared.channelsUserUpdate(updateProfile: updatedUser.profilePhoto)
+
                 self.deleteUser()
                 self.navigationController?.pushViewController(self.loginVC, animated: true)
                 self.removeAllNavigationStack()
