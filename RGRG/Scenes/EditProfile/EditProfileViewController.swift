@@ -367,7 +367,7 @@ extension EditProfileViewController {
 
 extension EditProfileViewController {
     @objc func confirmButtonPressed(_ sender: UIButton) {
-        let updatedUser = User(email: user?.email ?? "", userName: (userNameTextField.text ?? user?.userName) ?? "", tier: tierButton.titleLabel?.text ?? "", position: positionButton.titleLabel?.text ?? "", profilePhoto: selectedImage ?? "Default", mostChampion: selectedChamp ?? ["None", "None", "None"])
+        let updatedUser = User(email: user?.email ?? "", userName: (userNameTextField.text ?? user?.userName) ?? "", tier: tierButton.titleLabel?.text ?? "", position: positionButton.titleLabel?.text ?? "", profilePhoto: selectedImage ?? "Default", mostChampion: selectedChamp ?? ["None", "None", "None"], uid: user?.uid ?? "")
         if updatedUser.userName == user?.userName, updatedUser.position == user?.position, updatedUser.profilePhoto == user?.profilePhoto, updatedUser.tier == user?.tier, updatedUser.mostChampion == user?.mostChampion {
             let alert = UIAlertController(title: "수정 내역이 없습니다!", message: nil, preferredStyle: .alert)
             let ok = UIAlertAction(title: "확인", style: .default)

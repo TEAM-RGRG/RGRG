@@ -11,8 +11,11 @@ import SnapKit
 import UIKit
 
 class SettingViewController: UIViewController {
+    let developInfoVC = DeveloperInfoViewController()
+    let reportVC = ReportViewController()
+
     let settingList = [
-        "로그아웃", "회원탈퇴"
+        "로그아웃", "회원탈퇴", "신고하기", "개발자 정보"
     ]
 
     let settingTable: UITableView = {
@@ -32,6 +35,11 @@ extension SettingViewController {
         super.viewDidLoad()
 
         navigationController?.navigationBar.isHidden = false
+        configureUI()
+        setupSettingTable()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
         configureUI()
         setupSettingTable()
     }
@@ -76,6 +84,8 @@ extension SettingViewController {
             print("로그인 정보가 존재하지 않습니다")
         }
     }
+
+    func finalDeleteUser() {}
 }
 
 extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
@@ -96,14 +106,37 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = settingList[indexPath.row]
         if indexPath.row == 0 {
             signOut()
             navigationController?.pushViewController(loginVC, animated: true)
             removeAllNavigationStack()
         }
         if indexPath.row == 1 {
-            deleteUser()
-            navigationController?.popToRootViewController(animated: true)
+            let alert = UIAlertController(title: "회원 탈퇴", message: "회원 탈퇴 시 모든 글이 삭제됩니다. 정말로 삭제하시겠습니까?", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "회원 탈퇴", style: .cancel, handler: { _ in
+                self.deleteUser()
+                self.navigationController?.pushViewController(self.loginVC, animated: true)
+                self.removeAllNavigationStack()
+            })
+            let cancel = UIAlertAction(title: "취소", style: .default)
+
+            alert.addAction(ok)
+            alert.addAction(cancel)
+
+            present(alert, animated: true)
+        }
+
+        if indexPath.row == 2 {
+            reportVC.title = item
+
+            navigationController?.pushViewController(reportVC, animated: true)
+        }
+
+        if indexPath.row == 3 {
+            developInfoVC.title = item
+            developInfoVC.viewWillAppear(true)
+            navigationController?.pushViewController(developInfoVC, animated: true)
         }
     }
 }

@@ -20,4 +20,5 @@ struct PartyInfo {
     var writer: String
     var requester: [String: Bool] = [:]
     var position: String
+    var thread: String? // 파이어베이스의 DocumentID
 }

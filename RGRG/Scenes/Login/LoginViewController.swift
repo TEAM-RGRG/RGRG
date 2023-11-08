@@ -154,7 +154,6 @@ extension LoginViewController {
         
         present(alertController, animated: true, completion: nil)
     }
-    
 }
 
 extension LoginViewController {
@@ -170,7 +169,6 @@ extension LoginViewController {
 
 // 키보드 표시 이벤트 처리
 extension LoginViewController {
-    
     func setupKeyboardEvent() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow),
@@ -208,7 +206,6 @@ extension LoginViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-
 }
 
 extension LoginViewController {

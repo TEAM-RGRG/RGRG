@@ -11,8 +11,9 @@ import UIKit
 
 // 해야할 일
 // 1. FireStoreManager 의 데이터를 uid 로 변환
-// 2. 테이블뷰 키보드 올라오는 것에 대응
+// 2. 테이블뷰 키보드 올라오는 것에 대응 ✅
 // 3. ChatDetailVC에서 유저의 uid를 통해서 데이터 수신(내 정보는 ChatListVC => ChatDetailVC 로 전달) / (상대 정보는 넘겨받은 uid를 통해서 서버에서 해당 유저의 데이터를 전달 받거나 ChatListVC로부터 넘겨받을 것임)
+// 4. 기존의 유저와 대화하는 채팅방 존재시, 그 방으로 이동
 
 class ChatDetailViewController: UIViewController {
     let tableView = CustomTableView(frame: .zero, style: .plain)
@@ -372,24 +373,12 @@ extension ChatDetailViewController: UITextViewDelegate {
             textView.text = nil
             textView.textColor = UIColor(hex: "#505050")
         }
-
-        blankMessage.snp.remakeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.bottom.equalTo(bottomBaseView.snp.top).offset(-175)
-            make.leading.equalTo(view).offset(50)
-            make.height.equalTo(20)
-        }
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             textView.text = placeholder
             textView.textColor = UIColor(hex: "#ADADAD")
-        }
-
-        blankMessage.snp.remakeConstraints { make in
-            make.height.equalTo(20)
-            make.centerX.centerY.equalToSuperview()
         }
     }
 
@@ -447,7 +436,7 @@ extension ChatDetailViewController {
     @objc func keyboardWillShow(notification: NSNotification) {
         print("#### \(#function)")
         if chats.isEmpty != true {
-            let endexIndex = IndexPath(row: chats.count - 2, section: 0)
+            let endexIndex = IndexPath(row: chats.count - 1, section: 0)
             tableView.scrollToRow(at: endexIndex, at: .bottom, animated: true)
         }
 
@@ -456,6 +445,13 @@ extension ChatDetailViewController {
         if textView.isFirstResponder {
             if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
                 if view.frame.origin.y == textViewPosY {
+                    blankMessage.snp.remakeConstraints { make in
+                        make.centerX.equalToSuperview()
+                        make.bottom.equalTo(bottomBaseView.snp.top).offset(-175)
+                        make.leading.equalTo(view).offset(50)
+                        make.height.equalTo(20)
+                    }
+
                     bottomBaseView.snp.remakeConstraints { make in
                         make.height.equalTo(80)
                         make.leading.equalToSuperview()
@@ -478,7 +474,7 @@ extension ChatDetailViewController {
         print("#### \(#function)")
 
         if chats.isEmpty != true {
-            let endexIndex = IndexPath(row: chats.count - 2, section: 0)
+            let endexIndex = IndexPath(row: chats.count - 1, section: 0)
             tableView.scrollToRow(at: endexIndex, at: .bottom, animated: true)
         }
 
@@ -487,6 +483,13 @@ extension ChatDetailViewController {
         if textView.isFirstResponder {
             if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
                 if view.frame.origin.y == textViewPosY {
+                    blankMessage.snp.remakeConstraints { make in
+                        make.centerX.equalToSuperview()
+                        make.bottom.equalTo(bottomBaseView.snp.top).offset(-175)
+                        make.leading.equalTo(view).offset(50)
+                        make.height.equalTo(20)
+                    }
+
                     bottomBaseView.snp.remakeConstraints { make in
                         make.height.equalTo(80)
                         make.leading.equalToSuperview()
@@ -506,8 +509,12 @@ extension ChatDetailViewController {
     }
 
     @objc func keyboardWillHide(notification: NSNotification) {
-
         print("#### \(#function)")
+
+        blankMessage.snp.remakeConstraints { make in
+            make.height.equalTo(20)
+            make.centerX.centerY.equalToSuperview()
+        }
 
         bottomBaseView.snp.remakeConstraints { make in
             make.height.equalTo(80)
@@ -522,7 +529,6 @@ extension ChatDetailViewController {
             make.leading.equalToSuperview()
             make.bottom.equalTo(bottomBaseView.snp.top)
             make.height.greaterThanOrEqualTo(600)
-
         }
     }
 }

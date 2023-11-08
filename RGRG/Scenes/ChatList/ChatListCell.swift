@@ -49,7 +49,7 @@ extension ChatListCell {
     func confirmProfileImage() {
         baseView.addSubview(userProfileImage)
 
-        userProfileImage.image = UIImage(systemName: "sun.max")
+        userProfileImage.backgroundColor = .systemGray6
         userProfileImage.layer.cornerRadius = 26
 
         userProfileImage.layer.borderWidth = 1

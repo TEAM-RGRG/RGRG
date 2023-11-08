@@ -12,7 +12,7 @@ final class FireStoreManager {
     static let shared = FireStoreManager()
     static let db = Firestore.firestore()
 
-    func loadChannels(collectionName: String, hostName: String, filter: String, completion: @escaping ([Channel]) -> Void) {
+    func loadChannels(collectionName: String, filter: String, completion: @escaping ([Channel]) -> Void) {
         FireStoreManager.db.collection("channels")
             .whereField("users", arrayContains: filter)
             .order(by: "date", descending: true)
