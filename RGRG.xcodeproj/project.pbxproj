@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1D9889132AF9F3580074A860 /* TierCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9889122AF9F3580074A860 /* TierCell.swift */; };
 		1D9889152AF9F3800074A860 /* PositionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9889142AF9F3800074A860 /* PositionCell.swift */; };
-		1D9889172AFA03190074A860 /* SearchOptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9889162AFA03190074A860 /* SearchOptionViewController.swift */; };
 		1D9D0DD42AF86DA50021268E /* ChampCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9D0DD32AF86DA50021268E /* ChampCollectionViewCell.swift */; };
 		1DB9391F2AE24AB300BD4F41 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB9391E2AE24AB300BD4F41 /* SettingCell.swift */; };
 		1DB94CA82AE61B4D00851A18 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1DB94CA72AE61B4D00851A18 /* FirebaseAnalytics */; };
@@ -92,9 +91,6 @@
 		4ECD01E52ADE6C15003EA65C /* CustomBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECD01E42ADE6C15003EA65C /* CustomBarButton.swift */; };
 		4ECD01E92ADE9405003EA65C /* MyFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECD01E82ADE9405003EA65C /* MyFeedCell.swift */; };
 		4ECD01EB2ADE9413003EA65C /* YourFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECD01EA2ADE9413003EA65C /* YourFeedCell.swift */; };
-		4EE296202AFA32310039B45E /* DeveloperInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE2961F2AFA32310039B45E /* DeveloperInfoViewController.swift */; };
-		4EE296222AFA32380039B45E /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE296212AFA32380039B45E /* ReportViewController.swift */; };
-		4EE296242AFA3C040039B45E /* DeveloperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE296232AFA3C040039B45E /* DeveloperCell.swift */; };
 		4EE5E9D42AEBA89A00B7849E /* ChatSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE5E9D32AEBA89A00B7849E /* ChatSettingViewController.swift */; };
 		4EE5E9D82AEBCAFB00B7849E /* PartyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE5E9D72AEBCAFB00B7849E /* PartyManager.swift */; };
 		4EE5E9DA2AEBCBB800B7849E /* PartyInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE5E9D92AEBCBB800B7849E /* PartyInfo.swift */; };
@@ -117,16 +113,17 @@
 		96F690652AE20DA200667F35 /* UIcolor+CALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F690642AE20DA200667F35 /* UIcolor+CALayer.swift */; };
 		96FE5FCF2AE61AE800AB84D8 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 96FE5FCE2AE61AE800AB84D8 /* FirebaseAuth */; };
 		96FE5FD12AE6622700AB84D8 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 96FE5FD02AE6622700AB84D8 /* FirebaseFirestore */; };
+		CB2598FB2AF366FE00022AC9 /* SearchOptionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2598FA2AF366FE00022AC9 /* SearchOptionHeaderCell.swift */; };
 		CB2D8FEB2AF1376300964CFE /* PartyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2D8FEA2AF1376300964CFE /* PartyTableViewCell.swift */; };
 		CB4B0BC42ADFAB600077AB3A /* CreatePartyPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC32ADFAB600077AB3A /* CreatePartyPageVC.swift */; };
 		CB4B0BC62ADFAB7F0077AB3A /* NoticePageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC52ADFAB7F0077AB3A /* NoticePageVC.swift */; };
+		CB4B0BC82ADFAB970077AB3A /* SearchOptionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4B0BC72ADFAB970077AB3A /* SearchOptionVC.swift */; };
 		CBECDD392AE174320097C7CF /* PartyInfoDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBECDD382AE174320097C7CF /* PartyInfoDetailVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1D9889122AF9F3580074A860 /* TierCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TierCell.swift; sourceTree = "<group>"; };
 		1D9889142AF9F3800074A860 /* PositionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionCell.swift; sourceTree = "<group>"; };
-		1D9889162AFA03190074A860 /* SearchOptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOptionViewController.swift; sourceTree = "<group>"; };
 		1D9D0DD32AF86DA50021268E /* ChampCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChampCollectionViewCell.swift; sourceTree = "<group>"; };
 		1DB9391E2AE24AB300BD4F41 /* SettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 		1DB94CDD2AE760AB00851A18 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
@@ -177,9 +174,6 @@
 		4ECD01E42ADE6C15003EA65C /* CustomBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBarButton.swift; sourceTree = "<group>"; };
 		4ECD01E82ADE9405003EA65C /* MyFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedCell.swift; sourceTree = "<group>"; };
 		4ECD01EA2ADE9413003EA65C /* YourFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourFeedCell.swift; sourceTree = "<group>"; };
-		4EE2961F2AFA32310039B45E /* DeveloperInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperInfoViewController.swift; sourceTree = "<group>"; };
-		4EE296212AFA32380039B45E /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
-		4EE296232AFA3C040039B45E /* DeveloperCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperCell.swift; sourceTree = "<group>"; };
 		4EE5E9D32AEBA89A00B7849E /* ChatSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettingViewController.swift; sourceTree = "<group>"; };
 		4EE5E9D72AEBCAFB00B7849E /* PartyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyManager.swift; sourceTree = "<group>"; };
 		4EE5E9D92AEBCBB800B7849E /* PartyInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyInfo.swift; sourceTree = "<group>"; };
@@ -189,9 +183,11 @@
 		96A7B3F92AD9365D00B218EB /* CtaLageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CtaLageButton.swift; sourceTree = "<group>"; };
 		96A7B3FB2AD936E800B218EB /* CustomMemberInfoBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMemberInfoBox.swift; sourceTree = "<group>"; };
 		96F690642AE20DA200667F35 /* UIcolor+CALayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIcolor+CALayer.swift"; sourceTree = "<group>"; };
+		CB2598FA2AF366FE00022AC9 /* SearchOptionHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOptionHeaderCell.swift; sourceTree = "<group>"; };
 		CB2D8FEA2AF1376300964CFE /* PartyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyTableViewCell.swift; sourceTree = "<group>"; };
 		CB4B0BC32ADFAB600077AB3A /* CreatePartyPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePartyPageVC.swift; sourceTree = "<group>"; };
 		CB4B0BC52ADFAB7F0077AB3A /* NoticePageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticePageVC.swift; sourceTree = "<group>"; };
+		CB4B0BC72ADFAB970077AB3A /* SearchOptionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOptionVC.swift; sourceTree = "<group>"; };
 		CBECDD382AE174320097C7CF /* PartyInfoDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyInfoDetailVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -280,7 +276,6 @@
 			isa = PBXGroup;
 			children = (
 				1DB9391E2AE24AB300BD4F41 /* SettingCell.swift */,
-				4EE296232AFA3C040039B45E /* DeveloperCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -483,8 +478,9 @@
 				CB2D8FEA2AF1376300964CFE /* PartyTableViewCell.swift */,
 				CB4B0BC32ADFAB600077AB3A /* CreatePartyPageVC.swift */,
 				CB4B0BC52ADFAB7F0077AB3A /* NoticePageVC.swift */,
+				CB4B0BC72ADFAB970077AB3A /* SearchOptionVC.swift */,
+				CB2598FA2AF366FE00022AC9 /* SearchOptionHeaderCell.swift */,
 				CBECDD382AE174320097C7CF /* PartyInfoDetailVC.swift */,
-				1D9889162AFA03190074A860 /* SearchOptionViewController.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -520,8 +516,6 @@
 			children = (
 				1DB9391D2AE24AB300BD4F41 /* Cell */,
 				4E8B85412AD815B6009BCF4B /* SettingViewController.swift */,
-				4EE296212AFA32380039B45E /* ReportViewController.swift */,
-				4EE2961F2AFA32310039B45E /* DeveloperInfoViewController.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -690,6 +684,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4EE5E9D82AEBCAFB00B7849E /* PartyManager.swift in Sources */,
+				CB2598FB2AF366FE00022AC9 /* SearchOptionHeaderCell.swift in Sources */,
 				1D9889132AF9F3580074A860 /* TierCell.swift in Sources */,
 				1DB94CDE2AE760AB00851A18 /* StorageManager.swift in Sources */,
 				CBECDD392AE174320097C7CF /* PartyInfoDetailVC.swift in Sources */,
@@ -706,13 +701,12 @@
 				1DB94D092AED4A2B00851A18 /* IconCollectionViewCell.swift in Sources */,
 				4E8B85112AD8120E009BCF4B /* ChatInfo.swift in Sources */,
 				4EC170D22ADFFDE40049B23D /* ChatSettingCell.swift in Sources */,
+				CB4B0BC82ADFAB970077AB3A /* SearchOptionVC.swift in Sources */,
 				4E8B84D72AD81184009BCF4B /* AppDelegate.swift in Sources */,
 				4E8B851B2AD8120E009BCF4B /* ProfileViewController.swift in Sources */,
-				4EE296242AFA3C040039B45E /* DeveloperCell.swift in Sources */,
 				4E8195EE2ADD404000881C88 /* CustomImageView.swift in Sources */,
 				4E8B853E2AD81515009BCF4B /* RecuitmentViewController.swift in Sources */,
 				4E8B85352AD81411009BCF4B /* Extension.swift in Sources */,
-				4EE296222AFA32380039B45E /* ReportViewController.swift in Sources */,
 				96A7B3FA2AD9365D00B218EB /* CtaLageButton.swift in Sources */,
 				4E8B851F2AD8120E009BCF4B /* LoginViewController.swift in Sources */,
 				4E8B85172AD8120E009BCF4B /* SignUpViewController.swift in Sources */,
@@ -722,14 +716,12 @@
 				4E8B853E2AD81515009BCF4B /* RecuitmentViewController.swift in Sources */,
 				4EFC9C8B2AF7755200A17FC3 /* FirebaseUpdateManager.swift in Sources */,
 				4E8B85352AD81411009BCF4B /* Extension.swift in Sources */,
-				4EE296202AFA32310039B45E /* DeveloperInfoViewController.swift in Sources */,
 				1DB9391F2AE24AB300BD4F41 /* SettingCell.swift in Sources */,
 				96A7B3FA2AD9365D00B218EB /* CtaLageButton.swift in Sources */,
 				1DB94CE42AE919E000851A18 /* CustomFont.swift in Sources */,
 				4EE5E9DA2AEBCBB800B7849E /* PartyInfo.swift in Sources */,
 				4E8B851F2AD8120E009BCF4B /* LoginViewController.swift in Sources */,
 				4E8B85172AD8120E009BCF4B /* SignUpViewController.swift in Sources */,
-				1D9889172AFA03190074A860 /* SearchOptionViewController.swift in Sources */,
 				4EF3A7182AE6511100A1D32D /* Channel.swift in Sources */,
 				4E1264BE2ADF6E2700A4E602 /* CustomTextField.swift in Sources */,
 				1DB94CE02AE8024000851A18 /* FirebaseUserManager.swift in Sources */,
@@ -900,7 +892,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4MN45GZSDT;
+				DEVELOPMENT_TEAM = C36JC2QS9C;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RGRG/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -927,7 +919,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4MN45GZSDT;
+				DEVELOPMENT_TEAM = C36JC2QS9C;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RGRG/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
