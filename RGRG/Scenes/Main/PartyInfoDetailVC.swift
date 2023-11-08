@@ -383,10 +383,35 @@ class PartyInfoDetailVC: UIViewController {
         contentView.addSubview(bottomframeView)
         bottomframeView.addSubview(confirmationButton)
         
+//<<<<<<< Updated upstream
+//=======
+//        // 네비게이션 바 왼쪽 버튼
+//        let backButton = UIButton(type: .custom)
+//        backButton.setImage(UIImage(named: "chevron.left")?.withRenderingMode(.alwaysTemplate), for: .normal)
+//        backButton.tintColor = .black
+//        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+//        backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+//        backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+//        backButton.imageEdgeInsets = .init(top: -13, left: -8, bottom: -3, right: -8)
+//        
+//        let customItem = UIBarButtonItem(customView: backButton)
+//        navigationItem.leftBarButtonItem = customItem
+//        
+//        let menuButton = UIButton(type: .custom)
+//        menuButton.setImage(UIImage(named: "verticalEllipsis"), for: .normal)
+//        menuButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+//        menuButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+//        menuButton.imageEdgeInsets = .init(top: -18, left: -18, bottom: -18, right: -18)
+//        // 네비게이션바 오른쪽 버튼
+//        menuButton.isHidden = true
+//        let rightButton = UIBarButtonItem(customView: menuButton)
+//        navigationItem.rightBarButtonItem = rightButton
+//        
+//>>>>>>> Stashed changes
         topFrame.snp.makeConstraints {
             $0.top.leading.equalToSuperview().offset(0)
             $0.trailing.equalToSuperview().offset(0)
-            $0.height.equalTo(90)
+            $0.height.equalTo(88)
         }
         
         pageTitleLabel.snp.makeConstraints {

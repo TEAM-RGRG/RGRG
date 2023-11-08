@@ -9,15 +9,20 @@ import Foundation
 import SnapKit
 import UIKit
 
-class CreatePartyVC: UIViewController, UITextViewDelegate {
+class CreatePartyVC: UIViewController {
     var user: User?
     var hopePositionArray: [String]?
     var positionOptionButtonArry = [UIButton]()
     var firstPickedPosition: UIButton?
     var secondPickedPosition: UIButton?
     
+    var selectedPositionArry: [String] = ["", ""]
+    
     var thread: String?
     var tag = 1 // 생성 : 1 || 수정 : 2
+    
+    var placeholder = "짧은 게시글 내용을 작성해주세요.\n( 최대 500자 )"
+    var textViewPosY = CGFloat(0)
     
     let scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -33,6 +38,14 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         let view = UIView()
         view.backgroundColor = .white
         return view
+    }()
+    
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "RG구하기"
+        label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        label.textColor = .black
+        return label
     }()
     
     let partyNameLabel: UILabel = {
@@ -54,7 +67,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         let rightPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.size.height))
         textField.rightView = rightPaddingView
         textField.rightViewMode = .always
-        
+        textField.becomeFirstResponder()
         return textField
     }()
     
@@ -79,6 +92,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         let button = UIButton()
         button.setImage(UIImage(named: "Top"), for: .normal)
         button.subtitleLabel?.text = "Top"
+        button.tag = 1
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
         button.backgroundColor = .systemGray4
         button.layer.cornerRadius = 25
@@ -90,6 +104,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         let button = UIButton()
         button.setImage(UIImage(named: "Jungle"), for: .normal)
         button.subtitleLabel?.text = "Jungle"
+        button.tag = 2
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
         button.backgroundColor = .systemGray4
         button.layer.cornerRadius = 25
@@ -101,6 +116,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         let button = UIButton()
         button.setImage(UIImage(named: "Mid"), for: .normal)
         button.subtitleLabel?.text = "Mid"
+        button.tag = 3
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
         button.backgroundColor = .systemGray4
         button.layer.cornerRadius = 25
@@ -112,6 +128,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         let button = UIButton()
         button.setImage(UIImage(named: "Bottom"), for: .normal)
         button.subtitleLabel?.text = "Bottom"
+        button.tag = 4
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
         button.backgroundColor = .systemGray4
         button.layer.cornerRadius = 25
@@ -123,6 +140,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         let button = UIButton()
         button.setImage(UIImage(named: "Support"), for: .normal)
         button.subtitleLabel?.text = "Support"
+        button.tag = 5
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
         button.backgroundColor = .systemGray4
         button.layer.cornerRadius = 25
@@ -193,16 +211,29 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         textView.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         textView.layer.cornerRadius = 10
         textView.text = ""
+        textView.becomeFirstResponder()
         textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         return textView
     }()
+    
+    var letterNumLabel: UILabel = {
+        var label = UILabel()
+        label.text = "0/150"
+        label.font = .systemFont(ofSize: 16)
+        label.textColor = UIColor.rgrgColor6
+        label.textAlignment = .right
+        return label
+        }()
+    
+    
     
     let confirmationButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
         button.setTitle("작성 완료", for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
-        button.backgroundColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1)
+        //        button.backgroundColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1)
+        button.backgroundColor = UIColor.rgrgColor7
         button.layer.cornerRadius = 12
         button.addTarget(self, action: #selector(tappedConfirmationButton), for: .touchUpInside)
         return button
@@ -212,7 +243,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     
     func task() {
         if let user = user {
-            let hopePosition = [positionOptionButtonArry[0].subtitleLabel?.text ?? "Top", positionOptionButtonArry[1].subtitleLabel?.text ?? "Top"]
+            let hopePosition = [selectedPositionArry[0], selectedPositionArry[1]]
             
             let party = PartyInfo(champion: user.mostChampion, content: infoTextView.text ?? "", date: FireStoreManager.shared.dateFormatter(value: Date.now), hopePosition: hopePosition, profileImage: user.profilePhoto, tier: user.tier, title: partyNameTextField.text ?? "", userName: user.userName, writer: user.userName, position: user.position)
             
@@ -267,6 +298,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
             updatePositionLabels()
             updateSecondPositionLabels()
         }
+        
     }
     
     func updatePositionLabels() {
@@ -275,18 +307,23 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
             case topPositionbutton:
                 topLabel.text = "1 st"
                 topLabel.textColor = .rgrgColor4
+                selectedPositionArry[0] = "Top"
             case junglePositionbutton:
                 jungleLabel.text = "1 st"
                 jungleLabel.textColor = .rgrgColor4
+                selectedPositionArry[0] = "Jungle"
             case midPositionbutton:
                 midLabel.text = "1 st"
                 midLabel.textColor = .rgrgColor4
+                selectedPositionArry[0] = "Mid"
             case bottomPositionbutton:
                 bottomLabel.text = "1 st"
                 bottomLabel.textColor = .rgrgColor4
+                selectedPositionArry[0] = "Bottom"
             case supportPositionbutton:
                 supportLabel.text = "1 st"
                 supportLabel.textColor = .rgrgColor4
+                selectedPositionArry[0] = "Support"
             default:
                 topLabel.text = ""
                 jungleLabel.text = ""
@@ -294,6 +331,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
                 bottomLabel.text = ""
                 supportLabel.text = ""
             }
+            print("@@@@@@@@@@@@@\(selectedPositionArry[0])@@@@@@@@@@@@")
         } else {
             topLabel.text = ""
             jungleLabel.text = ""
@@ -302,25 +340,30 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
             supportLabel.text = ""
         }
     }
-
+    
     func updateSecondPositionLabels() {
         if let secondPicked = secondPickedPosition {
             switch secondPicked {
             case topPositionbutton:
                 topLabel.text = "2 nd"
                 topLabel.textColor = .rgrgColor3
+                selectedPositionArry[1] = "Top"
             case junglePositionbutton:
                 jungleLabel.text = "2 nd"
                 jungleLabel.textColor = .rgrgColor3
+                selectedPositionArry[1] = "Jungle"
             case midPositionbutton:
                 midLabel.text = "2 nd"
                 midLabel.textColor = .rgrgColor3
+                selectedPositionArry[1] = "Mid"
             case bottomPositionbutton:
                 bottomLabel.text = "2 nd"
                 bottomLabel.textColor = .rgrgColor3
+                selectedPositionArry[1] = "Bottom"
             case supportPositionbutton:
                 supportLabel.text = "2 nd"
                 supportLabel.textColor = .rgrgColor3
+                selectedPositionArry[1] = "Support"
             default:
                 topLabel.text = ""
                 jungleLabel.text = ""
@@ -328,6 +371,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
                 bottomLabel.text = ""
                 supportLabel.text = ""
             }
+            print("@@@@@@@@@@@@@\(selectedPositionArry[1])@@@@@@@@@@@@")
         } else {
             topLabel.text = ""
             jungleLabel.text = ""
@@ -335,91 +379,112 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
             bottomLabel.text = ""
             supportLabel.text = ""
         }
+        confirmationOn()
     }
     
-    func addPlaceholderToTextView() {
-        let placeholderLabel = UILabel()
-        placeholderLabel.text = "짧은 게시글 내용을 작성해주세요.\n( 최대 500자 )"
-        placeholderLabel.textColor = .systemGray3
-        placeholderLabel.font = infoTextView.font
-        placeholderLabel.numberOfLines = 0
-        placeholderLabel.sizeToFit()
-        placeholderLabel.frame.origin = CGPoint(x: 10, y: infoTextView.textContainerInset.top)
-        placeholderLabel.tag = 100
-        
-        infoTextView.addSubview(placeholderLabel)
-
-        // 텍스트 뷰에 터치 제스처 추가
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        infoTextView.addGestureRecognizer(tapGesture)
-    }
-
-    @objc func handleTap() {
-        infoTextView.viewWithTag(100)?.isHidden = true
-        infoTextView.isEditable = true
-        infoTextView.becomeFirstResponder()
-    }
-
-    func textViewDidChange(_ textView: UITextView) {
-        if !textView.text.isEmpty {
-            infoTextView.viewWithTag(100)?.isHidden = true
-        }
-    }
-
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        let maxLength = 500
-        let currentText = textView.text
-        let newText = (currentText as! NSString).replacingCharacters(in: range, with: text)
-
-        return newText.count <= maxLength
-    }
+//    func addPlaceholderToTextView() {
+//        let placeholderLabel = UILabel()
+//        placeholderLabel.text = "짧은 게시글 내용을 작성해주세요.\n( 최대 500자 )"
+//        placeholderLabel.textColor = .systemGray3
+//        placeholderLabel.font = infoTextView.font
+//        placeholderLabel.numberOfLines = 0
+//        placeholderLabel.sizeToFit()
+//        placeholderLabel.frame.origin = CGPoint(x: 10, y: infoTextView.textContainerInset.top)
+//        placeholderLabel.tag = 100
+//
+//        infoTextView.addSubview(placeholderLabel)
+//
+//        // 텍스트 뷰에 터치 제스처 추가
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+//        infoTextView.addGestureRecognizer(tapGesture)
+//    }
+//
+//    @objc func handleTap() {
+//        infoTextView.viewWithTag(100)?.isHidden = true
+//        infoTextView.isEditable = true
+//        infoTextView.becomeFirstResponder()
+//        confirmationOn()
+//        print("!!!!!!!!!!!!!tag222\(infoTextView.viewWithTag(100)?.isHidden)!!!!!!!!!!!!")
+//    }
     
-    var bottomButtonConstraint: NSLayoutConstraint?
+//    func textViewDidChange(_ textView: UITextView) {
+//        if !textView.text.isEmpty {
+//            infoTextView.viewWithTag(100)?.isHidden = true
+//            confirmationOn()
+//            print("!!!!!!!!!!!!!tag\(infoTextView.viewWithTag(100)?.isHidden)!!!!!!!!!!!!")
+//        }
+//    }
+    
+//    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+//        let maxLength = 500
+//        let currentText = textView.text
+//        let newText = (currentText as! NSString).replacingCharacters(in: range, with: text)
+//
+//        return newText.count <= maxLength
+//    }
+    
+    //    func updateConfirmationButton() {
+    //        if selectedPositionArry[1] != "" && selectedPositionArry[2] != "" && !(partyNameTextField.text?.isEmpty ?? true) && !(infoTextView.text?.isEmpty ?? true) {
+    //            confirmationButton.isEnabled = true
+    //            confirmationButton.backgroundColor = UIColor.rgrgColor4
+    //        } else {
+    //            confirmationButton.isEnabled = false
+    //            confirmationButton.backgroundColor = UIColor.red // 조건이 만족되지 않으면 원하는 배경색으로 설정하세요.
+    //        }
+    //    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        infoTextView.becomeFirstResponder()
         view.endEditing(true)
     }
     
-    // 노티피케이션을 추가하는 메서드
+    // MARK: - KeyBoard
+    
+    var bottomButtonConstraint: NSLayoutConstraint?
+    
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        view.endEditing(true)
+//    }
+    
     func addKeyboardNotifications() {
-        // 키보드가 나타날 때 앱에게 알리는 메서드 추가
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        // 키보드가 사라질 때 앱에게 알리는 메서드 추가
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-
-    // 노티피케이션을 제거하는 메서드
+    
     func removeKeyboardNotifications() {
-        // 키보드가 나타날 때 앱에게 알리는 메서드 제거
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        // 키보드가 사라질 때 앱에게 알리는 메서드 제거
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-        
+    
     @objc func keyboardWillShow(_ noti: NSNotification) {
-        // 키보드의 높이만큼 화면을 올려준다.
         if let keyboardFrame: NSValue = noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
-            // bottomBaseView의 높이를 올려준다
-            // 노치 디자인이 있는 경우 safe area를 계산합니다.
             if #available(iOS 11.0, *) {
                 let bottomInset = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.safeAreaInsets.bottom ?? 0
                 let adjustedKeyboardHeight = keyboardHeight - bottomInset
-                // bottomBaseView의 높이를 올려준다
                 bottomButtonConstraint?.constant = -adjustedKeyboardHeight
-            } else {
-                // 노치 디자인이 없는 경우에는 원래대로 계산합니다.
                 bottomButtonConstraint?.constant = -keyboardHeight
             }
             view.layoutIfNeeded()
         }
     }
-
+    
+    @objc func keyboardDidShow(_ noti: NSNotification) {}
+    
     @objc func keyboardWillHide(_ noti: NSNotification) {
-        // 키보드의 높이만큼 화면을 내려준다.
         bottomButtonConstraint?.constant = 0
         view.layoutIfNeeded()
+    }
+    
+    func confirmationOn() {
+        if selectedPositionArry[0] == "" && selectedPositionArry[1] == "" || partyNameTextField.text?.isEmpty == true || infoTextView.text?.isEmpty == true {
+            confirmationButton.isEnabled = false
+            confirmationButton.backgroundColor = UIColor.rgrgColor7
+        } else {
+            confirmationButton.isEnabled = true
+            confirmationButton.backgroundColor = UIColor.rgrgColor4
+        }
     }
     
     // MARK: - ViewWillAppear
@@ -427,15 +492,24 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         configureUI()
         navigationController?.navigationBar.isHidden = false
+        print("!!!!!!!!!!!!!\(partyNameTextField.text?.isEmpty)!!!!!!!!!!!!!")
+        confirmationOn()
     }
     
     // MARK: - ViewDidLoad
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addKeyboardNotifications()
+//        title = titleLabel
+       
+        partyNameTextField.delegate = self
+        infoTextView.delegate = self
         configureUI()
-        title = "RG구하기"
+//        addPlaceholderToTextView()
+        addKeyboardNotifications()
+        confirmationOn()
+        
+        
     }
     
     @objc func backButtonTapped() {
@@ -446,12 +520,13 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     
     func configureUI() {
         if infoTextView.text.isEmpty == true {
-            addPlaceholderToTextView()
+//            addPlaceholderToTextView()
         }
         
         view.backgroundColor = .rgrgColor5
         
         view.addSubview(topFrame)
+        topFrame.addSubview(titleLabel)
     
         view.addSubview(partyNameLabel)
         view.addSubview(partyNameTextField)
@@ -471,27 +546,29 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     
         view.addSubview(infoTextLabel)
         view.addSubview(infoTextView)
+        view.addSubview(letterNumLabel)
         view.addSubview(confirmationButton)
         
         // 네비게이션 바 왼쪽 버튼
         let backButton = UIButton(type: .custom)
-        backButton.setImage(UIImage(systemName: "multiply")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        backButton.setImage(UIImage(named: "XIcon")?.withRenderingMode(.alwaysTemplate), for: .normal)
         backButton.tintColor = .black
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true // 버튼의 가로 크기
         backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        backButton.imageEdgeInsets = .init(top: -18, left: -18, bottom: -18, right: -18)
+        backButton.imageEdgeInsets = .init(top: -18, left: -13, bottom: -8, right: -13)
         
         let customItem = UIBarButtonItem(customView: backButton)
         navigationItem.leftBarButtonItem = customItem
         
         // 네비게이션바 오른쪽 버튼
         let rightButton = UIBarButtonItem(title: "임시 저장", style: .plain, target: self, action: #selector(backButtonTapped))
+        rightButton.isHidden = true
         navigationItem.rightBarButtonItem = rightButton
         
         topFrame.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(97)
+            $0.height.equalTo(88)
         }
         
 //        scrollView.snp.makeConstraints{
@@ -504,6 +581,13 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
 //            $0.edges.equalTo(scrollView)
 //            $0.width.equalTo(scrollView)
 //        }
+        
+        titleLabel.snp.makeConstraints {
+            $0.bottom.equalTo(topFrame.snp.bottom).offset(-6)
+            $0.centerX.equalToSuperview()
+            //            $0.top.equalTo(contentView.snp.top).offset(32)
+//            $0.leading.equalTo(contentView.snp.leading).offset(28)
+        }
         
         partyNameLabel.snp.makeConstraints {
             $0.top.equalTo(topFrame.snp.bottom).offset(32)
@@ -552,6 +636,13 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
             $0.trailing.equalToSuperview().offset(-28)
         }
         
+        letterNumLabel.snp.makeConstraints{
+            $0.trailing.equalTo(infoTextView.snp.trailing).offset(-6)
+            $0.bottom.equalTo(infoTextView.snp.bottom).offset(-8)
+            $0.height.equalTo(18)
+            $0.width.equalTo(50)
+        }
+        
         confirmationButton.snp.makeConstraints {
             $0.top.equalTo(infoTextView.snp.bottom).offset(40)
             $0.leading.equalToSuperview().offset(28)
@@ -571,7 +662,8 @@ extension CreatePartyVC: UITextFieldDelegate {
                 return true
             }
         }
-        guard partyNameTextField.text!.count < 20 else { return false } // 10 글자로 제한
+        guard partyNameTextField.text!.count < 26 else { return false }
+        confirmationOn()
         return true
     }
 }
@@ -585,5 +677,91 @@ extension CreatePartyVC {
         }
         alert.addAction(confirmAlert)
         present(alert, animated: true)
+    }
+}
+
+
+// MARK: - TextView
+
+extension CreatePartyVC: UITextViewDelegate {
+    
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == placeholder {
+            textView.text = nil
+            textView.textColor = UIColor(hex: "#505050")
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            textView.text = placeholder
+            textView.textColor = UIColor(hex: "#ADADAD")
+        }
+    }
+    
+    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+        textView.resignFirstResponder()
+        return true
+    }
+    
+    // MARK: textview 높이 자동조절
+    
+    func textViewDidChange(_ textView: UITextView) {
+
+            func textViewDidBeginEditing(_ textView: UITextView) {
+                if textView.text == placeholder {
+                    infoTextView.text = nil
+                    infoTextView.textColor = UIColor(hex: "#505050")
+                }
+            }
+        
+        
+        
+            func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+                textView.resignFirstResponder()
+                
+                return true
+            }
+        
+            // MARK: textview 높이 자동조절
+        
+            func textViewDidChange(_ textView: UITextView) {
+                let size = CGSize(width: view.frame.width, height: .infinity)
+                let estimatedSize = textView.sizeThatFits(size)
+                if infoTextView.text.count > 10 {
+                    infoTextView.deleteBackward()
+                }
+                letterNumLabel.text = "\(infoTextView.text.count)/150"
+        
+                textView.constraints.forEach { _ in
+        
+                    if estimatedSize.height <= 80 {
+                        textView.isScrollEnabled = false
+        
+                    } else {
+                        textView.isScrollEnabled = true
+        //                if chats.isEmpty != true {
+        //                    let endexIndex = IndexPath(row: chats.count - 1, section: 0)
+        //                    tableView.scrollToRow(at: endexIndex, at: .bottom, animated: true)
+        //                }
+                    }
+                }
+            }
+        
+            func textViewDidEndEditing(_ textView: UITextView) {
+                if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    infoTextView.text = placeholder
+                    infoTextView.textColor = UIColor(hex: "#ADADAD")
+                    
+        
+                    if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || textView.text == placeholder {
+        //                infoTextView.textColor = .gray200
+        //                infoTextView.text = placeholder
+                        letterNumLabel.textColor = UIColor.systemBlue
+                                letterNumLabel.text = "0/150"
+                            }
+                }
+            }
     }
 }
