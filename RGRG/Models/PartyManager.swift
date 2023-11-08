@@ -12,13 +12,39 @@ import Foundation
 class PartyManager {
     static let shared = PartyManager()
     static let db = Firestore.firestore()
-    func loadParty(tier: [String], position: [String], completion: @escaping ([PartyInfo]) -> Void) {
-        print("~~~~~~~~~~로드 파티 호출")
+    func updateParty(tier: [String], position: [String], completion: @escaping ([PartyInfo]) -> Void) {
         var partyList: [PartyInfo] = []
 
         PartyManager.db.collection("party")
             .whereField("tier", in: tier)
             .whereField("position", in: position)
+            .order(by: "date", descending: true)
+            .addSnapshotListener { querySnapshot, error in
+                if let e = error {
+                    print("There was an issue retrieving data from Firestore. \(e)")
+                } else {
+                    if let snapshotDocument = querySnapshot?.documents {
+                        print("### snapshotDocument \(snapshotDocument)")
+                        for doc in snapshotDocument {
+                            let data = doc.data()
+                            let thread = doc.documentID
+
+                            if let champions = data["champions"] as? [String], let content = data["content"] as? String, let date = data["date"] as? String, let hopePosition = data["hopePosition"] as? [String], let profileImage = data["profileImage"] as? String, let tier = data["tier"] as? String, let title = data["title"] as? String, let userName = data["userName"] as? String, let writer = data["writer"] as? String, let position = data["position"] as? String {
+                                let party = PartyInfo(champion: champions, content: content, date: date, hopePosition: hopePosition, profileImage: profileImage, tier: tier, title: title, userName: userName, writer: writer, position: position, thread: thread)
+
+                                partyList.append(party)
+                            }
+                        }
+                        completion(partyList)
+                    }
+                }
+            }
+    }
+
+    func loadParty(completion: @escaping ([PartyInfo]) -> Void) {
+        var partyList: [PartyInfo] = []
+
+        PartyManager.db.collection("party")
             .order(by: "date", descending: true)
             .addSnapshotListener { querySnapshot, error in
                 if let e = error {

@@ -100,9 +100,9 @@ struct Developer {
 
 extension Developer {
     static let developList: [Developer] = [
-        Developer(name: "김준우 ⭐️", email: "kimjunwoo629@gmail.com", github: "https://github.com/jakkujakku"),
-        Developer(name: "이수현 ⭐️", email: "Email N/A", github: "https://github.com/suzzang98"),
-        Developer(name: "김귀아 ⭐️", email: "Email N/A", github: "https://github.com/kiakim01"),
-        Developer(name: "이시영 ⭐️", email: "Email N/A", github: "https://github.com/startingg"),
+        Developer(name: "김준우", email: "kimjunwoo629@gmail.com", github: "https://github.com/jakkujakku"),
+        Developer(name: "이수현", email: "hyeonnee98@gmail.com", github: "https://github.com/suzzang98"),
+        Developer(name: "김귀아", email: "kiakim.dev@gmail.com", github: "https://github.com/kiakim01"),
+        Developer(name: "이시영", email: "jltldud@gmail.com", github: "https://github.com/startingg"),
     ]
 }
