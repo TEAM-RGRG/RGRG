@@ -15,6 +15,9 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     var positionOptionButtonArry = [UIButton]()
     var firstPickedPosition: UIButton?
     var secondPickedPosition: UIButton?
+    
+    var thread: String?
+    var tag: Int?
    
     var selectedPositionArry: [String] = ["", ""]
     
@@ -354,6 +357,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
             bottomLabel.text = ""
             supportLabel.text = ""
         }
+        updateConfirmationButton()
     }
     
     func addPlaceholderToTextView() {
@@ -383,6 +387,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         if !textView.text.isEmpty {
             infoTextView.viewWithTag(100)?.isHidden = true
             confirmationButton.isEnabled = !textView.text.isEmpty
+            updateConfirmationButton() 
         }
     }
 
@@ -398,12 +403,12 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     
     
     func updateConfirmationButton() {
-        if selectedPositionArry[1] != "" && selectedPositionArry[2] != "" && !(partyNameTextField.text?.isEmpty ?? true) && !(infoTextView.text?.isEmpty ?? true) {
+        if selectedPositionArry[0] != "" && selectedPositionArry[1] != "" && partyNameTextField.text?.isEmpty != true && infoTextView.text.isEmpty != true {
             confirmationButton.isEnabled = true
             confirmationButton.backgroundColor = UIColor.rgrgColor4
         } else {
             confirmationButton.isEnabled = false
-            confirmationButton.backgroundColor = UIColor.red // 조건이 만족되지 않으면 원하는 배경색으로 설정하세요.
+            confirmationButton.backgroundColor = UIColor.rgrgColor7
         }
     }
 
@@ -460,6 +465,8 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        partyNameTextField.delegate = self
+        infoTextView.delegate = self
 //        title = titleLabel
         
         
