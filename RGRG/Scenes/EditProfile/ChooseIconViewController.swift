@@ -19,6 +19,8 @@ class ChooseIconViewController: UIViewController {
     
     var currentImageString: String?
     var selectedImageString: String?
+
+    let container = UIView()
     
     let profileImage: UIImageView = {
         let imageView = UIImageView()
@@ -64,11 +66,18 @@ extension ChooseIconViewController {
         setupButton()
         setImage()
         
-        self.navigationController?.navigationBar.topItem?.title = ""
+        navigationController?.navigationBar.topItem?.title = ""
         navigationItem.title = "프로필 아이콘 변경"
         
-        view.backgroundColor = .rgrgColor5
-        [profileImage, imageCollectionView, selectButton].forEach { view.addSubview($0) }
+        view.backgroundColor = .white
+        container.backgroundColor = .rgrgColor5
+        view.addSubview(container)
+        [profileImage, imageCollectionView, selectButton].forEach { container.addSubview($0) }
+        
+        container.snp.makeConstraints {
+            $0.top.left.right.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.equalToSuperview()
+        }
         
         profileImage.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(24)
@@ -123,7 +132,7 @@ extension ChooseIconViewController: UICollectionViewDelegate, UICollectionViewDa
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? IconCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.iconImage.image = UIImage(named: iconsName[indexPath.row] )
+        cell.iconImage.image = UIImage(named: iconsName[indexPath.row])
         var imageIndex = iconsName.firstIndex(of: currentImageString ?? "Default")
         if indexPath.row == imageIndex {
             cell.layer.borderColor = UIColor.rgrgColor3.cgColor

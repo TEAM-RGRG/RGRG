@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D67388F2AFB821F000B0E83 /* PartyInfoIWroteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D67388E2AFB821F000B0E83 /* PartyInfoIWroteViewController.swift */; };
 		1D9889132AF9F3580074A860 /* TierCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9889122AF9F3580074A860 /* TierCell.swift */; };
 		1D9889152AF9F3800074A860 /* PositionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9889142AF9F3800074A860 /* PositionCell.swift */; };
 		1D9889172AFA03190074A860 /* SearchOptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9889162AFA03190074A860 /* SearchOptionViewController.swift */; };
@@ -125,6 +126,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1D67388E2AFB821F000B0E83 /* PartyInfoIWroteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyInfoIWroteViewController.swift; sourceTree = "<group>"; };
 		1D9889122AF9F3580074A860 /* TierCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TierCell.swift; sourceTree = "<group>"; };
 		1D9889142AF9F3800074A860 /* PositionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionCell.swift; sourceTree = "<group>"; };
 		1D9889162AFA03190074A860 /* SearchOptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOptionViewController.swift; sourceTree = "<group>"; };
@@ -260,6 +262,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1D6738902AFB94D2000B0E83 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		1D9889112AF9F2B10074A860 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -461,7 +470,9 @@
 		4E8B85042AD8120E009BCF4B /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				1D6738902AFB94D2000B0E83 /* Cell */,
 				4E8B85052AD8120E009BCF4B /* ProfileViewController.swift */,
+				1D67388E2AFB821F000B0E83 /* PartyInfoIWroteViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -695,6 +706,7 @@
 				4EE5E9D82AEBCAFB00B7849E /* PartyManager.swift in Sources */,
 				1D9889132AF9F3580074A860 /* TierCell.swift in Sources */,
 				1DB94CDE2AE760AB00851A18 /* StorageManager.swift in Sources */,
+				1D67388F2AFB821F000B0E83 /* PartyInfoIWroteViewController.swift in Sources */,
 				CBECDD392AE174320097C7CF /* PartyInfoDetailVC.swift in Sources */,
 				4E8B85132AD8120E009BCF4B /* EditProfileViewController.swift in Sources */,
 				96A7B3FC2AD936E800B218EB /* CustomMemberInfoBox.swift in Sources */,
