@@ -84,6 +84,8 @@ extension SettingViewController {
             print("로그인 정보가 존재하지 않습니다")
         }
     }
+
+    func finalDeleteUser() {}
 }
 
 extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
@@ -111,8 +113,18 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             removeAllNavigationStack()
         }
         if indexPath.row == 1 {
-            deleteUser()
-            navigationController?.popToRootViewController(animated: true)
+            let alert = UIAlertController(title: "회원 탈퇴", message: "회원 탈퇴 시 모든 글이 삭제됩니다. 정말로 삭제하시겠습니까?", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "회원 탈퇴", style: .cancel, handler: { _ in
+                self.deleteUser()
+                self.navigationController?.pushViewController(self.loginVC, animated: true)
+                self.removeAllNavigationStack()
+            })
+            let cancel = UIAlertAction(title: "취소", style: .default)
+
+            alert.addAction(ok)
+            alert.addAction(cancel)
+
+            present(alert, animated: true)
         }
 
         if indexPath.row == 2 {
