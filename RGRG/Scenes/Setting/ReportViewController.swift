@@ -10,12 +10,6 @@ import SnapKit
 import UIKit
 
 class ReportViewController: UIViewController {
-    // 1. UI 구성(진행 중)
-    // 2. 이메일 보내기(테스트 예정)
-    // 3. 키보드 반응(구현 예정)
-    // 4. 현재 글자 수 표시
-    // 5. 최대 글자 수 제한
-
     var pageTitle: String?
 
     let reportTitle = CustomLabel(frame: .zero)
@@ -27,7 +21,15 @@ class ReportViewController: UIViewController {
     let rightBarButtonItem = CustomBarButton()
 
     let textFieldPlaceholder = "제목을 입력해주세요"
-    let textViewPlaceholder = "신고 사유를 작성해주세요.(최대 500자)"
+    let textViewPlaceholder = "신고 사유를 작성해주세요.(최대 200자)"
+
+    var textViewPosY = CGFloat(0)
+
+    let currentTextFieldLabel = CustomLabel(frame: .zero)
+    let currentTextViewLabel = CustomLabel(frame: .zero)
+
+    var currentTextFieldCount = 0
+    var currentTextViewCount = 0
 }
 
 // MARK: - View LifeCycle
@@ -36,6 +38,15 @@ extension ReportViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        reportTextField.text = nil
+        reportDescriptionTextView.text = textViewPlaceholder
+        reportDescriptionTextView.textColor = UIColor(hex: "#ADADAD")
+
+        currentTextFieldLabel.text = "\(0)/25"
+        currentTextViewLabel.text = "\(0)/200"
     }
 }
 
@@ -53,7 +64,12 @@ extension ReportViewController {
         confirmReportTextView()
         confirmSendButton()
 
+        confirmCurrentTextFieldLabel()
+        confirmCurrentTextViewLabel()
+
         makeRightBarButton()
+        keyboardCheck()
+        hideKeyboardWhenTappedAround()
     }
 
     func addView() {
@@ -85,6 +101,8 @@ extension ReportViewController {
         reportTextField.layer.cornerRadius = 10
         reportTextField.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 16.0, height: 0.0))
         reportTextField.leftViewMode = .always
+        reportTextField.clearButtonMode = .whileEditing
+        reportTextField.returnKeyType = .done
 
         reportTextField.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -145,8 +163,37 @@ extension ReportViewController {
         if reportTextField.text?.isEmpty != true, reportDescriptionTextView.text.isEmpty != true, reportDescriptionTextView.text != textViewPlaceholder {
             print("#### 메일 전송~~~~")
             sendEmail()
+
         } else {
             showAlert()
+        }
+    }
+}
+
+// MARK: - CurrentTextFieldLabel, CurrentTextViewLabel
+
+extension ReportViewController {
+    func confirmCurrentTextFieldLabel() {
+        view.addSubview(currentTextFieldLabel)
+
+        currentTextFieldLabel.text = "\(currentTextFieldCount)/25"
+        currentTextFieldLabel.snp.makeConstraints { make in
+            make.top.equalTo(reportTextField.snp.bottom).offset(5)
+            make.trailing.equalTo(reportTextField.snp.trailing)
+            make.width.greaterThanOrEqualTo(50)
+            make.height.greaterThanOrEqualTo(30)
+        }
+    }
+
+    func confirmCurrentTextViewLabel() {
+        view.addSubview(currentTextViewLabel)
+        currentTextViewLabel.text = "\(currentTextViewCount)/200"
+
+        currentTextViewLabel.snp.makeConstraints { make in
+            make.top.equalTo(reportDescriptionTextView.snp.bottom).offset(5)
+            make.trailing.equalTo(reportDescriptionTextView.snp.trailing)
+            make.width.greaterThanOrEqualTo(50)
+            make.height.greaterThanOrEqualTo(30)
         }
     }
 }
@@ -161,11 +208,12 @@ extension ReportViewController: MFMailComposeViewControllerDelegate {
             compseVC.mailComposeDelegate = self
 
             // 개발자 계정 이메일
-            compseVC.setToRecipients(["본 메일을 전달받을 이메일주소"])
+            compseVC.setToRecipients(["rgrgshared@gmail.com"])
             compseVC.setSubject(reportTextField.text ?? "N/A")
             compseVC.setMessageBody(reportDescriptionTextView.text ?? "N/A", isHTML: false)
 
             present(compseVC, animated: true, completion: nil)
+
         } else {
             showSendMailErrorAlert()
         }
@@ -204,6 +252,10 @@ extension ReportViewController {
         reportTextField.text = nil
         reportDescriptionTextView.text = textViewPlaceholder
         reportDescriptionTextView.textColor = UIColor(hex: "#ADADAD")
+
+        currentTextFieldLabel.text = "\(0)/25"
+        currentTextViewLabel.text = "\(0)/200"
+
         reportTextField.resignFirstResponder()
         reportDescriptionTextView.resignFirstResponder()
     }
@@ -211,7 +263,30 @@ extension ReportViewController {
 
 // MARK: - TextFieldDelegate
 
-extension ReportViewController: UITextFieldDelegate {}
+extension ReportViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        reportTextField.resignFirstResponder()
+        return true
+    }
+
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        print("#### 264 호출")
+        currentTextFieldLabel.text = "\(0)/25"
+        return true
+    }
+
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentText = textField.text ?? ""
+        guard let rangeText = Range(range, in: currentText) else { return false }
+
+        let changedText = currentText.replacingCharacters(in: rangeText, with: string)
+
+        print("#### 지금 현재 글자 수 \(changedText.count)")
+        currentTextFieldCount = changedText.count
+        currentTextFieldLabel.text = "\(currentTextFieldCount)/25"
+        return currentTextFieldCount < 25
+    }
+}
 
 // MARK: - TextViewDelegate
 
@@ -251,6 +326,20 @@ extension ReportViewController: UITextViewDelegate {
             }
         }
     }
+
+    // MARK: - 현재 글자 수 출력
+
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let currentText = textView.text ?? ""
+        guard let rangeText = Range(range, in: currentText) else { return false }
+
+        let changedText = currentText.replacingCharacters(in: rangeText, with: text)
+
+        print("#### 지금 현재 글자 수 \(changedText.count)")
+        currentTextViewCount = changedText.count
+        currentTextViewLabel.text = "\(currentTextViewCount)/200"
+        return currentTextViewCount < 200
+    }
 }
 
 extension ReportViewController {
@@ -262,5 +351,59 @@ extension ReportViewController {
         }
         alert.addAction(confirmAlert)
         present(alert, animated: true)
+    }
+}
+
+extension ReportViewController {
+    func keyboardCheck() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow), name: UIResponder.keyboardDidShowNotification, object: nil)
+    }
+
+    @objc func keyboardWillShow(notification: NSNotification) {
+        print("#### \(#function)")
+
+        if reportDescriptionTextView.isFirstResponder {
+            if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+                if view.frame.origin.y == textViewPosY {
+                    view.frame.origin.y -= keyboardSize.height * 0.4 - UIApplication.shared.windows.first!.safeAreaInsets.bottom
+                }
+            }
+        }
+    }
+
+    @objc func keyboardDidShow(notification: NSNotification) {
+        print("#### \(#function)")
+
+        if reportDescriptionTextView.isFirstResponder {
+            if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+                if view.frame.origin.y == textViewPosY {
+                    view.frame.origin.y -= keyboardSize.height * 0.4 - UIApplication.shared.windows.first!.safeAreaInsets.bottom
+                }
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        print("#### \(#function)")
+        if reportDescriptionTextView.frame.origin.y != textViewPosY {
+            view.frame.origin.y = textViewPosY
+        }
+    }
+}
+
+// MARK: - hideKeyboardWhenTappedAround
+
+extension ReportViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(ChatDetailViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 }
