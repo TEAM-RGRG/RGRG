@@ -15,11 +15,11 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
     var positionOptionButtonArry = [UIButton]()
     var firstPickedPosition: UIButton?
     var secondPickedPosition: UIButton?
-    
-    var thread: String?
-    var tag: Int?
-   
+
     var selectedPositionArry: [String] = ["", ""]
+    
+//    let partyInfoVC = PartyInfoDetailVC()
+//    var actionHandler: ((PartyInfo) -> Void)?
     
     var thread: String?
     var tag = 1 // 생성 : 1 || 수정 : 2
@@ -247,10 +247,9 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
                     }
                 } else {
                     if thread != nil {
-                        let mainVC = MainViewController()
                         await PartyManager.shared.updateParty(party: party, thread: thread ?? "n/a") {
-                            self.navigationController?.pushViewController(mainVC, animated: true)
-                            self.removeAllNavigationStack()
+//                            self.actionHandler?(party)
+                            self.navigationController?.popViewController(animated: true)
                         }
                     }
                 }
@@ -398,7 +397,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
         if !textView.text.isEmpty {
             infoTextView.viewWithTag(100)?.isHidden = true
             confirmationButton.isEnabled = !textView.text.isEmpty
-            updateConfirmationButton() 
+            updateConfirmationButton()
         }
     }
 

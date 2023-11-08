@@ -18,6 +18,8 @@ class PartyInfoDetailVC: UIViewController {
     
     let rightBarButtonItem = CustomBarButton()
     
+    let createVC = CreatePartyVC()
+    
     let topFrame: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -267,6 +269,11 @@ class PartyInfoDetailVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = false
         setupUI()
+//        createVC.actionHandler = { [weak self] party in
+        ////            self?.party = party
+        ////            self?.setupUI()
+//            print("#### \(party)")
+//        }
     }
     
     @objc func backButtonTapped() {
@@ -350,7 +357,6 @@ class PartyInfoDetailVC: UIViewController {
         if user?.uid == party?.writer {
             makeRightBarButton()
         }
-
     }
     
     func configureUI() {
@@ -555,7 +561,6 @@ extension PartyInfoDetailVC {
             editVC.hopePositionArray = self.party?.hopePosition
             editVC.infoTextView.text = self.party?.content
 
-            
             self.navigationController?.pushViewController(editVC, animated: true)
         }
 
@@ -563,7 +568,6 @@ extension PartyInfoDetailVC {
             guard let self = self else { return }
             
             PartyManager.shared.deleteParty(thread: partyID) {
-
                 let vc = MainViewController()
                 vc.viewWillAppear(true)
                 self.navigationController?.popViewController(animated: true)
