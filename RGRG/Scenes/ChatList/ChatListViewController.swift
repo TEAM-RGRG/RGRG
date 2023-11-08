@@ -132,7 +132,7 @@ extension ChatListViewController {
         tabBarController?.navigationItem.title = "쪽지"
         tabBarController?.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "NotoSansKR-Bold", size: 24)!, NSAttributedString.Key.foregroundColor: UIColor.rgrgColor4]
         tabBarController?.navigationController?.navigationBar.shadowImage = nil
-        makeRightBarButton()
+//        makeRightBarButton()
         makeBlankLeftButton()
     }
 

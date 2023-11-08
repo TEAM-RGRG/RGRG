@@ -251,8 +251,8 @@ extension ProfileViewController {
 
 extension ProfileViewController {
     @objc func myWritingButtonPressed() {
-        // 추가 구현기능
-        print("추가 구현 예정")
+        let partyInfoIWroteVC = PartyInfoIWroteViewController()
+        navigationController?.pushViewController(partyInfoIWroteVC, animated: true)
     }
 
     @objc func settingButtonPressed() {

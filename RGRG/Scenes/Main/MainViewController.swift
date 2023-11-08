@@ -356,7 +356,7 @@ extension MainViewController {
     }
 }
 
-// MARK: 함수
+// MARK: - 함수
 
 extension MainViewController {
     func task() {
@@ -394,7 +394,7 @@ extension MainViewController {
     }
 }
 
-// MARK: TableView
+// MARK:  - TableView
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

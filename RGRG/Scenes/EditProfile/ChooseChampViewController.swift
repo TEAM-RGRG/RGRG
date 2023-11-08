@@ -20,6 +20,8 @@ class ChooseChampViewController: UIViewController {
     var presentChamp: [String]?
     var selectedChamp: [String] = []
     
+    let container = UIView()
+    
     let firstImage: UIImageView = {
         let imageView = UIImageView()
         imageView.frame = CGRect(x: 0, y: 0, width: 91, height: 91)
@@ -96,12 +98,20 @@ extension ChooseChampViewController {
         setupButton()
         setupImage()
         
-        self.navigationController?.navigationBar.topItem?.title = ""
+        navigationController?.navigationBar.topItem?.title = ""
         navigationItem.title = "선호 챔피언 변경"
-        view.backgroundColor = .rgrgColor5
+        
+        view.backgroundColor = .white
+        container.backgroundColor = .rgrgColor5
+        view.addSubview(container)
+        
+        container.snp.makeConstraints {
+            $0.top.left.right.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.equalToSuperview()
+        }
         
         [firstImage, secondImage, thirdImage].forEach { mostChampImgStackView.addArrangedSubview($0) }
-        [mostChampImgStackView, imageCollectionView, selectButton].forEach { view.addSubview($0) }
+        [mostChampImgStackView, imageCollectionView, selectButton].forEach { container.addSubview($0) }
         
         mostChampImgStackView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(32)
@@ -164,7 +174,7 @@ extension ChooseChampViewController: UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? ChampCollectionViewCell else { 
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? ChampCollectionViewCell else {
             return UICollectionViewCell()
         }
         
