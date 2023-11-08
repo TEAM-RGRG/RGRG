@@ -224,9 +224,10 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
                     }
                 } else {
                     if thread != nil {
-                        let paryDetailVC = PartyInfoDetailVC()
+                        let mainVC = MainViewController()
                         await PartyManager.shared.updateParty(party: party, thread: thread ?? "n/a") {
-                            self.navigationController?.popToRootViewController(animated: true)
+                            self.navigationController?.pushViewController(mainVC, animated: true)
+                            self.removeAllNavigationStack()
                         }
                     }
                 }
@@ -585,5 +586,16 @@ extension CreatePartyVC {
         }
         alert.addAction(confirmAlert)
         present(alert, animated: true)
+    }
+}
+
+extension CreatePartyVC {
+    func removeAllNavigationStack() {
+        guard let navigationController = navigationController else { return }
+        var navigationArray = navigationController.viewControllers // To get all UIViewController stack as Array
+        let temp = navigationArray.last
+        navigationArray.removeAll()
+        navigationArray.append(temp!) // To remove all previous UIViewController except the last one
+        self.navigationController?.viewControllers = navigationArray
     }
 }
