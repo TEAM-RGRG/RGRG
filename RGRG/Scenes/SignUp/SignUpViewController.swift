@@ -19,7 +19,7 @@ class SignUpViewController: UIViewController {
     var nickNamePass: Bool = false
     
     let bodyContainer = {
-        //scrollView
+        // scrollView
         let stactview = UIView()
         return stactview
     }()
@@ -128,7 +128,8 @@ extension SignUpViewController {
                     "tier": tier,
                     "position": position,
                     "profilePhoto": "Default",
-                    "mostChampion": ["None", "None", "None"] // Defaults 이미지
+                    "mostChampion": ["None", "None", "None"], // Defaults 이미지
+                    "uid": result.user.uid
                     
                 ]) { error in
                     if let error = error {
@@ -169,7 +170,6 @@ extension SignUpViewController {
         tierButton.setupShadow(alpha: 0.25, offset: CGSize(width: 2, height: 3), radius: 4, opacity: 0.5)
         tierButton.layer.borderColor = UIColor.rgrgColor6.cgColor
         tierButton.layer.borderWidth = 2
-        
     }
     
     func showPositionSelector() {
@@ -233,21 +233,17 @@ extension SignUpViewController {
         let okAction = UIAlertAction(title: "가입하기", style: .default) { _ in
             self.createUser()
             self.movetoLogin()
-            
         }
         let cancleAction = UIAlertAction(title: "취소", style: .default, handler: nil)
       
         alertController.addAction(cancleAction)
         alertController.addAction(okAction)
      
-        
         present(alertController, animated: true, completion: nil)
     }
-    
 }
 
 extension SignUpViewController {
-    
     func hideKeyboardWhenTappedAround() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(SignUpViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
@@ -373,7 +369,6 @@ extension SignUpViewController {
         
         tierButton.snp.makeConstraints { make in
             make.width.equalToSuperview().dividedBy(2.2)
-            
         }
         
         positionButton.layer.cornerRadius = 10
