@@ -11,8 +11,11 @@ import SnapKit
 import UIKit
 
 class SettingViewController: UIViewController {
+    let developInfoVC = DeveloperInfoViewController()
+    let reportVC = ReportViewController()
+
     let settingList = [
-        "로그아웃", "회원탈퇴"
+        "로그아웃", "회원탈퇴", "신고하기", "개발자 정보"
     ]
 
     let settingTable: UITableView = {
@@ -32,6 +35,11 @@ extension SettingViewController {
         super.viewDidLoad()
 
         navigationController?.navigationBar.isHidden = false
+        configureUI()
+        setupSettingTable()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
         configureUI()
         setupSettingTable()
     }
@@ -96,6 +104,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = settingList[indexPath.row]
         if indexPath.row == 0 {
             signOut()
             navigationController?.pushViewController(loginVC, animated: true)
@@ -104,6 +113,18 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.row == 1 {
             deleteUser()
             navigationController?.popToRootViewController(animated: true)
+        }
+
+        if indexPath.row == 2 {
+            reportVC.title = item
+
+            navigationController?.pushViewController(reportVC, animated: true)
+        }
+
+        if indexPath.row == 3 {
+            developInfoVC.title = item
+            developInfoVC.viewWillAppear(true)
+            navigationController?.pushViewController(developInfoVC, animated: true)
         }
     }
 }

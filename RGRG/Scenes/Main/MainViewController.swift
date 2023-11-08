@@ -10,13 +10,51 @@ import UIKit
 
 // MARK: 프로퍼티 생성
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, SendSelectedOptionDelegate {
+    func sendSelectedOption(tier: String, position: String) {
+        updateOptionLabel(tier: tier, position: position)
+        if tier == "" {
+            if position == "" {
+                PartyManager.shared.updateParty(tier: tierName, position: positionName) { [weak self] parties in
+                    self?.partyList = parties // [PartyInfo] = [PartyInfo]
+                    DispatchQueue.main.async {
+                        self?.patryListTable.reloadData()
+                    }
+                }
+            } else {
+                PartyManager.shared.updateParty(tier: tierName, position: [position]) { [weak self] parties in
+                    self?.partyList = parties // [PartyInfo] = [PartyInfo]
+                    DispatchQueue.main.async {
+                        self?.patryListTable.reloadData()
+                    }
+                }
+            }
+        } else {
+            if position == "" {
+                PartyManager.shared.updateParty(tier: [tier], position: positionName) { [weak self] parties in
+                    self?.partyList = parties // [PartyInfo] = [PartyInfo]
+                    DispatchQueue.main.async {
+                        self?.patryListTable.reloadData()
+                    }
+                }
+            } else {
+                PartyManager.shared.updateParty(tier: [tier], position: [position]) { [weak self] parties in
+                    self?.partyList = parties // [PartyInfo] = [PartyInfo]
+                    DispatchQueue.main.async {
+                        self?.patryListTable.reloadData()
+                    }
+                }
+            }
+        }
+    }
+ 
     let testButton = CustomButton(frame: .zero)
-    //    var selectedTier: [String] = ["Emerald"]
-    //    var selectedPosition: [String] = ["Top"]
     
     var selectedTier: [String] = ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Emerald", "Diamond", "Master", "GrandMaster", "Challenger"]
     var selectedPosition: [String] = ["Top", "Jungle", "Mid", "Bottom", "Support"]
+    
+    let tierName: [String] = ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Emerald", "Diamond", "Master", "GrandMaster", "Challenger"]
+    let positionName: [String] = ["Top", "Jungle", "Mid", "Bottom", "Support"]
     
     var selectiedTierArray: [String] = []
     
@@ -171,11 +209,8 @@ extension MainViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureUI()
-        
         patryListTable.register(PartyTableViewCell.self, forCellReuseIdentifier: "PartyTableViewCell")
-//        self.navigationController?.navigationBar.isHidden = true;
         patryListTable.delegate = self
         patryListTable.dataSource = self
     }
@@ -190,11 +225,11 @@ extension MainViewController {
 extension MainViewController {
     func updateOptionLabel(tier: String, position: String) {
         // selectedTier 및 selectedPosition의 값에 따라 tierOptionLabel 업데이트
-        if tier != "default", position != "default" {
+        if tier != "", position != "" {
             tierOptionLabel.setTitle(" \(tier) ", for: .normal)
             positionOptionLabel.setTitle(" \(position) ", for: .normal)
             
-            if let tierColor = tierColors[tier ?? "Gold"] {
+            if let tierColor = tierColors[tier] {
                 tierOptionLabel.setTitleColor(tierColor, for: .normal)
             }
             tierOptionLabel.layer.borderColor = UIColor.rgrgColor3.cgColor
@@ -202,12 +237,15 @@ extension MainViewController {
             positionOptionLabel.tintColor = .rgrgColor3
             positionOptionLabel.setTitleColor(.rgrgColor3, for: .normal)
             positionOptionLabel.layer.borderColor = UIColor.rgrgColor3.cgColor
-        } else if tier != "default", position == "default" {
+            
+            selectedTier = [tier]
+            selectedPosition = [position]
+        } else if tier != "", position == "" {
             // 티어만 선택된 경우
             tierOptionLabel.setTitle(" \(tier) ", for: .normal)
             positionOptionLabel.setTitle("포지션 ", for: .normal)
             
-            if let tierColor = tierColors[tier ?? "Gold"] {
+            if let tierColor = tierColors[tier] {
                 tierOptionLabel.setTitleColor(tierColor, for: .normal)
             }
             tierOptionLabel.layer.borderColor = UIColor.rgrgColor3.cgColor
@@ -215,7 +253,10 @@ extension MainViewController {
             positionOptionLabel.tintColor = .rgrgColor7
             positionOptionLabel.setTitleColor(.rgrgColor7, for: .normal)
             positionOptionLabel.layer.borderColor = UIColor.rgrgColor7.cgColor
-        } else if tier == "default", position != "default" {
+            
+            selectedTier = [tier]
+            selectedPosition = ["Top", "Jungle", "Mid", "Bottom", "Support"]
+        } else if tier == "", position != "" {
             // 포지션만 선택된 경우
             tierOptionLabel.setTitle("티어 ", for: .normal)
             positionOptionLabel.setTitle(" \(position) ", for: .normal)
@@ -228,7 +269,10 @@ extension MainViewController {
             positionOptionLabel.tintColor = .rgrgColor3
             positionOptionLabel.setTitleColor(.rgrgColor3, for: .normal)
             positionOptionLabel.layer.borderColor = UIColor.rgrgColor3.cgColor
-        } else if tier == "default", position == "default" {
+            
+            selectedTier = ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Emerald", "Diamond", "Master", "GrandMaster", "Challenger"]
+            selectedPosition = [position]
+        } else if tier == "", position == "" {
             // 둘 다 nil인 경우
             tierOptionLabel.setTitle("티어 ", for: .normal)
             positionOptionLabel.setTitle("포지션 ", for: .normal)
@@ -321,7 +365,7 @@ extension MainViewController {
                 print("111####### CurrentUser Info ::: \(user)")
                 self.currentUser = user
             })
-            await PartyManager.shared.loadParty(tier: selectedTier, position: selectedPosition) { [weak self] parties in
+            await PartyManager.shared.loadParty { [weak self] parties in
                 self?.partyList = parties // [PartyInfo] = [PartyInfo]
                 print("2222######## \(self?.partyList)")
                 DispatchQueue.main.async {
@@ -343,18 +387,8 @@ extension MainViewController {
     }
     
     @objc func searchOptionButtonTapped() {
-        let searchOptionVC = SearchOptionVC()
-//        searchOptionVC.selectedTierOption = selectedTier.first
-//        searchOptionVC.selectedPositionOption = selectedPosition.first
-
-        searchOptionVC.onConfirmation = { [weak self] selectedTier, selectedPosition in
-            self?.selectedTier = selectedTier
-            self?.selectedPosition = selectedPosition
-            self?.updateOptionLabel(tier: selectedTier.first ?? "", position: selectedPosition.first ?? "")
-            
-            self?.viewWillAppear(true)
-            print("**************\(selectedTier)*************")
-        }
+        let searchOptionVC = SearchOptionViewController()
+        searchOptionVC.delegate = self
         present(searchOptionVC, animated: true, completion: nil)
     }
 }

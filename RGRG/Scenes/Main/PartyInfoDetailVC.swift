@@ -350,6 +350,7 @@ class PartyInfoDetailVC: UIViewController {
         if user?.uid == party?.writer {
             makeRightBarButton()
         }
+
     }
     
     func configureUI() {
@@ -570,6 +571,7 @@ extension PartyInfoDetailVC {
         let latestSortAction = rightBarButtonItem.makeSingleAction(title: "게시글 수정", attributes: .keepsMenuPresented, state: .off) { _ in
             print("### 수정하기 알파입니다.")
             let editVC = CreatePartyVC()
+
             editVC.thread = self.partyID
             editVC.tag = 2
             editVC.user = self.user
@@ -577,6 +579,7 @@ extension PartyInfoDetailVC {
             editVC.partyNameTextField.text = self.party?.title
             editVC.hopePositionArray = self.party?.hopePosition
             editVC.infoTextView.text = self.party?.content
+
             
             self.navigationController?.pushViewController(editVC, animated: true)
         }
@@ -585,6 +588,7 @@ extension PartyInfoDetailVC {
             guard let self = self else { return }
             
             PartyManager.shared.deleteParty(thread: partyID) {
+
                 let vc = MainViewController()
                 vc.viewWillAppear(true)
                 self.navigationController?.popViewController(animated: true)

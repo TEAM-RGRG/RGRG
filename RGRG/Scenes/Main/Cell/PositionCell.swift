@@ -25,7 +25,7 @@ class PositionCell: UICollectionViewCell {
     let positionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        label.font = UIFont.myBoldSystemFont(ofSize: 15)
         label.textColor = .gray
         label.textAlignment = .center
         return label
