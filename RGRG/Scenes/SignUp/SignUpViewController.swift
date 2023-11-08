@@ -100,10 +100,7 @@ extension SignUpViewController {
     @objc func tapSignUP() {
         // ture 값전달할 수 있도록 변경
         if idPass, pwPass, pwCheckPass, nickNamePass {
-            createUser()
-            movetoLogin()
-        } else {
-            showAlert(title: "필수항목 확인 필요", message: "")
+            emailConfirmAlert(title: "이메일 사용 확인", message: "password 확인 시 \n 현재 이메일 주소가 사용됩니다")
         }
     }
     
@@ -221,11 +218,28 @@ extension SignUpViewController {
         }
     }
     
-    func showAlert(title: String, message: String) {
+    func conditionAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
         alertController.addAction(okAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func emailConfirmAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "가입하기", style: .default) { _ in
+            self.createUser()
+            self.movetoLogin()
+            
+        }
+        let cancleAction = UIAlertAction(title: "취소", style: .default, handler: nil)
+      
+        alertController.addAction(cancleAction)
+        alertController.addAction(okAction)
+     
         
         present(alertController, animated: true, completion: nil)
     }

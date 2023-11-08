@@ -117,7 +117,7 @@ class CustomMemberInfoBox : UIView {
                             
                             passView?.isHidden = true
                             duplicationMessage.isHidden = false
-                            duplicationMessage.text = "사용중인 이메일"
+                            duplicationMessage.text = "사용불가"
                             nonPassView?.isHidden = true
                             passHandler?(false)
                         }
@@ -133,7 +133,7 @@ class CustomMemberInfoBox : UIView {
                         } else  {
                             passView?.isHidden = true
                             duplicationMessage.isHidden = false
-                            duplicationMessage.text = "사용중인 닉네임"
+                            duplicationMessage.text = "사용불가"
                             nonPassView?.isHidden = true
                             passHandler?(false)
                         }
@@ -279,7 +279,7 @@ class CustomMemberInfoBox : UIView {
             self.inputBox.textColor = UIColor(hex: "505050")
             self.eyesIcon.tintColor = UIColor.gray
         case "resetPW" :
-            self.layer.borderColor = UIColor.systemYellow.cgColor
+            self.layer.borderColor = UIColor.rgrgColor3.cgColor
             self.inputBox.textColor = UIColor(hex: "505050")
         default:
             break

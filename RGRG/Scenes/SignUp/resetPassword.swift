@@ -36,6 +36,7 @@ class resetPassword: UIViewController {
     }()
     
     override func viewDidLoad() {
+        title = "비밀번호 찾기"
         super.viewDidLoad()
         view.backgroundColor = UIColor.rgrgColor5
         setupUI()
