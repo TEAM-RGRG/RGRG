@@ -85,7 +85,6 @@ class MainViewController: UIViewController {
         button.setImage(UIImage(named: "bell")?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.tintColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1)
         button.layer.cornerRadius = 8
-        button.isHidden = true
         button.addTarget(self, action: #selector(noticePagebuttonTapped), for: .touchUpInside)
         return button
     }()
@@ -318,12 +317,12 @@ extension MainViewController {
         Task {
             print("############\(selectedTier)#####\(selectedPosition)##########")
             await FirebaseUserManager.shared.getUserInfo(complition: { user in
-                print("111####### CurrentUser Info ::: \(user)")
+                print("### CurrentUser Info ::: \(user)")
                 self.currentUser = user
             })
             await PartyManager.shared.loadParty(tier: selectedTier, position: selectedPosition) { [weak self] parties in
                 self?.partyList = parties // [PartyInfo] = [PartyInfo]
-                print("2222######## \(self?.partyList)")
+                print("### \(self?.partyList)")
                 DispatchQueue.main.async {
                     self?.patryListTable.reloadData()
                 }
@@ -370,7 +369,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         let item = partyList[indexPath.row]
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "PartyTableViewCell", for: indexPath) as? PartyTableViewCell else { return UITableViewCell() }
         
-        cell.titleNameLabel.text = item.title
+        cell.userNameLabel.text = item.userName
         cell.profileImage.image = UIImage(named: item.profileImage)
         cell.profileImage.layer.masksToBounds = true
         cell.positionImage.image = UIImage(named: item.position)
@@ -401,12 +400,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             return UIColor.emerald
         case "Diamond":
             return UIColor.diamond
-        case "Master":
-            return UIColor.master
-        case "GrandMaster":
-            return UIColor.grandMaster
-        case "Challenger":
-            return UIColor.challenger
         default:
             return UIColor.black
         }

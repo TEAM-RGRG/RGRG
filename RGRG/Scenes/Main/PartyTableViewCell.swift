@@ -56,7 +56,7 @@ class PartyTableViewCell: UITableViewCell {
         return imageView
     }()
 
-    let titleNameLabel: UILabel = {
+    let userNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
@@ -136,7 +136,7 @@ class PartyTableViewCell: UITableViewCell {
         cellFrameView.addSubview(positionImageFrame)
         positionImageFrame.addSubview(positionImage)
         
-        cellFrameView.addSubview(titleNameLabel)
+        cellFrameView.addSubview(userNameLabel)
         cellFrameView.addSubview(tierLabelFrame)
         tierLabelFrame.addSubview(tierLabel)
         
@@ -173,13 +173,13 @@ class PartyTableViewCell: UITableViewCell {
             $0.bottom.equalTo(positionImageFrame.snp.bottom).offset(-2)
         }
 
-        titleNameLabel.snp.makeConstraints {
+        userNameLabel.snp.makeConstraints {
             $0.top.equalTo(cellFrameView.snp.top).offset(14)
             $0.leading.equalTo(profileImage.snp.trailing).offset(18)
         }
         
         tierLabelFrame.snp.makeConstraints {
-            $0.top.equalTo(titleNameLabel.snp.bottom).offset(8)
+            $0.top.equalTo(userNameLabel.snp.bottom).offset(8)
             $0.leading.equalTo(profileImage.snp.trailing).offset(16)
             $0.width.equalTo(130)
             $0.bottom.equalTo(cellFrameView.snp.bottom).offset(-14)

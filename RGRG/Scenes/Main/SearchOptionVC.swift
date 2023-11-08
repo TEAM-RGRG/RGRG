@@ -205,7 +205,7 @@ extension SearchOptionVC: UICollectionViewDelegate, UICollectionViewDataSource, 
                 headerView.titleLabel.text = "티어"
                 headerView.backgroundColor = .white
             } else {
-                headerView.titleLabel.text = "포지션"
+                headerView.titleLabel.text = "희망 포지션"
                 headerView.backgroundColor = .white
             }
             return headerView
