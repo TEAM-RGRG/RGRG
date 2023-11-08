@@ -24,8 +24,8 @@ class EditProfileViewController: UIViewController, SendSelectedIconDelegate, Sen
         selectedImage = iconString
         profileImage.image = UIImage(named: selectedImage ?? "Default")
     }
-    
-    var delegate : SendUpdatedUserDelegate?
+
+    var delegate: SendUpdatedUserDelegate?
 
     var user: User?
     let wholeView = UIView()
@@ -291,9 +291,8 @@ extension EditProfileViewController {
     func setNavigationController() {
         navigationController?.navigationBar.isHidden = false
         navigationItem.title = "프로필 수정"
-        self.navigationController?.navigationBar.topItem?.title = ""
-        self.navigationController?.navigationBar.tintColor = .rgrgColor4
-        
+        navigationController?.navigationBar.topItem?.title = ""
+        navigationController?.navigationBar.tintColor = .rgrgColor4
     }
 
     func setupTextField() {
@@ -377,7 +376,7 @@ extension EditProfileViewController {
             FirebaseUserManager.shared.updateUserInfo(userInfo: updatedUser)
             FirebaseUpdateManager.shared.partyUserUpdate(user: updatedUser)
             FirebaseUpdateManager.shared.channelsUserUpdate(updateProfile: updatedUser.profilePhoto)
-            
+
             delegate?.sendUpdatedUser(user: updatedUser)
             navigationController?.popViewController(animated: true)
         }
