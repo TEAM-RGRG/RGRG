@@ -16,11 +16,17 @@ class CreatePartyVC: UIViewController {
     var firstPickedPosition: UIButton?
     var secondPickedPosition: UIButton?
     
-    var thread: String?
-    var tag: Int?
-   
+    let placeholderLabel = UILabel()
+    let rightBarButtonItem = CustomBarButton()
+    
+    let textViewPlaceholder = "짧은 게시글 내용을 작성해주세요.(최대 200자)"
+
     var selectedPositionArry: [String] = ["", ""]
     
+    var eventHandler: ((PartyInfo) -> Void)?
+    
+    var thread: String?
+    var tag = 1 // 생성 : 1 || 수정 : 2
     var currentTextFieldCount = 0
     var currentTextViewCount = 0
     
@@ -50,7 +56,6 @@ class CreatePartyVC: UIViewController {
         return label
     }()
     
-    
     let partyNameLabel: UILabel = {
         let label = UILabel()
         label.text = "제목"
@@ -67,10 +72,7 @@ class CreatePartyVC: UIViewController {
         let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.size.height))
         textField.leftView = leftPaddingView
         textField.leftViewMode = .always
-        let rightPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.size.height))
-        textField.rightView = rightPaddingView
-        textField.rightViewMode = .always
-        textField.becomeFirstResponder()
+        textField.clearButtonMode = .whileEditing
         return textField
     }()
     
@@ -213,8 +215,7 @@ class CreatePartyVC: UIViewController {
         textView.backgroundColor = .white
         textView.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         textView.layer.cornerRadius = 10
-        textView.text = ""
-//        textView.becomeFirstResponder()
+
         textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         return textView
     }()
@@ -225,18 +226,17 @@ class CreatePartyVC: UIViewController {
         label.textColor = .rgrgColor7
         label.text = "0/25"
         label.textAlignment = .right
-       return label
+        return label
     }()
     
     var currentTextCountLabel: UILabel = {
         var label = UILabel()
         label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         label.textColor = .rgrgColor7
-        label.text = "0/500"
+        label.text = "0/200"
         label.textAlignment = .right
-       return label
+        return label
     }()
-    
     
     let confirmationButton: UIButton = {
         let button = UIButton()
@@ -255,26 +255,32 @@ class CreatePartyVC: UIViewController {
     
     func task() {
         if let user = user {
-            let hopePosition = [selectedPositionArry[0] , selectedPositionArry[1]]
+            let hopePosition = [selectedPositionArry[0], selectedPositionArry[1]]
             
             let party = PartyInfo(champion: [user.mostChampion[0], user.mostChampion[1], user.mostChampion[2]], content: infoTextView.text ?? "", date: FireStoreManager.shared.dateFormatter(value: Date.now), hopePosition: hopePosition, profileImage: user.profilePhoto, tier: user.tier, title: partyNameTextField.text ?? "", userName: user.userName, writer: user.userName, position: user.position)
             
             Task {
-                await PartyManager.shared.addParty(party: party) { party in
-                    print("### 업로드 된 :: \(party)")
-                    self.navigationController?.popViewController(animated: true)
+                if tag == 1 {
+                    await PartyManager.shared.addParty(party: party) { party in
+                        print("### 업로드 된 :: \(party)")
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                } else {
+                    print("#### 여기 실행!!")
+                    
+                    if thread != nil {
+                        await PartyManager.shared.updateParty(party: party, thread: thread ?? "n/a") { data in
+                            print("##### 여기 실행되어야함")
+                            self.eventHandler?(data)
+                            self.navigationController?.popViewController(animated: true)
+                        }
+                    }
                 }
             }
         }
     }
     
     @objc func tappedConfirmationButton(_ sender: UIButton) {
-//        if selectedPositionArry[0] == "" && selectedPositionArry[1] == "" || partyNameTextField.text?.isEmpty != true || infoTextView.text.isEmpty != true {
-//            let alert = UIAlertController(title: "", message: "입력을 완료해주세요.", preferredStyle: .actionSheet)
-//            let sucess = UIAlertAction(title: "확인", style: .default){ action in
-//                print("확인 버튼이 눌렸습니다.")
-//            }
-//        }
         task()
     }
     
@@ -336,6 +342,7 @@ class CreatePartyVC: UIViewController {
                 bottomLabel.text = ""
                 supportLabel.text = ""
             }
+
         } else {
             topLabel.text = ""
             jungleLabel.text = ""
@@ -375,6 +382,7 @@ class CreatePartyVC: UIViewController {
                 bottomLabel.text = ""
                 supportLabel.text = ""
             }
+
         } else {
             topLabel.text = ""
             jungleLabel.text = ""
@@ -384,10 +392,6 @@ class CreatePartyVC: UIViewController {
         }
         updateConfirmationButton()
     }
-    
-   
-    
-    
     
     func updateConfirmationButton() {
         if selectedPositionArry[0] != "" && selectedPositionArry[1] != "" && partyNameTextField.text?.isEmpty != true && infoTextView.text.isEmpty != true {
@@ -399,8 +403,6 @@ class CreatePartyVC: UIViewController {
         }
     }
 
-    
-   
     // MARK: - KeyBoard
 
     var bottomButtonConstraint: NSLayoutConstraint?
@@ -454,10 +456,11 @@ class CreatePartyVC: UIViewController {
         infoTextView.delegate = self
 //        title = titleLabel
         
-        
         configureUI()
-        addPlaceholderToTextView()
+//        addPlaceholderToTextView()
         addKeyboardNotifications()
+        addPlaceholderToTextView()
+        makeRightBarButton()
     }
     
     @objc func backButtonTapped() {
@@ -534,7 +537,6 @@ class CreatePartyVC: UIViewController {
 //            $0.leading.equalTo(contentView.snp.leading).offset(28)
         }
         
-        
         partyNameLabel.snp.makeConstraints {
             $0.top.equalTo(topFrame.snp.bottom).offset(32)
             $0.leading.equalToSuperview().offset(28)
@@ -604,21 +606,73 @@ class CreatePartyVC: UIViewController {
             $0.centerX.equalTo(view)
         }
     }
+    
+    func addPlaceholderToTextView() {
+        infoTextView.text = textViewPlaceholder
+        infoTextView.textColor = UIColor(hex: "#ADADAD")
+        ////        placeholderLabel.font = infoTextView.font
+//        placeholderLabel.numberOfLines = 0
+//        placeholderLabel.sizeToFit()
+//        placeholderLabel.frame.origin = CGPoint(x: 10, y: infoTextView.textContainerInset.top)
+//        placeholderLabel.tag = 100
+//
+//        infoTextView.addSubview(placeholderLabel)
+
+        // 텍스트 뷰에 터치 제스처 추가
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+//        infoTextView.addGestureRecognizer(tapGesture)
+    }
+//
+//    @objc func handleTap() {
+//        infoTextView.viewWithTag(100)?.isHidden = true
+//        infoTextView.isEditable = true
+//        infoTextView.becomeFirstResponder()
+//    }
 }
 
+extension CreatePartyVC {
+    func makeRightBarButton() {
+        // 액션 만들기 >> 메뉴 만들기 >> UIBarButtonItem 만들기
+
+        rightBarButtonItem.title = "초기화"
+        rightBarButtonItem.target = self
+        rightBarButtonItem.action = #selector(tappedResetButton)
+
+        navigationItem.rightBarButtonItem?.changesSelectionAsPrimaryAction = false
+
+        rightBarButtonItem.tintColor = UIColor(hex: "#0C356A")
+        navigationItem.rightBarButtonItem = rightBarButtonItem
+    }
+
+    @objc func tappedResetButton(_ sender: UIBarButtonItem) {
+        partyNameTextField.text = nil
+        infoTextView.text = textViewPlaceholder
+        infoTextView.textColor = UIColor(hex: "#ADADAD")
+        
+        positionOptionButtonArry.removeAll()
+        firstPickedPosition = nil
+        secondPickedPosition = nil
+        updatePositionLabels()
+        updateSecondPositionLabels()
+        updateConfirmationButton()
+        
+        textCountLabel.text = "\(0)/25"
+        currentTextCountLabel.text = "\(0)/200"
+
+        partyNameTextField.resignFirstResponder()
+        infoTextView.resignFirstResponder()
+    }
+}
 
 extension CreatePartyVC: UITextFieldDelegate {
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         return true
     }
 
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        print("#### 264 호출")
-        textCountLabel.text = "\(0)/26"
+        textCountLabel.text = "\(0)/25"
         return true
     }
-    
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let currentText = textField.text ?? ""
@@ -630,9 +684,6 @@ extension CreatePartyVC: UITextFieldDelegate {
         currentTextFieldCount = changedText.count
         textCountLabel.text = "\(currentTextFieldCount)/25"
         return currentTextFieldCount < 25
-        
-        
-        
         
         if let char = string.cString(using: String.Encoding.utf8) {
             let isBackSpace = strcmp(char, "\\b")
@@ -648,35 +699,28 @@ extension CreatePartyVC: UITextFieldDelegate {
     }
 }
 
-
-
-
 extension CreatePartyVC: UITextViewDelegate {
-    func addPlaceholderToTextView() {
-        let placeholderLabel = UILabel()
-        placeholderLabel.text = "짧은 게시글 내용을 작성해주세요.\n( 최대 500자 )"
-        placeholderLabel.textColor = .systemGray3
-        placeholderLabel.font = infoTextView.font
-        placeholderLabel.numberOfLines = 0
-        placeholderLabel.sizeToFit()
-        placeholderLabel.frame.origin = CGPoint(x: 10, y: infoTextView.textContainerInset.top)
-        placeholderLabel.tag = 100
-        
-        infoTextView.addSubview(placeholderLabel)
-
-        // 텍스트 뷰에 터치 제스처 추가
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        infoTextView.addGestureRecognizer(tapGesture)
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == textViewPlaceholder {
+            textView.text = nil
+            textView.textColor = UIColor(hex: "#505050")
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            textView.text = textViewPlaceholder
+            textView.textColor = UIColor(hex: "#ADADAD")
+        }
     }
 
-    @objc func handleTap() {
-        infoTextView.viewWithTag(100)?.isHidden = true
-        infoTextView.isEditable = true
-        infoTextView.becomeFirstResponder()
+    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+        textView.resignFirstResponder()
+        return true
     }
-
+    
     func textViewDidChange(_ textView: UITextView) {
-        if !textView.text.isEmpty {
+        if textView.text.isEmpty {
             infoTextView.viewWithTag(100)?.isHidden = true
             confirmationButton.isEnabled = !textView.text.isEmpty
             updateConfirmationButton()
@@ -691,10 +735,8 @@ extension CreatePartyVC: UITextViewDelegate {
 
         print("#### 지금 현재 글자 수 \(changedText.count)")
         currentTextViewCount = changedText.count
-        currentTextCountLabel.text = "\(currentTextViewCount)/500"
+        currentTextCountLabel.text = "\(currentTextViewCount)/200"
 
-        return currentTextViewCount < 500
+        return currentTextViewCount < 200
     }
 }
-
-

@@ -38,7 +38,7 @@ extension ChatSettingViewController {
         if let sheetPresentationController = sheetPresentationController {
             sheetPresentationController.detents = [.custom(resolver: { _ in
                 self.setupUI()
-                return 207
+                return 150
             })]
         }
     }
@@ -70,7 +70,7 @@ extension ChatSettingViewController {
     }
     
     func confirms() {
-        confirmBlock()
+//        confirmBlock()
         confirmExit()
         confirmCancel()
     }
@@ -79,7 +79,7 @@ extension ChatSettingViewController {
 extension ChatSettingViewController {
     func setupView() {
         confirmTopBaseView()
-        confirmBlockView()
+//        confirmBlockView()
         confirmExitView()
         confirmLineView()
         confirmCancelView()
@@ -93,7 +93,7 @@ extension ChatSettingViewController {
             make.top.equalTo(view).offset(20)
             make.centerX.equalToSuperview()
             make.leading.equalTo(view).offset(16)
-            make.height.equalTo(101)
+            make.height.equalTo(50)
         }
     }
     
