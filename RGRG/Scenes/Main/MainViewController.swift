@@ -123,6 +123,7 @@ class MainViewController: UIViewController, SendSelectedOptionDelegate {
         button.setImage(UIImage(named: "bell")?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.tintColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1)
         button.layer.cornerRadius = 8
+        button.isHidden = true
         button.addTarget(self, action: #selector(noticePagebuttonTapped), for: .touchUpInside)
         return button
     }()
