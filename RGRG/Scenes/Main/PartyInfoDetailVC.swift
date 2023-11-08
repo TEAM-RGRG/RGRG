@@ -15,10 +15,11 @@ class PartyInfoDetailVC: UIViewController {
     var party: PartyInfo?
     var user: User?
     var partyID = ""
+    var isExist: Bool?
+    var channels: [Channel] = []
+    var existcount = 0
     
     let rightBarButtonItem = CustomBarButton()
-    
-    let createVC = CreatePartyVC()
     
     let topFrame: UIView = {
         let view = UIView()
@@ -264,18 +265,33 @@ class PartyInfoDetailVC: UIViewController {
         setupUI()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        channels.removeAll()
+    }
+    
     // MARK: - ViewWillAppear
     
     override func viewWillAppear(_ animated: Bool) {
+        channels.removeAll()
         navigationController?.navigationBar.isHidden = false
         setupUI()
-//        createVC.actionHandler = { [weak self] party in
-        ////            self?.party = party
-        ////            self?.setupUI()
-//            print("#### \(party)")
-//        }
+        FireStoreManager.shared.loadChannels(collectionName: "channels", filter: party?.writer ?? "n/a") { channels in
+            
+            var hostCount = channels.filter { $0.host == self.user?.uid }
+            var guestCount = channels.filter { $0.guest == self.user?.uid }
+            
+            if hostCount.count > 0 {
+                self.existcount = hostCount.count
+            } else if guestCount.count > 0 {
+                self.existcount = guestCount.count
+            } else {
+                self.existcount = 0
+            }
+
+            print("##### 현재 \(self.existcount)")
+        }
     }
-    
+
     @objc func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
@@ -288,14 +304,28 @@ class PartyInfoDetailVC: UIViewController {
             
             present(alert, animated: true)
         } else {
-            if let user = user {
-                // 자기 자신 user의 uid 필드 필요
-                FireStoreManager.shared.addChannel(channelTitle: party?.writer ?? "n/a", guest: party?.writer ?? "n/a", host: user.uid, channelID: party?.writer ?? "", date: FireStoreManager.shared.dateFormatter(value: Date.now), users: [party?.writer ?? "n/a", user.uid], guestProfile: party?.profileImage ?? "n/a", hostProfile: user.profilePhoto, hostSender: false, guestSender: false) { channel in
-                    print("### 채널 추가 하기 :: \(channel)")
+            if existcount == 0 {
+                // 유저 없음
+                
+                if let user = user {
+                    // 자기 자신 user의 uid 필드 필요
+                    FireStoreManager.shared.addChannel(channelTitle: party?.writer ?? "n/a", guest: party?.writer ?? "n/a", host: user.uid, channelID: party?.writer ?? "", date: FireStoreManager.shared.dateFormatter(value: Date.now), users: [party?.writer ?? "n/a", user.uid], guestProfile: party?.profileImage ?? "n/a", hostProfile: user.profilePhoto, hostSender: false, guestSender: false) { channel in
+                        print("### 채널 추가 하기 :: \(channel)")
+                    }
+                    navigationController?.popViewController(animated: true)
                 }
-                navigationController?.popViewController(animated: true)
+            } else {
+                // 유저 있음
+                showAlert()
             }
         }
+    }
+    
+    func showAlert() {
+        let alert = UIAlertController(title: "해당 유저와 채팅 중입니다.", message: "", preferredStyle: .alert)
+        let confirmAlert = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(confirmAlert)
+        present(alert, animated: true)
     }
     
     func setupUI() {
@@ -573,6 +603,11 @@ extension PartyInfoDetailVC {
             editVC.hopePositionArray = self.party?.hopePosition
             editVC.infoTextView.text = self.party?.content
 
+            editVC.eventHandler = { party in
+                self.party = party
+                self.setupUI()
+            }
+            
             self.navigationController?.pushViewController(editVC, animated: true)
         }
 

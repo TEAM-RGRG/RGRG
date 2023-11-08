@@ -202,6 +202,7 @@ extension MainViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.navigationController?.navigationBar.isHidden = true
+        partyList.removeAll()
         task()
     }
     
@@ -450,3 +451,14 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         navigationController?.pushViewController(detailController, animated: true)
     }
 }
+
+// extension MainViewController {
+//    func removeAllNavigationStack() {
+//        guard let navigationController = navigationController else { return }
+//        var navigationArray = navigationController.viewControllers // To get all UIViewController stack as Array
+//        let temp = navigationArray.last
+//        navigationArray.removeAll()
+//        navigationArray.append(temp!) // To remove all previous UIViewController except the last one
+//        navigationController.viewControllers = navigationArray
+//    }
+// }

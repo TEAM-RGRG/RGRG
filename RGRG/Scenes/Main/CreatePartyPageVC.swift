@@ -18,8 +18,7 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
 
     var selectedPositionArry: [String] = ["", ""]
     
-//    let partyInfoVC = PartyInfoDetailVC()
-//    var actionHandler: ((PartyInfo) -> Void)?
+    var eventHandler: ((PartyInfo) -> Void)?
     
     var thread: String?
     var tag = 1 // 생성 : 1 || 수정 : 2
@@ -246,9 +245,11 @@ class CreatePartyVC: UIViewController, UITextViewDelegate {
                         self.navigationController?.popViewController(animated: true)
                     }
                 } else {
+                    print("#### 여기 실행!!")
                     if thread != nil {
-                        await PartyManager.shared.updateParty(party: party, thread: thread ?? "n/a") {
-//                            self.actionHandler?(party)
+                        await PartyManager.shared.updateParty(party: party, thread: thread ?? "n/a") { data in
+                            print("##### 여기 실행되어야함")
+                            self.eventHandler?(data)
                             self.navigationController?.popViewController(animated: true)
                         }
                     }
@@ -627,16 +628,5 @@ extension CreatePartyVC: UITextFieldDelegate {
         updateConfirmationButton()
         
         return newLength <= 20
-    }
-}
-
-extension CreatePartyVC {
-    func removeAllNavigationStack() {
-        guard let navigationController = navigationController else { return }
-        var navigationArray = navigationController.viewControllers // To get all UIViewController stack as Array
-        let temp = navigationArray.last
-        navigationArray.removeAll()
-        navigationArray.append(temp!) // To remove all previous UIViewController except the last one
-        self.navigationController?.viewControllers = navigationArray
     }
 }
