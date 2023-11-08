@@ -257,7 +257,7 @@ class CreatePartyVC: UIViewController {
         if let user = user {
             let hopePosition = [selectedPositionArry[0] , selectedPositionArry[1]]
             
-            let party = PartyInfo(champion: ["Ahri", "Teemo", "Ashe"], content: infoTextView.text ?? "", date: FireStoreManager.shared.dateFormatter(value: Date.now), hopePosition: hopePosition, profileImage: user.profilePhoto, tier: user.tier, title: partyNameTextField.text ?? "", userName: user.userName, writer: user.userName, position: user.position)
+            let party = PartyInfo(champion: [user.mostChampion[0], user.mostChampion[1], user.mostChampion[2]], content: infoTextView.text ?? "", date: FireStoreManager.shared.dateFormatter(value: Date.now), hopePosition: hopePosition, profileImage: user.profilePhoto, tier: user.tier, title: partyNameTextField.text ?? "", userName: user.userName, writer: user.userName, position: user.position)
             
             Task {
                 await PartyManager.shared.addParty(party: party) { party in
