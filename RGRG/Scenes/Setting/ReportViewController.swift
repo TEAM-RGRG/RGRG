@@ -42,6 +42,7 @@ extension ReportViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         reportTextField.text = nil
+        reportTextField.textColor = UIColor(hex: "#ADADAD")
         reportDescriptionTextView.text = textViewPlaceholder
         reportDescriptionTextView.textColor = UIColor(hex: "#ADADAD")
 
@@ -85,6 +86,7 @@ extension ReportViewController {
     func confirmReportTitle() {
         reportTitle.text = "제목"
         reportTitle.font = UIFont(name: AppFontName.bold, size: 16)
+        reportTitle.textColor = .black
         reportTitle.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(32)
             make.leading.equalTo(view).offset(36)
@@ -96,7 +98,7 @@ extension ReportViewController {
     func confirmReportTextField() {
         reportTextField.delegate = self
         reportTextField.font = UIFont(name: AppFontName.regular, size: 18)
-        reportTextField.placeholder = textFieldPlaceholder
+        reportTextField.attributedPlaceholder = NSAttributedString(string: textFieldPlaceholder, attributes: [NSAttributedString.Key.foregroundColor: UIColor(hex: "#ADADAD")])
         reportTextField.backgroundColor = .white
         reportTextField.layer.cornerRadius = 10
         reportTextField.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 16.0, height: 0.0))
@@ -115,7 +117,7 @@ extension ReportViewController {
     func confirmReportDescription() {
         reportDescriptionTitle.text = "신고 사유🚨"
         reportDescriptionTitle.font = UIFont(name: AppFontName.bold, size: 16)
-
+        reportDescriptionTitle.textColor = .black
         reportDescriptionTitle.snp.makeConstraints { make in
             make.top.equalTo(reportTextField.snp.bottom).offset(20)
             make.leading.equalTo(view).offset(36)
@@ -175,6 +177,7 @@ extension ReportViewController {
 extension ReportViewController {
     func confirmCurrentTextFieldLabel() {
         view.addSubview(currentTextFieldLabel)
+        currentTextFieldLabel.textColor = .black
 
         currentTextFieldLabel.text = "\(currentTextFieldCount)/25"
         currentTextFieldLabel.snp.makeConstraints { make in
@@ -188,6 +191,7 @@ extension ReportViewController {
     func confirmCurrentTextViewLabel() {
         view.addSubview(currentTextViewLabel)
         currentTextViewLabel.text = "\(currentTextViewCount)/200"
+        currentTextViewLabel.textColor = .black
 
         currentTextViewLabel.snp.makeConstraints { make in
             make.top.equalTo(reportDescriptionTextView.snp.bottom).offset(5)
@@ -222,7 +226,7 @@ extension ReportViewController: MFMailComposeViewControllerDelegate {
     func showSendMailErrorAlert() {
         let sendMailErrorAlert = UIAlertController(title: "메일을 전송 실패", message: "아이폰 이메일 설정을 확인하고 다시 시도해주세요.", preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "확인", style: .default) {
-            (_) in
+            _ in
             print("확인")
         }
         sendMailErrorAlert.addAction(confirmAction)
@@ -316,7 +320,7 @@ extension ReportViewController: UITextViewDelegate {
         let size = CGSize(width: view.frame.width, height: .infinity)
         let estimatedSize = textView.sizeThatFits(size)
 
-        textView.constraints.forEach { (_) in
+        textView.constraints.forEach { _ in
 
             if estimatedSize.height <= 80 {
                 textView.isScrollEnabled = false
