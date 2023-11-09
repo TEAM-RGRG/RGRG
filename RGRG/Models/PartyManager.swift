@@ -67,7 +67,7 @@ class PartyManager {
                 }
             }
     }
-    
+
     func loadMyParty(completion: @escaping ([PartyInfo]) -> Void) {
         var partyList: [PartyInfo] = []
         let current = Auth.auth().currentUser?.uid

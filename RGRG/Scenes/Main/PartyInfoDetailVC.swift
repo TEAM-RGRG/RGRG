@@ -598,14 +598,13 @@ extension PartyInfoDetailVC {
             editVC.thread = self.partyID
             editVC.tag = 2
             editVC.user = self.user
-            editVC.firstPickedPosition
             editVC.partyNameTextField.text = self.party?.title
-            editVC.hopePositionArray = self.party?.hopePosition
             editVC.infoTextView.text = self.party?.content
-
+            editVC.hopePositionArray = self.party?.hopePosition
+           
             editVC.eventHandler = { party in
                 self.party = party
-                self.setupUI()
+                self.viewWillAppear(true)
             }
             
             self.navigationController?.pushViewController(editVC, animated: true)
