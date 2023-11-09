@@ -107,12 +107,22 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = settingList[indexPath.row]
         if indexPath.row == 0 {
-            signOut()
-            navigationController?.pushViewController(loginVC, animated: true)
-            removeAllNavigationStack()
+            let alert = UIAlertController(title: "로그아웃", message: "로그아웃 하시겠습니까?", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "로그아웃", style: .cancel, handler: { _ in
+
+                self.signOut()
+                self.navigationController?.pushViewController(self.loginVC, animated: true)
+                self.removeAllNavigationStack()
+            })
+            let cancel = UIAlertAction(title: "취소", style: .default)
+
+            alert.addAction(ok)
+            alert.addAction(cancel)
+
+            present(alert, animated: true)
         }
         if indexPath.row == 1 {
-            let alert = UIAlertController(title: "회원 탈퇴", message: "회원 탈퇴 시 모든 글이 삭제됩니다. 정말로 삭제하시겠습니까?", preferredStyle: .alert)
+            let alert = UIAlertController(title: "회원 탈퇴", message: "회원 탈퇴 시 작성한 글은 삭제되지 않습니다. 정말로 삭제하시겠습니까?", preferredStyle: .alert)
             let ok = UIAlertAction(title: "회원 탈퇴", style: .cancel, handler: { _ in
                 FirebaseUserManager.shared.getUserInfo { user in
                     self.user = user

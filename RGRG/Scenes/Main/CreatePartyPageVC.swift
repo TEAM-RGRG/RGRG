@@ -342,7 +342,6 @@ class CreatePartyVC: UIViewController {
                 bottomLabel.text = ""
                 supportLabel.text = ""
             }
-
         } else {
             topLabel.text = ""
             jungleLabel.text = ""
@@ -382,7 +381,6 @@ class CreatePartyVC: UIViewController {
                 bottomLabel.text = ""
                 supportLabel.text = ""
             }
-
         } else {
             topLabel.text = ""
             jungleLabel.text = ""
@@ -394,7 +392,7 @@ class CreatePartyVC: UIViewController {
     }
     
     func updateConfirmationButton() {
-        if selectedPositionArry[0] != "" && selectedPositionArry[1] != "" && partyNameTextField.text?.isEmpty != true && infoTextView.text.isEmpty != true {
+        if firstPickedPosition != nil && secondPickedPosition != nil && partyNameTextField.text?.isEmpty != true && infoTextView.text.isEmpty != true && infoTextView.text != textViewPlaceholder {
             confirmationButton.isEnabled = true
             confirmationButton.backgroundColor = UIColor.rgrgColor4
         } else {
@@ -687,6 +685,7 @@ extension CreatePartyVC: UITextFieldDelegate {
         print("#### 지금 현재 글자 수 \(changedText.count)")
         currentTextFieldCount = changedText.count
         textCountLabel.text = "\(currentTextFieldCount)/25"
+        updateConfirmationButton()
         return currentTextFieldCount < 25
         
         if let char = string.cString(using: String.Encoding.utf8) {
@@ -698,7 +697,7 @@ extension CreatePartyVC: UITextFieldDelegate {
         
         let newLength = partyNameTextField.text?.count ?? 0 + string.count - range.length
         confirmationButton.isEnabled = !partyNameTextField.text!.isEmpty && newLength <= 26
-        updateConfirmationButton()
+        
         return newLength <= 20
     }
 }
@@ -709,6 +708,7 @@ extension CreatePartyVC: UITextViewDelegate {
             textView.text = nil
             textView.textColor = UIColor(hex: "#505050")
         }
+        updateConfirmationButton()
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -736,8 +736,7 @@ extension CreatePartyVC: UITextViewDelegate {
         
         guard let rangeText = Range(range, in: currentText) else { return false }
         let changedText = currentText.replacingCharacters(in: rangeText, with: text)
-
-        print("#### 지금 현재 글자 수 \(changedText.count)")
+        updateConfirmationButton()
         currentTextViewCount = changedText.count
         currentTextCountLabel.text = "\(currentTextViewCount)/200"
 
