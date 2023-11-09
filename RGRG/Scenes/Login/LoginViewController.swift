@@ -107,8 +107,9 @@ extension LoginViewController {
     }
     
     @objc func tapLogin() {
-        signInUser()
         loginButton.isEnabled = false
+        signInUser()
+     
     }
     
     func signInUser() {
@@ -139,11 +140,9 @@ extension LoginViewController {
     func passValueCheck() {
         emailLine.passHandler = { pass in
             self.loginIdPass = pass
-            print("loginIdPass", self.loginIdPass)
         }
         passwordLine.passHandler = { pass in
             self.loginPwPass = pass
-            print("loginPwPass??", self.loginPwPass)
         }
     }
     
