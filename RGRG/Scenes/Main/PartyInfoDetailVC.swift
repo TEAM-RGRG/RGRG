@@ -23,16 +23,8 @@ class PartyInfoDetailVC: UIViewController {
     
     let topFrame: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .rgrgColor5
         return view
-    }()
-    
-    let pageTitleLabel: UILabel = {
-        var label = UILabel()
-        label.text = ""
-        label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
-        label.textColor = .black
-        return label
     }()
     
     let backButton: UIButton = {
@@ -402,11 +394,10 @@ class PartyInfoDetailVC: UIViewController {
     }
     
     func configureUI() {
-        view.backgroundColor = .rgrgColor5
+        view.backgroundColor = .white
         
         view.addSubview(topFrame)
-        topFrame.addSubview(pageTitleLabel)
-        view.addSubview(contentView)
+        topFrame.addSubview(contentView)
         
         contentView.addSubview(topframeView)
         topframeView.addSubview(profileImage)
@@ -433,18 +424,12 @@ class PartyInfoDetailVC: UIViewController {
         bottomframeView.addSubview(confirmationButton)
         
         topFrame.snp.makeConstraints {
-            $0.top.leading.equalToSuperview().offset(0)
-            $0.trailing.equalToSuperview().offset(0)
-            $0.height.equalTo(90)
-        }
-        
-        pageTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(topFrame.snp.top).offset(62)
-            $0.centerX.equalTo(topFrame)
+            $0.top.left.right.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.equalToSuperview()
         }
         
         contentView.snp.makeConstraints {
-            $0.top.equalTo(topFrame.snp.bottom).offset(10)
+            $0.top.equalTo(topFrame.snp.top).offset(10)
             $0.bottom.equalToSuperview().offset(0)
             $0.leading.equalToSuperview().offset(0)
             $0.trailing.equalToSuperview().offset(0)
