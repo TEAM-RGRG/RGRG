@@ -24,7 +24,9 @@ extension DeveloperCell {
 
     func confirmCell(data: Developer) {
         developerName.text = data.name
+        developerName.textColor = .black
         developerEmail.text = data.email
+        developerEmail.textColor = .black
     }
 }
 
