@@ -418,6 +418,7 @@ class CreatePartyVC: UIViewController {
             let keyboardHeight = keyboardRectangle.height
             if infoTextView.isFirstResponder {
                 self.view.window?.frame.origin.y -= keyboardHeight - 210
+                partyNameTextField.isEnabled = false
             }
         }
     }
@@ -429,6 +430,8 @@ class CreatePartyVC: UIViewController {
                 let keyboardHeight = keyboardRectangle.height
                 if infoTextView.isFirstResponder {
                     self.view.window?.frame.origin.y += keyboardHeight - 210
+                    partyNameTextField.isEnabled = true
+                    partyNameTextField.isEnabled = true
                 }
             }
         }
@@ -656,7 +659,10 @@ extension CreatePartyVC {
         partyNameTextField.text = nil
         infoTextView.text = textViewPlaceholder
         infoTextView.textColor = UIColor(hex: "#ADADAD")
-        
+        for button in positionOptionButtonArry {
+            button.backgroundColor = .rgrgColor6
+            button.layer.borderColor = UIColor.white.cgColor
+        }
         positionOptionButtonArry.removeAll()
         firstPickedPosition = nil
         secondPickedPosition = nil
