@@ -254,6 +254,8 @@ extension ChatDetailViewController {
 
             FireStoreManager.shared.updateChannelSender(thread: self.thread, sender: self.currentUserName, host: self.channelInfo?.host ?? "n/a", guest: self.channelInfo?.guest ?? "n/a", date: FireStoreManager.shared.dateFormatter(value: Date.now))
 
+            let vc = ChatListViewController()
+
             DispatchQueue.main.async {
                 self.textView.text = nil
                 self.textView.textColor = UIColor(hex: "#505050")
@@ -264,6 +266,8 @@ extension ChatDetailViewController {
                     make.width.equalTo(334)
                     make.height.greaterThanOrEqualTo(35)
                 }
+
+                vc.viewWillAppear(true)
                 self.sendMessageIcon.image = UIImage(named: "Send_fill")
             }
         }
