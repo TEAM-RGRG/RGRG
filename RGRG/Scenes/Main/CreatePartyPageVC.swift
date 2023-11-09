@@ -44,22 +44,14 @@ class CreatePartyVC: UIViewController {
     
     let topFrame: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .rgrgColor5
         return view
-    }()
-    
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "RG구하기"
-        label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
-        label.textColor = .black
-        return label
     }()
     
     let partyNameLabel: UILabel = {
         let label = UILabel()
         label.text = "제목"
-        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        label.font = UIFont.myBoldSystemFont(ofSize: 16)
         label.textColor = .black
         return label
     }()
@@ -69,6 +61,7 @@ class CreatePartyVC: UIViewController {
         textField.backgroundColor = .white
         textField.layer.cornerRadius = 8
         textField.placeholder = "제목"
+        textField.font = .myMediumSystemFont(ofSize: 16)
         let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.size.height))
         textField.leftView = leftPaddingView
         textField.leftViewMode = .always
@@ -79,7 +72,7 @@ class CreatePartyVC: UIViewController {
     let positionLabel: UILabel = {
         let label = UILabel()
         label.text = "구하는 포지션"
-        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        label.font = UIFont.myBoldSystemFont(ofSize: 16)
         label.textColor = .black
         return label
     }()
@@ -99,7 +92,7 @@ class CreatePartyVC: UIViewController {
         button.subtitleLabel?.text = "Top"
         button.tag = 1
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
-        button.backgroundColor = .systemGray4
+        button.backgroundColor = .rgrgColor6
         button.layer.cornerRadius = 25
         button.addTarget(self, action: #selector(positionOptionButtonTapped), for: .touchUpInside)
         return button
@@ -111,7 +104,7 @@ class CreatePartyVC: UIViewController {
         button.subtitleLabel?.text = "Jungle"
         button.tag = 2
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
-        button.backgroundColor = .systemGray4
+        button.backgroundColor = .rgrgColor6
         button.layer.cornerRadius = 25
         button.addTarget(self, action: #selector(positionOptionButtonTapped), for: .touchUpInside)
         return button
@@ -123,7 +116,7 @@ class CreatePartyVC: UIViewController {
         button.subtitleLabel?.text = "Mid"
         button.tag = 3
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
-        button.backgroundColor = .systemGray4
+        button.backgroundColor = .rgrgColor6
         button.layer.cornerRadius = 25
         button.addTarget(self, action: #selector(positionOptionButtonTapped), for: .touchUpInside)
         return button
@@ -135,7 +128,7 @@ class CreatePartyVC: UIViewController {
         button.subtitleLabel?.text = "Bottom"
         button.tag = 4
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
-        button.backgroundColor = .systemGray4
+        button.backgroundColor = .rgrgColor6
         button.layer.cornerRadius = 25
         button.addTarget(self, action: #selector(positionOptionButtonTapped), for: .touchUpInside)
         return button
@@ -147,7 +140,7 @@ class CreatePartyVC: UIViewController {
         button.subtitleLabel?.text = "Support"
         button.tag = 5
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
-        button.backgroundColor = .systemGray4
+        button.backgroundColor = .rgrgColor6
         button.layer.cornerRadius = 25
         button.addTarget(self, action: #selector(positionOptionButtonTapped), for: .touchUpInside)
         return button
@@ -166,7 +159,7 @@ class CreatePartyVC: UIViewController {
         let label = UILabel()
         label.text = ""
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.font = UIFont.myMediumSystemFont(ofSize: 12)
         return label
     }()
     
@@ -174,7 +167,7 @@ class CreatePartyVC: UIViewController {
         let label = UILabel()
         label.text = ""
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.font = UIFont.myMediumSystemFont(ofSize: 12)
         return label
     }()
     
@@ -182,7 +175,7 @@ class CreatePartyVC: UIViewController {
         let label = UILabel()
         label.text = ""
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.font = UIFont.myMediumSystemFont(ofSize: 12)
         return label
     }()
     
@@ -190,7 +183,7 @@ class CreatePartyVC: UIViewController {
         let label = UILabel()
         label.text = ""
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.font = UIFont.myMediumSystemFont(ofSize: 12)
         return label
     }()
     
@@ -198,14 +191,14 @@ class CreatePartyVC: UIViewController {
         let label = UILabel()
         label.text = ""
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.font = UIFont.myMediumSystemFont(ofSize: 12)
         return label
     }()
     
     let infoTextLabel: UILabel = {
         let label = UILabel()
         label.text = "소개글"
-        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        label.font = UIFont.myBoldSystemFont(ofSize: 16)
         label.textColor = .black
         return label
     }()
@@ -213,7 +206,7 @@ class CreatePartyVC: UIViewController {
     let infoTextView: UITextView = {
         let textView = UITextView()
         textView.backgroundColor = .white
-        textView.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        textView.font = UIFont.myMediumSystemFont(ofSize: 16)
         textView.layer.cornerRadius = 10
 
         textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
@@ -222,7 +215,7 @@ class CreatePartyVC: UIViewController {
     
     var textCountLabel: UILabel = {
         var label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        label.font = UIFont.myMediumSystemFont(ofSize: 15)
         label.textColor = .rgrgColor7
         label.text = "0/25"
         label.textAlignment = .right
@@ -231,7 +224,7 @@ class CreatePartyVC: UIViewController {
     
     var currentTextCountLabel: UILabel = {
         var label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        label.font = UIFont.myMediumSystemFont(ofSize: 15)
         label.textColor = .rgrgColor7
         label.text = "0/200"
         label.textAlignment = .right
@@ -240,7 +233,7 @@ class CreatePartyVC: UIViewController {
     
     let confirmationButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
+        button.titleLabel?.font = .myBoldSystemFont(ofSize: 15)
         button.setTitle("작성 완료", for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
 //        button.backgroundColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1)
@@ -287,7 +280,7 @@ class CreatePartyVC: UIViewController {
     @objc func positionOptionButtonTapped(_ sender: UIButton) {
         if positionOptionButtonArry.isEmpty {
             sender.isSelected = true
-            sender.backgroundColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1)
+            sender.backgroundColor = UIColor.rgrgColor4
             firstPickedPosition = sender
             positionOptionButtonArry.append(sender)
             updatePositionLabels()
@@ -300,7 +293,7 @@ class CreatePartyVC: UIViewController {
             updateSecondPositionLabels()
         } else {
             for button in positionOptionButtonArry {
-                button.backgroundColor = .systemGray4
+                button.backgroundColor = .rgrgColor6
                 button.layer.borderColor = UIColor.white.cgColor
             }
             positionOptionButtonArry.removeAll()
@@ -409,35 +402,75 @@ class CreatePartyVC: UIViewController {
         view.endEditing(true)
     }
     
-    func addKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    
+    func setKeyboardObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object:nil)
     }
 
-    func removeKeyboardNotifications() {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-        
-    @objc func keyboardWillShow(_ noti: NSNotification) {
-        if let keyboardFrame: NSValue = noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            let keyboardHeight = keyboardRectangle.height
-            if #available(iOS 11.0, *) {
-                let bottomInset = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.safeAreaInsets.bottom ?? 0
-                let adjustedKeyboardHeight = keyboardHeight - bottomInset
-                bottomButtonConstraint?.constant = -adjustedKeyboardHeight
-            } else {
-                bottomButtonConstraint?.constant = -keyboardHeight
-            }
-            view.layoutIfNeeded()
+    
+    
+    func setKeyboardNotification() {
+          
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object:nil)
+            
         }
-    }
-
-    @objc func keyboardWillHide(_ noti: NSNotification) {
-        bottomButtonConstraint?.constant = 0
-        view.layoutIfNeeded()
-    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+          if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+                  let keyboardRectangle = keyboardFrame.cgRectValue
+                  let keyboardHeight = keyboardRectangle.height
+              UIView.animate(withDuration: 1) {
+                  self.view.window?.frame.origin.y -= keyboardHeight
+              }
+          }
+      }
+    
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+           if self.view.window?.frame.origin.y != 0 {
+               if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+                       let keyboardRectangle = keyboardFrame.cgRectValue
+                       let keyboardHeight = keyboardRectangle.height
+                   UIView.animate(withDuration: 1) {
+                       self.view.window?.frame.origin.y += keyboardHeight
+                   }
+               }
+           }
+       }
+    
+    
+//    func addKeyboardNotifications() {
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+//    }
+//
+//    func removeKeyboardNotifications() {
+//        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+//        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+//    }
+//        
+//    @objc func keyboardWillShow(_ noti: NSNotification) {
+//        if let keyboardFrame: NSValue = noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+//            let keyboardRectangle = keyboardFrame.cgRectValue
+//            let keyboardHeight = keyboardRectangle.height
+//            if #available(iOS 11.0, *) {
+//                let bottomInset = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.safeAreaInsets.bottom ?? 0
+//                let adjustedKeyboardHeight = keyboardHeight - bottomInset
+//                bottomButtonConstraint?.constant = -adjustedKeyboardHeight
+//            } else {
+//                bottomButtonConstraint?.constant = -keyboardHeight
+//            }
+//            view.layoutIfNeeded()
+//        }
+//    }
+//
+//    @objc func keyboardWillHide(_ noti: NSNotification) {
+//        bottomButtonConstraint?.constant = 0
+//        view.layoutIfNeeded()
+//    }
     
     // MARK: - ViewWillAppear
     
@@ -460,7 +493,9 @@ class CreatePartyVC: UIViewController {
         
         configureUI()
 //        addPlaceholderToTextView()
-        addKeyboardNotifications()
+//        addKeyboardNotifications()
+        setKeyboardObserver()
+        
         
         makeRightBarButton()
     }
@@ -472,37 +507,41 @@ class CreatePartyVC: UIViewController {
     // MARK: - configureUI
     
     func configureUI() {
-        view.backgroundColor = .rgrgColor5
+        view.backgroundColor = .white
         
         view.addSubview(topFrame)
-        topFrame.addSubview(titleLabel)
-    
-        view.addSubview(partyNameLabel)
-        view.addSubview(partyNameTextField)
-        view.addSubview(positionLabel)
-        view.addSubview(positionFramView)
+        setUIShadow()
+
+        topFrame.addSubview(partyNameLabel)
+        topFrame.addSubview(partyNameTextField)
+        topFrame.addSubview(positionLabel)
+        topFrame.addSubview(positionFramView)
         positionFramView.addArrangedSubview(topPositionbutton)
         positionFramView.addArrangedSubview(junglePositionbutton)
         positionFramView.addArrangedSubview(midPositionbutton)
         positionFramView.addArrangedSubview(bottomPositionbutton)
         positionFramView.addArrangedSubview(supportPositionbutton)
-        view.addSubview(positionLabelFramView)
+        topFrame.addSubview(positionLabelFramView)
         positionLabelFramView.addArrangedSubview(topLabel)
         positionLabelFramView.addArrangedSubview(jungleLabel)
         positionLabelFramView.addArrangedSubview(midLabel)
         positionLabelFramView.addArrangedSubview(bottomLabel)
         positionLabelFramView.addArrangedSubview(supportLabel)
     
-        view.addSubview(infoTextLabel)
-        view.addSubview(infoTextView)
-        view.addSubview(textCountLabel)
-        view.addSubview(currentTextCountLabel)
-        view.addSubview(confirmationButton)
+        topFrame.addSubview(infoTextLabel)
+        topFrame.addSubview(infoTextView)
+        topFrame.addSubview(textCountLabel)
+        topFrame.addSubview(currentTextCountLabel)
+        topFrame.addSubview(confirmationButton)
         
+        // 네비게이션 타이틀
+        navigationItem.title = "RG 구하기"
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "NotoSansKR-Bold", size: 17)!, NSAttributedString.Key.foregroundColor: UIColor.black]
+
         // 네비게이션 바 왼쪽 버튼
         let backButton = UIButton(type: .custom)
         backButton.setImage(UIImage(named: "XIcon")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        backButton.tintColor = .black
+        backButton.tintColor = .rgrgColor4
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true // 버튼의 가로 크기
         backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -517,8 +556,8 @@ class CreatePartyVC: UIViewController {
         navigationItem.rightBarButtonItem = rightButton
         
         topFrame.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(88)
+            $0.left.right.top.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.equalToSuperview()
         }
         
 //        scrollView.snp.makeConstraints{
@@ -532,15 +571,8 @@ class CreatePartyVC: UIViewController {
 //            $0.width.equalTo(scrollView)
 //        }
         
-        titleLabel.snp.makeConstraints {
-            $0.bottom.equalTo(topFrame.snp.bottom).offset(-6)
-            $0.centerX.equalToSuperview()
-//            $0.top.equalTo(contentView.snp.top).offset(32)
-//            $0.leading.equalTo(contentView.snp.leading).offset(28)
-        }
-        
         partyNameLabel.snp.makeConstraints {
-            $0.top.equalTo(topFrame.snp.bottom).offset(32)
+            $0.top.equalTo(topFrame.snp.top).offset(32)
             $0.leading.equalToSuperview().offset(28)
 //            $0.top.equalTo(contentView.snp.top).offset(32)
 //            $0.leading.equalTo(contentView.snp.leading).offset(28)
@@ -612,24 +644,8 @@ class CreatePartyVC: UIViewController {
     func addPlaceholderToTextView() {
         infoTextView.text = textViewPlaceholder
         infoTextView.textColor = UIColor(hex: "#ADADAD")
-        ////        placeholderLabel.font = infoTextView.font
-//        placeholderLabel.numberOfLines = 0
-//        placeholderLabel.sizeToFit()
-//        placeholderLabel.frame.origin = CGPoint(x: 10, y: infoTextView.textContainerInset.top)
-//        placeholderLabel.tag = 100
-//
-//        infoTextView.addSubview(placeholderLabel)
 
-        // 텍스트 뷰에 터치 제스처 추가
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-//        infoTextView.addGestureRecognizer(tapGesture)
     }
-//
-//    @objc func handleTap() {
-//        infoTextView.viewWithTag(100)?.isHidden = true
-//        infoTextView.isEditable = true
-//        infoTextView.becomeFirstResponder()
-//    }
 }
 
 extension CreatePartyVC {
@@ -642,7 +658,7 @@ extension CreatePartyVC {
 
         navigationItem.rightBarButtonItem?.changesSelectionAsPrimaryAction = false
 
-        rightBarButtonItem.tintColor = UIColor(hex: "#0C356A")
+        rightBarButtonItem.tintColor = UIColor.rgrgColor3
         navigationItem.rightBarButtonItem = rightBarButtonItem
     }
 
@@ -663,6 +679,12 @@ extension CreatePartyVC {
 
         partyNameTextField.resignFirstResponder()
         infoTextView.resignFirstResponder()
+    }
+    
+    func setUIShadow() {
+        partyNameTextField.setupShadow(alpha: 0.05, offset: CGSize(width: 2, height: 3), radius: 12, opacity: 1)
+        infoTextView.setupShadow(alpha: 0.05, offset: CGSize(width: 2, height: 3), radius: 12, opacity: 1)
+        confirmationButton.setupShadow(alpha: 0.2, offset: CGSize(width: 2, height: 3), radius: 4, opacity: 1)
     }
 }
 
