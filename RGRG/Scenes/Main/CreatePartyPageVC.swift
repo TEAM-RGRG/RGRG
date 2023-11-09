@@ -44,22 +44,14 @@ class CreatePartyVC: UIViewController {
     
     let topFrame: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .rgrgColor5
         return view
-    }()
-    
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "RG구하기"
-        label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
-        label.textColor = .black
-        return label
     }()
     
     let partyNameLabel: UILabel = {
         let label = UILabel()
         label.text = "제목"
-        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        label.font = UIFont.myBoldSystemFont(ofSize: 16)
         label.textColor = .black
         return label
     }()
@@ -69,6 +61,7 @@ class CreatePartyVC: UIViewController {
         textField.backgroundColor = .white
         textField.layer.cornerRadius = 8
         textField.placeholder = "제목"
+        textField.font = .myMediumSystemFont(ofSize: 16)
         let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.size.height))
         textField.leftView = leftPaddingView
         textField.leftViewMode = .always
@@ -79,7 +72,7 @@ class CreatePartyVC: UIViewController {
     let positionLabel: UILabel = {
         let label = UILabel()
         label.text = "구하는 포지션"
-        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        label.font = UIFont.myBoldSystemFont(ofSize: 16)
         label.textColor = .black
         return label
     }()
@@ -166,7 +159,7 @@ class CreatePartyVC: UIViewController {
         let label = UILabel()
         label.text = ""
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.font = UIFont.myMediumSystemFont(ofSize: 12)
         return label
     }()
     
@@ -174,7 +167,7 @@ class CreatePartyVC: UIViewController {
         let label = UILabel()
         label.text = ""
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.font = UIFont.myMediumSystemFont(ofSize: 12)
         return label
     }()
     
@@ -182,7 +175,7 @@ class CreatePartyVC: UIViewController {
         let label = UILabel()
         label.text = ""
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.font = UIFont.myMediumSystemFont(ofSize: 12)
         return label
     }()
     
@@ -190,7 +183,7 @@ class CreatePartyVC: UIViewController {
         let label = UILabel()
         label.text = ""
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.font = UIFont.myMediumSystemFont(ofSize: 12)
         return label
     }()
     
@@ -198,14 +191,14 @@ class CreatePartyVC: UIViewController {
         let label = UILabel()
         label.text = ""
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.font = UIFont.myMediumSystemFont(ofSize: 12)
         return label
     }()
     
     let infoTextLabel: UILabel = {
         let label = UILabel()
         label.text = "소개글"
-        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        label.font = UIFont.myBoldSystemFont(ofSize: 16)
         label.textColor = .black
         return label
     }()
@@ -213,7 +206,7 @@ class CreatePartyVC: UIViewController {
     let infoTextView: UITextView = {
         let textView = UITextView()
         textView.backgroundColor = .white
-        textView.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        textView.font = UIFont.myMediumSystemFont(ofSize: 16)
         textView.layer.cornerRadius = 10
 
         textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
@@ -222,7 +215,7 @@ class CreatePartyVC: UIViewController {
     
     var textCountLabel: UILabel = {
         var label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        label.font = UIFont.myMediumSystemFont(ofSize: 15)
         label.textColor = .rgrgColor7
         label.text = "0/25"
         label.textAlignment = .right
@@ -231,7 +224,7 @@ class CreatePartyVC: UIViewController {
     
     var currentTextCountLabel: UILabel = {
         var label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        label.font = UIFont.myMediumSystemFont(ofSize: 15)
         label.textColor = .rgrgColor7
         label.text = "0/200"
         label.textAlignment = .right
@@ -240,7 +233,7 @@ class CreatePartyVC: UIViewController {
     
     let confirmationButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
+        button.titleLabel?.font = .myBoldSystemFont(ofSize: 15)
         button.setTitle("작성 완료", for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
 //        button.backgroundColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1)
@@ -472,37 +465,41 @@ class CreatePartyVC: UIViewController {
     // MARK: - configureUI
     
     func configureUI() {
-        view.backgroundColor = .rgrgColor5
+        view.backgroundColor = .white
         
         view.addSubview(topFrame)
-        topFrame.addSubview(titleLabel)
-    
-        view.addSubview(partyNameLabel)
-        view.addSubview(partyNameTextField)
-        view.addSubview(positionLabel)
-        view.addSubview(positionFramView)
+        setUIShadow()
+
+        topFrame.addSubview(partyNameLabel)
+        topFrame.addSubview(partyNameTextField)
+        topFrame.addSubview(positionLabel)
+        topFrame.addSubview(positionFramView)
         positionFramView.addArrangedSubview(topPositionbutton)
         positionFramView.addArrangedSubview(junglePositionbutton)
         positionFramView.addArrangedSubview(midPositionbutton)
         positionFramView.addArrangedSubview(bottomPositionbutton)
         positionFramView.addArrangedSubview(supportPositionbutton)
-        view.addSubview(positionLabelFramView)
+        topFrame.addSubview(positionLabelFramView)
         positionLabelFramView.addArrangedSubview(topLabel)
         positionLabelFramView.addArrangedSubview(jungleLabel)
         positionLabelFramView.addArrangedSubview(midLabel)
         positionLabelFramView.addArrangedSubview(bottomLabel)
         positionLabelFramView.addArrangedSubview(supportLabel)
     
-        view.addSubview(infoTextLabel)
-        view.addSubview(infoTextView)
-        view.addSubview(textCountLabel)
-        view.addSubview(currentTextCountLabel)
-        view.addSubview(confirmationButton)
+        topFrame.addSubview(infoTextLabel)
+        topFrame.addSubview(infoTextView)
+        topFrame.addSubview(textCountLabel)
+        topFrame.addSubview(currentTextCountLabel)
+        topFrame.addSubview(confirmationButton)
         
+        // 네비게이션 타이틀
+        navigationItem.title = "RG 구하기"
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "NotoSansKR-Bold", size: 17)!, NSAttributedString.Key.foregroundColor: UIColor.black]
+
         // 네비게이션 바 왼쪽 버튼
         let backButton = UIButton(type: .custom)
         backButton.setImage(UIImage(named: "XIcon")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        backButton.tintColor = .black
+        backButton.tintColor = .rgrgColor4
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true // 버튼의 가로 크기
         backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -517,8 +514,8 @@ class CreatePartyVC: UIViewController {
         navigationItem.rightBarButtonItem = rightButton
         
         topFrame.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(88)
+            $0.left.right.top.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.equalToSuperview()
         }
         
 //        scrollView.snp.makeConstraints{
@@ -532,15 +529,8 @@ class CreatePartyVC: UIViewController {
 //            $0.width.equalTo(scrollView)
 //        }
         
-        titleLabel.snp.makeConstraints {
-            $0.bottom.equalTo(topFrame.snp.bottom).offset(-6)
-            $0.centerX.equalToSuperview()
-//            $0.top.equalTo(contentView.snp.top).offset(32)
-//            $0.leading.equalTo(contentView.snp.leading).offset(28)
-        }
-        
         partyNameLabel.snp.makeConstraints {
-            $0.top.equalTo(topFrame.snp.bottom).offset(32)
+            $0.top.equalTo(topFrame.snp.top).offset(32)
             $0.leading.equalToSuperview().offset(28)
 //            $0.top.equalTo(contentView.snp.top).offset(32)
 //            $0.leading.equalTo(contentView.snp.leading).offset(28)
@@ -642,7 +632,7 @@ extension CreatePartyVC {
 
         navigationItem.rightBarButtonItem?.changesSelectionAsPrimaryAction = false
 
-        rightBarButtonItem.tintColor = UIColor(hex: "#0C356A")
+        rightBarButtonItem.tintColor = UIColor.rgrgColor3
         navigationItem.rightBarButtonItem = rightBarButtonItem
     }
 
@@ -663,6 +653,12 @@ extension CreatePartyVC {
 
         partyNameTextField.resignFirstResponder()
         infoTextView.resignFirstResponder()
+    }
+    
+    func setUIShadow() {
+        partyNameTextField.setupShadow(alpha: 0.05, offset: CGSize(width: 2, height: 3), radius: 12, opacity: 1)
+        infoTextView.setupShadow(alpha: 0.05, offset: CGSize(width: 2, height: 3), radius: 12, opacity: 1)
+        confirmationButton.setupShadow(alpha: 0.2, offset: CGSize(width: 2, height: 3), radius: 4, opacity: 1)
     }
 }
 
