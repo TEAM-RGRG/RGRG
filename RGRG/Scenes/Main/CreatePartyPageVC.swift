@@ -443,6 +443,10 @@ class CreatePartyVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = false
+        
+        if tag == 1 {
+            addPlaceholderToTextView()
+        }
     }
     
     // MARK: - ViewDidLoad
@@ -457,7 +461,7 @@ class CreatePartyVC: UIViewController {
         configureUI()
 //        addPlaceholderToTextView()
         addKeyboardNotifications()
-        addPlaceholderToTextView()
+        
         makeRightBarButton()
     }
     
