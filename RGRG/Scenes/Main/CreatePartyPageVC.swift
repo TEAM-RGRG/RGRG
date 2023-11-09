@@ -402,35 +402,75 @@ class CreatePartyVC: UIViewController {
         view.endEditing(true)
     }
     
-    func addKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    
+    func setKeyboardObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object:nil)
     }
 
-    func removeKeyboardNotifications() {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-        
-    @objc func keyboardWillShow(_ noti: NSNotification) {
-        if let keyboardFrame: NSValue = noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            let keyboardHeight = keyboardRectangle.height
-            if #available(iOS 11.0, *) {
-                let bottomInset = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.safeAreaInsets.bottom ?? 0
-                let adjustedKeyboardHeight = keyboardHeight - bottomInset
-                bottomButtonConstraint?.constant = -adjustedKeyboardHeight
-            } else {
-                bottomButtonConstraint?.constant = -keyboardHeight
-            }
-            view.layoutIfNeeded()
+    
+    
+    func setKeyboardNotification() {
+          
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object:nil)
+            
         }
-    }
-
-    @objc func keyboardWillHide(_ noti: NSNotification) {
-        bottomButtonConstraint?.constant = 0
-        view.layoutIfNeeded()
-    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+          if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+                  let keyboardRectangle = keyboardFrame.cgRectValue
+                  let keyboardHeight = keyboardRectangle.height
+              UIView.animate(withDuration: 1) {
+                  self.view.window?.frame.origin.y -= keyboardHeight
+              }
+          }
+      }
+    
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+           if self.view.window?.frame.origin.y != 0 {
+               if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+                       let keyboardRectangle = keyboardFrame.cgRectValue
+                       let keyboardHeight = keyboardRectangle.height
+                   UIView.animate(withDuration: 1) {
+                       self.view.window?.frame.origin.y += keyboardHeight
+                   }
+               }
+           }
+       }
+    
+    
+//    func addKeyboardNotifications() {
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+//    }
+//
+//    func removeKeyboardNotifications() {
+//        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+//        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+//    }
+//        
+//    @objc func keyboardWillShow(_ noti: NSNotification) {
+//        if let keyboardFrame: NSValue = noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+//            let keyboardRectangle = keyboardFrame.cgRectValue
+//            let keyboardHeight = keyboardRectangle.height
+//            if #available(iOS 11.0, *) {
+//                let bottomInset = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.safeAreaInsets.bottom ?? 0
+//                let adjustedKeyboardHeight = keyboardHeight - bottomInset
+//                bottomButtonConstraint?.constant = -adjustedKeyboardHeight
+//            } else {
+//                bottomButtonConstraint?.constant = -keyboardHeight
+//            }
+//            view.layoutIfNeeded()
+//        }
+//    }
+//
+//    @objc func keyboardWillHide(_ noti: NSNotification) {
+//        bottomButtonConstraint?.constant = 0
+//        view.layoutIfNeeded()
+//    }
     
     // MARK: - ViewWillAppear
     
@@ -453,7 +493,9 @@ class CreatePartyVC: UIViewController {
         
         configureUI()
 //        addPlaceholderToTextView()
-        addKeyboardNotifications()
+//        addKeyboardNotifications()
+        setKeyboardObserver()
+        
         
         makeRightBarButton()
     }
@@ -602,24 +644,8 @@ class CreatePartyVC: UIViewController {
     func addPlaceholderToTextView() {
         infoTextView.text = textViewPlaceholder
         infoTextView.textColor = UIColor(hex: "#ADADAD")
-        ////        placeholderLabel.font = infoTextView.font
-//        placeholderLabel.numberOfLines = 0
-//        placeholderLabel.sizeToFit()
-//        placeholderLabel.frame.origin = CGPoint(x: 10, y: infoTextView.textContainerInset.top)
-//        placeholderLabel.tag = 100
-//
-//        infoTextView.addSubview(placeholderLabel)
 
-        // 텍스트 뷰에 터치 제스처 추가
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-//        infoTextView.addGestureRecognizer(tapGesture)
     }
-//
-//    @objc func handleTap() {
-//        infoTextView.viewWithTag(100)?.isHidden = true
-//        infoTextView.isEditable = true
-//        infoTextView.becomeFirstResponder()
-//    }
 }
 
 extension CreatePartyVC {
