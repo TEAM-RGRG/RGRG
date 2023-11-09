@@ -69,6 +69,7 @@ class MainViewController: UIViewController, SendSelectedOptionDelegate {
         "Platinum": .platinum,
         "Emerald": .emerald,
         "Diamond": .diamond,
+        "":.rgrgColor7
     ]
     
     deinit {
