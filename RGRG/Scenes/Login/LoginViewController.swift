@@ -107,6 +107,7 @@ extension LoginViewController {
     }
     
     @objc func tapLogin() {
+        loginButton.isEnabled = false
         signInUser()
     }
     
