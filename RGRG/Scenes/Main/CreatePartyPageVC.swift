@@ -92,7 +92,7 @@ class CreatePartyVC: UIViewController {
         button.subtitleLabel?.text = "Top"
         button.tag = 1
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
-        button.backgroundColor = .systemGray4
+        button.backgroundColor = .rgrgColor6
         button.layer.cornerRadius = 25
         button.addTarget(self, action: #selector(positionOptionButtonTapped), for: .touchUpInside)
         return button
@@ -104,7 +104,7 @@ class CreatePartyVC: UIViewController {
         button.subtitleLabel?.text = "Jungle"
         button.tag = 2
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
-        button.backgroundColor = .systemGray4
+        button.backgroundColor = .rgrgColor6
         button.layer.cornerRadius = 25
         button.addTarget(self, action: #selector(positionOptionButtonTapped), for: .touchUpInside)
         return button
@@ -116,7 +116,7 @@ class CreatePartyVC: UIViewController {
         button.subtitleLabel?.text = "Mid"
         button.tag = 3
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
-        button.backgroundColor = .systemGray4
+        button.backgroundColor = .rgrgColor6
         button.layer.cornerRadius = 25
         button.addTarget(self, action: #selector(positionOptionButtonTapped), for: .touchUpInside)
         return button
@@ -128,7 +128,7 @@ class CreatePartyVC: UIViewController {
         button.subtitleLabel?.text = "Bottom"
         button.tag = 4
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
-        button.backgroundColor = .systemGray4
+        button.backgroundColor = .rgrgColor6
         button.layer.cornerRadius = 25
         button.addTarget(self, action: #selector(positionOptionButtonTapped), for: .touchUpInside)
         return button
@@ -140,7 +140,7 @@ class CreatePartyVC: UIViewController {
         button.subtitleLabel?.text = "Support"
         button.tag = 5
         button.imageEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
-        button.backgroundColor = .systemGray4
+        button.backgroundColor = .rgrgColor6
         button.layer.cornerRadius = 25
         button.addTarget(self, action: #selector(positionOptionButtonTapped), for: .touchUpInside)
         return button
@@ -280,7 +280,7 @@ class CreatePartyVC: UIViewController {
     @objc func positionOptionButtonTapped(_ sender: UIButton) {
         if positionOptionButtonArry.isEmpty {
             sender.isSelected = true
-            sender.backgroundColor = UIColor(red: 12/255, green: 53/255, blue: 106/255, alpha: 1)
+            sender.backgroundColor = UIColor.rgrgColor4
             firstPickedPosition = sender
             positionOptionButtonArry.append(sender)
             updatePositionLabels()
@@ -293,7 +293,7 @@ class CreatePartyVC: UIViewController {
             updateSecondPositionLabels()
         } else {
             for button in positionOptionButtonArry {
-                button.backgroundColor = .systemGray4
+                button.backgroundColor = .rgrgColor6
                 button.layer.borderColor = UIColor.white.cgColor
             }
             positionOptionButtonArry.removeAll()
