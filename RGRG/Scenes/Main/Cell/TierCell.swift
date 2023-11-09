@@ -22,7 +22,7 @@ class TierCell: UICollectionViewCell {
         label.textColor = .black
         label.layer.cornerRadius = 12
         label.layer.borderWidth = 1
-        label.layer.borderColor = UIColor.systemGray4.cgColor
+        label.layer.borderColor = UIColor.rgrgColor6.cgColor
         label.textAlignment = .center
         return label
     }()

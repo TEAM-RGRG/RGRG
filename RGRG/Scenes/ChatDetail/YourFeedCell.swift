@@ -89,7 +89,8 @@ extension YourFeedCell {
 
     func confirmYourCahtTime() {
         contentView.addSubview(yourChatTime)
-        yourChatTime.font = UIFont(name: "Roboto-Regular", size: 12)
+        yourChatTime.font = UIFont.mySystemFont(ofSize: 12)
+        yourChatTime.textColor = .black
 
         yourChatTime.snp.makeConstraints { make in
             make.leading.equalTo(baseView.snp.trailing).offset(4)
