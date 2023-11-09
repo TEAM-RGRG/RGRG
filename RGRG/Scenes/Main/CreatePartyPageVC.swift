@@ -342,7 +342,6 @@ class CreatePartyVC: UIViewController {
                 bottomLabel.text = ""
                 supportLabel.text = ""
             }
-
         } else {
             topLabel.text = ""
             jungleLabel.text = ""
@@ -382,7 +381,6 @@ class CreatePartyVC: UIViewController {
                 bottomLabel.text = ""
                 supportLabel.text = ""
             }
-
         } else {
             topLabel.text = ""
             jungleLabel.text = ""
@@ -394,7 +392,7 @@ class CreatePartyVC: UIViewController {
     }
     
     func updateConfirmationButton() {
-        if selectedPositionArry[0] != "" && selectedPositionArry[1] != "" && partyNameTextField.text?.isEmpty != true && infoTextView.text.isEmpty != true && infoTextView.text != textViewPlaceholder {
+        if firstPickedPosition != nil && secondPickedPosition != nil && partyNameTextField.text?.isEmpty != true && infoTextView.text.isEmpty != true && infoTextView.text != textViewPlaceholder {
             confirmationButton.isEnabled = true
             confirmationButton.backgroundColor = UIColor.rgrgColor4
         } else {
