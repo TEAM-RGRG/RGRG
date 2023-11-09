@@ -195,9 +195,9 @@ extension SignUpViewController {
     func passValueCheck() {
         func updateUI() {
             guard idPass, pwPass, pwCheckPass, nickNamePass else {
-                return signupButton.backgroundColor = UIColor.rgrgColor3
+                return signupButton.backgroundColor = UIColor.rgrgColor7
             }
-            signupButton.backgroundColor = UIColor.black
+            signupButton.backgroundColor = UIColor.rgrgColor3
         }
         
         emailLine.passHandler = { pass in
@@ -378,6 +378,7 @@ extension SignUpViewController {
             make.width.equalToSuperview().dividedBy(2.2)
         }
         
+        signupButton.backgroundColor = UIColor.rgrgColor7
         signupButton.addTarget(self, action: #selector(tapSignUP), for: .touchUpInside)
         signupButton.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
