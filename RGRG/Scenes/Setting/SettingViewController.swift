@@ -20,9 +20,11 @@ class SettingViewController: UIViewController {
     var user: User?
     let settingTable: UITableView = {
         let tableView = UITableView()
+        tableView.backgroundColor = .clear
         return tableView
     }()
 
+    let container = UIView()
     let loginVC = LoginViewController()
     let current = Auth.auth().currentUser?.uid
 
@@ -49,11 +51,19 @@ extension SettingViewController {
 extension SettingViewController {
     func configureUI() {
         setupNavigationBar()
-        view.backgroundColor = .systemBackground
-        view.addSubview(settingTable)
+        container.backgroundColor = .rgrgColor5
+        view.backgroundColor = .white
 
+        view.addSubview(container)
+        container.snp.makeConstraints { make in
+            make.top.left.right.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalToSuperview()
+        }
+
+        container.addSubview(settingTable)
         settingTable.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(5)
+            make.left.right.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
 
@@ -101,6 +111,8 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath) as! SettingCell
         cell.textLabel?.text = settingList[indexPath.row]
+        cell.backgroundColor = .white
+        cell.textLabel?.textColor = .black
         return cell
     }
 

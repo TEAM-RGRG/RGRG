@@ -143,7 +143,6 @@ extension SearchOptionViewController {
 
 extension SearchOptionViewController {
     @objc func confirmationButtonTapped() {
-        
         delegate?.sendSelectedOption(tier: selectedTier, position: selectedPosition)
         dismiss(animated: true, completion: nil)
     }
@@ -239,11 +238,11 @@ extension SearchOptionViewController: UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         if collectionView == tierCollectionView {
             if let cell = collectionView.cellForItem(at: indexPath) as? TierCell {
-                cell.tierLabel.layer.borderColor = UIColor.systemGray4.cgColor
+                cell.tierLabel.layer.borderColor = UIColor.rgrgColor6.cgColor
             }
         } else {
             if let cell = collectionView.cellForItem(at: indexPath) as? PositionCell {
-                cell.positionFrame.layer.borderColor = UIColor.systemGray4.cgColor
+                cell.positionFrame.layer.borderColor = UIColor.rgrgColor6.cgColor
             }
         }
     }
@@ -253,7 +252,7 @@ extension SearchOptionViewController: UICollectionViewDelegate, UICollectionView
             if let cell = collectionView.cellForItem(at: indexPath) as? TierCell {
                 if cell.isSelected {
                     collectionView.deselectItem(at: indexPath, animated: true)
-                    cell.tierLabel.layer.borderColor = UIColor.systemGray4.cgColor
+                    cell.tierLabel.layer.borderColor = UIColor.rgrgColor6.cgColor
                     selectedOption["tier"] = ""
                     selectedTier = ""
 
@@ -267,7 +266,7 @@ extension SearchOptionViewController: UICollectionViewDelegate, UICollectionView
             if let cell = collectionView.cellForItem(at: indexPath) as? PositionCell {
                 if cell.isSelected {
                     collectionView.deselectItem(at: indexPath, animated: true)
-                    cell.positionFrame.layer.borderColor = UIColor.systemGray4.cgColor
+                    cell.positionFrame.layer.borderColor = UIColor.rgrgColor6.cgColor
                     selectedOption["position"] = ""
                     selectedPosition = ""
                     return false

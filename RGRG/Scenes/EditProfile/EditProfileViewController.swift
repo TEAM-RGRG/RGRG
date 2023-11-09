@@ -63,6 +63,7 @@ class EditProfileViewController: UIViewController, SendSelectedIconDelegate, Sen
     let userNameTitle = CustomLabel()
     let userNameTextField: UITextField = {
         let textField = UITextField()
+        textField.textColor = .black
         textField.placeholder = "닉네임을 입력해주세요"
         textField.font = .mySystemFont(ofSize: 16)
         return textField
