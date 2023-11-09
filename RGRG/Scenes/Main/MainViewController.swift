@@ -202,7 +202,7 @@ extension MainViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.navigationController?.navigationBar.isHidden = true
-        partyList.removeAll()
+//        partyList.removeAll()
         task()
     }
     
@@ -394,7 +394,7 @@ extension MainViewController {
     }
 }
 
-// MARK:  - TableView
+// MARK: - TableView
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

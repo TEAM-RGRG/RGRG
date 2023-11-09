@@ -66,6 +66,7 @@ extension ChatListViewController {
         tabBarController?.navigationItem.rightBarButtonItem?.isHidden = false
         tabBarController?.navigationController?.navigationBar.isHidden = false
         channels.removeAll()
+        FireStoreManager.shared.loadWholeChannels()
         task()
     }
 

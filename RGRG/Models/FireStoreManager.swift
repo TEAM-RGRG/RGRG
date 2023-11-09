@@ -12,11 +12,36 @@ final class FireStoreManager {
     static let shared = FireStoreManager()
     static let db = Firestore.firestore()
 
+    func loadWholeChannels() {
+        FireStoreManager.db.collection("channels")
+            .order(by: "date", descending: true)
+            .addSnapshotListener { querySnapshot, error in
+                var channels: [Channel] = []
+                if let e = error {
+                    print("There was an issue retrieving data from Firestore. \(e)")
+                } else {
+                    if let snapshotDocument = querySnapshot?.documents {
+                        print("### snapshotDocument \(snapshotDocument)")
+                        for doc in snapshotDocument {
+                            let data = doc.data()
+                            let thread = doc.documentID
+                            let decoder = PropertyListDecoder()
+
+                            if let host = data["host"] as? String, let channelTitle = data["channelTitle"] as? String, let guest = data["guest"] as? String, let channelID = data["channelID"] as? String, let currentMessage = data["currentMessage"] as? String, let guestProfile = data["guestProfile"] as? String, let hostProfile = data["hostProfile"] as? String, let hostSender = data["hostSender"] as? Bool, let guestSender = data["guestSender"] as? Bool {
+                                let channel = Channel(channelName: channelTitle, guest: guest, host: host, channelID: thread, currentMessage: currentMessage, hostProfile: hostProfile, guestProfile: guestProfile, hostSender: hostSender, guestSender: guestSender)
+                                channels.append(channel)
+                            }
+                        }
+                    }
+                }
+            }
+    }
+
     func loadChannels(collectionName: String, filter: String, completion: @escaping ([Channel]) -> Void) {
         FireStoreManager.db.collection("channels")
             .whereField("users", arrayContains: filter)
             .order(by: "date", descending: true)
-            .addSnapshotListener { (querySnapshot, error) in
+            .addSnapshotListener { querySnapshot, error in
                 var channels: [Channel] = []
                 if let e = error {
                     print("There was an issue retrieving data from Firestore. \(e)")
@@ -42,7 +67,7 @@ final class FireStoreManager {
     func loadChatting(channelName: String, thread: String, startIndex: Int, completion: @escaping ([ChatInfo]) -> Void) {
         FireStoreManager.db.collection("channels/\(thread)/thread")
             .order(by: "date", descending: false)
-            .addSnapshotListener { (querySnapshot, error) in
+            .addSnapshotListener { querySnapshot, error in
                 var messages: [ChatInfo] = []
                 if let e = error {
                     print("There was an issue retrieving data from Firestore. \(e)")
@@ -78,7 +103,7 @@ final class FireStoreManager {
                 "hostProfile": hostProfile,
                 "hostSender": hostSender,
                 "guestSender": guestSender
-            ]) { (error) in
+            ]) { error in
                 if let e = error {
                     print("There was an issue saving data to firestore, \(e)")
                 } else {
@@ -97,7 +122,7 @@ final class FireStoreManager {
                 "date": date,
                 "read": read,
                 "content": content
-            ]) { (error) in
+            ]) { error in
                 if let e = error {
                     print("There was an issue saving data to firestore, \(e)")
                 } else {
@@ -138,7 +163,7 @@ final class FireStoreManager {
         FireStoreManager.db
             .collection("channels/\(thread)/thread")
             .whereField("sender", isNotEqualTo: currentUser)
-            .getDocuments { (querySnapshot, error) in
+            .getDocuments { querySnapshot, error in
                 var temp: [String] = []
                 if let error = error {
                     print("### \(error)")
