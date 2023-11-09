@@ -65,6 +65,7 @@ extension ChatListViewController {
         tabBarController?.navigationItem.title = "쪽지"
         tabBarController?.navigationItem.rightBarButtonItem?.isHidden = false
         tabBarController?.navigationController?.navigationBar.isHidden = false
+        channels.removeAll()
         task()
     }
 
@@ -131,7 +132,7 @@ extension ChatListViewController {
         tabBarController?.navigationItem.title = "쪽지"
         tabBarController?.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "NotoSansKR-Bold", size: 24)!, NSAttributedString.Key.foregroundColor: UIColor.rgrgColor4]
         tabBarController?.navigationController?.navigationBar.shadowImage = nil
-        makeRightBarButton()
+//        makeRightBarButton()
         makeBlankLeftButton()
     }
 
@@ -188,7 +189,6 @@ extension ChatListViewController: UITableViewDataSource {
 
             if item.hostSender == true {
                 cell.chatAlert.isHidden = false
-
             } else {
                 cell.chatAlert.isHidden = true
             }
@@ -207,7 +207,6 @@ extension ChatListViewController: UITableViewDataSource {
 
             if item.guestSender == true {
                 cell.chatAlert.isHidden = false
-
             } else {
                 cell.chatAlert.isHidden = true
             }

@@ -202,6 +202,7 @@ extension MainViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.navigationController?.navigationBar.isHidden = true
+        partyList.removeAll()
         task()
     }
     
@@ -355,7 +356,7 @@ extension MainViewController {
     }
 }
 
-// MARK: 함수
+// MARK: - 함수
 
 extension MainViewController {
     func task() {
@@ -393,7 +394,7 @@ extension MainViewController {
     }
 }
 
-// MARK: TableView
+// MARK:  - TableView
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -450,3 +451,14 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         navigationController?.pushViewController(detailController, animated: true)
     }
 }
+
+// extension MainViewController {
+//    func removeAllNavigationStack() {
+//        guard let navigationController = navigationController else { return }
+//        var navigationArray = navigationController.viewControllers // To get all UIViewController stack as Array
+//        let temp = navigationArray.last
+//        navigationArray.removeAll()
+//        navigationArray.append(temp!) // To remove all previous UIViewController except the last one
+//        navigationController.viewControllers = navigationArray
+//    }
+// }

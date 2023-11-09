@@ -122,7 +122,7 @@ class PartyManager {
             }
     }
 
-    func updateParty(party: PartyInfo, thread: String, completion: @escaping () -> Void) {
+    func updateParty(party: PartyInfo, thread: String, completion: @escaping (PartyInfo) -> Void) {
         let path = PartyManager.db.collection("party")
         let current = Auth.auth().currentUser?.uid
         path.document(thread)
@@ -137,7 +137,7 @@ class PartyManager {
                          "writer": current,
                          "requester": party.requester,
                          "position": party.position])
-        completion()
+        completion(party)
     }
 
     func deleteParty(thread: String, completion: @escaping () -> Void) {
