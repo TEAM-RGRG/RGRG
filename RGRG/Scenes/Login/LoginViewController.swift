@@ -257,6 +257,7 @@ extension LoginViewController {
             make.bottom.equalTo(loginButton.snp.top).offset(-20)
             make.left.right.equalToSuperview()
         }
+        loginButton.backgroundColor = UIColor.rgrgColor3
         loginButton.snp.makeConstraints { make in
             make.bottom.equalTo(underLineArea.snp.top).offset(-15)
             make.left.right.equalToSuperview()
