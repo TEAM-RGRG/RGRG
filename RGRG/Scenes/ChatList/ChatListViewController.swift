@@ -16,6 +16,8 @@ class ChatListViewController: UIViewController {
     var channels: [Channel] = []
     var currentUser: User?
 
+    var apiTimer = Timer()
+
     let vc = ChatDetailViewController()
 
     let tableView = CustomTableView(frame: .zero, style: .plain)
@@ -59,13 +61,13 @@ extension ChatListViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        apiTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(updateChannelsStatus), userInfo: nil, repeats: true)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.navigationItem.title = "쪽지"
         tabBarController?.navigationItem.rightBarButtonItem?.isHidden = false
         tabBarController?.navigationController?.navigationBar.isHidden = false
-        channels.removeAll()
         FireStoreManager.shared.loadWholeChannels()
         task()
     }
@@ -188,7 +190,7 @@ extension ChatListViewController: UITableViewDataSource {
             cell.currentChat.text = item.currentMessage
             cell.userProfileImage.layer.masksToBounds = true
 
-            if item.guestSender == true {
+            if item.guestSender == false {
                 cell.chatAlert.isHidden = true
             } else {
                 cell.chatAlert.isHidden = false
@@ -206,7 +208,7 @@ extension ChatListViewController: UITableViewDataSource {
             cell.currentChat.text = item.currentMessage
             cell.userProfileImage.layer.masksToBounds = true
 
-            if item.hostSender == true {
+            if item.hostSender == false {
                 cell.chatAlert.isHidden = true
             } else {
                 cell.chatAlert.isHidden = false
@@ -229,7 +231,8 @@ extension ChatListViewController: UITableViewDelegate {
         let item = channels[indexPath.row]
         vc.thread = item.channelID
         vc.channelInfo = item
-        vc.currentUserName = currentUser?.userName ?? "N/A"
+        vc.currentUserName = currentUser?.uid ?? "N/A"
+
         if currentUser?.uid == item.host {
             FirebaseUserManager.shared.getUserInfo(searchUser: item.guest) { guest in
                 self.vc.navigationItem.title = guest.userName
@@ -257,5 +260,14 @@ extension ChatListViewController {
         let set = Set(array)
         let duplicationRemovedArray = Array(set)
         return duplicationRemovedArray
+    }
+}
+
+// MARK: - Timer
+
+extension ChatListViewController {
+    @objc func updateChannelsStatus(_ sender: Timer) {
+        channels.removeAll()
+        task()
     }
 }

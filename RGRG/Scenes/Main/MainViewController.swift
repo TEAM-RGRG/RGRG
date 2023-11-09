@@ -69,7 +69,7 @@ class MainViewController: UIViewController, SendSelectedOptionDelegate {
         "Platinum": .platinum,
         "Emerald": .emerald,
         "Diamond": .diamond,
-        "":.rgrgColor7
+        "": .rgrgColor7
     ]
     
     deinit {
@@ -366,8 +366,6 @@ extension MainViewController {
                 print("### CurrentUser Info ::: \(user)")
                 self.currentUser = user
             })
-            
-            partyList.removeAll()
             
             await PartyManager.shared.loadParty { [weak self] parties in
                 self?.partyList = parties // [PartyInfo] = [PartyInfo]
