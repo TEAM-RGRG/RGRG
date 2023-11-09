@@ -31,7 +31,7 @@ class ChatListViewController: UIViewController {
 
 extension ChatListViewController {
     // 인디케이터 뷰 추가
-    func task() {
+    func task(tag: Int) {
         Task {
             await FirebaseUserManager.shared.getUserInfo { [weak self] user in
                 guard let self = self else { return }
@@ -40,7 +40,8 @@ extension ChatListViewController {
 
             guard let currentUser = currentUser else { return }
 
-            await FireStoreManager.shared.loadChannels(collectionName: "channels", filter: currentUser.uid) { channel in
+            await FireStoreManager.shared.loadChannels(collectionName: "channels", filter: currentUser.uid) { channel, _ in
+
                 self.channels = channel
 
                 if self.channels.isEmpty == true {
@@ -49,10 +50,10 @@ extension ChatListViewController {
                     self.blankMessage.isHidden = true
                 }
 
-                self.channels = self.removeDuplication(in: self.channels)
-
                 DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                    if tag == 1 {
+                        self.tableView.reloadData()
+                    }
                 }
             }
         }
@@ -61,15 +62,20 @@ extension ChatListViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        apiTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(updateChannelsStatus), userInfo: nil, repeats: true)
+        FireStoreManager.shared.loadWholeChannels()
+        FireStoreManager.shared.updateChannelsStatus {
+            self.task(tag: 2)
+            for i in 0 ..< self.channels.count {
+                self.tableView.reloadRows(at: [IndexPath(row: i, section: 0)], with: .none)
+            }
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.navigationItem.title = "쪽지"
         tabBarController?.navigationItem.rightBarButtonItem?.isHidden = false
         tabBarController?.navigationController?.navigationBar.isHidden = false
-        FireStoreManager.shared.loadWholeChannels()
-        task()
+        task(tag: 1)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -182,10 +188,8 @@ extension ChatListViewController: UITableViewDataSource {
         if currentUser?.uid == item.host {
             cell.setupUI()
             FirebaseUserManager.shared.getUserInfo(searchUser: item.guest) { guest in
-                DispatchQueue.main.async {
-                    cell.userProfileName.text = guest.userName
-                    cell.userProfileImage.image = UIImage(named: guest.profilePhoto)
-                }
+                cell.userProfileName.text = guest.userName
+                cell.userProfileImage.image = UIImage(named: guest.profilePhoto)
             }
             cell.currentChat.text = item.currentMessage
             cell.userProfileImage.layer.masksToBounds = true
@@ -200,10 +204,8 @@ extension ChatListViewController: UITableViewDataSource {
         } else {
             cell.setupUI()
             FirebaseUserManager.shared.getUserInfo(searchUser: item.host) { host in
-                DispatchQueue.main.async {
-                    cell.userProfileName.text = host.userName
-                    cell.userProfileImage.image = UIImage(named: host.profilePhoto)
-                }
+                cell.userProfileName.text = host.userName
+                cell.userProfileImage.image = UIImage(named: host.profilePhoto)
             }
             cell.currentChat.text = item.currentMessage
             cell.userProfileImage.layer.masksToBounds = true
@@ -267,7 +269,6 @@ extension ChatListViewController {
 
 extension ChatListViewController {
     @objc func updateChannelsStatus(_ sender: Timer) {
-        channels.removeAll()
-        task()
+        tableView.reloadData()
     }
 }
