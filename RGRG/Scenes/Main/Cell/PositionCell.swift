@@ -18,7 +18,7 @@ class PositionCell: UICollectionViewCell {
         let view = UIView()
         view.layer.cornerRadius = 12
         view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.systemGray4.cgColor
+        view.layer.borderColor = UIColor.rgrgColor6.cgColor
         return view
     }()
 
