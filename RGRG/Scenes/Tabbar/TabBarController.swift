@@ -23,6 +23,7 @@ final class TabBarController: UITabBarController {
 extension TabBarController {
     func setupTabbarController() {
         UITabBarItem.appearance().titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -10)
+        tabBar.unselectedItemTintColor = UIColor(hex: "#767676")
         tabBar.tintColor = UIColor(hex: "#0C365A")
         tabBar.backgroundColor = UIColor(hex: "#FFFFFF")
 

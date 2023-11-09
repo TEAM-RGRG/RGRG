@@ -9,7 +9,6 @@ import Foundation
 import SnapKit
 import UIKit
 
-
 class PartyTableViewCell: UITableViewCell {
     let cellFrameView: UIView = {
         let view = UIView()
@@ -28,7 +27,7 @@ class PartyTableViewCell: UITableViewCell {
         imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 26
         imageView.layer.borderWidth = 1
-        imageView.layer.borderColor = UIColor.black.cgColor
+        imageView.layer.borderColor = UIColor.rgrgColor4.cgColor
         imageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         return imageView
     }()
@@ -36,11 +35,11 @@ class PartyTableViewCell: UITableViewCell {
     let positionImageFrame: UIView = {
         let view = UIView()
         view.clipsToBounds = true
-        view.backgroundColor = .gray
+        view.backgroundColor = .rgrgColor8
         view.contentMode = .scaleToFill
         view.layer.cornerRadius = 8.5
         view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.black.cgColor
+        view.layer.borderColor = UIColor.rgrgColor4.cgColor
         view.frame = CGRect(x: 0, y: 0, width: 5, height: 5)
         return view
     }()
@@ -51,7 +50,7 @@ class PartyTableViewCell: UITableViewCell {
             imageView.image = image
         }
         imageView.clipsToBounds = true
-        imageView.backgroundColor = .gray
+        imageView.backgroundColor = .rgrgColor8
         imageView.contentMode = .scaleToFill
         return imageView
     }()
@@ -59,27 +58,28 @@ class PartyTableViewCell: UITableViewCell {
     let userNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-        label.textColor = .black
+        label.font = UIFont.myBoldSystemFont(ofSize: 16)
+        label.textColor = UIColor(hex: "#505050")
         label.textAlignment = .center
         return label
     }()
     
     let tierLabelFrame: UIView = {
         let View = UIView()
+        View.frame = CGRect(x: 0, y: 0, width: 85, height: 24)
         View.translatesAutoresizingMaskIntoConstraints = false
-        View.layer.borderColor = UIColor.systemGray3.cgColor
+        View.layer.borderColor = UIColor.rgrgColor6.cgColor
         View.layer.borderWidth = 1
-        View.layer.cornerRadius = 13
+        View.layer.cornerRadius = View.frame.height / 2
         return View
     }()
     
     let tierLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .lightGray
+        label.textColor = .rgrgColor8
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        label.font = UIFont.myMediumSystemFont(ofSize: 14)
         return label
     }()
     
@@ -91,7 +91,7 @@ class PartyTableViewCell: UITableViewCell {
     let fitstRequiredPositionFrame: UIView = {
         let view = UIView()
         view.clipsToBounds = true
-        view.backgroundColor = .systemGray4
+        view.backgroundColor = .rgrgColor7
         view.contentMode = .scaleToFill
         view.layer.cornerRadius = 12
         return view
@@ -102,7 +102,7 @@ class PartyTableViewCell: UITableViewCell {
         if let image = UIImage(named: "미드w") {
             imageView.image = image
         }
-        imageView.backgroundColor = .systemGray4
+        imageView.backgroundColor = .rgrgColor7
         imageView.contentMode = .scaleToFill
         return imageView
     }()
@@ -110,7 +110,7 @@ class PartyTableViewCell: UITableViewCell {
     let secondRequiredPositionFrame: UIView = {
         let view = UIView()
         view.clipsToBounds = true
-        view.backgroundColor = .systemGray4
+        view.backgroundColor = .rgrgColor7
         view.contentMode = .scaleToFill
         view.layer.cornerRadius = 12
         return view
@@ -121,7 +121,7 @@ class PartyTableViewCell: UITableViewCell {
         if let image = UIImage(named: "미드w") {
             imageView.image = image
         }
-        imageView.backgroundColor = .systemGray4
+        imageView.backgroundColor = .rgrgColor7
         imageView.contentMode = .scaleToFill
         return imageView
     }()
@@ -179,10 +179,10 @@ class PartyTableViewCell: UITableViewCell {
         }
         
         tierLabelFrame.snp.makeConstraints {
-            $0.top.equalTo(userNameLabel.snp.bottom).offset(8)
+            $0.top.equalTo(userNameLabel.snp.bottom).offset(6)
             $0.leading.equalTo(profileImage.snp.trailing).offset(16)
-            $0.width.equalTo(130)
-            $0.bottom.equalTo(cellFrameView.snp.bottom).offset(-14)
+            $0.width.equalTo(110)
+            $0.height.equalTo(24)
         }
         
         tierLabel.snp.makeConstraints {

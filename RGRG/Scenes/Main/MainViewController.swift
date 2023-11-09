@@ -185,6 +185,7 @@ extension MainViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.navigationController?.navigationBar.isHidden = true
+        partyList.removeAll()
         task()
     }
     
@@ -348,8 +349,6 @@ extension MainViewController {
                 print("### CurrentUser Info ::: \(user)")
                 self.currentUser = user
             })
-            
-            partyList.removeAll()
             
             await PartyManager.shared.loadParty { [weak self] parties in
                 self?.partyList = parties // [PartyInfo] = [PartyInfo]
