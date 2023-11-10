@@ -154,6 +154,7 @@ class PartyInfoDetailVC: UIViewController {
         textView.text = "듀오 하실 분 구합니다!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!@ 현재 플레 1이구요. 든든하게 국밥챔프 위주로만 플레이 합니다,.. 간절하신 분이였으면 좋겠어요\n다이아,,.. 가봅시다요ㅠㅠ 최고 티어는 다이아 3까지 갔었습니다. 같이 다이아 등반 하실 분 구합니다"
         textView.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         textView.backgroundColor = .clear
+        textView.isEditable = false
         textView.textColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 1)
         return textView
     }()

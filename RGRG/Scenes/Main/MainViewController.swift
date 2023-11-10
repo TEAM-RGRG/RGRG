@@ -389,7 +389,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         let item = partyList[indexPath.row]
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "PartyTableViewCell", for: indexPath) as? PartyTableViewCell else { return UITableViewCell() }
         
-        cell.userNameLabel.text = item.userName
+        cell.userNameLabel.text = item.title
         cell.profileImage.image = UIImage(named: item.profileImage)
         cell.profileImage.layer.masksToBounds = true
         cell.positionImage.image = UIImage(named: item.position)
