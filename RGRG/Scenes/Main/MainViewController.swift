@@ -185,7 +185,6 @@ extension MainViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.navigationController?.navigationBar.isHidden = true
-        partyList.removeAll()
         task()
     }
     
