@@ -5,7 +5,10 @@
 //  Created by (^ㅗ^)7 iMac on 2023/10/12.
 //
 
+import FirebaseAuth
 import UIKit
+import FirebaseAuth
+
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
@@ -14,9 +17,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = scene as? UIWindowScene else { return }
         self.window = UIWindow(windowScene: windowScene)
 
-        let rootViewController = LoginViewController()
-        let rootNavigationController = UINavigationController(rootViewController: rootViewController)
+        var rootViewController = UIViewController()
 
+        if Auth.auth().currentUser != nil {
+            rootViewController = TabBarController()
+        } else {
+            rootViewController = LoginViewController()
+        }
+
+        let rootNavigationController = UINavigationController(rootViewController: rootViewController)
+        
         self.window?.rootViewController = rootNavigationController
         self.window?.makeKeyAndVisible()
     }
@@ -27,7 +37,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func sceneWillResignActive(_ scene: UIScene) {}
 
-    func sceneWillEnterForeground(_ scene: UIScene) {}
+    func sceneWillEnterForeground(_ scene: UIScene) {
+        sleep(1)
+    }
 
     func sceneDidEnterBackground(_ scene: UIScene) {}
 }

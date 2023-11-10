@@ -13,5 +13,6 @@ struct User {
     let tier: String
     let position: String
     var profilePhoto: String = "Default"
-    var mostChampion: [String] = []
+    var mostChampion: [String] = ["None", "None", "None"]
+    let uid: String
 }

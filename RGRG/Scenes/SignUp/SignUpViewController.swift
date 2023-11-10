@@ -5,22 +5,21 @@
 //  Created by kiakim on 2023/10/11.
 //
 
+import Firebase
+import FirebaseAuth
+import FirebaseCore
+import FirebaseFirestore
 import SnapKit
 import UIKit
-import Firebase
-import FirebaseCore
-import FirebaseAuth
-import FirebaseFirestore
-
 
 class SignUpViewController: UIViewController {
-    
-    var idPass:Bool = false
-    var pwPass:Bool = false
-    var pwCheckPass:Bool = false
-    var nickNamePass:Bool = false
+    var idPass: Bool = false
+    var pwPass: Bool = false
+    var pwCheckPass: Bool = false
+    var nickNamePass: Bool = false
     
     let bodyContainer = {
+        // scrollView
         let stactview = UIView()
         return stactview
     }()
@@ -35,34 +34,31 @@ class SignUpViewController: UIViewController {
         return image
     }()
     
-    
     let methodArea = {
         let view = UIStackView()
         view.axis = .vertical
         return view
     }()
     
-    
     let emailLine = {
-        let line = CustomMemberInfoBox(id:.email,conditionText: "Email 형식 확인",passText: "사용가능 한 email입니다.",placeHolder: "Email", condition:"^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]+$")
+        let line = CustomMemberInfoBox(id: .email, conditionText: "Email 형식 확인", passText: "", placeHolder: "Email", condition: "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]+$")
         return line
     }()
     
     let passwordLine = {
-        let line = CustomMemberInfoBox(id:.pw,conditionText: "영문 숫자 7자 이상",placeHolder: "Password", condition:"^[a-zA-Z0-9]{7,}$")
+        let line = CustomMemberInfoBox(id: .pw, conditionText: "영문 숫자 7자 이상", placeHolder: "Password", condition: "^[a-zA-Z0-9]{7,}$")
         line.inputBox.isSecureTextEntry = true
         return line
     }()
     
-    
     let passwordCheckLine = {
-        let line = CustomMemberInfoBox(id:.pwCheck,conditionText: "다시 확인해주세요", placeHolder: "Password Check", condition:"")
+        let line = CustomMemberInfoBox(id: .pwCheck, conditionText: "다시 확인해주세요", placeHolder: "Password Check", condition: "")
         line.inputBox.isSecureTextEntry = true
         return line
     }()
     
     let nickNameLine = {
-        let line = CustomMemberInfoBox(id:.userName,conditionText: "영문 숫자 한글 2자 이상",passText:"사용가능한 닉네임입니다.",placeHolder: "닉네임", condition:"^[a-zA-Z0-9가-힣]{2,}$")
+        let line = CustomMemberInfoBox(id: .userName, conditionText: "영문 숫자 한글 2자 이상", passText: "사용가능한 닉네임입니다.", placeHolder: "닉네임", condition: "^[a-zA-Z0-9가-힣]{2,}$")
         return line
     }()
     
@@ -83,47 +79,45 @@ class SignUpViewController: UIViewController {
     }()
     
     let signupButton = {
-        let button = CtaLargeButton(titleText: "회원가입")
+        let button = CtaLargeButton(titleText: "가입하기")
         return button
     }()
     
-    
     override func viewDidLoad() {
-        
         super.viewDidLoad()
-        view.backgroundColor = UIColor.RGRGColor5
+        navigationController?.navigationBar.isHidden = false
+        view.backgroundColor = UIColor.rgrgColor5
         setupUI()
         passValueCheck()
+        showTierSelector()
+        showPositionSelector()
+        setupKeyboardEvent()
+        hideKeyboardEvent()
     }
-    
 }
 
-
 extension SignUpViewController {
-    @objc func tapSignUP(){
+    @objc func tapSignUP() {
         // ture 값전달할 수 있도록 변경
-        if self.idPass && self.pwPass && pwCheckPass && self.nickNamePass {
-            createUser()
-            movetoLogin()
-        } else {
-            showAlert(title: "not Yet" , message: "필수항목 확인 필요")
+        if idPass, pwPass, pwCheckPass, nickNamePass {
+            emailConfirmAlert(title: "이메일 사용 확인", message: "password 확인 시 \n 현재 이메일 주소가 사용됩니다")
         }
     }
     
-    func createUser(){
+    func createUser() {
         let email = emailLine.inputBox.text
         let password = passwordLine.inputBox.text
         let userName = nickNameLine.inputBox.text
         let tier = tierButton.titleLabel?.text
-        let positon = positionButton.titleLabel?.text
+        let position = positionButton.titleLabel?.text
         
-        Auth.auth().createUser(withEmail: email ?? "", password: password ?? "") {result,error in
+        Auth.auth().createUser(withEmail: email ?? "", password: password ?? "") { result, error in
             if let error = error {
-                print("result",error)
+                print("result", error)
             }
             
             if let result = result {
-                print("result",result)
+                print("result", result)
                 
                 let db = Firestore.firestore()
                 let userUID = db.collection("users").document(result.user.uid)
@@ -132,10 +126,10 @@ extension SignUpViewController {
                     "email": email,
                     "userName": userName,
                     "tier": tier,
-                    "positon": positon,
-                    "profilePhoto" :  "Default",
-                    "mostChampion" : []
-                    
+                    "position": position,
+                    "profilePhoto": "Default",
+                    "mostChampion": ["None", "None", "None"], // Defaults 이미지
+                    "uid": result.user.uid
                     
                 ]) { error in
                     if let error = error {
@@ -148,50 +142,83 @@ extension SignUpViewController {
         }
     }
     
-    func movetoLogin(){
+    func movetoLogin() {
         let movePage = LoginViewController()
-        self.navigationController?.pushViewController(movePage, animated: true)
+        navigationController?.pushViewController(movePage, animated: true)
     }
     
-    func passValueCheck(){
-        
-        func updateUI(){
-            
-            guard self.idPass && self.pwPass && pwCheckPass && self.nickNamePass else{
-                return  signupButton.backgroundColor = UIColor.RGRGColor3
-            }
-            signupButton.backgroundColor = UIColor.black
-            
+    func showTierSelector() {
+        let optionalClosure = { (action: UIAction) in
+            print(action.title)
         }
         
-        //idPass값이 안바뀌는 것처럼 보이는건, ViewDidLoad에서 이미 그려졌기 때문
-        //클로져는 독립젹인 코드블럭이기에 이 안에서는 업데이트가 가능
+        tierButton.menu = UIMenu(children: [
+            UIAction(title: "Iron", state: .on, handler: optionalClosure),
+            UIAction(title: "Bronze", state: .off, handler: optionalClosure),
+            UIAction(title: "Silver", state: .off, handler: optionalClosure),
+            UIAction(title: "Gold", state: .off, handler: optionalClosure),
+            UIAction(title: "Platinum", state: .off, handler: optionalClosure),
+            UIAction(title: "Emerald", state: .off, handler: optionalClosure),
+            UIAction(title: "Diamond", state: .off, handler: optionalClosure),
+            UIAction(title: "Master", state: .off, handler: optionalClosure),
+            UIAction(title: "Grand Master", state: .off, handler: optionalClosure),
+            UIAction(title: "Challenger", state: .off, handler: optionalClosure)
+        ])
+        
+        tierButton.showsMenuAsPrimaryAction = true
+        tierButton.changesSelectionAsPrimaryAction = true
+        tierButton.setupShadow(alpha: 0.25, offset: CGSize(width: 2, height: 3), radius: 4, opacity: 0.5)
+        tierButton.layer.borderColor = UIColor.rgrgColor6.cgColor
+        tierButton.layer.borderWidth = 2
+    }
+    
+    func showPositionSelector() {
+        let optionalClosure = { (action: UIAction) in
+            print(action.title)
+        }
+        
+        positionButton.menu = UIMenu(children: [
+            UIAction(title: "Top", state: .on, handler: optionalClosure),
+            UIAction(title: "Jungle", state: .off, handler: optionalClosure),
+            UIAction(title: "Mid", state: .off, handler: optionalClosure),
+            UIAction(title: "Bottom", state: .off, handler: optionalClosure),
+            UIAction(title: "Support", state: .off, handler: optionalClosure)
+        ])
+        
+        positionButton.showsMenuAsPrimaryAction = true
+        positionButton.changesSelectionAsPrimaryAction = true
+        positionButton.setupShadow(alpha: 0.25, offset: CGSize(width: 2, height: 3), radius: 4, opacity: 0.5)
+        positionButton.layer.borderColor = UIColor.rgrgColor6.cgColor
+        positionButton.layer.borderWidth = 2
+    }
+    
+    func passValueCheck() {
+        func updateUI() {
+            guard idPass, pwPass, pwCheckPass, nickNamePass else {
+                return signupButton.backgroundColor = UIColor.rgrgColor7
+            }
+            signupButton.backgroundColor = UIColor.rgrgColor3
+        }
+        
         emailLine.passHandler = { pass in
             self.idPass = pass
             updateUI()
-            //            print("pass 값 알려줘",self.idPass)
         }
         passwordLine.passHandler = { pass in
             self.pwPass = pass
             updateUI()
-            //            print("pass 값 알려줘",self.pwPass)
         }
         passwordCheckLine.passHandler = { pass in
             self.pwCheckPass = pass
             updateUI()
-            //            print("pass 값 알려줘",self.pwCheckPass)
         }
         nickNameLine.passHandler = { pass in
             self.nickNamePass = pass
             updateUI()
-            //            print("pass 값 알려줘",self.nickNamePass)
         }
-        
-        
-        
     }
     
-    func showAlert(title: String, message: String) {
+    func conditionAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
@@ -200,102 +227,71 @@ extension SignUpViewController {
         present(alertController, animated: true, completion: nil)
     }
     
-    @objc func showTierSelector(){
-        let alertController = UIAlertController(title: "메달 선택", message: nil, preferredStyle: .alert)
+    func emailConfirmAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
-        let ironAction = UIAlertAction(title: "Iron", style: .default) { (action) in
-               self.tierButton.setTitle("Iron", for: .normal)
+        let okAction = UIAlertAction(title: "가입하기", style: .default) { _ in
+            self.createUser()
+            self.movetoLogin()
         }
-        
-        let bronzeAction = UIAlertAction(title: "Bronze", style: .default) { (action) in
-               self.tierButton.setTitle("Bronze", for: .normal)
-        }
-        
-        let silverAction = UIAlertAction(title: "Silver", style: .default) { (action) in
-               self.tierButton.setTitle("Silver", for: .normal)
-        }
-        
-        let goldAction = UIAlertAction(title: "Gold", style: .default) { (action) in
-               self.tierButton.setTitle("Gold", for: .normal)
-        }
-        
-        let platinumAction = UIAlertAction(title: "Platinum", style: .default) { (action) in
-               self.tierButton.setTitle("Platinum", for: .normal)
-        }
-        
-        let emeraldAction = UIAlertAction(title: "Emerald", style: .default) { (action) in
-               self.tierButton.setTitle("Emerald", for: .normal)
-        }
-    
-        let diamondAction = UIAlertAction(title: "Diamond", style: .default) { (action) in
-            self.tierButton.setTitle("Diamond", for: .normal)
-        }
-        let masterAction = UIAlertAction(title: "Master", style: .default) { (action) in
-            self.tierButton.setTitle("Master", for: .normal)
-        }
-        
-        let grandMaster = UIAlertAction(title: "Grand Master", style: .default) { (action) in
-            self.tierButton.setTitle("Grand Master", for: .normal)
-        }
-        
-        let challenger = UIAlertAction(title: "Challenger", style: .default) { (action) in
-            self.tierButton.setTitle("Challenger", for: .normal)
-        }
-
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        
-        alertController.addAction(ironAction)
-        alertController.addAction(bronzeAction)
-        alertController.addAction(silverAction)
-        alertController.addAction(goldAction)
-        alertController.addAction(platinumAction)
-        alertController.addAction(emeraldAction)
-        alertController.addAction(diamondAction)
-        alertController.addAction(masterAction)
-        alertController.addAction(grandMaster)
-        alertController.addAction(challenger)
-
-
+        let cancleAction = UIAlertAction(title: "취소", style: .default, handler: nil)
       
-        alertController.addAction(cancelAction)
-        
-        // 팝업 창 표시
+        alertController.addAction(cancleAction)
+        alertController.addAction(okAction)
+     
         present(alertController, animated: true, completion: nil)
     }
-    
-    @objc func showPositionSelector(){
-        let alertController = UIAlertController(title: "Positon", message: nil, preferredStyle: .alert)
-        
-        let TopAction = UIAlertAction(title: "Top", style: .default) { (action) in
-            self.positionButton.setTitle("Top", for: .normal)
-        }
-        let JungleAction = UIAlertAction(title: "Jungle", style: .default) { (action) in
-            self.positionButton.setTitle("Jungle", for: .normal)
-        }
-        let MidAction = UIAlertAction(title: "Mid", style: .default) { (action) in
-            self.positionButton.setTitle("Mid", for: .normal)
-        }
-        let BottomAction = UIAlertAction(title: "Bottom", style: .default) { (action) in
-            self.positionButton.setTitle("Bottom", for: .normal)
-        }
-        let SupportAction = UIAlertAction(title: "Support", style: .default) { (action) in
-            self.positionButton.setTitle("Support", for: .normal)
-        }
-        
-        // "취소" 항목
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        
-        alertController.addAction(TopAction)
-        alertController.addAction(JungleAction)
-        alertController.addAction(MidAction) 
-        alertController.addAction(BottomAction)
-        alertController.addAction(SupportAction)
-        alertController.addAction(cancelAction)
-        
-        // 팝업 창 표시
-        present(alertController, animated: true, completion: nil)
+}
+
+extension SignUpViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(SignUpViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
     
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    func setupKeyboardEvent() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+
+    @objc func keyboardWillShow(_ sender: Notification) {
+        guard let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        let keyboardHeight = keyboardFrame.cgRectValue.height
+        
+        if view.frame.origin.y == 0 {
+            view.frame.origin.y -= keyboardHeight - 180
+        }
+    }
+
+    @objc func keyboardWillHide(_ notification: Notification) {
+        if view.frame.origin.y != 0 {
+            view.frame.origin.y = 0
+        }
+    }
+    
+    func hideKeyboardEvent() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(SignUpViewController.dismissKeyboardSignup))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboardSignup() {
+        view.endEditing(true)
+    }
+}
+
+extension SignUpViewController {
     func setupUI() {
         view.addSubview(bodyContainer)
         bodyContainer.addSubview(imageArea)
@@ -310,27 +306,24 @@ extension SignUpViewController {
         positionLine.addArrangedSubview(tierButton)
         positionLine.addArrangedSubview(positionButton)
         
-//        bodyContainer.layer.borderWidth = 1
         bodyContainer.layer.cornerRadius = 10
         bodyContainer.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(30)
             make.bottom.equalTo(view.safeAreaLayoutGuide)
-            make.left.equalToSuperview().offset(40)
-            make.right.equalToSuperview().inset(40)
-//            make.centerY.equalToSuperview()
+            make.left.equalToSuperview().offset(51)
+            make.right.equalToSuperview().inset(51)
         }
         
-        imageArea.backgroundColor = UIColor.RGRGColor6
         imageArea.layer.cornerRadius = 10
         imageArea.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.left.equalToSuperview().offset(20)
-            make.right.equalToSuperview().inset(20)
-            make.height.equalToSuperview().dividedBy(6)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalTo(83)
         }
         
         mainImage.image = UIImage(named: "SignupMain")
-        mainImage.contentMode = .scaleAspectFit
+        mainImage.contentMode = .center
         mainImage.snp.makeConstraints { make in
             make.width.equalTo(imageArea.snp.width).multipliedBy(0.8)
             make.height.equalToSuperview()
@@ -340,9 +333,8 @@ extension SignUpViewController {
         methodArea.spacing = 15
         methodArea.distribution = .fillProportionally
         methodArea.snp.makeConstraints { make in
-            make.top.equalTo(imageArea.snp.bottom).offset(40)
+            make.top.equalTo(imageArea.snp.bottom).offset(15)
             make.left.right.equalToSuperview()
-            
         }
         
         emailLine.snp.makeConstraints { make in
@@ -364,44 +356,32 @@ extension SignUpViewController {
             make.top.equalTo(passwordCheckLine.snp.bottom).offset(20)
         }
         
-        //        positionLine.layer.borderWidth = 1
-        //        positionLine.backgroundColor = UIColor.systemBlue
         positionLine.spacing = 20
         positionLine.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
             make.top.equalTo(nickNameLine.snp.bottom).offset(20)
-            make.height.equalTo(60)
+            make.height.equalTo(52)
         }
         
-        
-        tierButton.setTitle("Tier", for: .normal)
-        //        tierButton.layer.borderWidth = 1
         tierButton.layer.cornerRadius = 10
         tierButton.backgroundColor = UIColor.white
         tierButton.setTitleColor(UIColor.black, for: .normal)
-        tierButton.addTarget(self, action: #selector(showTierSelector), for: .touchUpInside)
+        
         tierButton.snp.makeConstraints { make in
             make.width.equalToSuperview().dividedBy(2.2)
         }
         
-        
-        positionButton.setTitle("Postion", for: .normal)
-        //        positionButton.layer.borderWidth = 1
         positionButton.layer.cornerRadius = 10
         positionButton.backgroundColor = UIColor.white
         positionButton.setTitleColor(UIColor.black, for: .normal)
-        positionButton.addTarget(self, action:#selector(showPositionSelector), for: .touchUpInside)
         positionButton.snp.makeConstraints { make in
             make.width.equalToSuperview().dividedBy(2.2)
         }
         
-        
-        
+        signupButton.backgroundColor = UIColor.rgrgColor7
         signupButton.addTarget(self, action: #selector(tapSignUP), for: .touchUpInside)
         signupButton.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
-//            make.bottom.equalToSuperview().inset(20)
         }
-        
     }
 }

@@ -16,8 +16,6 @@ var pwBringValue: String = ""
 
 class CustomMemberInfoBox : UIView {
     
-    
-    
     var passHandler:((Bool)->Void)?
     var conditon : String
     var cellHeightValue : Int
@@ -32,12 +30,14 @@ class CustomMemberInfoBox : UIView {
     let inputBox = {
         let box = UITextField()
         box.autocapitalizationType = .none
+        box.font = UIFont(name: AppFontName.bold, size: 16)
         return box
     }()
     
     let conditionText = {
         let text = UILabel()
         text.isHidden = true
+        text.font = UIFont(name: AppFontName.regular, size: 14)
         return text
     }()
     
@@ -45,7 +45,6 @@ class CustomMemberInfoBox : UIView {
         let icon = UIImageView()
         icon.isHidden = true
         return icon
-        
     }()
     
     let isSecureControllView = {
@@ -62,22 +61,21 @@ class CustomMemberInfoBox : UIView {
     let passMessage = {
         let text = UILabel()
         text.isHidden = true
+        text.font = UIFont(name: AppFontName.regular, size: 14)
         return text
-        
     }()
     
     lazy var duplicationMessage = {
         let text = UILabel()
         text.isHidden = true
+        text.font = UIFont(name: AppFontName.regular, size: 14)
         return text
     }()
-        
-    init(id:MemberInfoBox, conditionText:String? = nil, passText:String? = nil, placeHolder: String, condition: String, cellHeight:Int = 60 , style: String = "SignUp") {
-        
+    
+    init(id:MemberInfoBox, conditionText:String? = nil, passText:String? = nil, placeHolder: String, condition: String, cellHeight:Int = 52 , style: String = "SignUp") {
         self.conditon = condition
         self.cellHeightValue = cellHeight
         self.conditionText.text = conditionText
-//        self.passMessage.text = passText
         self.inputBox.placeholder = placeHolder
         self.cellID = id
         super.init(frame: CGRect())
@@ -85,9 +83,7 @@ class CustomMemberInfoBox : UIView {
         styleSort(style: style)
     }
     
-    
-    
-    required init?(coder: NSCoder) {
+     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -121,7 +117,7 @@ class CustomMemberInfoBox : UIView {
                             
                             passView?.isHidden = true
                             duplicationMessage.isHidden = false
-                            duplicationMessage.text = "사용중인 닉네임"
+                            duplicationMessage.text = "사용불가"
                             nonPassView?.isHidden = true
                             passHandler?(false)
                         }
@@ -137,11 +133,34 @@ class CustomMemberInfoBox : UIView {
                         } else  {
                             passView?.isHidden = true
                             duplicationMessage.isHidden = false
-                            duplicationMessage.text = "사용중인 닉네임"
+                            duplicationMessage.text = "사용불가"
                             nonPassView?.isHidden = true
                             passHandler?(false)
                         }
                     }
+                case .resetPW:
+                    duplicationCheckEmail { [self] isUnique in
+                        if isUnique {
+                            //unique
+                            passView?.isHidden = true
+                            duplicationMessage.isHidden = false
+                            duplicationMessage.text = "없는 계정"
+                            nonPassView?.isHidden = true
+                            passHandler?(false)
+                           
+                        } else {
+                            //Not unique
+                            passView?.isHidden = false
+                            passMessage.text = "계정확인됨"
+                            nonPassView?.isHidden = true
+                            duplicationMessage.isHidden = true
+                            passHandler?(true)
+                            
+                            // passHandler == true
+                            // 위 메일주소로 메일을 발송할까요 ? 문구 뜨게
+                        }
+                    }
+                    
                 default :
                     passView?.isHidden = false
                     nonPassView?.isHidden = true
@@ -157,28 +176,26 @@ class CustomMemberInfoBox : UIView {
         
         switch cellID {
         case .loginEmail :
-            duplicationCheckEmail() { completion in
-                if validationCheck && completion {
-                    updateUIvalid(passView: self.checkIcon)
-                }
-            }
+            updateUIvalid(passView: self.checkIcon)
         case .loginPW :
-            self.inputBox.isSecureTextEntry = true
             isSecureControllView.isHidden = false
-            updateUIvalid(passView: checkIcon)
+            updateUIvalid(passView: self.checkIcon)
         case .email:
             updateUIvalid(passView: passMessage, nonPassView: self.conditionText)
         case .pw:
+            isSecureControllView.isHidden = false
             updateUIvalid(passView: checkIcon, nonPassView: conditionText)
             savePasswordValue()
         case .pwCheck:
+            isSecureControllView.isHidden = false
             let pwCheckInputValue = inputBox.text
             let pwCheckValue = pwBringValue == pwCheckInputValue
             updateUIvalid(validation: pwCheckValue, passView: checkIcon, nonPassView: conditionText)
         case .userName:
-            //중복확인을 통과하고 나서 보여주기.
-            //[Bug]중복된 닉네임이 있다는걸 왜 잡아내지 못할까🔥
             updateUIvalid(passView: passMessage, nonPassView: self.conditionText)
+        case .resetPW:
+            //중복값이 있어야 의미가 있는 Line
+            updateUIvalid(passView: passMessage)
         }
     }
     
@@ -202,14 +219,11 @@ class CustomMemberInfoBox : UIView {
                 if let querySnapshot = querySnapshot {
                     let isDuplicate = !querySnapshot.isEmpty
                     if isDuplicate {
-                        print("중복된 이메일이 이미 존재합니다.")
                         completion(false) // 중복된 이메일이 있는 경우 false 반환
                     } else {
-                        print("중복된 이메일이 없습니다. 사용 가능한 이메일입니다.")
                         completion(true) // 중복된 이메일이 없는 경우
                     }
                 } else {
-                    print("쿼리 스냅샷이 nil입니다.")
                     completion(false) // 쿼리 스냅샷이 nil인 경우 false 반환
                 }
             }
@@ -229,21 +243,16 @@ class CustomMemberInfoBox : UIView {
                 if let querySnapshot = querySnapshot {
                     let isDuplicate = !querySnapshot.isEmpty
                     if isDuplicate {
-                        print("중복된 닉네임 이미 존재합니다.")
                         completion(false) // 중복된 이메일이 있는 경우 false 반환
                     } else {
-                        print("중복된 닉네임이 없습니다. 사용 가능한 닉네임입니다.")
                         completion(true) // 중복된 이메일이 없는 경우
                     }
                 } else {
-                    print("쿼리 스냅샷이 nil입니다.")
                     completion(false) // 쿼리 스냅샷이 nil인 경우 false 반환
                 }
             }
         }
     }
-    
-    
     
     func savePasswordValue (){
         if cellID == .pw {
@@ -261,15 +270,17 @@ class CustomMemberInfoBox : UIView {
     func styleSort(style : String){
         switch style {
         case "Login" :
-            self.layer.borderColor = UIColor.RGRGColor3?.cgColor
+            self.layer.borderColor = UIColor.rgrgColor3.cgColor
             self.checkIcon.tintColor = UIColor.white
-            
+            self.eyesIcon.tintColor = UIColor.white
         case "SignUp":
             self.layer.borderColor = UIColor.white.cgColor
             self.backgroundColor = UIColor.white
             self.inputBox.textColor = UIColor(hex: "505050")
-            
-            
+            self.eyesIcon.tintColor = UIColor.gray
+        case "resetPW" :
+            self.layer.borderColor = UIColor.rgrgColor3.cgColor
+            self.inputBox.textColor = UIColor(hex: "505050")
         default:
             break
         }
@@ -277,56 +288,64 @@ class CustomMemberInfoBox : UIView {
     
     //MARK: UI
     func setupUI(){
+        self.addSubview(stackView)
+        stackView.addArrangedSubview(inputBox)
+
+        stackView.addArrangedSubview(conditionText)
+        stackView.addArrangedSubview(isSecureControllView)
+        stackView.addArrangedSubview(checkIcon)
+        stackView.addArrangedSubview(passMessage)
+        stackView.addArrangedSubview(duplicationMessage)
+        isSecureControllView.addSubview(eyesIcon)
+        
+        self.setupShadow(alpha: 0.25, offset: CGSize(width: 2, height: 3), radius: 4, opacity: 0.5)
         self.layer.borderWidth = 2
         self.layer.cornerRadius = 10
         self.snp.makeConstraints { make in
             make.height.equalTo(cellHeightValue)
         }
-        
-        self.addSubview(stackView)
+             
         stackView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(10)
             make.left.equalToSuperview().offset(25)
             make.bottom.equalToSuperview().inset(10)
             make.right.equalToSuperview().inset(25)
         }
-        
-        stackView.addArrangedSubview(inputBox)
+         
         inputBox.addTarget(self, action: #selector(checkInputValue), for: .editingChanged)
-        inputBox.attributedPlaceholder = NSAttributedString(string: inputBox.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.RGRGColor7])
+        inputBox.attributedPlaceholder = NSAttributedString(string: inputBox.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.rgrgColor7])
         inputBox.textColor = UIColor(hex: "FFFFFF")
-        stackView.addArrangedSubview(conditionText)
+       
         conditionText.textColor = UIColor.systemRed
+        conditionText.textAlignment = .right
+        conditionText.snp.makeConstraints { make in
+            make.right.equalTo(isSecureControllView.snp.left).offset(-10)
+            make.width.equalTo(110)
+        }
         
-        
-        
-        stackView.addArrangedSubview(isSecureControllView)
         isSecureControllView.addTarget(self, action: #selector(switchisSecure), for: .touchUpInside)
-        isSecureControllView.addSubview(eyesIcon)
+        isSecureControllView.snp.makeConstraints { make in
+            make.width.equalTo(30)
+        }
         
         eyesIcon.image = UIImage(systemName: "eye.slash")
-        eyesIcon.tintColor = UIColor.white
         eyesIcon.contentMode = .scaleAspectFit
         eyesIcon.snp.makeConstraints { make in
-            make.width.equalTo(30)
+            make.edges.equalToSuperview()
             make.centerY.equalToSuperview()
         }
         
-        stackView.addArrangedSubview(checkIcon)
         checkIcon.image = UIImage(systemName: "checkmark")
-        checkIcon.tintColor = UIColor.black
+        checkIcon.tintColor = UIColor.gray
         checkIcon.contentMode = .scaleAspectFit
         checkIcon.snp.makeConstraints { make in
             make.width.equalTo(20)
+            make.left.equalTo(isSecureControllView.snp.right).offset(10)
         }
-                
-        stackView.addArrangedSubview(passMessage)
-        passMessage.textColor = UIColor.systemBlue
         
-        stackView.addArrangedSubview(duplicationMessage)
+        passMessage.textColor = UIColor.systemBlue
         duplicationMessage.textColor = UIColor.systemRed
     }
-    
 }
 
 

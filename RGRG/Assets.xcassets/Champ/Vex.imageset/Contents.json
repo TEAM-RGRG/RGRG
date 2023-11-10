@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "Vex.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

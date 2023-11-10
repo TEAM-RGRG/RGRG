@@ -12,148 +12,96 @@ import UIKit
 class ChatListCell: UITableViewCell {
     static let identifier: String = "ChatListCell"
 
-    let superStackView = CustomStackView(frame: .zero)
-    let trailingStackView = CustomStackView(frame: .zero)
-
-    let profileIconImageView = CustomImageView(frame: .zero)
-    let chatAlertIconView = UIView(frame: .zero)
-
-    let profileNameLabel = CustomLabel(frame: .zero)
-    let chatDescriptionLabel = CustomLabel(frame: .zero)
-    let timeLabel = CustomLabel(frame: .zero)
-    let alertCountLabel = CustomLabel(frame: .zero)
-
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupUI()
-    }
-
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    let baseView = UIView(frame: .zero)
+    let userProfileImage = CustomImageView(frame: .zero)
+    let userProfileName = CustomLabel(frame: .zero)
+    let currentChat = CustomLabel(frame: .zero)
+    let chatAlert = UIView(frame: .zero)
 }
+
+// MARK: - Setting UI
 
 extension ChatListCell {
     func setupUI() {
-        confirmProfileIcon()
-        confirmStackView()
-        confirmProfileNameLabel()
-        confirmChatDescriptionLabel()
-        confirmTrailingStackView()
-        confirmTimeLabel()
-        confirmAlertIcon()
-    }
-
-    func confirmProfileIcon() {
-        contentView.addSubview(profileIconImageView)
-        profileIconImageView.image = UIImage(systemName: "sun.max")
-        profileIconImageView.backgroundColor = .systemBlue
-        profileIconImageView.tintColor = .white
-        profileIconImageView.layer.masksToBounds = true
-        profileIconImageView.configurelayer(corner: 30)
-
-        profileIconImageView.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.leading.equalTo(contentView).offset(10)
-            make.top.equalTo(contentView).inset(10)
-            make.width.equalTo(60)
-        }
-    }
-
-    func confirmStackView() {
-        contentView.addSubview(superStackView)
-        superStackView.configure(axis: .vertical, alignment: .fill, distribution: .fillProportionally, spacing: 0)
-        [profileNameLabel, chatDescriptionLabel].forEach {
-            superStackView.addArrangedSubview($0)
-        }
-
-        superStackView.snp.makeConstraints { make in
-            make.leading.equalTo(profileIconImageView.snp.trailing).offset(10)
-            make.centerY.equalToSuperview()
-            make.top.equalTo(contentView).offset(10)
-            make.trailing.equalTo(contentView).offset(-70)
-            make.bottom.equalToSuperview().inset(10)
-        }
-    }
-
-    func confirmProfileNameLabel() {
-        profileNameLabel.text = "김준우"
-        profileNameLabel.font = .systemFont(ofSize: 25, weight: .bold)
-        profileNameLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(10)
-            make.height.equalTo(30)
-        }
-    }
-
-    func confirmChatDescriptionLabel() {
-        chatDescriptionLabel.text = "Hello_WorldHello_WorldHello_WorldHello_WorldHello_WorldHello_WorldHello_WorldHello_WorldHello_WorldHello_WorldHello_World"
-        chatDescriptionLabel.font = .systemFont(ofSize: 12, weight: .regular)
-        chatDescriptionLabel.numberOfLines = 2
-        chatDescriptionLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(10)
-            make.trailing.equalToSuperview().inset(10)
-            make.height.equalTo(30)
-        }
+        confirmBaseView()
+        confirmProfileImage()
+        confirmUserName()
+        confirmCurrentChat()
+        confirmChatAlert()
     }
 }
 
 extension ChatListCell {
-    func confirmTrailingStackView() {
-        contentView.addSubview(trailingStackView)
-        trailingStackView.configure(axis: .vertical, alignment: .center, distribution: .fillProportionally, spacing: 0)
-        [timeLabel, chatAlertIconView].forEach {
-            trailingStackView.addArrangedSubview($0)
+    func confirmBaseView() {
+        contentView.addSubview(baseView)
+
+        baseView.snp.makeConstraints { make in
+            make.top.leading.equalTo(contentView.safeAreaLayoutGuide).offset(8)
+            make.centerX.equalToSuperview()
+            make.leading.equalTo(contentView).offset(8)
+            make.bottom.equalTo(contentView)
         }
-        trailingStackView.snp.makeConstraints { make in
+
+        baseView.layer.cornerRadius = 10
+        baseView.backgroundColor = .white
+    }
+
+    func confirmProfileImage() {
+        baseView.addSubview(userProfileImage)
+
+        userProfileImage.backgroundColor = .systemGray6
+        userProfileImage.layer.cornerRadius = 26
+
+        userProfileImage.layer.borderWidth = 1
+        userProfileImage.layer.borderColor = UIColor(hex: "#0C356A").cgColor
+
+        userProfileImage.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.leading.equalTo(superStackView.snp.trailing).offset(5)
-            make.trailing.equalToSuperview().inset(10)
-            make.top.equalTo(contentView).offset(10)
+            make.top.equalTo(baseView).offset(14)
+            make.leading.equalTo(baseView).offset(20)
+            make.width.equalTo(52)
         }
     }
 
-    func confirmTimeLabel() {
-        timeLabel.text = "10월 17일"
-        timeLabel.textAlignment = .center
-        timeLabel.font = .systemFont(ofSize: 12, weight: .bold)
-        timeLabel.snp.makeConstraints { make in
-            make.height.equalTo(30)
+    func confirmUserName() {
+        baseView.addSubview(userProfileName)
+        userProfileName.font = UIFont(name: "NotoSansKR-Bold", size: 20)
+        userProfileName.textColor = UIColor(hex: "#505050")
+
+        userProfileName.snp.makeConstraints { make in
+            make.top.equalTo(baseView.snp.top).offset(16)
+            make.leading.equalTo(baseView).offset(87)
+            make.trailing.equalTo(baseView).offset(-70)
+            make.bottom.equalTo(baseView).offset(-44)
         }
     }
 
-    func confirmAlertIcon() {
-        chatAlertIconView.addSubview(alertCountLabel)
-        chatAlertIconView.backgroundColor = .systemRed
-        chatAlertIconView.layer.cornerRadius = 15
-        alertCountLabel.text = "0"
-        alertCountLabel.setupLabelColor(color: .white)
-        alertCountLabel.textAlignment = .center
-        alertCountLabel.font = .systemFont(ofSize: 12, weight: .bold)
+    func confirmCurrentChat() {
+        baseView.addSubview(currentChat)
+        currentChat.numberOfLines = 1
+        currentChat.font = UIFont(name: AppFontName.regular, size: 16)
+        currentChat.textColor = UIColor(hex: "#767676")
 
-        chatAlertIconView.snp.makeConstraints { make in
-            make.width.height.equalTo(30)
-        }
-
-        alertCountLabel.snp.makeConstraints { make in
-            make.centerX.centerY.equalToSuperview()
-            make.width.equalTo(10)
+        currentChat.snp.makeConstraints { make in
+            make.top.equalTo(baseView).offset(44)
+            make.leading.equalTo(baseView).offset(87)
+            make.trailing.equalTo(baseView).offset(-33)
+            make.bottom.equalTo(baseView).offset(-20)
         }
     }
-}
 
-// MARK: - SwiftUI Preview
+    func confirmChatAlert() {
+        baseView.addSubview(chatAlert)
 
-@available(iOS 13.0, *)
-struct ChatListCellRepresentble: UIViewRepresentable {
-    func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<ChatListCellRepresentble>) {}
+        chatAlert.backgroundColor = UIColor(hex: "#279EFF")
+        chatAlert.layer.cornerRadius = 4
 
-    func makeUIView(context: Context) -> UIView { ChatListCell().contentView
-    }
-}
-
-@available(iOS 13.0, *)
-struct ChatListCellPreview: PreviewProvider {
-    static var previews: some View { ChatListCellRepresentble().frame(height: 80)
+        chatAlert.snp.makeConstraints { make in
+            make.top.equalTo(baseView).offset(36)
+            make.leading.equalTo(baseView).offset(354)
+            make.trailing.equalTo(baseView).offset(-12)
+            make.bottom.equalTo(baseView).offset(-36)
+            make.width.equalTo(8)
+        }
     }
 }

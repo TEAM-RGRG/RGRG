@@ -13,12 +13,12 @@ class CtaLargeButton : UIButton {
     
     let title: UILabel = {
         let label = UILabel()
+        label.font = UIFont(name: AppFontName.bold, size: 15)
         return label
     }()
         
  init(titleText: String) {
         self.title.text = titleText
-        //상위 클래스에 있는 init을 호출   .. 한다는게 어떤 의미이지 ?
         super.init(frame:  CGRect())
         setupUI()
     }
@@ -29,20 +29,19 @@ class CtaLargeButton : UIButton {
     
     func setupUI(){
         self.layer.cornerRadius = 10
-        self.backgroundColor =  UIColor.RGRGColor3
+        self.setupShadow(alpha: 0.25, offset: CGSize(width: 2, height: 3), radius: 4, opacity: 1)
 
         self.snp.makeConstraints { make in
-            make.height.equalTo(70)
+            make.height.equalTo(60)
         }
         
         self.addSubview(title)
         title.textColor = UIColor.white
-        title.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
         title.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
         }
     }
-    
+
 }
 

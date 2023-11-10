@@ -20,13 +20,13 @@ class NoticePageVC: UIViewController {
     
     let contentView: UIView = {
         let view = UIView()
-        view.backgroundColor = .systemGray5
+        view.backgroundColor = .rgrgColor5
         return view
     }()
     
     lazy var noticeListTable: UITableView = {
         var tableView = UITableView()
-        tableView.backgroundColor = .systemGray5
+        tableView.backgroundColor = .rgrgColor5
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorStyle = .none
         return tableView
@@ -42,15 +42,19 @@ class NoticePageVC: UIViewController {
     
     let partyPosition = ["#정글", "#서폿", "#상관없음", "#서폿", "#상관없음"]
     
+    // MARK: - ViewWillAppear
     
     override func viewWillAppear(_ animated: Bool) {
-        tabBarController?.navigationController?.navigationBar.isHidden = false;
+        navigationController?.navigationBar.isHidden = false
+        configureUI()
     }
+    
+    // MARK: - ViewDidLoad
     
     override func viewDidLoad() {
         super.viewDidLoad()
     
- title = "알림"
+        title = "알림"
         navigationController?.navigationBar.barTintColor = UIColor.red
         
         configureUI()
@@ -61,24 +65,17 @@ class NoticePageVC: UIViewController {
     }
     
     @objc func backButtonTapped() {
-        self.navigationController?.popViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     func configureUI() {
-        view.backgroundColor = .systemGray5
+        view.backgroundColor = .rgrgColor5
         view.addSubview(topFrame)
-//        topFrame.addSubview(pageTitleLabel)
-//        topFrame.addSubview(backButton)
         view.addSubview(contentView)
         contentView.addSubview(noticeListTable)
         
-        
-        
-        
-        // 커스텀 백버튼 추가
         let backButton = UIButton(type: .custom)
         backButton.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
-//        backButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true // 버튼의 가로 크기
         backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -87,10 +84,6 @@ class NoticePageVC: UIViewController {
         let customItem = UIBarButtonItem(customView: backButton)
         navigationItem.leftBarButtonItem = customItem
 
-       
-        
-        
-        
         topFrame.snp.makeConstraints {
             $0.top.leading.equalToSuperview().offset(-2)
             $0.trailing.equalToSuperview().offset(2)
@@ -122,9 +115,28 @@ extension NoticePageVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "userInfoCell", for: indexPath) as! userInfoCell
         cell.userNameLabel.text = userName[indexPath.row]
         cell.tierLabel.text = tier[indexPath.row]
-//        cell.partyTimeLabel.text = mainPlayTime[indexPath.row]
-//        cell.partyTierLabel.text = partyTier[indexPath.row]
-//        cell.partyPositionLabel.text = partyPosition[indexPath.row]
+        
+        if let tierText = cell.tierLabel.text {
+                   switch tierText {
+                   case "Iron":
+                       cell.tierLabel.textColor = .iron
+                   case "Bronze":
+                       cell.tierLabel.textColor = .bronze
+                   case "Silver":
+                       cell.tierLabel.textColor = .silver
+                   case "Gold":
+                       cell.tierLabel.textColor = .gold
+                   case "Platinum":
+                       cell.tierLabel.textColor = .platinum
+                   case "Emerald":
+                       cell.tierLabel.textColor = .emerald
+                   case "Diamond":
+                       cell.tierLabel.textColor = .diamond
+                   default:
+                       cell.tierLabel.textColor = .black
+                   }
+               }
+        
        
         cell.selectionStyle = .none
         
@@ -147,8 +159,8 @@ class userInfoCell: UITableViewCell {
         view.backgroundColor = .white
         view.layer.cornerRadius = 10
         view.layer.shadowOffset = CGSize(width: 0, height: 2)
-        view.layer.shadowOpacity = 1
-        view.layer.shadowRadius = 6
+        view.layer.shadowOpacity = 0.8
+        view.layer.shadowRadius = 5
         view.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.1).cgColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -278,7 +290,7 @@ class userInfoCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.backgroundColor = .systemGray5
+        contentView.backgroundColor = .rgrgColor5
         
         contentView.addSubview(cellFrameView)
         cellFrameView.addSubview(profileImage)
@@ -345,7 +357,6 @@ class userInfoCell: UITableViewCell {
             $0.height.equalTo(24)
             $0.width.equalTo(76)
             $0.trailing.equalTo(cellFrameView.snp.trailing).offset(-100)
-//            $0.bottom.lessThanOrEqualTo(cellFrameView.snp.bottom).offset(-10)
         }
         
         firstMostChampionImage.snp.makeConstraints {
@@ -371,7 +382,6 @@ class userInfoCell: UITableViewCell {
             $0.trailing.equalTo(cellFrameView.snp.trailing).offset(-13)
             $0.bottom.equalTo(cellFrameView.snp.bottom).offset(-22)
             $0.width.equalTo(73)
-//            $0.width.equalTo(90)
         }
     }
     
@@ -380,3 +390,4 @@ class userInfoCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
+

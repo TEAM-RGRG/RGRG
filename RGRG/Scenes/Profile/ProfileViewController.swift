@@ -10,15 +10,27 @@ import FirebaseCore
 import SnapKit
 import UIKit
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, SendUpdatedUserDelegate {
+    func sendUpdatedUser(user: User) {
+        profileImageView.image = UIImage(named: user.profilePhoto)
+        userNameLabel.text = user.userName
+        positionImageView.image = UIImage(named: user.position)
+        tierLabel.text = user.tier
+        tierLabel.textColor = UIColor(named: user.tier)
+    }
+
     var user: User?
+
+    let wholeView = UIView()
 
     let profileView = UIView()
     let profileImageView: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 75, height: 75))
-        imageView.layer.borderColor = UIColor.RGRGColor3?.cgColor
+        imageView.layer.borderColor = UIColor.rgrgColor3.cgColor
         imageView.layer.borderWidth = 2
         imageView.layer.cornerRadius = imageView.frame.height / 2
+        imageView.clipsToBounds = true
+        imageView.backgroundColor = .rgrgColor7
         return imageView
     }()
 
@@ -33,7 +45,7 @@ class ProfileViewController: UIViewController {
     }()
 
     let positionImageView = CustomImageView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
-    
+
     let positionImageOuterView: UIView = {
         let newView = UIView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
         newView.layer.borderColor = UIColor(hex: "#ADADAD", alpha: 1).cgColor
@@ -75,24 +87,37 @@ extension ProfileViewController {
         configureUI()
         setupProfileView()
         setImageTapGesture()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
         FirebaseUserManager.shared.getUserInfo { user in
             self.user = user
+            print("### \(user)")
             DispatchQueue.main.async {
                 self.setupLabels()
                 self.setupImages()
             }
         }
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        setupNavigationBar()
+        tabBarController?.navigationItem.title = "마이페이지"
+        tabBarController?.navigationItem.rightBarButtonItem?.isHidden = true
+        tabBarController?.navigationItem.hidesBackButton = true
+        tabBarController?.navigationController?.navigationBar.isHidden = false
+    }
 }
 
 extension ProfileViewController {
     func configureUI() {
-        view.backgroundColor = .RGRGColor5
+        view.backgroundColor = UIColor(hex: "#FFFFFF")
+        view.addSubview(wholeView)
 
-        [profileView].forEach { view.addSubview($0) }
+        wholeView.backgroundColor = .rgrgColor5
+
+        wholeView.snp.makeConstraints { make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+        }
+
+        [profileView].forEach { wholeView.addSubview($0) }
 
         profileView.snp.makeConstraints { make in
             make.left.right.equalToSuperview().inset(12)
@@ -102,10 +127,10 @@ extension ProfileViewController {
     }
 
     func setupProfileView() {
-        profileView.backgroundColor = .white
+        profileView.backgroundColor = UIColor(hex: "#FFFFFF")
         profileView.layer.cornerRadius = 10
 
-        setupShadow()
+        profileView.setupShadow(alpha: 0.10, offset: CGSize(width: 0, height: 1), radius: 5, opacity: 1)
         setupButtons()
 
         [userNameLabel, emailLabel].forEach { labelStackView.addArrangedSubview($0) }
@@ -127,10 +152,6 @@ extension ProfileViewController {
             make.height.width.equalTo(75)
         }
 
-        tierLabel.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-        }
-
         labelStackView.snp.makeConstraints { make in
             make.left.equalTo(profileImageView.snp.right).offset(12)
             make.centerY.equalTo(profileImageView)
@@ -142,11 +163,16 @@ extension ProfileViewController {
             make.height.width.equalTo(35)
         }
 
+        tierLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.left.equalToSuperview().offset(12)
+        }
+
         tierView.snp.makeConstraints { make in
             make.left.equalTo(positionImageOuterView.snp.right).offset(8)
             make.centerY.equalTo(positionImageOuterView)
             make.height.equalTo(35)
-            make.width.equalTo(124)
+            make.right.equalTo(tierLabel).offset(12)
         }
 
         buttonStackView.snp.makeConstraints { make in
@@ -155,17 +181,21 @@ extension ProfileViewController {
         }
     }
 
-    func setupShadow() {
-        profileView.layer.shadowColor = CGColor(red: 0, green: 0, blue: 0, alpha: 0.10)
-        profileView.layer.shadowOffset = CGSize(width: 0, height: 1)
-        profileView.layer.shadowRadius = 5
-        profileView.layer.shadowOpacity = 1
-    }
-    
     func setImageTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toEditProfile))
         profileImageView.addGestureRecognizer(tapGesture)
         profileImageView.isUserInteractionEnabled = true
+    }
+
+    func setupNavigationBar() {
+        tabBarController?.navigationItem.title = "마이페이지"
+        tabBarController?.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "NotoSansKR-Bold", size: 24)!, NSAttributedString.Key.foregroundColor: UIColor.rgrgColor4]
+
+        let backButton = UIButton()
+        backButton.setTitle("", for: .normal)
+
+        let customItem = UIBarButtonItem(customView: backButton)
+        navigationItem.leftBarButtonItem = customItem
     }
 }
 
@@ -173,6 +203,7 @@ extension ProfileViewController {
     func setupLabels() {
         userNameLabel.text = user?.userName
         userNameLabel.font = .myBoldSystemFont(ofSize: 20)
+        userNameLabel.textColor = UIColor(hex: "#505050")
 
         emailLabel.text = user?.email
         emailLabel.font = .mySystemFont(ofSize: 14)
@@ -180,18 +211,12 @@ extension ProfileViewController {
 
         tierLabel.text = user?.tier
         tierLabel.font = UIFont(name: "NotoSansKR-Bold", size: 20)
-        tierLabel.textColor = UIColor(hex: "#767676")
+        tierLabel.textColor = UIColor(named: user?.tier ?? "Black")
     }
 
     func setupImages() {
-        StorageManager.shared.getImage("icons", user?.profilePhoto ?? "Default") {
-            self.profileImageView.image = $0
-            self.profileImageView.contentMode = .scaleAspectFill
-        }
-        StorageManager.shared.getImage("position_w", user?.position ?? "support") {
-            self.positionImageView.image = $0
-            self.profileImageView.contentMode = .scaleAspectFit
-        }
+        profileImageView.image = UIImage(named: user?.profilePhoto ?? "Default")
+        positionImageView.image = UIImage(named: user?.position ?? "Support")
     }
 
     func setupButtons() {
@@ -200,18 +225,14 @@ extension ProfileViewController {
 
         var plainConfigure = UIButton.Configuration.plain()
         plainConfigure.imagePadding = 4
-        var tintedConfigure = UIButton.Configuration.tinted()
-        tintedConfigure.background.strokeColor = .rgrgColor2
-        tintedConfigure.background.strokeWidth = 2
 
         myWritingButton.setImage(UIImage(named: "widget"), for: .normal)
         myWritingButton.setTitle("내가 쓴 글", for: .normal)
-        myWritingButton.addTarget(self, action: #selector(myWritingButtonPressed), for: .touchUpInside
-        )
+        myWritingButton.addTarget(self, action: #selector(myWritingButtonPressed), for: .touchUpInside)
         settingButton.setImage(UIImage(named: "gear"), for: .normal)
         settingButton.setTitle("환경 설정", for: .normal)
         settingButton.addTarget(self, action: #selector(settingButtonPressed), for: .touchUpInside)
-        
+
         myWritingButton.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMaxYCorner)
         settingButton.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMaxXMaxYCorner)
 
@@ -231,17 +252,18 @@ extension ProfileViewController {
 
 extension ProfileViewController {
     @objc func myWritingButtonPressed() {
-        // 추가 구현기능
-        print("추가 구현 예정")
+        let partyInfoIWroteVC = PartyInfoIWroteViewController()
+        navigationController?.pushViewController(partyInfoIWroteVC, animated: true)
     }
-    
+
     @objc func settingButtonPressed() {
         let settingVC = SettingViewController()
-        self.navigationController?.pushViewController(settingVC, animated: true)
+        navigationController?.pushViewController(settingVC, animated: true)
     }
-    
+
     @objc func toEditProfile() {
         let editProfileVC = EditProfileViewController()
-        self.navigationController?.pushViewController(editProfileVC, animated: true)
+        editProfileVC.delegate = self
+        navigationController?.pushViewController(editProfileVC, animated: true)
     }
 }

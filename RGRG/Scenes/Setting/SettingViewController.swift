@@ -11,14 +11,22 @@ import SnapKit
 import UIKit
 
 class SettingViewController: UIViewController {
-    let settingList = [
-        "알림 설정", "차단 목록", "테마 설정", "앱 아이콘 설정", "로그아웃", "회원탈퇴"
-    ]
+    let developInfoVC = DeveloperInfoViewController()
+    let reportVC = ReportViewController()
 
+    let settingList = [
+        "로그아웃", "회원탈퇴", "신고하기", "개발자 정보"
+    ]
+    var user: User?
     let settingTable: UITableView = {
         let tableView = UITableView()
+        tableView.backgroundColor = .clear
         return tableView
     }()
+
+    let container = UIView()
+    let loginVC = LoginViewController()
+    let current = Auth.auth().currentUser?.uid
 
     deinit {
         print("### NotificationViewController deinitialized")
@@ -33,16 +41,29 @@ extension SettingViewController {
         configureUI()
         setupSettingTable()
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        configureUI()
+        setupSettingTable()
+    }
 }
 
 extension SettingViewController {
     func configureUI() {
         setupNavigationBar()
-        view.backgroundColor = .systemBackground
-        view.addSubview(settingTable)
+        container.backgroundColor = .rgrgColor5
+        view.backgroundColor = .white
 
+        view.addSubview(container)
+        container.snp.makeConstraints { make in
+            make.top.left.right.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalToSuperview()
+        }
+
+        container.addSubview(settingTable)
         settingTable.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(5)
+            make.left.right.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
 
@@ -90,17 +111,72 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath) as! SettingCell
         cell.textLabel?.text = settingList[indexPath.row]
+        cell.backgroundColor = .white
+        cell.textLabel?.textColor = .black
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 4 {
-            signOut()
-            navigationController?.popToRootViewController(animated: true)
+        let item = settingList[indexPath.row]
+        if indexPath.row == 0 {
+            let alert = UIAlertController(title: "로그아웃", message: "로그아웃 하시겠습니까?", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "로그아웃", style: .cancel, handler: { _ in
+
+                self.signOut()
+                self.navigationController?.pushViewController(self.loginVC, animated: true)
+                self.removeAllNavigationStack()
+            })
+            let cancel = UIAlertAction(title: "취소", style: .default)
+
+            alert.addAction(ok)
+            alert.addAction(cancel)
+
+            present(alert, animated: true)
         }
-        if indexPath.row == 5 {
-            deleteUser()
-            navigationController?.popToRootViewController(animated: true)
+        if indexPath.row == 1 {
+            let alert = UIAlertController(title: "회원 탈퇴", message: "회원 탈퇴 시 작성한 글은 삭제되지 않습니다. 정말로 삭제하시겠습니까?", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "회원 탈퇴", style: .cancel, handler: { _ in
+                FirebaseUserManager.shared.getUserInfo { user in
+                    self.user = user
+                }
+                let updatedUser = User(email: "알 수 없음", userName: "알 수 없음", tier: self.user?.tier ?? "Bronze", position: self.user?.position ?? "Top", mostChampion: self.user?.mostChampion ?? ["None", "None", "None"], uid: self.current ?? "")
+                FirebaseUserManager.shared.updateUserInfo(userInfo: updatedUser)
+                FirebaseUpdateManager.shared.partyUserUpdate(user: updatedUser)
+                FirebaseUpdateManager.shared.channelsUserUpdate(updateProfile: updatedUser.profilePhoto)
+
+                self.deleteUser()
+                self.navigationController?.pushViewController(self.loginVC, animated: true)
+                self.removeAllNavigationStack()
+            })
+            let cancel = UIAlertAction(title: "취소", style: .default)
+
+            alert.addAction(ok)
+            alert.addAction(cancel)
+
+            present(alert, animated: true)
         }
+
+        if indexPath.row == 2 {
+            reportVC.title = item
+
+            navigationController?.pushViewController(reportVC, animated: true)
+        }
+
+        if indexPath.row == 3 {
+            developInfoVC.title = item
+            developInfoVC.viewWillAppear(true)
+            navigationController?.pushViewController(developInfoVC, animated: true)
+        }
+    }
+}
+
+extension SettingViewController {
+    func removeAllNavigationStack() {
+        guard let navigationController = navigationController else { return }
+        var navigationArray = navigationController.viewControllers // To get all UIViewController stack as Array
+        let temp = navigationArray.last
+        navigationArray.removeAll()
+        navigationArray.append(temp!) // To remove all previous UIViewController except the last one
+        self.navigationController?.viewControllers = navigationArray
     }
 }

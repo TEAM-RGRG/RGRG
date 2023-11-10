@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "RGRG LOGO 2.png",
+      "filename" : "LoginMain 2.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "RGRG LOGO 1.png",
+      "filename" : "LoginMain.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "RGRG LOGO.png",
+      "filename" : "LoginMain 1.svg",
       "idiom" : "universal",
       "scale" : "3x"
     }
