@@ -185,7 +185,6 @@ extension MainViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.navigationController?.navigationBar.isHidden = true
-        partyList.removeAll()
         task()
     }
     
@@ -197,10 +196,10 @@ extension MainViewController {
         patryListTable.register(PartyTableViewCell.self, forCellReuseIdentifier: "PartyTableViewCell")
         patryListTable.delegate = self
         patryListTable.dataSource = self
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        partyList.removeAll()
+        
+        PartyManager.shared.updatePartyStatus {
+            self.task()
+        }
     }
 }
 
@@ -208,7 +207,6 @@ extension MainViewController {
 
 extension MainViewController {
     func updateOptionLabel(tier: String, position: String) {
-        // selectedTier 및 selectedPosition의 값에 따라 tierOptionLabel 업데이트
         if tier != "", position != "" {
             tierOptionLabel.setTitle(" \(tier) ", for: .normal)
             positionOptionLabel.setTitle(" \(position) ", for: .normal)
@@ -344,15 +342,14 @@ extension MainViewController {
 extension MainViewController {
     func task() {
         Task {
-            print("############\(selectedTier)#####\(selectedPosition)##########")
             await FirebaseUserManager.shared.getUserInfo(complition: { user in
                 print("### CurrentUser Info ::: \(user)")
                 self.currentUser = user
             })
             
             await PartyManager.shared.loadParty { [weak self] parties in
-                self?.partyList = parties // [PartyInfo] = [PartyInfo]
-                print("### \(self?.partyList)")
+                self?.partyList = parties
+                // [PartyInfo] = [PartyInfo]
                 DispatchQueue.main.async {
                     self?.patryListTable.reloadData()
                 }
@@ -438,17 +435,9 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         detailController.party = item
         detailController.user = currentUser
         detailController.partyID = item.thread ?? "n/a"
+        detailController.viewWillAppear(true)
+        
         navigationController?.pushViewController(detailController, animated: true)
     }
 }
 
-// extension MainViewController {
-//    func removeAllNavigationStack() {
-//        guard let navigationController = navigationController else { return }
-//        var navigationArray = navigationController.viewControllers // To get all UIViewController stack as Array
-//        let temp = navigationArray.last
-//        navigationArray.removeAll()
-//        navigationArray.append(temp!) // To remove all previous UIViewController except the last one
-//        navigationController.viewControllers = navigationArray
-//    }
-// }

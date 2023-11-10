@@ -59,7 +59,7 @@ extension ChatListCell {
             make.centerY.equalToSuperview()
             make.top.equalTo(baseView).offset(14)
             make.leading.equalTo(baseView).offset(20)
-            make.trailing.equalTo(baseView).offset(-305)
+            make.width.equalTo(52)
         }
     }
 
@@ -98,9 +98,10 @@ extension ChatListCell {
 
         chatAlert.snp.makeConstraints { make in
             make.top.equalTo(baseView).offset(36)
-            make.leading.equalTo(baseView).offset(357)
+            make.leading.equalTo(baseView).offset(354)
             make.trailing.equalTo(baseView).offset(-12)
             make.bottom.equalTo(baseView).offset(-36)
+            make.width.equalTo(8)
         }
     }
 }

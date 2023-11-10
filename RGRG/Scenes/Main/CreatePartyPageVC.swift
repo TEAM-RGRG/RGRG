@@ -402,11 +402,6 @@ class CreatePartyVC: UIViewController {
         view.endEditing(true)
     }
     
-    func setKeyboardObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-
     func setKeyboardNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -417,7 +412,7 @@ class CreatePartyVC: UIViewController {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
             if infoTextView.isFirstResponder {
-                self.view.window?.frame.origin.y -= keyboardHeight - 210
+                view.window?.frame.origin.y -= keyboardHeight - 210
                 partyNameTextField.isEnabled = false
             }
         }
@@ -429,43 +424,13 @@ class CreatePartyVC: UIViewController {
                 let keyboardRectangle = keyboardFrame.cgRectValue
                 let keyboardHeight = keyboardRectangle.height
                 if infoTextView.isFirstResponder {
-                    self.view.window?.frame.origin.y += keyboardHeight - 210
+                    view.window?.frame.origin.y += keyboardHeight - 210
                     partyNameTextField.isEnabled = true
                     partyNameTextField.isEnabled = true
                 }
             }
         }
     }
-    
-//    func addKeyboardNotifications() {
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-//    }
-//
-//    func removeKeyboardNotifications() {
-//        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-//        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-//    }
-//
-//    @objc func keyboardWillShow(_ noti: NSNotification) {
-//        if let keyboardFrame: NSValue = noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-//            let keyboardRectangle = keyboardFrame.cgRectValue
-//            let keyboardHeight = keyboardRectangle.height
-//            if #available(iOS 11.0, *) {
-//                let bottomInset = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.safeAreaInsets.bottom ?? 0
-//                let adjustedKeyboardHeight = keyboardHeight - bottomInset
-//                bottomButtonConstraint?.constant = -adjustedKeyboardHeight
-//            } else {
-//                bottomButtonConstraint?.constant = -keyboardHeight
-//            }
-//            view.layoutIfNeeded()
-//        }
-//    }
-//
-//    @objc func keyboardWillHide(_ noti: NSNotification) {
-//        bottomButtonConstraint?.constant = 0
-//        view.layoutIfNeeded()
-//    }
     
     // MARK: - ViewWillAppear
     
@@ -484,12 +449,9 @@ class CreatePartyVC: UIViewController {
         
         partyNameTextField.delegate = self
         infoTextView.delegate = self
-//        title = titleLabel
-        
+
         configureUI()
-//        addPlaceholderToTextView()
-//        addKeyboardNotifications()
-        setKeyboardObserver()
+        setKeyboardNotification()
         
         makeRightBarButton()
     }
