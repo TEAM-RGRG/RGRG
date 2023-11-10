@@ -72,6 +72,7 @@ extension DeveloperInfoViewController: UITableViewDataSource {
         cell.setupUI()
         cell.confirmCell(data: item)
         cell.accessoryType = .detailDisclosureButton
+        cell.backgroundColor = .white
         return cell
     }
 }

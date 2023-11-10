@@ -115,6 +115,12 @@ extension PartyInfoIWroteViewController {
             return UIColor.emerald
         case "Diamond":
             return UIColor.diamond
+        case "Master":
+            return UIColor.master
+        case "GrandMaster":
+            return UIColor.grandMaster
+        case "Challenger":
+            return UIColor.challenger
         default:
             return UIColor.black
         }

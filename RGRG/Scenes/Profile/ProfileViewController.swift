@@ -152,10 +152,6 @@ extension ProfileViewController {
             make.height.width.equalTo(75)
         }
 
-        tierLabel.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-        }
-
         labelStackView.snp.makeConstraints { make in
             make.left.equalTo(profileImageView.snp.right).offset(12)
             make.centerY.equalTo(profileImageView)
@@ -167,11 +163,16 @@ extension ProfileViewController {
             make.height.width.equalTo(35)
         }
 
+        tierLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.left.equalToSuperview().offset(12)
+        }
+
         tierView.snp.makeConstraints { make in
             make.left.equalTo(positionImageOuterView.snp.right).offset(8)
             make.centerY.equalTo(positionImageOuterView)
             make.height.equalTo(35)
-            make.width.equalTo(124)
+            make.right.equalTo(tierLabel).offset(12)
         }
 
         buttonStackView.snp.makeConstraints { make in
