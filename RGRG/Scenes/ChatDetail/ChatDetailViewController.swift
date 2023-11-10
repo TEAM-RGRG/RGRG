@@ -37,6 +37,33 @@ class ChatDetailViewController: UIViewController {
 }
 
 extension ChatDetailViewController {
+    func task() {
+        Task {
+            await FireStoreManager.shared.loadChatting(channelName: "channels", thread: thread, startIndex: count) { [weak self] data in
+                guard let self = self else { return }
+
+                self.chats = data
+
+                if chats.isEmpty == true {
+                    blankMessage.isHidden = false
+                } else {
+                    blankMessage.isHidden = true
+                }
+
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+
+                    if self.chats.isEmpty != true {
+                        let endexIndex = IndexPath(row: self.chats.count - 1, section: 0)
+                        self.tableView.scrollToRow(at: endexIndex, at: .bottom, animated: true)
+                    }
+                }
+
+                FireStoreManager.shared.updateChannel(currentMessage: self.chats.last?.content ?? "", thread: thread, sender: currentUserName, host: channelInfo?.host ?? "n/a", guest: channelInfo?.guest ?? "n/a")
+            }
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -44,39 +71,18 @@ extension ChatDetailViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         showBlankListMessage()
-        FireStoreManager.shared.loadChatting(channelName: "channels", thread: thread, startIndex: count) { [weak self] data in
-            guard let self = self else { return }
-
-            self.chats = data
-
-            if chats.isEmpty == true {
-                blankMessage.isHidden = false
-            } else {
-                blankMessage.isHidden = true
-            }
-
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-
-                if self.chats.isEmpty != true {
-                    let endexIndex = IndexPath(row: self.chats.count - 1, section: 0)
-                    self.tableView.scrollToRow(at: endexIndex, at: .bottom, animated: true)
-                }
-            }
-
-            FireStoreManager.shared.updateChannel(currentMessage: self.chats.last?.content ?? "", thread: thread, sender: currentUserName, host: channelInfo?.host ?? "n/a", guest: channelInfo?.guest ?? "n/a")
-        }
+        task()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        view.endEditing(true)
         chats.removeAll()
         currentUserName = ""
+        view.endEditing(true)
     }
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        textView.becomeFirstResponder()
-    }
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        textView.becomeFirstResponder()
+//    }
 }
 
 // MARK: - SetUp UI
@@ -84,6 +90,9 @@ extension ChatDetailViewController {
 extension ChatDetailViewController {
     func setupUI() {
         view.backgroundColor = UIColor(hex: "#FFFFFF")
+        hideKeyboardWhenTappedAround()
+        keyboardCheck()
+
         confirmNavigation()
 
         confirmTableView()
@@ -96,9 +105,6 @@ extension ChatDetailViewController {
         confirmTextView()
         confirmEmptyView()
         confirmSendMessageIcon()
-
-        hideKeyboardWhenTappedAround()
-        keyboardCheck()
     }
 
     func confirmNavigation() {
@@ -184,7 +190,6 @@ extension ChatDetailViewController {
         textView.layer.cornerRadius = 10
         textView.textContainerInset = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
         textView.isScrollEnabled = true
-//        textView.inputAccessoryView = nil
 
         textView.snp.makeConstraints { make in
             make.leading.equalTo(bottomBaseView).offset(8)
@@ -202,7 +207,6 @@ extension ChatDetailViewController {
         bottomBaseView.backgroundColor = UIColor(hex: "#F1F1F1")
 
         bottomBaseView.snp.makeConstraints { make in
-//            make.top.equalTo(textView.snp.top).offset(-8)
             make.height.equalTo(80)
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
@@ -295,7 +299,12 @@ extension ChatDetailViewController: UITableViewDataSource {
 
             cell.yourChatContent.text = item.content
             cell.yourChatTime.text = dateFormatter(strDate: item.date)
-            cell.yourProfileImage.image = UIImage(named: channelInfo?.hostProfile ?? "Default")
+
+            if channelInfo?.host == currentUserName {
+                cell.yourProfileImage.image = UIImage(named: channelInfo?.guestProfile ?? "Default")
+            } else {
+                cell.yourProfileImage.image = UIImage(named: channelInfo?.hostProfile ?? "Default")
+            }
 
             DispatchQueue.main.async {
                 cell.setupUI()

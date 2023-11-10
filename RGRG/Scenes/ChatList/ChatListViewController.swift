@@ -247,6 +247,7 @@ extension ChatListViewController: UITableViewDelegate {
         }
 
         vc.viewWillAppear(true)
+
         tabBarController?.navigationController?.pushViewController(vc, animated: true)
     }
 
