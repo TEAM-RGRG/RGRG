@@ -9,12 +9,6 @@ import FirebaseAuth
 import SnapKit
 import UIKit
 
-// 해야할 일
-// 1. FireStoreManager 의 데이터를 uid 로 변환
-// 2. 테이블뷰 키보드 올라오는 것에 대응 ✅
-// 3. ChatDetailVC에서 유저의 uid를 통해서 데이터 수신(내 정보는 ChatListVC => ChatDetailVC 로 전달) / (상대 정보는 넘겨받은 uid를 통해서 서버에서 해당 유저의 데이터를 전달 받거나 ChatListVC로부터 넘겨받을 것임)
-// 4. 기존의 유저와 대화하는 채팅방 존재시, 그 방으로 이동
-
 class ChatDetailViewController: UIViewController {
     let tableView = CustomTableView(frame: .zero, style: .plain)
 
@@ -254,8 +248,6 @@ extension ChatDetailViewController {
 
             FireStoreManager.shared.updateChannelSender(thread: self.thread, sender: self.currentUserName, host: self.channelInfo?.host ?? "n/a", guest: self.channelInfo?.guest ?? "n/a", date: FireStoreManager.shared.dateFormatter(value: Date.now))
 
-            let vc = ChatListViewController()
-
             DispatchQueue.main.async {
                 self.textView.text = nil
                 self.textView.textColor = UIColor(hex: "#505050")
@@ -267,7 +259,6 @@ extension ChatDetailViewController {
                     make.height.greaterThanOrEqualTo(35)
                 }
 
-                vc.viewWillAppear(true)
                 self.sendMessageIcon.image = UIImage(named: "Send_fill")
             }
         }

@@ -23,16 +23,8 @@ class PartyInfoDetailVC: UIViewController {
     
     let topFrame: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .rgrgColor5
         return view
-    }()
-    
-    let pageTitleLabel: UILabel = {
-        var label = UILabel()
-        label.text = ""
-        label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
-        label.textColor = .black
-        return label
     }()
     
     let backButton: UIButton = {
@@ -161,6 +153,8 @@ class PartyInfoDetailVC: UIViewController {
         let textView = UITextView()
         textView.text = "듀오 하실 분 구합니다!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!@ 현재 플레 1이구요. 든든하게 국밥챔프 위주로만 플레이 합니다,.. 간절하신 분이였으면 좋겠어요\n다이아,,.. 가봅시다요ㅠㅠ 최고 티어는 다이아 3까지 갔었습니다. 같이 다이아 등반 하실 분 구합니다"
         textView.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        textView.backgroundColor = .clear
+        textView.isEditable = false
         textView.textColor = UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 1)
         return textView
     }()
@@ -275,7 +269,7 @@ class PartyInfoDetailVC: UIViewController {
         channels.removeAll()
         navigationController?.navigationBar.isHidden = false
         setupUI()
-        FireStoreManager.shared.loadChannels(collectionName: "channels", filter: party?.writer ?? "n/a") { channels in
+        FireStoreManager.shared.loadChannels(collectionName: "channels", filter: party?.writer ?? "n/a") { channels, _ in
             
             var hostCount = channels.filter { $0.host == self.user?.uid }
             var guestCount = channels.filter { $0.guest == self.user?.uid }
@@ -361,6 +355,12 @@ class PartyInfoDetailVC: UIViewController {
                 return UIColor.emerald
             case "Diamond":
                 return UIColor.diamond
+            case "Master":
+                return UIColor.master
+            case "GrandMaster":
+                return UIColor.grandMaster
+            case "Challenger":
+                return UIColor.challenger
             default:
                 return UIColor.black
             }
@@ -402,11 +402,10 @@ class PartyInfoDetailVC: UIViewController {
     }
     
     func configureUI() {
-        view.backgroundColor = .rgrgColor5
+        view.backgroundColor = .white
         
         view.addSubview(topFrame)
-        topFrame.addSubview(pageTitleLabel)
-        view.addSubview(contentView)
+        topFrame.addSubview(contentView)
         
         contentView.addSubview(topframeView)
         topframeView.addSubview(profileImage)
@@ -433,18 +432,12 @@ class PartyInfoDetailVC: UIViewController {
         bottomframeView.addSubview(confirmationButton)
         
         topFrame.snp.makeConstraints {
-            $0.top.leading.equalToSuperview().offset(0)
-            $0.trailing.equalToSuperview().offset(0)
-            $0.height.equalTo(90)
-        }
-        
-        pageTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(topFrame.snp.top).offset(62)
-            $0.centerX.equalTo(topFrame)
+            $0.top.left.right.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.equalToSuperview()
         }
         
         contentView.snp.makeConstraints {
-            $0.top.equalTo(topFrame.snp.bottom).offset(10)
+            $0.top.equalTo(topFrame.snp.top).offset(10)
             $0.bottom.equalToSuperview().offset(0)
             $0.leading.equalToSuperview().offset(0)
             $0.trailing.equalToSuperview().offset(0)

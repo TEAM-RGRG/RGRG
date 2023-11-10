@@ -69,7 +69,7 @@ class MainViewController: UIViewController, SendSelectedOptionDelegate {
         "Platinum": .platinum,
         "Emerald": .emerald,
         "Diamond": .diamond,
-        "":.rgrgColor7
+        "": .rgrgColor7
     ]
     
     deinit {
@@ -139,57 +139,39 @@ class MainViewController: UIViewController, SendSelectedOptionDelegate {
     
     var tierOptionLabel: UIButton = {
         var button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
+        button.titleLabel?.font = .myBoldSystemFont(ofSize: 16)
         button.setTitle("티어 ", for: .normal)
         button.setTitleColor(.rgrgColor7, for: .normal)
         button.semanticContentAttribute = .forceRightToLeft
         button.setImage(UIImage(systemName: "chevron.down")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        button.tintColor = .systemGray4
+        button.tintColor = .rgrgColor7
         button.layer.cornerRadius = 15
         button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.rgrgColor7.cgColor
+        button.layer.borderColor = UIColor.rgrgColor5.cgColor
         button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
         return button
     }()
     
     var positionOptionLabel: UIButton = {
         var button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
+        button.titleLabel?.font = .myBoldSystemFont(ofSize: 16)
         button.setTitle("포지션 ", for: .normal)
         button.setTitleColor(.rgrgColor7, for: .normal)
         button.semanticContentAttribute = .forceRightToLeft
         button.setImage(UIImage(systemName: "chevron.down")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        button.tintColor = .systemGray4
+        button.tintColor = .rgrgColor7
         button.backgroundColor = .white
         button.layer.cornerRadius = 15
         button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.rgrgColor7.cgColor
+        button.layer.borderColor = UIColor.rgrgColor5.cgColor
         button.addTarget(self, action: #selector(searchOptionButtonTapped), for: .touchUpInside)
         return button
     }()
-    
-    let listUnderline: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(red: 217/255, green: 217/255, blue: 217/255, alpha: 1)
-        return view
-    }()
-    
-    let listTitleLabel: UILabel = {
-        var label = UILabel()
-        label.text = "파티 목록"
-        label.font = UIFont.systemFont(ofSize: 25, weight: .bold)
-        label.textColor = .white
-        return label
-    }()
-    
-    let contentView: UIView = {
-        let view = UIView()
-        return view
-    }()
+
+    let contentView = UIView()
     
     lazy var patryListTable: UITableView = {
         var tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = .rgrgColor5
         tableView.separatorStyle = .none
         return tableView
@@ -203,6 +185,7 @@ extension MainViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.navigationController?.navigationBar.isHidden = true
+        partyList.removeAll()
         task()
     }
     
@@ -367,8 +350,6 @@ extension MainViewController {
                 self.currentUser = user
             })
             
-            partyList.removeAll()
-            
             await PartyManager.shared.loadParty { [weak self] parties in
                 self?.partyList = parties // [PartyInfo] = [PartyInfo]
                 print("### \(self?.partyList)")
@@ -408,7 +389,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         let item = partyList[indexPath.row]
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "PartyTableViewCell", for: indexPath) as? PartyTableViewCell else { return UITableViewCell() }
         
-        cell.userNameLabel.text = item.userName
+        cell.userNameLabel.text = item.title
         cell.profileImage.image = UIImage(named: item.profileImage)
         cell.profileImage.layer.masksToBounds = true
         cell.positionImage.image = UIImage(named: item.position)
@@ -439,6 +420,12 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             return UIColor.emerald
         case "Diamond":
             return UIColor.diamond
+        case "Master":
+            return UIColor.master
+        case "GrandMaster":
+            return UIColor.grandMaster
+        case "Challenger":
+            return UIColor.challenger
         default:
             return UIColor.black
         }

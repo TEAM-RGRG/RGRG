@@ -13,7 +13,7 @@ final class FireStoreManager {
     static let db = Firestore.firestore()
 
     func loadWholeChannels() {
-        FireStoreManager.db.collection("channels")
+        Firestore.firestore().collection("channels")
             .order(by: "date", descending: true)
             .addSnapshotListener { querySnapshot, error in
                 var channels: [Channel] = []
@@ -37,28 +37,53 @@ final class FireStoreManager {
             }
     }
 
-    func loadChannels(collectionName: String, filter: String, completion: @escaping ([Channel]) -> Void) {
-        FireStoreManager.db.collection("channels")
+    func loadChannels(collectionName: String, filter: String, completion: @escaping ([Channel], String) -> Void) {
+        Firestore.firestore().collection("channels")
             .whereField("users", arrayContains: filter)
             .order(by: "date", descending: true)
             .addSnapshotListener { querySnapshot, error in
                 var channels: [Channel] = []
+                var channelID = ""
+
                 if let e = error {
                     print("There was an issue retrieving data from Firestore. \(e)")
                 } else {
                     if let snapshotDocument = querySnapshot?.documents {
+                        querySnapshot?.documentChanges.forEach { change in
+
+                            switch change.type {
+                            case .added:
+                                print("##### added")
+                                print("##### indexNumber ||| \(change.newIndex)")
+                                print("##### change ::: \(change.document.documentID)")
+                                channelID = change.document.documentID
+                            case .modified:
+                                print("##### modified")
+                                print("##### indexNumber ||| \(change.newIndex)")
+                                print("##### change ::: \(change.document.documentID)")
+                                channelID = change.document.documentID
+                            case .removed:
+                                print("##### removed")
+                                print("##### indexNumber ||| \(change.newIndex)")
+                                print("##### change ::: \(change.document.documentID)")
+                                channelID = change.document.documentID
+                            default:
+                                print("##### change ::: \(change.document.documentID)")
+                            }
+//                            print("##### 222 ::: \(change.newIndex)")
+                        }
+
                         print("### snapshotDocument \(snapshotDocument)")
                         for doc in snapshotDocument {
                             let data = doc.data()
                             let thread = doc.documentID
-                            let decoder = PropertyListDecoder()
 
                             if let host = data["host"] as? String, let channelTitle = data["channelTitle"] as? String, let guest = data["guest"] as? String, let channelID = data["channelID"] as? String, let currentMessage = data["currentMessage"] as? String, let guestProfile = data["guestProfile"] as? String, let hostProfile = data["hostProfile"] as? String, let hostSender = data["hostSender"] as? Bool, let guestSender = data["guestSender"] as? Bool {
                                 let channel = Channel(channelName: channelTitle, guest: guest, host: host, channelID: thread, currentMessage: currentMessage, hostProfile: hostProfile, guestProfile: guestProfile, hostSender: hostSender, guestSender: guestSender)
                                 channels.append(channel)
                             }
                         }
-                        completion(channels)
+                        completion(channels, channelID)
                     }
                 }
             }
@@ -196,5 +221,33 @@ extension FireStoreManager {
         formatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
         let result = formatter.string(from: value)
         return result
+    }
+}
+
+extension FireStoreManager {
+    func updateChannelsStatus(completion: @escaping () -> Void) {
+        var indexNumber = 0
+        Firestore.firestore().collection("channels")
+            .addSnapshotListener { snapshot, _ in
+                guard let snapshot = snapshot else { return }
+
+                snapshot.documentChanges.forEach { change in
+
+                    switch change.type {
+                    case .added:
+                        print("##### added")
+                        indexNumber = Int(change.newIndex)
+                    case .modified:
+                        print("##### modified")
+                        indexNumber = Int(change.newIndex)
+                    case .removed:
+                        print("##### removed")
+                        indexNumber = Int(change.newIndex)
+                    }
+//                    print("##### 222 ::: \(change.document.documentID)")
+                }
+//                print("##### 111 ::: \(indexNumber)")
+                completion()
+            }
     }
 }
