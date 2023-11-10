@@ -62,6 +62,7 @@ class CreatePartyVC: UIViewController {
         textField.layer.cornerRadius = 8
         textField.placeholder = "제목"
         textField.font = .myMediumSystemFont(ofSize: 16)
+        textField.textColor = .black
         let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.size.height))
         textField.leftView = leftPaddingView
         textField.leftViewMode = .always
@@ -417,7 +418,7 @@ class CreatePartyVC: UIViewController {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
             if infoTextView.isFirstResponder {
-                self.view.window?.frame.origin.y -= keyboardHeight - 100
+                view.window?.frame.origin.y -= keyboardHeight - 210
                 partyNameTextField.isEnabled = false
             }
         }
@@ -429,7 +430,7 @@ class CreatePartyVC: UIViewController {
                 let keyboardRectangle = keyboardFrame.cgRectValue
                 let keyboardHeight = keyboardRectangle.height
                 if infoTextView.isFirstResponder {
-                    self.view.window?.frame.origin.y += keyboardHeight - 100
+                    view.window?.frame.origin.y += keyboardHeight - 210
                     partyNameTextField.isEnabled = true
                 }
             }
@@ -453,7 +454,7 @@ class CreatePartyVC: UIViewController {
         
         partyNameTextField.delegate = self
         infoTextView.delegate = self
-   
+
         configureUI()
         setKeyboardNotification()
         
