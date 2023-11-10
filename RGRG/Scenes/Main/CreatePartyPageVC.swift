@@ -62,6 +62,7 @@ class CreatePartyVC: UIViewController {
         textField.layer.cornerRadius = 8
         textField.placeholder = "제목"
         textField.font = .myMediumSystemFont(ofSize: 16)
+        textField.textColor = .black
         let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.size.height))
         textField.leftView = leftPaddingView
         textField.leftViewMode = .always
