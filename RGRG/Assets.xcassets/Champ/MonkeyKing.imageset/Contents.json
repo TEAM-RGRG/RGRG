@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "MonkeyKing.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
