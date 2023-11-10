@@ -268,7 +268,7 @@ class PartyInfoDetailVC: UIViewController {
         channels.removeAll()
         navigationController?.navigationBar.isHidden = false
         setupUI()
-        FireStoreManager.shared.loadChannels(collectionName: "channels", filter: party?.writer ?? "n/a") { channels in
+        FireStoreManager.shared.loadChannels(collectionName: "channels", filter: party?.writer ?? "n/a") { channels, _ in
             
             var hostCount = channels.filter { $0.host == self.user?.uid }
             var guestCount = channels.filter { $0.guest == self.user?.uid }
