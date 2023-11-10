@@ -402,10 +402,10 @@ class CreatePartyVC: UIViewController {
         view.endEditing(true)
     }
     
-    func setKeyboardObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
+//    func setKeyboardObserver() {
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+//    }
 
     func setKeyboardNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -417,7 +417,7 @@ class CreatePartyVC: UIViewController {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
             if infoTextView.isFirstResponder {
-                self.view.window?.frame.origin.y -= keyboardHeight - 210
+                self.view.window?.frame.origin.y -= keyboardHeight - 100
                 partyNameTextField.isEnabled = false
             }
         }
@@ -429,7 +429,7 @@ class CreatePartyVC: UIViewController {
                 let keyboardRectangle = keyboardFrame.cgRectValue
                 let keyboardHeight = keyboardRectangle.height
                 if infoTextView.isFirstResponder {
-                    self.view.window?.frame.origin.y += keyboardHeight - 210
+                    self.view.window?.frame.origin.y += keyboardHeight - 100
                     partyNameTextField.isEnabled = true
                 }
             }
@@ -453,9 +453,9 @@ class CreatePartyVC: UIViewController {
         
         partyNameTextField.delegate = self
         infoTextView.delegate = self
-        
+   
         configureUI()
-        setKeyboardObserver()
+        setKeyboardNotification()
         
         makeRightBarButton()
     }
