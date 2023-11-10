@@ -432,41 +432,10 @@ class CreatePartyVC: UIViewController {
                 if infoTextView.isFirstResponder {
                     self.view.window?.frame.origin.y += keyboardHeight - 210
                     partyNameTextField.isEnabled = true
-                    partyNameTextField.isEnabled = true
                 }
             }
         }
     }
-    
-//    func addKeyboardNotifications() {
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-//    }
-//
-//    func removeKeyboardNotifications() {
-//        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-//        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-//    }
-//
-//    @objc func keyboardWillShow(_ noti: NSNotification) {
-//        if let keyboardFrame: NSValue = noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-//            let keyboardRectangle = keyboardFrame.cgRectValue
-//            let keyboardHeight = keyboardRectangle.height
-//            if #available(iOS 11.0, *) {
-//                let bottomInset = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.safeAreaInsets.bottom ?? 0
-//                let adjustedKeyboardHeight = keyboardHeight - bottomInset
-//                bottomButtonConstraint?.constant = -adjustedKeyboardHeight
-//            } else {
-//                bottomButtonConstraint?.constant = -keyboardHeight
-//            }
-//            view.layoutIfNeeded()
-//        }
-//    }
-//
-//    @objc func keyboardWillHide(_ noti: NSNotification) {
-//        bottomButtonConstraint?.constant = 0
-//        view.layoutIfNeeded()
-//    }
     
     // MARK: - ViewWillAppear
     
@@ -485,11 +454,8 @@ class CreatePartyVC: UIViewController {
         
         partyNameTextField.delegate = self
         infoTextView.delegate = self
-//        title = titleLabel
         
         configureUI()
-//        addPlaceholderToTextView()
-//        addKeyboardNotifications()
         setKeyboardObserver()
         
         makeRightBarButton()
@@ -535,7 +501,7 @@ class CreatePartyVC: UIViewController {
 
         // 네비게이션 바 왼쪽 버튼
         let backButton = UIButton(type: .custom)
-        backButton.setImage(UIImage(named: "XIcon")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        backButton.setImage(UIImage(named: "chevron.left")?.withRenderingMode(.alwaysTemplate), for: .normal)
         backButton.tintColor = .rgrgColor4
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true // 버튼의 가로 크기
@@ -555,22 +521,9 @@ class CreatePartyVC: UIViewController {
             $0.bottom.equalToSuperview()
         }
         
-//        scrollView.snp.makeConstraints{
-//            $0.top.equalTo(topFrame.snp.bottom).offset(0)
-//            $0.trailing.leading.bottom.equalTo(self.view.safeAreaLayoutGuide)
-//        }
-//
-//        contentView.snp.makeConstraints{
-//            $0.top.trailing.leading.bottom.equalTo(scrollView)
-//            $0.edges.equalTo(scrollView)
-//            $0.width.equalTo(scrollView)
-//        }
-        
         partyNameLabel.snp.makeConstraints {
             $0.top.equalTo(topFrame.snp.top).offset(32)
             $0.leading.equalToSuperview().offset(28)
-//            $0.top.equalTo(contentView.snp.top).offset(32)
-//            $0.leading.equalTo(contentView.snp.leading).offset(28)
         }
         
         partyNameTextField.snp.makeConstraints {
@@ -578,8 +531,6 @@ class CreatePartyVC: UIViewController {
             $0.height.equalTo(45)
             $0.leading.equalToSuperview().offset(28)
             $0.trailing.equalToSuperview().offset(-28)
-//            $0.leading.equalTo(contentView.snp.leading).offset(28)
-//            $0.trailing.equalTo(contentView.snp.trailing).offset(-28)
         }
         
         textCountLabel.snp.makeConstraints {
