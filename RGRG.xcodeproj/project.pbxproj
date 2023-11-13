@@ -51,6 +51,7 @@
 		1DB94D052AEB978900851A18 /* ChooseIconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB94D042AEB978900851A18 /* ChooseIconViewController.swift */; };
 		1DB94D072AEB979900851A18 /* ChooseChampViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB94D062AEB979900851A18 /* ChooseChampViewController.swift */; };
 		1DB94D092AED4A2B00851A18 /* IconCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB94D082AED4A2B00851A18 /* IconCollectionViewCell.swift */; };
+		1DEB00E92B01BD2500FA8D29 /* PersonalInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DEB00E82B01BD2500FA8D29 /* PersonalInfoViewController.swift */; };
 		4E0BF7BD2AECED6B00D74836 /* ChatAlertCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0BF7BC2AECED6B00D74836 /* ChatAlertCell.swift */; };
 		4E1264BE2ADF6E2700A4E602 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1264BD2ADF6E2700A4E602 /* CustomTextField.swift */; };
 		4E562AB32AE79BCB00E9A916 /* CustomBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E562AB22AE79BCB00E9A916 /* CustomBackButton.swift */; };
@@ -143,6 +144,7 @@
 		1DB94D042AEB978900851A18 /* ChooseIconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseIconViewController.swift; sourceTree = "<group>"; };
 		1DB94D062AEB979900851A18 /* ChooseChampViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseChampViewController.swift; sourceTree = "<group>"; };
 		1DB94D082AED4A2B00851A18 /* IconCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconCollectionViewCell.swift; sourceTree = "<group>"; };
+		1DEB00E82B01BD2500FA8D29 /* PersonalInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoViewController.swift; sourceTree = "<group>"; };
 		4E0BF7BC2AECED6B00D74836 /* ChatAlertCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAlertCell.swift; sourceTree = "<group>"; };
 		4E1264BD2ADF6E2700A4E602 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		4E562AB22AE79BCB00E9A916 /* CustomBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBackButton.swift; sourceTree = "<group>"; };
@@ -455,6 +457,7 @@
 			children = (
 				4E8B84FD2AD8120D009BCF4B /* SignUpViewController.swift */,
 				96E49D142AFA2ADE008B07A7 /* resetPassword.swift */,
+				1DEB00E82B01BD2500FA8D29 /* PersonalInfoViewController.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -754,6 +757,7 @@
 				4E8195EA2ADD299000881C88 /* CustomTableView.swift in Sources */,
 				4E8B84D92AD81184009BCF4B /* SceneDelegate.swift in Sources */,
 				4EF3A7162AE6510C00A1D32D /* FireStoreManager.swift in Sources */,
+				1DEB00E92B01BD2500FA8D29 /* PersonalInfoViewController.swift in Sources */,
 				4ECD01E92ADE9405003EA65C /* MyFeedCell.swift in Sources */,
 				4E8B853C2AD814E6009BCF4B /* PartyListViewController.swift in Sources */,
 				4E8B85142AD8120E009BCF4B /* ChatListViewController.swift in Sources */,

@@ -26,14 +26,14 @@ class PositionCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.myBoldSystemFont(ofSize: 15)
-        label.textColor = .gray
+        label.textColor = .rgrgColor7
         label.textAlignment = .center
         return label
     }()
 
     let positionImage: UIImageView = {
         var imageView = UIImageView()
-        imageView.tintColor = .systemGray2
+        imageView.tintColor = .rgrgColor7
         imageView.contentMode = .scaleToFill
         return imageView
     }()
