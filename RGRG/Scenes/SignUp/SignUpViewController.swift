@@ -78,6 +78,20 @@ class SignUpViewController: UIViewController {
         return button
     }()
     
+    let privacyArea = {
+       let view = UIView()
+        return view
+    }()
+    
+    let privacyButton = {
+        let button = UIButton()
+        return button
+    }()
+    let privacyLabel = {
+        let label = UILabel()
+        return label
+    }()
+    
     let signupButton = {
         let button = CtaLargeButton(titleText: "가입하기")
         return button
@@ -289,6 +303,10 @@ extension SignUpViewController {
     @objc func dismissKeyboardSignup() {
         view.endEditing(true)
     }
+    @objc func tapPrivarcy(){
+        print("개인정보처리방침 열림")
+    }
+    
 }
 
 extension SignUpViewController {
@@ -302,6 +320,10 @@ extension SignUpViewController {
         methodArea.addArrangedSubview(passwordCheckLine)
         methodArea.addArrangedSubview(nickNameLine)
         methodArea.addArrangedSubview(positionLine)
+        methodArea.addArrangedSubview(privacyArea)
+
+        privacyArea.addSubview(privacyButton)
+        privacyButton.addSubview(privacyLabel)
         methodArea.addArrangedSubview(signupButton)
         positionLine.addArrangedSubview(tierButton)
         positionLine.addArrangedSubview(positionButton)
@@ -376,6 +398,23 @@ extension SignUpViewController {
         positionButton.setTitleColor(UIColor.black, for: .normal)
         positionButton.snp.makeConstraints { make in
             make.width.equalToSuperview().dividedBy(2.2)
+        }
+        
+        
+        privacyArea.snp.makeConstraints { make in
+            make.height.equalTo(30)
+        }
+        
+        privacyButton.addTarget(self, action: #selector(tapPrivarcy), for: .touchUpInside)
+        privacyButton.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        privacyLabel.text = "개인정보처리방침"
+        
+        privacyLabel.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            
         }
         
         signupButton.backgroundColor = UIColor.rgrgColor7
