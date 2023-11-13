@@ -198,8 +198,7 @@ extension ChatSettingViewController {
         exitIcon.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalTo(exitView).offset(19)
-            make.trailing.equalTo(exitView).offset(-318)
-            make.width.height.equalTo(24)
+            make.width.height.greaterThanOrEqualTo(24)
         }
     }
     
