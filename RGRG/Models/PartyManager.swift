@@ -162,3 +162,26 @@ extension PartyManager {
         return dateFormatter.string(from: date)
     }
 }
+
+extension PartyManager {
+    func updatePartyStatus(completion: @escaping () -> Void) {
+        Firestore.firestore().collection("party")
+            .addSnapshotListener { snapshot, _ in
+                guard let snapshot = snapshot else { return }
+
+                snapshot.documentChanges.forEach { change in
+                    switch change.type {
+                    case .added:
+                        print("##### added")
+                        completion()
+                    case .modified:
+                        print("##### modified")
+                        completion()
+                    case .removed:
+                        print("##### removed")
+                        completion()
+                    }
+                }
+            }
+    }
+}

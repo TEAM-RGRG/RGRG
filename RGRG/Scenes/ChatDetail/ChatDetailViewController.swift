@@ -75,7 +75,6 @@ extension ChatDetailViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        chats.removeAll()
         currentUserName = ""
         view.endEditing(true)
     }

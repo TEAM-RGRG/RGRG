@@ -30,7 +30,6 @@ class ChatListViewController: UIViewController {
 }
 
 extension ChatListViewController {
-    // 인디케이터 뷰 추가
     func task(tag: Int) {
         Task {
             await FirebaseUserManager.shared.getUserInfo { [weak self] user in
@@ -79,7 +78,7 @@ extension ChatListViewController {
     }
 
     override func viewDidDisappear(_ animated: Bool) {
-        channels.removeAll()
+//        channels.removeAll()
     }
 }
 
@@ -246,7 +245,7 @@ extension ChatListViewController: UITableViewDelegate {
             }
         }
 
-        vc.viewWillAppear(true)
+//        vc.viewWillAppear(true)
 
         tabBarController?.navigationController?.pushViewController(vc, animated: true)
     }
