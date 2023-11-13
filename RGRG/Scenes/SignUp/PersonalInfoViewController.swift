@@ -129,7 +129,7 @@ extension PersonalInfoViewController {
             make.bottom.equalTo(confirmButton.snp.top).offset(-10)
         }
     }
-    
+
     func setUpButtons() {
         confirmButton.configureButton(title: "개인정보 약관에 동의합니다.", cornerValue: 10, backgroundColor: .rgrgColor3)
         confirmButton.titleLabel?.font = .myBoldSystemFont(ofSize: 20)
