@@ -107,8 +107,9 @@ extension LoginViewController {
     }
     
     @objc func tapLogin() {
-        signInUser()
         loginButton.isEnabled = false
+        signInUser()
+     
     }
     
     func signInUser() {
@@ -119,8 +120,10 @@ extension LoginViewController {
             if authResult == nil {
                 if self.loginIdPass, self.loginPwPass {
                     showAlert(title: "로그인 실패", message: "일치하는 회원정보가 없습니다.")
+                    loginButton.isEnabled = true
                 } else {
                     showAlert(title: "", message: "작성 형식을 확인해주세요")
+                    loginButton.isEnabled = true
                 }
                 if let errorCode = error {
                     print(errorCode)
@@ -139,11 +142,9 @@ extension LoginViewController {
     func passValueCheck() {
         emailLine.passHandler = { pass in
             self.loginIdPass = pass
-            print("loginIdPass", self.loginIdPass)
         }
         passwordLine.passHandler = { pass in
             self.loginPwPass = pass
-            print("loginPwPass??", self.loginPwPass)
         }
     }
     
