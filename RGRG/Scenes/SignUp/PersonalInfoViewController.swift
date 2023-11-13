@@ -135,18 +135,15 @@ extension PersonalInfoViewController {
         confirmButton.titleLabel?.font = .myBoldSystemFont(ofSize: 20)
         confirmButton.addTarget(self, action: #selector(agreePrivacy), for: .touchUpInside)
     }
-    
-    @objc func agreePrivacy(){
+
+    @objc func agreePrivacy() {
         checkValue.toggle()
         let signupVC = SignUpViewController()
-        
-        navigationController?.pushViewController(signupVC, animated: true)
-        
+
         signupVC.checkIcon.image = checkValue ? UIImage(systemName: "checkmark.square") : UIImage(systemName: "square")
         signupVC.updateUIButton()
-        
-   
-            
+
+        navigationController?.popViewController(animated: true)
     }
 }
 
