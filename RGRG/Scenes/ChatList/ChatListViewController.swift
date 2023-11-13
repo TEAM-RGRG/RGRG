@@ -12,11 +12,8 @@ import SnapKit
 import UIKit
 
 class ChatListViewController: UIViewController {
-    let db = FireStoreManager.db
     var channels: [Channel] = []
     var currentUser: User?
-
-    var apiTimer = Timer()
 
     let vc = ChatDetailViewController()
 
@@ -257,13 +254,13 @@ extension ChatListViewController: UITableViewDelegate {
 
 // MARK: - Removing Duplication Chatting List
 
-extension ChatListViewController {
-    func removeDuplication(in array: [Channel]) -> [Channel] {
-        let set = Set(array)
-        let duplicationRemovedArray = Array(set)
-        return duplicationRemovedArray
-    }
-}
+//extension ChatListViewController {
+//    func removeDuplication(in array: [Channel]) -> [Channel] {
+//        let set = Set(array)
+//        let duplicationRemovedArray = Array(set)
+//        return duplicationRemovedArray
+//    }
+//}
 
 // MARK: - Timer
 
