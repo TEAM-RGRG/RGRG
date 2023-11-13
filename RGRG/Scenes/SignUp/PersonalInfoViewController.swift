@@ -133,7 +133,20 @@ extension PersonalInfoViewController {
     func setUpButtons() {
         confirmButton.configureButton(title: "개인정보 약관에 동의합니다.", cornerValue: 10, backgroundColor: .rgrgColor3)
         confirmButton.titleLabel?.font = .myBoldSystemFont(ofSize: 20)
-//        confirmButton.addTarget(self, action: #selector(<#T##@objc method#>), for: .touchUpInside)
+        confirmButton.addTarget(self, action: #selector(agreePrivacy), for: .touchUpInside)
+    }
+    
+    @objc func agreePrivacy(){
+        checkValue.toggle()
+        let signupVC = SignUpViewController()
+        
+        navigationController?.pushViewController(signupVC, animated: true)
+        
+        signupVC.checkIcon.image = checkValue ? UIImage(systemName: "checkmark.square") : UIImage(systemName: "square")
+        signupVC.updateUIButton()
+        
+   
+            
     }
 }
 
