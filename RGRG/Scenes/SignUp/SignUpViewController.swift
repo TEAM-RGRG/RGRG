@@ -12,12 +12,14 @@ import FirebaseFirestore
 import SnapKit
 import UIKit
 
+var checkValue = false
+
 class SignUpViewController: UIViewController {
     var idPass: Bool = false
     var pwPass: Bool = false
     var pwCheckPass: Bool = false
     var nickNamePass: Bool = false
-    var checkValue = false
+  
     
     let bodyContainer = {
         // scrollView
@@ -85,7 +87,7 @@ class SignUpViewController: UIViewController {
     }()
     
     let centerContainer = {
-        let view = UIView()
+        let view = UIButton()
         return view
     }()
     
@@ -275,12 +277,12 @@ extension SignUpViewController {
         present(alertController, animated: true, completion: nil)
     }
     
-    @objc func tapCheckArea(){
-        checkValue.toggle()
-        checkIcon.image = checkValue ? UIImage(systemName: "checkmark.square") : UIImage(systemName: "square")
-        updateUIButton()
-            
-    }
+//    @objc func tapCheckArea(){
+//        checkValue.toggle()
+//        checkIcon.image = checkValue ? UIImage(systemName: "checkmark.square") : UIImage(systemName: "square")
+//        updateUIButton()
+//    }
+    
     @objc func tapPrivarcy(){
         let PersonalInfoViewControllerVC = PersonalInfoViewController()
         navigationController?.pushViewController(PersonalInfoViewControllerVC, animated: true)
@@ -434,14 +436,14 @@ extension SignUpViewController {
            
         }
         
-
+//        centerContainer.backgroundColor = UIColor.systemCyan
+//        centerContainer.addTarget(self, action: #selector(tapPrivarcy), for: .touchUpInside)
         centerContainer.snp.makeConstraints { make in
             make.width.equalTo(160)
             make.height.equalToSuperview()
             make.centerX.equalToSuperview()
         }
-
-        checkArea.addTarget(self, action: #selector(tapCheckArea), for: .touchUpInside)
+     
         checkArea.snp.makeConstraints { make in
             make.width.equalTo(30)
             make.height.equalTo(30)
@@ -451,7 +453,6 @@ extension SignUpViewController {
 
         checkIcon.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            
         }
         
         privacyButton.addTarget(self, action: #selector(tapPrivarcy), for: .touchUpInside)
