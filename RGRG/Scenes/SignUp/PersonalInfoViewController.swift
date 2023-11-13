@@ -138,8 +138,8 @@ extension PersonalInfoViewController {
         confirmButton.titleLabel?.font = .myBoldSystemFont(ofSize: 20)
         confirmButton.addTarget(self, action: #selector(agreePrivacy), for: .touchUpInside)
     }
-    
-    @objc func agreePrivacy(){
+
+    @objc func agreePrivacy() {
         checkValue.toggle()
         
         navigationController?.popViewController(animated: true)
