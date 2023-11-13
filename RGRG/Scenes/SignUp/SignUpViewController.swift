@@ -224,30 +224,31 @@ extension SignUpViewController {
         positionButton.layer.borderWidth = 2
     }
     
-    func passValueCheck() {
-        func updateUI() {
-            guard idPass, pwPass, pwCheckPass, nickNamePass, checkValue else {
-                return signupButton.backgroundColor = UIColor.rgrgColor7
-            }
-            signupButton.backgroundColor = UIColor.rgrgColor3
+    func updateUIButton() {
+        guard idPass, pwPass, pwCheckPass, nickNamePass, checkValue else {
+            return signupButton.backgroundColor = UIColor.rgrgColor7
         }
-        
+        signupButton.backgroundColor = UIColor.rgrgColor3
+    }
+    
+    func passValueCheck() {
         emailLine.passHandler = { pass in
             self.idPass = pass
-            updateUI()
+            self.updateUIButton()
         }
         passwordLine.passHandler = { pass in
             self.pwPass = pass
-            updateUI()
+            self.updateUIButton()
         }
         passwordCheckLine.passHandler = { pass in
             self.pwCheckPass = pass
-            updateUI()
+            self.updateUIButton()
         }
         nickNameLine.passHandler = { pass in
             self.nickNamePass = pass
-            updateUI()
+            self.updateUIButton()
         }
+        
     }
     
     func conditionAlert(title: String, message: String) {
@@ -272,6 +273,17 @@ extension SignUpViewController {
         alertController.addAction(okAction)
      
         present(alertController, animated: true, completion: nil)
+    }
+    
+    @objc func tapCheckArea(){
+        checkValue.toggle()
+        checkIcon.image = checkValue ? UIImage(systemName: "checkmark.square") : UIImage(systemName: "square")
+        updateUIButton()
+            
+    }
+    @objc func tapPrivarcy(){
+        let PersonalInfoViewControllerVC = PersonalInfoViewController()
+        navigationController?.pushViewController(PersonalInfoViewControllerVC, animated: true)
     }
 }
 
@@ -321,17 +333,6 @@ extension SignUpViewController {
     @objc func dismissKeyboardSignup() {
         view.endEditing(true)
     }
-    
-    @objc func tapCheckArea(){
-
-        checkValue.toggle()
-        checkIcon.image = checkValue ? UIImage(systemName: "checkmark.square") : UIImage(systemName: "square")     
-    }
-    @objc func tapPrivarcy(){
-        let PersonalInfoViewControllerVC = PersonalInfoViewController()
-        navigationController?.pushViewController(PersonalInfoViewControllerVC, animated: true)
-    }
-    
 }
 
 extension SignUpViewController {
