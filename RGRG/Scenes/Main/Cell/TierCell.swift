@@ -18,8 +18,8 @@ class TierCell: UICollectionViewCell {
     let tierLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 15, weight: .bold)
-        label.textColor = .black
+        label.font = UIFont.myBoldSystemFont(ofSize: 15)
+        label.textColor = .rgrgColor6
         label.layer.cornerRadius = 12
         label.layer.borderWidth = 1
         label.layer.borderColor = UIColor.rgrgColor6.cgColor
