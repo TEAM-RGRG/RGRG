@@ -277,14 +277,14 @@ extension SignUpViewController {
         present(alertController, animated: true, completion: nil)
     }
     
-//    @objc func tapCheckArea(){
-//        checkValue.toggle()
-//        checkIcon.image = checkValue ? UIImage(systemName: "checkmark.square") : UIImage(systemName: "square")
-//        updateUIButton()
-//    }
-    
     @objc func tapPrivarcy(){
         let PersonalInfoViewControllerVC = PersonalInfoViewController()
+        
+        PersonalInfoViewControllerVC.chekcHandler = {[weak self] chekcValue in
+            self?.checkIcon.image = checkValue ? UIImage(systemName: "checkmark.square") : UIImage(systemName: "square")
+                self?.updateUIButton()
+        }
+        
         navigationController?.pushViewController(PersonalInfoViewControllerVC, animated: true)
     }
 }
@@ -436,8 +436,6 @@ extension SignUpViewController {
            
         }
         
-//        centerContainer.backgroundColor = UIColor.systemCyan
-//        centerContainer.addTarget(self, action: #selector(tapPrivarcy), for: .touchUpInside)
         centerContainer.snp.makeConstraints { make in
             make.width.equalTo(160)
             make.height.equalToSuperview()
