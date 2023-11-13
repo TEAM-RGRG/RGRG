@@ -17,6 +17,7 @@ class SignUpViewController: UIViewController {
     var pwPass: Bool = false
     var pwCheckPass: Bool = false
     var nickNamePass: Bool = false
+    var checkValue = false
     
     let bodyContainer = {
         // scrollView
@@ -76,6 +77,37 @@ class SignUpViewController: UIViewController {
     let positionButton = {
         let button = UIButton()
         return button
+    }()
+    
+    let privacyArea = {
+       let view = UIView()
+        return view
+    }()
+    
+    let centerContainer = {
+        let view = UIView()
+        return view
+    }()
+    
+    let checkArea = {
+        let button = UIButton()
+        return button
+    }()
+    
+    let checkIcon: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(systemName: "square")
+        view.tintColor = UIColor.black
+        return view
+    }()
+    
+    let privacyButton = {
+        let button = UIButton()
+        return button
+    }()
+    let privacyLabel = {
+        let label = UILabel()
+        return label
     }()
     
     let signupButton = {
@@ -192,30 +224,31 @@ extension SignUpViewController {
         positionButton.layer.borderWidth = 2
     }
     
-    func passValueCheck() {
-        func updateUI() {
-            guard idPass, pwPass, pwCheckPass, nickNamePass else {
-                return signupButton.backgroundColor = UIColor.rgrgColor7
-            }
-            signupButton.backgroundColor = UIColor.rgrgColor3
+    func updateUIButton() {
+        guard idPass, pwPass, pwCheckPass, nickNamePass, checkValue else {
+            return signupButton.backgroundColor = UIColor.rgrgColor7
         }
-        
+        signupButton.backgroundColor = UIColor.rgrgColor3
+    }
+    
+    func passValueCheck() {
         emailLine.passHandler = { pass in
             self.idPass = pass
-            updateUI()
+            self.updateUIButton()
         }
         passwordLine.passHandler = { pass in
             self.pwPass = pass
-            updateUI()
+            self.updateUIButton()
         }
         passwordCheckLine.passHandler = { pass in
             self.pwCheckPass = pass
-            updateUI()
+            self.updateUIButton()
         }
         nickNameLine.passHandler = { pass in
             self.nickNamePass = pass
-            updateUI()
+            self.updateUIButton()
         }
+        
     }
     
     func conditionAlert(title: String, message: String) {
@@ -240,6 +273,17 @@ extension SignUpViewController {
         alertController.addAction(okAction)
      
         present(alertController, animated: true, completion: nil)
+    }
+    
+    @objc func tapCheckArea(){
+        checkValue.toggle()
+        checkIcon.image = checkValue ? UIImage(systemName: "checkmark.square") : UIImage(systemName: "square")
+        updateUIButton()
+            
+    }
+    @objc func tapPrivarcy(){
+        let PersonalInfoViewControllerVC = PersonalInfoViewController()
+        navigationController?.pushViewController(PersonalInfoViewControllerVC, animated: true)
     }
 }
 
@@ -302,6 +346,12 @@ extension SignUpViewController {
         methodArea.addArrangedSubview(passwordCheckLine)
         methodArea.addArrangedSubview(nickNameLine)
         methodArea.addArrangedSubview(positionLine)
+        methodArea.addArrangedSubview(privacyArea)
+        privacyArea.addSubview(centerContainer)
+        centerContainer.addSubview(checkArea)
+        checkArea.addSubview(checkIcon)
+        centerContainer.addSubview(privacyButton)
+        privacyButton.addSubview(privacyLabel)
         methodArea.addArrangedSubview(signupButton)
         positionLine.addArrangedSubview(tierButton)
         positionLine.addArrangedSubview(positionButton)
@@ -376,6 +426,44 @@ extension SignUpViewController {
         positionButton.setTitleColor(UIColor.black, for: .normal)
         positionButton.snp.makeConstraints { make in
             make.width.equalToSuperview().dividedBy(2.2)
+        }
+        
+        privacyArea.contentMode = .center
+        privacyArea.snp.makeConstraints { make in
+            make.height.equalTo(30)
+           
+        }
+        
+
+        centerContainer.snp.makeConstraints { make in
+            make.width.equalTo(160)
+            make.height.equalToSuperview()
+            make.centerX.equalToSuperview()
+        }
+
+        checkArea.addTarget(self, action: #selector(tapCheckArea), for: .touchUpInside)
+        checkArea.snp.makeConstraints { make in
+            make.width.equalTo(30)
+            make.height.equalTo(30)
+        }
+        
+    
+
+        checkIcon.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            
+        }
+        
+        privacyButton.addTarget(self, action: #selector(tapPrivarcy), for: .touchUpInside)
+        privacyButton.snp.makeConstraints { make in
+            make.left.equalTo(checkArea.snp.right).offset(5)
+            make.centerY.equalToSuperview()
+        }
+        
+        privacyLabel.text = "개인정보처리방침"
+        privacyLabel.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            
         }
         
         signupButton.backgroundColor = UIColor.rgrgColor7
