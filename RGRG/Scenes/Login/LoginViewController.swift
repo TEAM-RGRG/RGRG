@@ -120,8 +120,10 @@ extension LoginViewController {
             if authResult == nil {
                 if self.loginIdPass, self.loginPwPass {
                     showAlert(title: "로그인 실패", message: "일치하는 회원정보가 없습니다.")
+                    loginButton.isEnabled = true
                 } else {
                     showAlert(title: "", message: "작성 형식을 확인해주세요")
+                    loginButton.isEnabled = true
                 }
                 if let errorCode = error {
                     print(errorCode)
