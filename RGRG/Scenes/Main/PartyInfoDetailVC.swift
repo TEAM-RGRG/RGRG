@@ -336,9 +336,11 @@ class PartyInfoDetailVC: UIViewController {
         requiredPositionImage.image = UIImage(named: party?.hopePosition[0] ?? "Top")
         
         tierLabel.text = party?.tier
+        
         if let tier = party?.tier {
             tierLabel.textColor = getColorForTier(tier)
         }
+        
         func getColorForTier(_ tier: String) -> UIColor {
             switch tier {
             case "Iron":
@@ -396,8 +398,11 @@ class PartyInfoDetailVC: UIViewController {
 
         configureUI()
         makeBackButton()
+        
         if user?.uid == party?.writer {
-            makeRightBarButton()
+            makeMyRightBarButton()
+        } else {
+            makeOtherRightBarButton()
         }
     }
     
@@ -582,7 +587,7 @@ class PartyInfoDetailVC: UIViewController {
 }
 
 extension PartyInfoDetailVC {
-    func makeRightBarButton() {
+    func makeMyRightBarButton() {
         // 액션 만들기 >> 메뉴 만들기 >> UIBarButtonItem 만들기
         let latestSortAction = rightBarButtonItem.makeSingleAction(title: "게시글 수정", attributes: .keepsMenuPresented, state: .off) { _ in
             print("### 수정하기 알파입니다.")
@@ -617,6 +622,28 @@ extension PartyInfoDetailVC {
         let menu = [latestSortAction, bookMarkAction]
 
         let uiMenu = rightBarButtonItem.makeUIMenu(title: "", opetions: .displayInline, uiActions: menu)
+
+        navigationItem.rightBarButtonItem?.changesSelectionAsPrimaryAction = false
+
+        rightBarButtonItem.image = UIImage(named: "verticalEllipsis")
+        rightBarButtonItem.menu = uiMenu
+        rightBarButtonItem.tintColor = UIColor(hex: "#0C356A")
+        navigationItem.rightBarButtonItem = rightBarButtonItem
+    }
+    
+    func makeOtherRightBarButton() {
+        // 액션 만들기 >> 메뉴 만들기 >> UIBarButtonItem 만들기
+        let latestSortAction = rightBarButtonItem.makeSingleAction(title: "차단하기", attributes: .destructive, state: .off) { _ in
+
+            print("차단하기")
+            BlockManager.shared.blockUser(uid: self.party?.writer ?? "")
+            
+            self.navigationController?.popViewController(animated: true)
+        }
+
+        let menu = [latestSortAction]
+
+        let uiMenu = rightBarButtonItem.makeUIMenu(title: "게시글 차단", opetions: .displayInline, uiActions: menu)
 
         navigationItem.rightBarButtonItem?.changesSelectionAsPrimaryAction = false
 

@@ -31,14 +31,14 @@ class ChatSettingViewController: UIViewController {
 extension ChatSettingViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setupUI()
+        setupUI()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         if let sheetPresentationController = sheetPresentationController {
             sheetPresentationController.detents = [.custom(resolver: { _ in
                 self.setupUI()
-                return 150
+                return 201
             })]
         }
     }
@@ -70,7 +70,7 @@ extension ChatSettingViewController {
     }
     
     func confirms() {
-//        confirmBlock()
+        confirmBlock()
         confirmExit()
         confirmCancel()
     }
@@ -79,7 +79,7 @@ extension ChatSettingViewController {
 extension ChatSettingViewController {
     func setupView() {
         confirmTopBaseView()
-//        confirmBlockView()
+        confirmBlockView()
         confirmExitView()
         confirmLineView()
         confirmCancelView()
@@ -93,7 +93,7 @@ extension ChatSettingViewController {
             make.top.equalTo(view).offset(20)
             make.centerX.equalToSuperview()
             make.leading.equalTo(view).offset(16)
-            make.height.equalTo(50)
+            make.height.equalTo(101)
         }
     }
     
@@ -167,8 +167,7 @@ extension ChatSettingViewController {
         blockIcon.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalTo(blockView).offset(19)
-            make.trailing.equalTo(blockView).offset(-318)
-            make.width.height.equalTo(24)
+            make.width.height.greaterThanOrEqualTo(24)
         }
     }
     
