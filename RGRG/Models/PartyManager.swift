@@ -43,6 +43,7 @@ class PartyManager {
 
     func loadParty(completion: @escaping ([PartyInfo]) -> Void) {
         var partyList: [PartyInfo] = []
+        var currentUser: User?
 
         PartyManager.db.collection("party")
             .order(by: "date", descending: true)
@@ -52,6 +53,10 @@ class PartyManager {
                 } else {
                     if let snapshotDocument = querySnapshot?.documents {
                         print("### snapshotDocument \(snapshotDocument)")
+                        FirebaseUserManager.shared.getUserInfo { user in
+                            currentUser = user
+                        }
+
                         for doc in snapshotDocument {
                             let data = doc.data()
                             let thread = doc.documentID
@@ -59,7 +64,13 @@ class PartyManager {
                             if let champions = data["champions"] as? [String], let content = data["content"] as? String, let date = data["date"] as? String, let hopePosition = data["hopePosition"] as? [String], let profileImage = data["profileImage"] as? String, let tier = data["tier"] as? String, let title = data["title"] as? String, let userName = data["userName"] as? String, let writer = data["writer"] as? String, let position = data["position"] as? String {
                                 let party = PartyInfo(champion: champions, content: content, date: date, hopePosition: hopePosition, profileImage: profileImage, tier: tier, title: title, userName: userName, writer: writer, position: position, thread: thread)
 
-                                partyList.append(party)
+//                                if currentUser.iBlocked.contains(writer) == false {
+//                                    if currentUser.youBlocked.contains(currentUser?.uid) == false {
+//                                        partyList.append(party)
+//                                    }
+//                                }
+
+//                                partyList.append(party)
                             }
                         }
                         completion(partyList)

@@ -336,9 +336,11 @@ class PartyInfoDetailVC: UIViewController {
         requiredPositionImage.image = UIImage(named: party?.hopePosition[0] ?? "Top")
         
         tierLabel.text = party?.tier
+        
         if let tier = party?.tier {
             tierLabel.textColor = getColorForTier(tier)
         }
+        
         func getColorForTier(_ tier: String) -> UIColor {
             switch tier {
             case "Iron":
@@ -396,6 +398,7 @@ class PartyInfoDetailVC: UIViewController {
 
         configureUI()
         makeBackButton()
+        
         if user?.uid == party?.writer {
             makeMyRightBarButton()
         } else {
