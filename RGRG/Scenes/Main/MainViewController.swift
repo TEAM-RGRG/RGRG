@@ -15,14 +15,14 @@ class MainViewController: UIViewController, SendSelectedOptionDelegate {
         updateOptionLabel(tier: tier, position: position)
         if tier == "" {
             if position == "" {
-                PartyManager.shared.updateParty(tier: tierName, position: positionName) { [weak self] parties in
+                PartyManager.shared.updateParty(tier: tierName, position: positionName, iBlocked: currentUser?.iBlocked ?? [], youBlocked: currentUser?.youBlocked ?? []) { [weak self] parties in
                     self?.partyList = parties // [PartyInfo] = [PartyInfo]
                     DispatchQueue.main.async {
                         self?.patryListTable.reloadData()
                     }
                 }
             } else {
-                PartyManager.shared.updateParty(tier: tierName, position: [position]) { [weak self] parties in
+                PartyManager.shared.updateParty(tier: tierName, position: [position], iBlocked: currentUser?.iBlocked ?? [], youBlocked: currentUser?.youBlocked ?? []) { [weak self] parties in
                     self?.partyList = parties // [PartyInfo] = [PartyInfo]
                     DispatchQueue.main.async {
                         self?.patryListTable.reloadData()
@@ -31,14 +31,14 @@ class MainViewController: UIViewController, SendSelectedOptionDelegate {
             }
         } else {
             if position == "" {
-                PartyManager.shared.updateParty(tier: [tier], position: positionName) { [weak self] parties in
+                PartyManager.shared.updateParty(tier: [tier], position: positionName, iBlocked: currentUser?.iBlocked ?? [], youBlocked: currentUser?.youBlocked ?? []) { [weak self] parties in
                     self?.partyList = parties // [PartyInfo] = [PartyInfo]
                     DispatchQueue.main.async {
                         self?.patryListTable.reloadData()
                     }
                 }
             } else {
-                PartyManager.shared.updateParty(tier: [tier], position: [position]) { [weak self] parties in
+                PartyManager.shared.updateParty(tier: [tier], position: [position], iBlocked: currentUser?.iBlocked ?? [], youBlocked: currentUser?.youBlocked ?? []) { [weak self] parties in
                     self?.partyList = parties // [PartyInfo] = [PartyInfo]
                     DispatchQueue.main.async {
                         self?.patryListTable.reloadData()
@@ -348,8 +348,11 @@ extension MainViewController {
                 self.currentUser = user
             })
             
-            await PartyManager.shared.loadParty { [weak self] parties in
+            guard let currentUser = currentUser else { return }
+            
+            await PartyManager.shared.loadParty(iBlocked: currentUser.iBlocked, youBlocked: currentUser.youBlocked) { [weak self] parties in
                 self?.partyList = parties
+                
                 // [PartyInfo] = [PartyInfo]
                 DispatchQueue.main.async {
                     self?.patryListTable.reloadData()

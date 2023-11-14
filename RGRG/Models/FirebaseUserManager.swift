@@ -11,7 +11,7 @@ import Foundation
 
 class FirebaseUserManager {
     static let shared = FirebaseUserManager()
-    static let db = Firestore.firestore() 
+    static let db = Firestore.firestore()
 
     func getUserInfo(complition: @escaping ((User) -> Void)) {
         FirebaseUserManager.db.collection("users").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapshot, error in

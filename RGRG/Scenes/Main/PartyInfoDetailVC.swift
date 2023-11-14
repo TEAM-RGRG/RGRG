@@ -636,13 +636,14 @@ extension PartyInfoDetailVC {
         let latestSortAction = rightBarButtonItem.makeSingleAction(title: "차단하기", attributes: .destructive, state: .off) { _ in
 
             print("차단하기")
+            BlockManager.shared.blockUser(uid: self.party?.writer ?? "")
             
             self.navigationController?.popViewController(animated: true)
         }
 
         let menu = [latestSortAction]
 
-        let uiMenu = rightBarButtonItem.makeUIMenu(title: "", opetions: .displayInline, uiActions: menu)
+        let uiMenu = rightBarButtonItem.makeUIMenu(title: "게시글 차단", opetions: .displayInline, uiActions: menu)
 
         navigationItem.rightBarButtonItem?.changesSelectionAsPrimaryAction = false
 
