@@ -51,7 +51,6 @@ class BlockManager {
         let myPath = FirebaseUserManager.db.collection("users").document(current ?? "")
         var yourUid = ""
         
-        
         var myBlock: [String] = []
         var yourBlock: [String] = []
         
@@ -84,8 +83,6 @@ class BlockManager {
                 }
             }
         }
-        
-        
     }
 
     func getBlockedUser(complition: @escaping ([String]) -> Void) {

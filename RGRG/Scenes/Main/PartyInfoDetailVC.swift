@@ -21,6 +21,8 @@ class PartyInfoDetailVC: UIViewController {
     
     let rightBarButtonItem = CustomBarButton()
     
+    var eventHandler: ((String) -> ())?
+    
     let topFrame: UIView = {
         let view = UIView()
         view.backgroundColor = .rgrgColor5
@@ -634,11 +636,8 @@ extension PartyInfoDetailVC {
     func makeOtherRightBarButton() {
         // 액션 만들기 >> 메뉴 만들기 >> UIBarButtonItem 만들기
         let latestSortAction = rightBarButtonItem.makeSingleAction(title: "차단하기", attributes: .destructive, state: .off) { _ in
-
+            self.showBenAlert()
             print("차단하기")
-            BlockManager.shared.blockUser(uid: self.party?.writer ?? "")
-            
-            self.navigationController?.popViewController(animated: true)
         }
 
         let menu = [latestSortAction]
@@ -661,5 +660,25 @@ extension PartyInfoDetailVC {
 
     @objc func tappedBackButton(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
+    }
+}
+
+extension PartyInfoDetailVC {
+    func showBenAlert() {
+        let alert = UIAlertController(title: "차단하시겠습니까?", message: "차단 하시면 차단된 친구의 글 정보 볼 수 없습니다.", preferredStyle: .alert)
+        let confirmAlert = UIAlertAction(title: "차단", style: .destructive, handler: { _ in
+            BlockManager.shared.blockUser(uid: self.party?.writer ?? "")
+            self.eventHandler?(self.party?.writer ?? "")
+            
+            self.navigationController?.popViewController(animated: true)
+            
+        })
+        
+        let cancelAlert = UIAlertAction(title: "취소", style: .default)
+        [confirmAlert, cancelAlert].forEach {
+            alert.addAction($0)
+        }
+        
+        present(alert, animated: true)
     }
 }
