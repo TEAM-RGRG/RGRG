@@ -20,7 +20,6 @@ class SignUpViewController: UIViewController {
     var pwCheckPass: Bool = false
     var nickNamePass: Bool = false
   
-    
     let bodyContainer = {
         // scrollView
         let stactview = UIView()
@@ -82,7 +81,7 @@ class SignUpViewController: UIViewController {
     }()
     
     let privacyArea = {
-       let view = UIView()
+        let view = UIView()
         return view
     }()
     
@@ -107,6 +106,7 @@ class SignUpViewController: UIViewController {
         let button = UIButton()
         return button
     }()
+
     let privacyLabel = {
         let label = UILabel()
         return label
@@ -120,6 +120,7 @@ class SignUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.tintColor = .rgrgColor4
         view.backgroundColor = UIColor.rgrgColor5
         setupUI()
         passValueCheck()
@@ -250,7 +251,6 @@ extension SignUpViewController {
             self.nickNamePass = pass
             self.updateUIButton()
         }
-        
     }
     
     func conditionAlert(title: String, message: String) {
@@ -277,12 +277,12 @@ extension SignUpViewController {
         present(alertController, animated: true, completion: nil)
     }
     
-    @objc func tapPrivarcy(){
+    @objc func tapPrivarcy() {
         let PersonalInfoViewControllerVC = PersonalInfoViewController()
         
-        PersonalInfoViewControllerVC.chekcHandler = {[weak self] chekcValue in
+        PersonalInfoViewControllerVC.chekcHandler = { [weak self] _ in
             self?.checkIcon.image = checkValue ? UIImage(systemName: "checkmark.square") : UIImage(systemName: "square")
-                self?.updateUIButton()
+            self?.updateUIButton()
         }
         
         navigationController?.pushViewController(PersonalInfoViewControllerVC, animated: true)
@@ -433,7 +433,6 @@ extension SignUpViewController {
         privacyArea.contentMode = .center
         privacyArea.snp.makeConstraints { make in
             make.height.equalTo(30)
-           
         }
         
         centerContainer.snp.makeConstraints { make in
@@ -447,8 +446,6 @@ extension SignUpViewController {
             make.height.equalTo(30)
         }
         
-    
-
         checkIcon.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
         }
@@ -462,7 +459,6 @@ extension SignUpViewController {
         privacyLabel.text = "개인정보처리방침"
         privacyLabel.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-            
         }
         
         signupButton.backgroundColor = UIColor.rgrgColor7
