@@ -192,7 +192,6 @@ extension MainViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureUI()
         patryListTable.register(PartyTableViewCell.self, forCellReuseIdentifier: "PartyTableViewCell")
         patryListTable.delegate = self

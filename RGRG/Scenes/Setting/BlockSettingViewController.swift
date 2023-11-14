@@ -9,7 +9,10 @@ import SnapKit
 import UIKit
 
 class BlockSettingViewController: UIViewController {
-    var user: User?
+    var currentUser: User?
+    var blockList: [String] = []
+
+    let container = UIView()
 
     let blockTable: UITableView = {
         let tableView = UITableView()
@@ -27,16 +30,23 @@ extension BlockSettingViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        FirebaseUserManager.shared.getUserInfo { user in
-            self.user = user
-            DispatchQueue.main.async {
-                self.blockTable.reloadData()
-            }
-        }
+        task()
     }
 }
 
 extension BlockSettingViewController {
+    func task() {
+        Task {
+            BlockManager.shared.getBlockedUser(complition: { blockList in
+                self.blockList = blockList
+
+                DispatchQueue.main.async {
+                    self.blockTable.reloadData()
+                }
+            })
+        }
+    }
+
     func setNavigation() {
         navigationItem.title = "차단목록 관리"
         navigationController?.navigationBar.topItem?.title = ""
@@ -44,12 +54,19 @@ extension BlockSettingViewController {
     }
 
     func configureUI() {
+        container.backgroundColor = .rgrgColor5
         view.backgroundColor = .white
 
-        view.addSubview(blockTable)
-        blockTable.snp.makeConstraints { make in
+        view.addSubview(container)
+        container.snp.makeConstraints { make in
             make.top.left.right.equalTo(view.safeAreaLayoutGuide)
             make.bottom.equalToSuperview()
+        }
+
+        container.addSubview(blockTable)
+        blockTable.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(5)
+            make.left.right.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
 }
@@ -62,14 +79,37 @@ extension BlockSettingViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return user?.iBlocked.count ?? 0
+        return blockList.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath) as! SettingCell
+
         cell.backgroundColor = .white
-//        cell.textLabel?.text = FirebaseUserManager.self.db.collection("users").document(user?.iBlocked[indexPath.row])
+
+        let item = blockList[indexPath.row]
+
+        FirebaseUserManager.shared.getUserInfo(searchUser: item, complition: { user in
+            cell.textLabel?.text = user.userName
+        })
+
         cell.textLabel?.textColor = .black
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let alert = UIAlertController(title: "차단을 해제하시겠습니까?", message: "차단을 해제하면 차단된 친구의 글 정보를 다시 받아볼 수 있습니다.", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "확인", style: .default, handler: { _ in
+                BlockManager.shared.unBlockUser(ind: indexPath.row)
+                self.blockList.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            })
+            let cancel = UIAlertAction(title: "취소", style: .default)
+            alert.addAction(ok)
+            alert.addAction(cancel)
+            present(alert, animated: true)
+
+        } else if editingStyle == .insert {}
     }
 }
