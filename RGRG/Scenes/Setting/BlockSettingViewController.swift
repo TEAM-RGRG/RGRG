@@ -29,6 +29,9 @@ extension BlockSettingViewController {
     override func viewWillAppear(_ animated: Bool) {
         FirebaseUserManager.shared.getUserInfo { user in
             self.user = user
+            DispatchQueue.main.async {
+                self.blockTable.reloadData()
+            }
         }
     }
 }
@@ -55,15 +58,17 @@ extension BlockSettingViewController: UITableViewDelegate, UITableViewDataSource
     func setTable() {
         blockTable.delegate = self
         blockTable.dataSource = self
+        blockTable.register(SettingCell.self, forCellReuseIdentifier: "SettingCell")
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return user?.iBlocked.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SettingCell", for: indexPath) as! SettingCell
         cell.backgroundColor = .white
+//        cell.textLabel?.text = FirebaseUserManager.self.db.collection("users").document(user?.iBlocked[indexPath.row])
         cell.textLabel?.textColor = .black
         return cell
     }
