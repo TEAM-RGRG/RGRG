@@ -146,7 +146,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
                 FirebaseUserManager.shared.getUserInfo { user in
                     self.user = user
                 }
-                let updatedUser = User(email: "알 수 없음", userName: "알 수 없음", tier: self.user?.tier ?? "Bronze", position: self.user?.position ?? "Top", mostChampion: self.user?.mostChampion ?? ["None", "None", "None"], uid: self.current ?? "")
+                let updatedUser = User(email: "알 수 없음", userName: "알 수 없음", tier: self.user?.tier ?? "Bronze", position: self.user?.position ?? "Top", mostChampion: self.user?.mostChampion ?? ["None", "None", "None"], uid: self.current ?? "", iBlocked: self.user?.iBlocked ?? ["n/a"], youBlocked: self.user?.youBlocked ?? ["n/a"])
                 FirebaseUserManager.shared.updateUserInfo(userInfo: updatedUser)
                 FirebaseUpdateManager.shared.partyUserUpdate(user: updatedUser)
                 FirebaseUpdateManager.shared.channelsUserUpdate(updateProfile: updatedUser.profilePhoto)
