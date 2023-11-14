@@ -15,4 +15,6 @@ struct User {
     var profilePhoto: String = "Default"
     var mostChampion: [String] = ["None", "None", "None"]
     let uid: String
+    var iBlocked: [String]
+    var youBlocked: [String]
 }
