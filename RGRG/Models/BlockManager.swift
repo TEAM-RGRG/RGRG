@@ -46,10 +46,11 @@ class BlockManager {
         }
     }
     
-    func unBlockUser(uid: String) {
+    func unBlockUser(ind: Int) {
         let current = Auth.auth().currentUser?.uid
         let myPath = FirebaseUserManager.db.collection("users").document(current ?? "")
-        let yourPath = FirebaseUserManager.db.collection("users").document(uid)
+        var yourUid = ""
+        
         
         var myBlock: [String] = []
         var yourBlock: [String] = []
@@ -61,44 +62,46 @@ class BlockManager {
                 guard let snapshot = snapshot else { return }
                 if let data = snapshot.data() {
                     myBlock = data["iBlocked"] as! [String]
-                    let index = myBlock.firstIndex(of: uid)
-                    myBlock.remove(at: index ?? 0)
+                    yourUid = myBlock[ind]
+                    
+                    BlockManager.db.collection("users").document(yourUid).getDocument { snapshot, error in
+                        let yourPath = FirebaseUserManager.db.collection("users").document(yourUid)
+                        if let error = error {
+                            print("Error : \(error)")
+                        } else {
+                            guard let snapshot = snapshot else { return }
+                            if let data = snapshot.data() {
+                                yourBlock = data["youBlocked"] as! [String]
+                                let index = yourBlock.firstIndex(of: current ?? "")
+                                yourBlock.remove(at: index ?? 0)
+                                yourPath.updateData(["youBlocked": yourBlock])
+                            }
+                        }
+                    }
+                    
+                    myBlock.remove(at: ind)
                     myPath.updateData(["iBlocked": myBlock])
                 }
             }
         }
         
-        BlockManager.db.collection("users").document(uid).getDocument { snapshot, error in
+        
+    }
+
+    func getBlockedUser(complition: @escaping ([String]) -> Void) {
+        let current = Auth.auth().currentUser?.uid
+        var blockList: [String] = []
+        
+        BlockManager.db.collection("users").document(Auth.auth().currentUser?.uid ?? "").getDocument { snapshot, error in
             if let error = error {
                 print("Error : \(error)")
             } else {
                 guard let snapshot = snapshot else { return }
                 if let data = snapshot.data() {
-                    yourBlock = data["youBlocked"] as! [String]
-                    let index = yourBlock.firstIndex(of: current ?? "")
-                    yourBlock.remove(at: index ?? 0)
-                    yourPath.updateData(["youBlocked": yourBlock])
+                    blockList = data["iBlocked"] as! [String]
+                    complition(blockList)
                 }
             }
         }
     }
-
-//    func getBlockedUser(blockList: [String], complition: @escaping (([String]) -> Void)) {
-//        let current = Auth.auth().currentUser?.uid
-//        let myPath = FirebaseUserManager.db.collection("users").document(current ?? "")
-//
-//        BlockManager.db.collection("users").document(uid).getDocument { snapshot, error in
-//            if let error = error {
-//                print("Error : \(error)")
-//            } else {
-//                guard let snapshot = snapshot else { return }
-//                if let data = snapshot.data() {
-//                    yourBlock = data["youBlocked"] as! [String]
-//                    let index = yourBlock.firstIndex(of: current ?? "")
-//                    yourBlock.remove(at: index ?? 0)
-//                    yourPath.updateData(["youBlocked": yourBlock])
-//                }
-//            }
-//        }
-//    }
 }
