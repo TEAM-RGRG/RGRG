@@ -178,15 +178,16 @@ extension PartyManager {
                 guard let snapshot = snapshot else { return }
                     
                 snapshot.documentChanges.forEach { change in
+                    
                     switch change.type {
                     case .added:
-                        print("##### added")
+                        print("##### Party added")
                         completion()
                     case .modified:
-                        print("##### modified")
+                        print("##### Party modified")
                         completion()
                     case .removed:
-                        print("##### removed")
+                        print("##### Party removed")
                         completion()
                     }
                 }

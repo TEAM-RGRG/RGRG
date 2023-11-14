@@ -105,7 +105,7 @@ extension BlockSettingViewController: UITableViewDelegate, UITableViewDataSource
                 self.blockList.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
             })
-            let cancel = UIAlertAction(title: "취소", style: .default)
+            let cancel = UIAlertAction(title: "취소", style: .destructive)
             alert.addAction(ok)
             alert.addAction(cancel)
             present(alert, animated: true)
