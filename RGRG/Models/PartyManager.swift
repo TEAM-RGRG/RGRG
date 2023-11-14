@@ -64,10 +64,14 @@ class PartyManager {
                             if let champions = data["champions"] as? [String], let content = data["content"] as? String, let date = data["date"] as? String, let hopePosition = data["hopePosition"] as? [String], let profileImage = data["profileImage"] as? String, let tier = data["tier"] as? String, let title = data["title"] as? String, let userName = data["userName"] as? String, let writer = data["writer"] as? String, let position = data["position"] as? String {
                                 let party = PartyInfo(champion: champions, content: content, date: date, hopePosition: hopePosition, profileImage: profileImage, tier: tier, title: title, userName: userName, writer: writer, position: position, thread: thread)
 
-//                                if currentUser.iBlocked.contains(writer) == false {
-//                                    if currentUser.youBlocked.contains(currentUser?.uid) == false {
+//                                if currentUser?.iBlocked.contains(writer) == false {
+//                                    print("##### 작동함 1")
+//                                    if currentUser?.youBlocked.contains(currentUser?.uid ?? "n/a") == false {
+//                                        print("##### 작동함 2")
 //                                        partyList.append(party)
 //                                    }
+//                                } else {
+//                                    print("##### 잘 모름")
 //                                }
 
 //                                partyList.append(party)
