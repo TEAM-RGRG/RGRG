@@ -12,6 +12,7 @@
 		1D9889152AF9F3800074A860 /* PositionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9889142AF9F3800074A860 /* PositionCell.swift */; };
 		1D9889172AFA03190074A860 /* SearchOptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9889162AFA03190074A860 /* SearchOptionViewController.swift */; };
 		1D9D0DD42AF86DA50021268E /* ChampCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9D0DD32AF86DA50021268E /* ChampCollectionViewCell.swift */; };
+		1DADB7222B031231001D5725 /* BlockManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DADB7212B031231001D5725 /* BlockManager.swift */; };
 		1DB9391F2AE24AB300BD4F41 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB9391E2AE24AB300BD4F41 /* SettingCell.swift */; };
 		1DB94CA82AE61B4D00851A18 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1DB94CA72AE61B4D00851A18 /* FirebaseAnalytics */; };
 		1DB94CAA2AE61B4D00851A18 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 1DB94CA92AE61B4D00851A18 /* FirebaseAnalyticsOnDeviceConversion */; };
@@ -132,6 +133,7 @@
 		1D9889142AF9F3800074A860 /* PositionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionCell.swift; sourceTree = "<group>"; };
 		1D9889162AFA03190074A860 /* SearchOptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOptionViewController.swift; sourceTree = "<group>"; };
 		1D9D0DD32AF86DA50021268E /* ChampCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChampCollectionViewCell.swift; sourceTree = "<group>"; };
+		1DADB7212B031231001D5725 /* BlockManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockManager.swift; sourceTree = "<group>"; };
 		1DB9391E2AE24AB300BD4F41 /* SettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 		1DB94CDD2AE760AB00851A18 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		1DB94CDF2AE8024000851A18 /* FirebaseUserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUserManager.swift; sourceTree = "<group>"; };
@@ -401,6 +403,7 @@
 				4EF3A7152AE6510C00A1D32D /* FireStoreManager.swift */,
 				1DB94CDD2AE760AB00851A18 /* StorageManager.swift */,
 				4EE5E9D72AEBCAFB00B7849E /* PartyManager.swift */,
+				1DADB7212B031231001D5725 /* BlockManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -765,6 +768,7 @@
 				4E8B850E2AD8120E009BCF4B /* CustomButton.swift in Sources */,
 				CB2D8FEB2AF1376300964CFE /* PartyTableViewCell.swift in Sources */,
 				4E8B85372AD81416009BCF4B /* Utilie.swift in Sources */,
+				1DADB7222B031231001D5725 /* BlockManager.swift in Sources */,
 				4E8B85192AD8120E009BCF4B /* TabBarController.swift in Sources */,
 				CB4B0BC62ADFAB7F0077AB3A /* NoticePageVC.swift in Sources */,
 				1D9D0DD42AF86DA50021268E /* ChampCollectionViewCell.swift in Sources */,

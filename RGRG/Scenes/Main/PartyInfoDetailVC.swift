@@ -400,7 +400,9 @@ class PartyInfoDetailVC: UIViewController {
         makeBackButton()
         
         if user?.uid == party?.writer {
-            makeRightBarButton()
+            makeMyRightBarButton()
+        } else {
+            makeOtherRightBarButton()
         }
     }
     
@@ -585,7 +587,7 @@ class PartyInfoDetailVC: UIViewController {
 }
 
 extension PartyInfoDetailVC {
-    func makeRightBarButton() {
+    func makeMyRightBarButton() {
         // 액션 만들기 >> 메뉴 만들기 >> UIBarButtonItem 만들기
         let latestSortAction = rightBarButtonItem.makeSingleAction(title: "게시글 수정", attributes: .keepsMenuPresented, state: .off) { _ in
             print("### 수정하기 알파입니다.")
@@ -618,6 +620,27 @@ extension PartyInfoDetailVC {
         }
 
         let menu = [latestSortAction, bookMarkAction]
+
+        let uiMenu = rightBarButtonItem.makeUIMenu(title: "", opetions: .displayInline, uiActions: menu)
+
+        navigationItem.rightBarButtonItem?.changesSelectionAsPrimaryAction = false
+
+        rightBarButtonItem.image = UIImage(named: "verticalEllipsis")
+        rightBarButtonItem.menu = uiMenu
+        rightBarButtonItem.tintColor = UIColor(hex: "#0C356A")
+        navigationItem.rightBarButtonItem = rightBarButtonItem
+    }
+    
+    func makeOtherRightBarButton() {
+        // 액션 만들기 >> 메뉴 만들기 >> UIBarButtonItem 만들기
+        let latestSortAction = rightBarButtonItem.makeSingleAction(title: "차단하기", attributes: .destructive, state: .off) { _ in
+
+            print("차단하기")
+            
+            self.navigationController?.popViewController(animated: true)
+        }
+
+        let menu = [latestSortAction]
 
         let uiMenu = rightBarButtonItem.makeUIMenu(title: "", opetions: .displayInline, uiActions: menu)
 
