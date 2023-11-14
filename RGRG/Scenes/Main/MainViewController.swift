@@ -193,8 +193,6 @@ extension MainViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        BlockManager.shared.unBlockUser(uid: "3N4HjL078tMAqELg4B7oyL5Muo62", complition: {_ in } )
-        
         configureUI()
         patryListTable.register(PartyTableViewCell.self, forCellReuseIdentifier: "PartyTableViewCell")
         patryListTable.delegate = self
