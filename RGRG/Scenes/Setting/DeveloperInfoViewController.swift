@@ -36,6 +36,8 @@ extension DeveloperInfoViewController {
     func setupUI() {
         view.backgroundColor = UIColor(hex: "#FFFFFF")
         navigationController?.navigationItem.title = pageTitle
+        navigationController?.navigationBar.topItem?.title = ""
+        navigationController?.navigationBar.tintColor = .rgrgColor4
         confirmTableView()
         registerCell()
     }
