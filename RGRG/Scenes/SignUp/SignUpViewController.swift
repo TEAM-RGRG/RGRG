@@ -1,9 +1,7 @@
-//
 //  SignUpViewController.swift
 //  RGRG
-//
 //  Created by kiakim on 2023/10/11.
-//
+
 
 import Firebase
 import FirebaseAuth
@@ -132,7 +130,6 @@ class SignUpViewController: UIViewController {
 
 extension SignUpViewController {
     @objc func tapSignUP() {
-        // ture 값전달할 수 있도록 변경
         if idPass, pwPass, pwCheckPass, nickNamePass {
             emailConfirmAlert(title: "이메일 사용 확인", message: "password 확인 시 \n 현재 이메일 주소가 사용됩니다")
         }
@@ -358,6 +355,9 @@ extension SignUpViewController {
         positionLine.addArrangedSubview(tierButton)
         positionLine.addArrangedSubview(positionButton)
         
+        privacyButton.addTarget(self, action: #selector(tapPrivarcy), for: .touchUpInside)
+        signupButton.addTarget(self, action: #selector(tapSignUP), for: .touchUpInside)
+        
         bodyContainer.layer.cornerRadius = 10
         bodyContainer.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(30)
@@ -433,7 +433,6 @@ extension SignUpViewController {
         privacyArea.contentMode = .center
         privacyArea.snp.makeConstraints { make in
             make.height.equalTo(30)
-           
         }
         
         centerContainer.snp.makeConstraints { make in
@@ -446,14 +445,11 @@ extension SignUpViewController {
             make.width.equalTo(30)
             make.height.equalTo(30)
         }
-        
-    
 
         checkIcon.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
         }
         
-        privacyButton.addTarget(self, action: #selector(tapPrivarcy), for: .touchUpInside)
         privacyButton.snp.makeConstraints { make in
             make.left.equalTo(checkArea.snp.right).offset(5)
             make.centerY.equalToSuperview()
@@ -462,11 +458,9 @@ extension SignUpViewController {
         privacyLabel.text = "개인정보처리방침"
         privacyLabel.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-            
         }
         
         signupButton.backgroundColor = UIColor.rgrgColor7
-        signupButton.addTarget(self, action: #selector(tapSignUP), for: .touchUpInside)
         signupButton.snp.makeConstraints { make in
             make.left.right.equalToSuperview()
         }
