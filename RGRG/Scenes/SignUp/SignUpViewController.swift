@@ -18,7 +18,6 @@ class SignUpViewController: UIViewController {
     var pwCheckPass: Bool = false
     var nickNamePass: Bool = false
   
-    
     let bodyContainer = {
         // scrollView
         let stactview = UIView()
@@ -80,7 +79,7 @@ class SignUpViewController: UIViewController {
     }()
     
     let privacyArea = {
-       let view = UIView()
+        let view = UIView()
         return view
     }()
     
@@ -105,6 +104,7 @@ class SignUpViewController: UIViewController {
         let button = UIButton()
         return button
     }()
+
     let privacyLabel = {
         let label = UILabel()
         return label
@@ -118,6 +118,7 @@ class SignUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.tintColor = .rgrgColor4
         view.backgroundColor = UIColor.rgrgColor5
         setupUI()
         passValueCheck()
@@ -247,7 +248,6 @@ extension SignUpViewController {
             self.nickNamePass = pass
             self.updateUIButton()
         }
-        
     }
     
     func conditionAlert(title: String, message: String) {
@@ -274,12 +274,12 @@ extension SignUpViewController {
         present(alertController, animated: true, completion: nil)
     }
     
-    @objc func tapPrivarcy(){
+    @objc func tapPrivarcy() {
         let PersonalInfoViewControllerVC = PersonalInfoViewController()
         
-        PersonalInfoViewControllerVC.chekcHandler = {[weak self] chekcValue in
+        PersonalInfoViewControllerVC.chekcHandler = { [weak self] _ in
             self?.checkIcon.image = checkValue ? UIImage(systemName: "checkmark.square") : UIImage(systemName: "square")
-                self?.updateUIButton()
+            self?.updateUIButton()
         }
         
         navigationController?.pushViewController(PersonalInfoViewControllerVC, animated: true)

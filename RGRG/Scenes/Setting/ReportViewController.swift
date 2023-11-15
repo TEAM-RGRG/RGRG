@@ -57,6 +57,8 @@ extension ReportViewController {
     func setupUI() {
         view.backgroundColor = UIColor(hex: "#F4F4F4")
         navigationItem.title = pageTitle
+        navigationController?.navigationBar.topItem?.title = ""
+        navigationController?.navigationBar.tintColor = .rgrgColor4
 
         addView()
         confirmReportTitle()

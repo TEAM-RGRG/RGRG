@@ -20,11 +20,11 @@ class FirebaseUserManager {
             } else {
                 guard let snapshot = snapshot else { return }
                 if let data = snapshot.data() {
-                    if let userName = data["userName"] as? String, let email = data["email"] as? String, let tier = data["tier"] as? String, let position = data["position"] as? String, let mostChampion = data["mostChampion"] as? [String], let profilePhoto = data["profilePhoto"] as? String, let uid = data["uid"] as? String {
-                        let user = User(email: email, userName: userName, tier: tier, position: position, profilePhoto: profilePhoto, mostChampion: mostChampion, uid: uid)
+                    if let userName = data["userName"] as? String, let email = data["email"] as? String, let tier = data["tier"] as? String, let position = data["position"] as? String, let mostChampion = data["mostChampion"] as? [String], let profilePhoto = data["profilePhoto"] as? String, let uid = data["uid"] as? String, let iBlocked = data["iBlocked"] as? [String], let youBlocked = data["youBlocked"] as? [String] {
+                        let user = User(email: email, userName: userName, tier: tier, position: position, profilePhoto: profilePhoto, mostChampion: mostChampion, uid: uid, iBlocked: iBlocked, youBlocked: youBlocked)
                         complition(user)
                     }
-                } 
+                }
             }
         }
     }
@@ -66,17 +66,17 @@ class FirebaseUserManager {
             .collection("users")
             .document(searchUser)
             .getDocument { snapshot, error in
-            if let error = error {
-                print("Error : \(error)")
-            } else {
-                guard let snapshot = snapshot else { return }
-                if let data = snapshot.data() {
-                    if let userName = data["userName"] as? String, let email = data["email"] as? String, let tier = data["tier"] as? String, let position = data["position"] as? String, let mostChampion = data["mostChampion"] as? [String], let profilePhoto = data["profilePhoto"] as? String, let uid = data["uid"] as? String {
-                        let user = User(email: email, userName: userName, tier: tier, position: position, profilePhoto: profilePhoto, mostChampion: mostChampion, uid: uid)
-                        complition(user)
+                if let error = error {
+                    print("Error : \(error)")
+                } else {
+                    guard let snapshot = snapshot else { return }
+                    if let data = snapshot.data() {
+                        if let userName = data["userName"] as? String, let email = data["email"] as? String, let tier = data["tier"] as? String, let position = data["position"] as? String, let mostChampion = data["mostChampion"] as? [String], let profilePhoto = data["profilePhoto"] as? String, let uid = data["uid"] as? String, let iBlocked = data["iBlocked"] as? [String], let youBlocked = data["youBlocked"] as? [String] {
+                            let user = User(email: email, userName: userName, tier: tier, position: position, profilePhoto: profilePhoto, mostChampion: mostChampion, uid: uid, iBlocked: iBlocked, youBlocked: youBlocked)
+                            complition(user)
+                        }
                     }
                 }
             }
-        }
     }
 }
