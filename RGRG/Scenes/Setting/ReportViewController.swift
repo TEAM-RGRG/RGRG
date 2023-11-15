@@ -57,6 +57,8 @@ extension ReportViewController {
     func setupUI() {
         view.backgroundColor = UIColor(hex: "#F4F4F4")
         navigationItem.title = pageTitle
+        navigationController?.navigationBar.topItem?.title = ""
+        navigationController?.navigationBar.tintColor = .rgrgColor4
 
         addView()
         confirmReportTitle()
@@ -164,7 +166,7 @@ extension ReportViewController {
         print("#### \(#function)")
         if reportTextField.text?.isEmpty != true, reportDescriptionTextView.text.isEmpty != true, reportDescriptionTextView.text != textViewPlaceholder {
             print("#### 메일 전송~~~~")
-            sendEmail()
+            showComment()
 
         } else {
             showAlert()
@@ -408,5 +410,24 @@ extension ReportViewController {
 
     @objc func dismissKeyboard() {
         view.endEditing(true)
+    }
+}
+
+extension ReportViewController {
+    func showComment() {
+        let alert = UIAlertController(title: "신고 완료", message: """
+                                      영업일 기준 24시간 이내에 처리됩니다.
+                                        영업일 : 평일 10시 - 18시
+                                      """,
+                                      preferredStyle: .alert)
+        let confirmAlert = UIAlertAction(title: "확인", style: .default) { _ in
+            print("#### 눌렀다아아아아!!!")
+            self.sendEmail()
+        }
+
+        let cancelAlert = UIAlertAction(title: "취소", style: .destructive)
+        alert.addAction(confirmAlert)
+        alert.addAction(cancelAlert)
+        present(alert, animated: true)
     }
 }

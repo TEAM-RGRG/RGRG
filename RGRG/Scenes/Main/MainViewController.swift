@@ -15,14 +15,14 @@ class MainViewController: UIViewController, SendSelectedOptionDelegate {
         updateOptionLabel(tier: tier, position: position)
         if tier == "" {
             if position == "" {
-                PartyManager.shared.updateParty(tier: tierName, position: positionName) { [weak self] parties in
+                PartyManager.shared.updateParty(tier: tierName, position: positionName, iBlocked: currentUser?.iBlocked ?? [], youBlocked: currentUser?.youBlocked ?? []) { [weak self] parties in
                     self?.partyList = parties // [PartyInfo] = [PartyInfo]
                     DispatchQueue.main.async {
                         self?.patryListTable.reloadData()
                     }
                 }
             } else {
-                PartyManager.shared.updateParty(tier: tierName, position: [position]) { [weak self] parties in
+                PartyManager.shared.updateParty(tier: tierName, position: [position], iBlocked: currentUser?.iBlocked ?? [], youBlocked: currentUser?.youBlocked ?? []) { [weak self] parties in
                     self?.partyList = parties // [PartyInfo] = [PartyInfo]
                     DispatchQueue.main.async {
                         self?.patryListTable.reloadData()
@@ -31,14 +31,14 @@ class MainViewController: UIViewController, SendSelectedOptionDelegate {
             }
         } else {
             if position == "" {
-                PartyManager.shared.updateParty(tier: [tier], position: positionName) { [weak self] parties in
+                PartyManager.shared.updateParty(tier: [tier], position: positionName, iBlocked: currentUser?.iBlocked ?? [], youBlocked: currentUser?.youBlocked ?? []) { [weak self] parties in
                     self?.partyList = parties // [PartyInfo] = [PartyInfo]
                     DispatchQueue.main.async {
                         self?.patryListTable.reloadData()
                     }
                 }
             } else {
-                PartyManager.shared.updateParty(tier: [tier], position: [position]) { [weak self] parties in
+                PartyManager.shared.updateParty(tier: [tier], position: [position], iBlocked: currentUser?.iBlocked ?? [], youBlocked: currentUser?.youBlocked ?? []) { [weak self] parties in
                     self?.partyList = parties // [PartyInfo] = [PartyInfo]
                     DispatchQueue.main.async {
                         self?.patryListTable.reloadData()
@@ -48,6 +48,7 @@ class MainViewController: UIViewController, SendSelectedOptionDelegate {
         }
     }
  
+    var tempList: [String] = []
     let testButton = CustomButton(frame: .zero)
     
     var selectedTier: [String] = ["Iron", "Bronze", "Silver", "Gold", "Platinum", "Emerald", "Diamond", "Master", "GrandMaster", "Challenger"]
@@ -342,20 +343,19 @@ extension MainViewController {
 
 extension MainViewController {
     func task() {
-        Task {
-            await FirebaseUserManager.shared.getUserInfo(complition: { user in
-                print("### CurrentUser Info ::: \(user)")
-                self.currentUser = user
-            })
+        FirebaseUserManager.shared.getUserInfo(complition: { user in
+            self.currentUser = user
             
-            await PartyManager.shared.loadParty { [weak self] parties in
+            guard let currentUser = self.currentUser else { return }
+                
+            PartyManager.shared.loadParty(iBlocked: currentUser.iBlocked, youBlocked: currentUser.youBlocked) { [weak self] parties in
                 self?.partyList = parties
-                // [PartyInfo] = [PartyInfo]
+                    
                 DispatchQueue.main.async {
                     self?.patryListTable.reloadData()
                 }
             }
-        }
+        })
     }
     
     @objc func createPartybuttonTapped() {
@@ -432,12 +432,33 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let item = partyList[indexPath.row]
+        var blockArray: [String] = []
         let detailController = PartyInfoDetailVC()
         detailController.party = item
         detailController.user = currentUser
         detailController.partyID = item.thread ?? "n/a"
         detailController.viewWillAppear(true)
+       
+        detailController.eventHandler = { [weak self] str in
+            self?.tempList.append(str)
+        }
         
-        navigationController?.pushViewController(detailController, animated: true)
+        if tempList.contains(item.writer) == true {
+            print("##### 된다.")
+            showAlert()
+        } else {
+            print("##### 안 된다.")
+            navigationController?.pushViewController(detailController, animated: true)
+        }
+    }
+}
+
+extension MainViewController {
+    func showAlert() {
+        let alert = UIAlertController(title: "차단한 사용자", message: "차단한 사용자입니다.", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "확인", style: .default)
+        
+        alert.addAction(ok)
+        present(alert, animated: true)
     }
 }
