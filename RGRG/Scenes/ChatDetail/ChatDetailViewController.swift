@@ -104,6 +104,8 @@ extension ChatDetailViewController {
         confirmTextView()
         confirmEmptyView()
         confirmSendMessageIcon()
+
+        swipeRecognizer()
     }
 
     func confirmNavigation() {
@@ -558,5 +560,24 @@ extension ChatDetailViewController {
         dateFormatter.dateFormat = "hh:mm a"
         dateFormatter.timeZone = TimeZone(identifier: "UTC")
         return dateFormatter.string(from: date)
+    }
+}
+
+extension ChatDetailViewController {
+    func swipeRecognizer() {
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture))
+        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
+        view.addGestureRecognizer(swipeRight)
+    }
+
+    @objc func respondToSwipeGesture(_ gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizer.Direction.right:
+                navigationController?.popViewController(animated: true)
+            default:
+                break
+            }
+        }
     }
 }
