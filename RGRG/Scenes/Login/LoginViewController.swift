@@ -70,7 +70,7 @@ class LoginViewController: UIViewController {
         let button = UIButton()
         return button
     }()
-        
+    
     let resetPW = {
         let button = UIButton()
         return button
@@ -99,7 +99,7 @@ extension LoginViewController {
     @objc func gotoSignupPage() {
         let signupVC = SignUpViewController()
         navigationController?.pushViewController(signupVC, animated: true)
-    }   
+    }
     
     @objc func gotoResetPassword() {
         let resetPasswordVC = resetPassword()
@@ -109,7 +109,7 @@ extension LoginViewController {
     @objc func tapLogin() {
         loginButton.isEnabled = false
         signInUser()
-     
+        
     }
     
     func signInUser() {
@@ -169,7 +169,6 @@ extension LoginViewController {
     }
 }
 
-// 키보드 표시 이벤트 처리
 extension LoginViewController {
     func setupKeyboardEvent() {
         NotificationCenter.default.addObserver(self,
@@ -181,9 +180,8 @@ extension LoginViewController {
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
     }
-
+    
     @objc func keyboardWillShow(_ sender: Notification) {
-        // 키보드 표시 이벤트 처리
         guard let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         let keyboardHeight = keyboardFrame.cgRectValue.height
         
@@ -191,9 +189,8 @@ extension LoginViewController {
             view.frame.origin.y -= keyboardHeight
         }
     }
-
+    
     @objc func keyboardWillHide(_ notification: Notification) {
-        // 키보드 숨김 이벤트 처리
         if view.frame.origin.y != 0 {
             view.frame.origin.y = 0
         }
@@ -204,7 +201,7 @@ extension LoginViewController {
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
-
+    
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
@@ -218,11 +215,24 @@ extension LoginViewController {
         bodyContainer.addSubview(methodArea)
         methodArea.addSubview(emailLine)
         methodArea.addSubview(passwordLine)
-        loginButton.addTarget(self, action: #selector(tapLogin), for: .touchUpInside)
         methodArea.addSubview(loginButton)
         methodArea.addSubview(underLineArea)
         underLineArea.addArrangedSubview(signupButton)
         underLineArea.addArrangedSubview(resetPW)
+        
+        loginButton.addTarget(self, action: #selector(tapLogin), for: .touchUpInside)
+        signupButton.addTarget(self, action: #selector(gotoSignupPage), for: .touchUpInside)
+        
+        let attributedTitleSignup = NSAttributedString(string: "회원가입", attributes: [
+            NSAttributedString.Key.foregroundColor: UIColor.white,
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15),
+            NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue
+        ])
+        let attributedTitleResetPW = NSAttributedString(string: "비밀번호 찾기", attributes: [
+            NSAttributedString.Key.foregroundColor: UIColor.white,
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15),
+            NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue
+        ])
         
         bodyContainer.layer.borderColor = UIColor.systemGray5.cgColor
         bodyContainer.layer.cornerRadius = 10
@@ -232,7 +242,6 @@ extension LoginViewController {
             make.left.equalToSuperview().offset(47)
             make.right.equalToSuperview().inset(46)
         }
-//        imageArea.layer.borderWidth = 1
         imageArea.layer.borderColor = UIColor.systemGray5.cgColor
         imageArea.snp.makeConstraints { make in
             make.left.top.right.equalToSuperview()
@@ -264,8 +273,6 @@ extension LoginViewController {
             make.bottom.equalTo(underLineArea.snp.top).offset(-15)
             make.left.right.equalToSuperview()
         }
-        
-
         underLineArea.distribution = .fillEqually
         underLineArea.snp.makeConstraints { make in
             make.height.equalTo(50)
@@ -273,24 +280,11 @@ extension LoginViewController {
             make.bottom.equalTo(bodyContainer.snp.bottom).offset(-60)
             make.centerX.equalToSuperview()
         }
-        
-        let attributedTitleSignup = NSAttributedString(string: "회원가입", attributes: [
-            NSAttributedString.Key.foregroundColor: UIColor.white,
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15),
-            NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue
-        ])
         signupButton.setAttributedTitle(attributedTitleSignup, for: .normal)
         signupButton.setTitleColor(UIColor.white, for: .normal)
         signupButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
-        signupButton.addTarget(self, action: #selector(gotoSignupPage), for: .touchUpInside)
         signupButton.snp.makeConstraints { make in
         }
-        
-        let attributedTitleResetPW = NSAttributedString(string: "비밀번호 찾기", attributes: [
-            NSAttributedString.Key.foregroundColor: UIColor.white,
-            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15),
-            NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue
-        ])
         resetPW.setAttributedTitle(attributedTitleResetPW, for: .normal)
         resetPW.setTitleColor(UIColor.white, for: .normal)
         resetPW.titleLabel?.font = UIFont.systemFont(ofSize: 15)

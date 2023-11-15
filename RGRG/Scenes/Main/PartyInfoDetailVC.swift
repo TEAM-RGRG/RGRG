@@ -400,6 +400,7 @@ class PartyInfoDetailVC: UIViewController {
 
         configureUI()
         makeBackButton()
+        swipeRecognizer()
         
         if user?.uid == party?.writer {
             makeMyRightBarButton()
@@ -680,5 +681,24 @@ extension PartyInfoDetailVC {
         }
         
         present(alert, animated: true)
+    }
+}
+
+extension PartyInfoDetailVC {
+    func swipeRecognizer() {
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture))
+        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
+        view.addGestureRecognizer(swipeRight)
+    }
+    
+    @objc func respondToSwipeGesture(_ gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizer.Direction.right:
+                navigationController?.popViewController(animated: true)
+            default:
+                break
+            }
+        }
     }
 }
