@@ -1,9 +1,7 @@
 //
 //  CustomLoginCell.swift
 //  RGRG
-//
 //  Created by kiakim on 2023/10/13.
-//
 
 import Foundation
 import UIKit
@@ -83,7 +81,7 @@ class CustomMemberInfoBox : UIView {
         styleSort(style: style)
     }
     
-     required init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -91,10 +89,8 @@ class CustomMemberInfoBox : UIView {
     @objc func checkInputValue() {
         let inputText = inputBox.text ?? ""
         var cellID = self.cellID
-        //유효성검사 [1]
         let validationCheck = isValid(text: inputText, condition: conditon)
         
-        //유효성 검사값이 true이면 passHandler로 값을 저장 [3]
         func updateUIvalid(validation: Bool = validationCheck, passView: UIView? = nil, nonPassView:UIView? = nil) {
             if inputText.isEmpty {
                 conditionText.isHidden = true
@@ -147,7 +143,7 @@ class CustomMemberInfoBox : UIView {
                             duplicationMessage.text = "없는 계정"
                             nonPassView?.isHidden = true
                             passHandler?(false)
-                           
+                            
                         } else {
                             //Not unique
                             passView?.isHidden = false
@@ -155,9 +151,6 @@ class CustomMemberInfoBox : UIView {
                             nonPassView?.isHidden = true
                             duplicationMessage.isHidden = true
                             passHandler?(true)
-                            
-                            // passHandler == true
-                            // 위 메일주소로 메일을 발송할까요 ? 문구 뜨게
                         }
                     }
                     
@@ -194,7 +187,6 @@ class CustomMemberInfoBox : UIView {
         case .userName:
             updateUIvalid(passView: passMessage, nonPassView: self.conditionText)
         case .resetPW:
-            //중복값이 있어야 의미가 있는 Line
             updateUIvalid(passView: passMessage)
         }
     }
@@ -290,7 +282,6 @@ class CustomMemberInfoBox : UIView {
     func setupUI(){
         self.addSubview(stackView)
         stackView.addArrangedSubview(inputBox)
-
         stackView.addArrangedSubview(conditionText)
         stackView.addArrangedSubview(isSecureControllView)
         stackView.addArrangedSubview(checkIcon)
@@ -298,36 +289,32 @@ class CustomMemberInfoBox : UIView {
         stackView.addArrangedSubview(duplicationMessage)
         isSecureControllView.addSubview(eyesIcon)
         
+        inputBox.addTarget(self, action: #selector(checkInputValue), for: .editingChanged)
+        isSecureControllView.addTarget(self, action: #selector(switchisSecure), for: .touchUpInside)
+        inputBox.attributedPlaceholder = NSAttributedString(string: inputBox.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.rgrgColor7])
+        
         self.setupShadow(alpha: 0.25, offset: CGSize(width: 2, height: 3), radius: 4, opacity: 0.5)
         self.layer.borderWidth = 2
         self.layer.cornerRadius = 10
         self.snp.makeConstraints { make in
             make.height.equalTo(cellHeightValue)
         }
-             
         stackView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(10)
             make.left.equalToSuperview().offset(25)
             make.bottom.equalToSuperview().inset(10)
             make.right.equalToSuperview().inset(25)
         }
-         
-        inputBox.addTarget(self, action: #selector(checkInputValue), for: .editingChanged)
-        inputBox.attributedPlaceholder = NSAttributedString(string: inputBox.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.rgrgColor7])
         inputBox.textColor = UIColor(hex: "FFFFFF")
-       
         conditionText.textColor = UIColor.systemRed
         conditionText.textAlignment = .right
         conditionText.snp.makeConstraints { make in
             make.right.equalTo(isSecureControllView.snp.left).offset(-10)
             make.width.equalTo(110)
         }
-        
-        isSecureControllView.addTarget(self, action: #selector(switchisSecure), for: .touchUpInside)
         isSecureControllView.snp.makeConstraints { make in
             make.width.equalTo(30)
         }
-        
         eyesIcon.image = UIImage(systemName: "eye.slash")
         eyesIcon.contentMode = .scaleAspectFit
         eyesIcon.snp.makeConstraints { make in
@@ -342,7 +329,6 @@ class CustomMemberInfoBox : UIView {
             make.width.equalTo(20)
             make.left.equalTo(isSecureControllView.snp.right).offset(10)
         }
-        
         passMessage.textColor = UIColor.systemBlue
         duplicationMessage.textColor = UIColor.systemRed
     }
