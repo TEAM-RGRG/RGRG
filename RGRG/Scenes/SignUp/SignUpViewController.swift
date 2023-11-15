@@ -2,7 +2,6 @@
 //  RGRG
 //  Created by kiakim on 2023/10/11.
 
-
 import Firebase
 import FirebaseAuth
 import FirebaseCore
@@ -161,8 +160,9 @@ extension SignUpViewController {
                     "position": position,
                     "profilePhoto": "Default",
                     "mostChampion": ["None", "None", "None"], // Defaults 이미지
-                    "uid": result.user.uid
-                    
+                    "uid": result.user.uid,
+                    "iBlocked": [],
+                    "youBlocked": []
                 ]) { error in
                     if let error = error {
                         print("result : Error saving user data: \(error.localizedDescription)")
