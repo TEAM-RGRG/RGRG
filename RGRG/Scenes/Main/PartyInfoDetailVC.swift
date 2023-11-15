@@ -337,6 +337,11 @@ class PartyInfoDetailVC: UIViewController {
         positionImage.image = UIImage(named: party?.position ?? "Top")
         requiredPositionImage.image = UIImage(named: party?.hopePosition[0] ?? "Top")
         
+        firstMostChampionImage.image = UIImage(named: party?.champion[0] ?? "None")
+        secondMostChampionImage.image = UIImage(named: party?.champion[1] ?? "None")
+        thirdMostChampionImage.image = UIImage(named: party?.champion[2] ?? "None")
+        
+        
         tierLabel.text = party?.tier
         
         if let tier = party?.tier {
@@ -367,30 +372,6 @@ class PartyInfoDetailVC: UIViewController {
                 return UIColor.challenger
             default:
                 return UIColor.black
-            }
-        }
-        
-        if let firstImageURL = party?.champion[0] {
-            StorageManager.shared.getImage("champ", firstImageURL) { firstImage in
-                DispatchQueue.main.async {
-                    self.firstMostChampionImage.image = firstImage
-                }
-            }
-        }
-        
-        if let secondImageURL = party?.champion[1] {
-            StorageManager.shared.getImage("champ", secondImageURL) { secondImage in
-                DispatchQueue.main.async {
-                    self.secondMostChampionImage.image = secondImage
-                }
-            }
-        }
-
-        if let thirdImageURL = party?.champion[2] {
-            StorageManager.shared.getImage("champ", thirdImageURL) { thirdImage in
-                DispatchQueue.main.async {
-                    self.thirdMostChampionImage.image = thirdImage
-                }
             }
         }
         
