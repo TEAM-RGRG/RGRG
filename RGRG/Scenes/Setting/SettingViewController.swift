@@ -15,7 +15,7 @@ class SettingViewController: UIViewController {
     let reportVC = ReportViewController()
 
     let settingList = [
-        "로그아웃", "회원탈퇴", "신고하기", "개발자 정보"
+        "차단목록 관리", "로그아웃", "회원탈퇴", "신고하기", "개발자 정보"
     ]
     var user: User?
     let settingTable: UITableView = {
@@ -69,6 +69,8 @@ extension SettingViewController {
 
     func setupNavigationBar() {
         navigationItem.title = "환경 설정"
+        navigationController?.navigationBar.topItem?.title = ""
+        navigationController?.navigationBar.tintColor = .rgrgColor4
     }
 }
 
@@ -119,6 +121,11 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = settingList[indexPath.row]
         if indexPath.row == 0 {
+            let blockSettingVC = BlockSettingViewController()
+            navigationController?.pushViewController(blockSettingVC, animated: true)
+        }
+
+        if indexPath.row == 1 {
             let alert = UIAlertController(title: "로그아웃", message: "로그아웃 하시겠습니까?", preferredStyle: .alert)
             let ok = UIAlertAction(title: "로그아웃", style: .cancel, handler: { _ in
 
@@ -133,13 +140,13 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
 
             present(alert, animated: true)
         }
-        if indexPath.row == 1 {
+        if indexPath.row == 2 {
             let alert = UIAlertController(title: "회원 탈퇴", message: "회원 탈퇴 시 작성한 글은 삭제되지 않습니다. 정말로 삭제하시겠습니까?", preferredStyle: .alert)
             let ok = UIAlertAction(title: "회원 탈퇴", style: .cancel, handler: { _ in
                 FirebaseUserManager.shared.getUserInfo { user in
                     self.user = user
                 }
-                let updatedUser = User(email: "알 수 없음", userName: "알 수 없음", tier: self.user?.tier ?? "Bronze", position: self.user?.position ?? "Top", mostChampion: self.user?.mostChampion ?? ["None", "None", "None"], uid: self.current ?? "")
+                let updatedUser = User(email: "알 수 없음", userName: "알 수 없음", tier: self.user?.tier ?? "Bronze", position: self.user?.position ?? "Top", mostChampion: self.user?.mostChampion ?? ["None", "None", "None"], uid: self.current ?? "", iBlocked: self.user?.iBlocked ?? ["n/a"], youBlocked: self.user?.youBlocked ?? ["n/a"])
                 FirebaseUserManager.shared.updateUserInfo(userInfo: updatedUser)
                 FirebaseUpdateManager.shared.partyUserUpdate(user: updatedUser)
                 FirebaseUpdateManager.shared.channelsUserUpdate(updateProfile: updatedUser.profilePhoto)
@@ -156,13 +163,13 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             present(alert, animated: true)
         }
 
-        if indexPath.row == 2 {
+        if indexPath.row == 3 {
             reportVC.title = item
 
             navigationController?.pushViewController(reportVC, animated: true)
         }
 
-        if indexPath.row == 3 {
+        if indexPath.row == 4 {
             developInfoVC.title = item
             developInfoVC.viewWillAppear(true)
             navigationController?.pushViewController(developInfoVC, animated: true)

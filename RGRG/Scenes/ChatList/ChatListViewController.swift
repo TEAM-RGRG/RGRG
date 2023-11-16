@@ -28,15 +28,13 @@ class ChatListViewController: UIViewController {
 
 extension ChatListViewController {
     func task(tag: Int) {
-        Task {
-            await FirebaseUserManager.shared.getUserInfo { [weak self] user in
-                guard let self = self else { return }
-                currentUser = user
-            }
+        FirebaseUserManager.shared.getUserInfo { [weak self] user in
+            guard let self = self else { return }
+            currentUser = user
 
             guard let currentUser = currentUser else { return }
 
-            await FireStoreManager.shared.loadChannels(collectionName: "channels", filter: currentUser.uid) { channel, _ in
+            FireStoreManager.shared.loadChannels(collectionName: "channels", filter: currentUser.uid) { channel, _ in
 
                 self.channels = channel
 
@@ -59,10 +57,33 @@ extension ChatListViewController {
         super.viewDidLoad()
         setupUI()
         FireStoreManager.shared.loadWholeChannels()
-        FireStoreManager.shared.updateChannelsStatus {
-            self.task(tag: 2)
-            for i in 0 ..< self.channels.count {
-                self.tableView.reloadRows(at: [IndexPath(row: i, section: 0)], with: .none)
+        FireStoreManager.shared.updateChannelsStatus { value in
+
+            if self.channels.isEmpty == true {
+                self.blankMessage.isHidden = false
+            } else {
+                self.blankMessage.isHidden = true
+            }
+
+            switch value {
+            case 1:
+                self.task(tag: 1)
+                print("##### 111 \(value)")
+
+            case 2:
+                print("##### 222 \(value)")
+                self.task(tag: 2)
+                for i in 0 ..< self.channels.count {
+                    self.tableView.reloadRows(at: [IndexPath(row: i, section: 0)], with: .none)
+                }
+            case 3:
+                print("##### 333 \(value)")
+                self.channels.removeAll()
+                self.task(tag: 1)
+                self.tableView.reloadData()
+
+            default:
+                break
             }
         }
     }
@@ -71,6 +92,13 @@ extension ChatListViewController {
         tabBarController?.navigationItem.title = "쪽지"
         tabBarController?.navigationItem.rightBarButtonItem?.isHidden = false
         tabBarController?.navigationController?.navigationBar.isHidden = false
+
+        if channels.isEmpty == true {
+            blankMessage.isHidden = false
+        } else {
+            blankMessage.isHidden = true
+        }
+
         task(tag: 1)
     }
 
@@ -229,7 +257,7 @@ extension ChatListViewController: UITableViewDelegate {
         let item = channels[indexPath.row]
         vc.thread = item.channelID
         vc.channelInfo = item
-        vc.currentUserName = currentUser?.uid ?? "N/A"
+        vc.currentUserUid = currentUser?.uid ?? "N/A"
 
         if currentUser?.uid == item.host {
             FirebaseUserManager.shared.getUserInfo(searchUser: item.guest) { guest in
@@ -242,8 +270,6 @@ extension ChatListViewController: UITableViewDelegate {
             }
         }
 
-//        vc.viewWillAppear(true)
-
         tabBarController?.navigationController?.pushViewController(vc, animated: true)
     }
 
@@ -251,16 +277,6 @@ extension ChatListViewController: UITableViewDelegate {
         88
     }
 }
-
-// MARK: - Removing Duplication Chatting List
-
-//extension ChatListViewController {
-//    func removeDuplication(in array: [Channel]) -> [Channel] {
-//        let set = Set(array)
-//        let duplicationRemovedArray = Array(set)
-//        return duplicationRemovedArray
-//    }
-//}
 
 // MARK: - Timer
 

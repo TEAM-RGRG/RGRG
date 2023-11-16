@@ -225,7 +225,7 @@ extension FireStoreManager {
 }
 
 extension FireStoreManager {
-    func updateChannelsStatus(completion: @escaping () -> Void) {
+    func updateChannelsStatus(completion: @escaping (Int) -> Void) {
         var indexNumber = 0
         Firestore.firestore().collection("channels")
             .addSnapshotListener { snapshot, _ in
@@ -236,18 +236,15 @@ extension FireStoreManager {
                     switch change.type {
                     case .added:
                         print("##### added")
-                        indexNumber = Int(change.newIndex)
+                        completion(1)
                     case .modified:
                         print("##### modified")
-                        indexNumber = Int(change.newIndex)
+                        completion(2)
                     case .removed:
                         print("##### removed")
-                        indexNumber = Int(change.newIndex)
+                        completion(3)
                     }
-//                    print("##### 222 ::: \(change.document.documentID)")
                 }
-//                print("##### 111 ::: \(indexNumber)")
-                completion()
             }
     }
 }

@@ -27,7 +27,7 @@ class ChatDetailViewController: UIViewController {
     var fetchingMore = false
     var count = 1
 
-    var currentUserName = ""
+    var currentUserUid = ""
     var placeholder = "메세지 보내기"
     var textViewPosY = CGFloat(0)
 
@@ -59,7 +59,7 @@ extension ChatDetailViewController {
                     }
                 }
 
-                FireStoreManager.shared.updateChannel(currentMessage: self.chats.last?.content ?? "", thread: thread, sender: currentUserName, host: channelInfo?.host ?? "n/a", guest: channelInfo?.guest ?? "n/a")
+                FireStoreManager.shared.updateChannel(currentMessage: self.chats.last?.content ?? "", thread: thread, sender: currentUserUid, host: channelInfo?.host ?? "n/a", guest: channelInfo?.guest ?? "n/a")
             }
         }
     }
@@ -75,7 +75,7 @@ extension ChatDetailViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        currentUserName = ""
+        currentUserUid = ""
         view.endEditing(true)
     }
 
@@ -171,6 +171,15 @@ extension ChatDetailViewController {
         let vc = ChatSettingViewController()
         vc.sheetPresentationController?.preferredCornerRadius = 20
         vc.thread = thread
+
+        if currentUserUid == channelInfo?.host {
+            print("##### Host: \(channelInfo?.guest)")
+            vc.chatUserID = channelInfo?.guest
+        } else {
+            print("##### Guest: \(channelInfo?.host)")
+            vc.chatUserID = channelInfo?.host
+        }
+
         view.endEditing(true)
         present(vc, animated: true)
     }
@@ -246,10 +255,10 @@ extension ChatDetailViewController {
             self.sendMessageIcon.image = UIImage(named: "ChangeSend_fill")
         })
 
-        FireStoreManager.shared.addChat(thread: thread, sender: currentUserName, date: FireStoreManager.shared.dateFormatter(value: Date.now), read: false, content: textView.text ?? "n/a") { chat in
+        FireStoreManager.shared.addChat(thread: thread, sender: currentUserUid, date: FireStoreManager.shared.dateFormatter(value: Date.now), read: false, content: textView.text ?? "n/a") { chat in
             self.chats.append(chat)
 
-            FireStoreManager.shared.updateChannelSender(thread: self.thread, sender: self.currentUserName, host: self.channelInfo?.host ?? "n/a", guest: self.channelInfo?.guest ?? "n/a", date: FireStoreManager.shared.dateFormatter(value: Date.now))
+            FireStoreManager.shared.updateChannelSender(thread: self.thread, sender: self.currentUserUid, host: self.channelInfo?.host ?? "n/a", guest: self.channelInfo?.guest ?? "n/a", date: FireStoreManager.shared.dateFormatter(value: Date.now))
 
             DispatchQueue.main.async {
                 self.textView.text = nil
@@ -278,7 +287,7 @@ extension ChatDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = chats[indexPath.row]
 
-        if item.sender == currentUserName {
+        if item.sender == currentUserUid {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MyFeedCell.identifier, for: indexPath) as? MyFeedCell else { return UITableViewCell() }
 
             cell.myChatContent.text = item.content
@@ -299,7 +308,7 @@ extension ChatDetailViewController: UITableViewDataSource {
             cell.yourChatContent.text = item.content
             cell.yourChatTime.text = dateFormatter(strDate: item.date)
 
-            if channelInfo?.host == currentUserName {
+            if channelInfo?.host == currentUserUid {
                 cell.yourProfileImage.image = UIImage(named: channelInfo?.guestProfile ?? "Default")
             } else {
                 cell.yourProfileImage.image = UIImage(named: channelInfo?.hostProfile ?? "Default")

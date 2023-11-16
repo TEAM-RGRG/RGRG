@@ -11,6 +11,7 @@ import UIKit
 class ChatSettingViewController: UIViewController {
     static let identifier = "ChatSettingViewController"
 
+    var chatUserID: String?
     var thread: String?
     
     let topBaseView = UIView(frame: .zero)
@@ -31,14 +32,15 @@ class ChatSettingViewController: UIViewController {
 extension ChatSettingViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setupUI()
+        setupUI()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         if let sheetPresentationController = sheetPresentationController {
             sheetPresentationController.detents = [.custom(resolver: { _ in
                 self.setupUI()
-                return 150
+//                print("##### 이페이지의 유저ID : \(self.chatUserID)")
+                return 201
             })]
         }
     }
@@ -70,7 +72,7 @@ extension ChatSettingViewController {
     }
     
     func confirms() {
-//        confirmBlock()
+        confirmBlock()
         confirmExit()
         confirmCancel()
     }
@@ -79,7 +81,7 @@ extension ChatSettingViewController {
 extension ChatSettingViewController {
     func setupView() {
         confirmTopBaseView()
-//        confirmBlockView()
+        confirmBlockView()
         confirmExitView()
         confirmLineView()
         confirmCancelView()
@@ -93,7 +95,7 @@ extension ChatSettingViewController {
             make.top.equalTo(view).offset(20)
             make.centerX.equalToSuperview()
             make.leading.equalTo(view).offset(16)
-            make.height.equalTo(50)
+            make.height.equalTo(101)
         }
     }
     
@@ -167,8 +169,7 @@ extension ChatSettingViewController {
         blockIcon.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalTo(blockView).offset(19)
-            make.trailing.equalTo(blockView).offset(-318)
-            make.width.height.equalTo(24)
+            make.width.height.greaterThanOrEqualTo(24)
         }
     }
     
@@ -238,13 +239,14 @@ extension ChatSettingViewController {
 extension ChatSettingViewController {
     @objc func tappedBlockView() {
         print("### \(#function)")
+        showBenAlert()
     }
     
     @objc func tappedExitView() {
         print("### \(#function)")
         
         if thread != nil {
-            FireStoreManager.shared.deleteChannel(thread: thread ?? "n/a", completion: {
+            FireStoreManager.shared.deleteChannel(thread: thread ?? "", completion: {
                 guard let presentingViewController = self.presentingViewController as? UINavigationController else { return }
                 let vc = ChatListViewController()
                 presentingViewController.popViewController(animated: true)
@@ -256,5 +258,30 @@ extension ChatSettingViewController {
     @objc func tappedCancelView() {
         print("### \(#function)")
         dismiss(animated: true)
+    }
+}
+
+extension ChatSettingViewController {
+    func showBenAlert() {
+        let alert = UIAlertController(title: "차단하시겠습니까?", message: "차단 하시면 차단된 친구의 글 정보 볼 수 없습니다.", preferredStyle: .alert)
+        let confirmAlert = UIAlertAction(title: "차단", style: .destructive, handler: { _ in
+            if self.thread != nil {
+                FireStoreManager.shared.deleteChannel(thread: self.thread ?? "n/a", completion: {
+                    guard let presentingViewController = self.presentingViewController as? UINavigationController else { return }
+                    let vc = ChatListViewController()
+                
+                    BlockManager.shared.blockUser(uid: self.chatUserID ?? "n/a")
+                    presentingViewController.popViewController(animated: true)
+                   
+                    self.dismiss(animated: true)
+                })
+            }
+        })
+        let cancelAlert = UIAlertAction(title: "취소", style: .default)
+        [confirmAlert, cancelAlert].forEach {
+            alert.addAction($0)
+        }
+        
+        present(alert, animated: true)
     }
 }
