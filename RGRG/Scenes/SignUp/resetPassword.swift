@@ -83,7 +83,53 @@ class resetPassword: UIViewController {
         present(alertController, animated: true, completion: nil)
     }
 }
+extension resetPassword {
+    func hideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(SignUpViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    func setupKeyboardEvent() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
 
+    @objc func keyboardWillShow(_ sender: Notification) {
+        guard let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        let keyboardHeight = keyboardFrame.cgRectValue.height
+        
+        if view.frame.origin.y == 0 {
+            view.frame.origin.y -= keyboardHeight - 180
+        }
+    }
+
+    @objc func keyboardWillHide(_ notification: Notification) {
+        if view.frame.origin.y != 0 {
+            view.frame.origin.y = 0
+        }
+    }
+    
+    func hideKeyboardEvent() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(SignUpViewController.dismissKeyboardSignup))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboardSignup() {
+        view.endEditing(true)
+    }
+}
 
 extension resetPassword {
     func setupUI(){
