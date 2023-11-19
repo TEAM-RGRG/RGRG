@@ -37,11 +37,15 @@ extension ChatSettingViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         if let sheetPresentationController = sheetPresentationController {
-            sheetPresentationController.detents = [.custom(resolver: { _ in
-                self.setupUI()
-//                print("##### 이페이지의 유저ID : \(self.chatUserID)")
-                return 201
-            })]
+            if #available(iOS 16.0, *) {
+                sheetPresentationController.detents = [.custom(resolver: { _ in
+                    self.setupUI()
+                    //                print("##### 이페이지의 유저ID : \(self.chatUserID)")
+                    return 201
+                })]
+            } else {
+                // Fallback on earlier versions
+            }
         }
     }
 }

@@ -32,6 +32,8 @@ class CreatePartyVC: UIViewController {
     
     var textViewPosY = CGFloat(0)
     
+    var bottomButtonConstraint: NSLayoutConstraint?
+    
     let scrollView: UIScrollView = {
         let view = UIScrollView()
         return view
@@ -245,8 +247,220 @@ class CreatePartyVC: UIViewController {
         return button
     }()
     
-    // MARK: - Method
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+}
+
+// MARK: - View Life Cycle
+
+extension CreatePartyVC {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        partyNameTextField.delegate = self
+        infoTextView.delegate = self
+
+        configureUI()
+        setKeyboardNotification()
+        
+        makeRightBarButton()
+    }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = false
+        
+        if tag == 1 {
+            addPlaceholderToTextView()
+        }
+    }
+}
+
+// MARK: - Setting UI
+
+extension CreatePartyVC {
+    func configureUI() {
+        view.backgroundColor = .white
+        
+        view.addSubview(topFrame)
+        setUIShadow()
+
+        topFrame.addSubview(partyNameLabel)
+        topFrame.addSubview(partyNameTextField)
+        topFrame.addSubview(positionLabel)
+        topFrame.addSubview(positionFramView)
+        positionFramView.addArrangedSubview(topPositionbutton)
+        positionFramView.addArrangedSubview(junglePositionbutton)
+        positionFramView.addArrangedSubview(midPositionbutton)
+        positionFramView.addArrangedSubview(bottomPositionbutton)
+        positionFramView.addArrangedSubview(supportPositionbutton)
+        topFrame.addSubview(positionLabelFramView)
+        positionLabelFramView.addArrangedSubview(topLabel)
+        positionLabelFramView.addArrangedSubview(jungleLabel)
+        positionLabelFramView.addArrangedSubview(midLabel)
+        positionLabelFramView.addArrangedSubview(bottomLabel)
+        positionLabelFramView.addArrangedSubview(supportLabel)
+    
+        topFrame.addSubview(infoTextLabel)
+        topFrame.addSubview(infoTextView)
+        topFrame.addSubview(textCountLabel)
+        topFrame.addSubview(currentTextCountLabel)
+        topFrame.addSubview(confirmationButton)
+        
+        // 네비게이션 타이틀
+        navigationItem.title = "RG 구하기"
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "NotoSansKR-Bold", size: 17)!, NSAttributedString.Key.foregroundColor: UIColor.black]
+
+        // 네비게이션 바 왼쪽 버튼
+        let backButton = UIButton(type: .custom)
+        backButton.setImage(UIImage(named: "chevron.left")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        backButton.tintColor = .rgrgColor4
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true // 버튼의 가로 크기
+        backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        backButton.imageEdgeInsets = .init(top: -18, left: -13, bottom: -8, right: -13)
+        
+        let customItem = UIBarButtonItem(customView: backButton)
+        navigationItem.leftBarButtonItem = customItem
+        
+        // 네비게이션바 오른쪽 버튼
+        let rightButton = UIBarButtonItem(title: "임시 저장", style: .plain, target: self, action: #selector(backButtonTapped))
+        if #available(iOS 16.0, *) {
+            rightButton.isHidden = true
+        } else {
+            // Fallback on earlier versions
+        }
+        navigationItem.rightBarButtonItem = rightButton
+        
+        topFrame.snp.makeConstraints {
+            $0.left.right.top.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.equalToSuperview()
+        }
+        
+        partyNameLabel.snp.makeConstraints {
+            $0.top.equalTo(topFrame.snp.top).offset(32)
+            $0.leading.equalToSuperview().offset(28)
+        }
+        
+        partyNameTextField.snp.makeConstraints {
+            $0.top.equalTo(partyNameLabel.snp.bottom).offset(7)
+            $0.height.equalTo(45)
+            $0.leading.equalToSuperview().offset(28)
+            $0.trailing.equalToSuperview().offset(-28)
+        }
+        
+        textCountLabel.snp.makeConstraints {
+            $0.top.equalTo(partyNameTextField.snp.bottom).offset(5)
+            $0.height.equalTo(18)
+            $0.width.equalTo(50)
+            $0.trailing.equalToSuperview().offset(-28)
+        }
+        
+        positionLabel.snp.makeConstraints {
+            $0.top.equalTo(partyNameTextField.snp.bottom).offset(25)
+            $0.leading.equalToSuperview().offset(28)
+        }
+
+        positionFramView.snp.makeConstraints {
+            $0.top.equalTo(positionLabel.snp.bottom).offset(12)
+            $0.height.equalTo(50)
+            $0.leading.equalToSuperview().offset(28)
+            $0.trailing.equalToSuperview().offset(-28)
+        }
+        
+        positionLabelFramView.snp.makeConstraints {
+            $0.top.equalTo(positionFramView.snp.bottom).offset(2)
+            $0.height.equalTo(15)
+            $0.leading.equalToSuperview().offset(28)
+            $0.trailing.equalToSuperview().offset(-28)
+        }
+        
+        infoTextLabel.snp.makeConstraints {
+            $0.top.equalTo(positionFramView.snp.bottom).offset(36)
+            $0.leading.equalToSuperview().offset(28)
+        }
+        
+        infoTextView.snp.makeConstraints {
+            $0.top.equalTo(infoTextLabel.snp.bottom).offset(12)
+            $0.height.equalTo(226)
+            $0.leading.equalToSuperview().offset(28)
+            $0.trailing.equalToSuperview().offset(-28)
+        }
+        
+        currentTextCountLabel.snp.makeConstraints {
+            $0.top.equalTo(infoTextView.snp.bottom).offset(5)
+            $0.height.equalTo(18)
+            $0.width.equalTo(80)
+            $0.trailing.equalToSuperview().offset(-28)
+        }
+        
+        confirmationButton.snp.makeConstraints {
+            $0.top.equalTo(infoTextView.snp.bottom).offset(40)
+            $0.leading.equalToSuperview().offset(28)
+            $0.trailing.equalToSuperview().offset(-28)
+            $0.height.equalTo(60)
+            $0.centerX.equalTo(view)
+        }
+    }
+    
+    func addPlaceholderToTextView() {
+        infoTextView.text = textViewPlaceholder
+        infoTextView.textColor = UIColor(hex: "#ADADAD")
+    }
+    
+    @objc func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
+    }
+}
+
+// MARK: - Nav Right Bar Button
+
+extension CreatePartyVC {
+    func makeRightBarButton() {
+        // 액션 만들기 >> 메뉴 만들기 >> UIBarButtonItem 만들기
+
+        rightBarButtonItem.title = "초기화"
+        rightBarButtonItem.target = self
+        rightBarButtonItem.action = #selector(tappedResetButton)
+
+        navigationItem.rightBarButtonItem?.changesSelectionAsPrimaryAction = false
+
+        rightBarButtonItem.tintColor = UIColor.rgrgColor3
+        navigationItem.rightBarButtonItem = rightBarButtonItem
+    }
+
+    @objc func tappedResetButton(_ sender: UIBarButtonItem) {
+        partyNameTextField.text = nil
+        infoTextView.text = textViewPlaceholder
+        infoTextView.textColor = UIColor(hex: "#ADADAD")
+        for button in positionOptionButtonArry {
+            button.backgroundColor = .rgrgColor6
+            button.layer.borderColor = UIColor.white.cgColor
+        }
+        positionOptionButtonArry.removeAll()
+        firstPickedPosition = nil
+        secondPickedPosition = nil
+        updatePositionLabels()
+        updateSecondPositionLabels()
+        updateConfirmationButton()
+        
+        textCountLabel.text = "\(0)/25"
+        currentTextCountLabel.text = "\(0)/200"
+
+        partyNameTextField.resignFirstResponder()
+        infoTextView.resignFirstResponder()
+    }
+    
+    func setUIShadow() {
+        partyNameTextField.setupShadow(alpha: 0.05, offset: CGSize(width: 2, height: 3), radius: 12, opacity: 1)
+        infoTextView.setupShadow(alpha: 0.05, offset: CGSize(width: 2, height: 3), radius: 12, opacity: 1)
+        confirmationButton.setupShadow(alpha: 0.2, offset: CGSize(width: 2, height: 3), radius: 4, opacity: 1)
+    }
+}
+
+// MARK: - Function
+
+extension CreatePartyVC {
     func task() {
         if let user = user {
             let hopePosition = [selectedPositionArry[0], selectedPositionArry[1]]
@@ -285,7 +499,7 @@ class CreatePartyVC: UIViewController {
             firstPickedPosition = sender
             positionOptionButtonArry.append(sender)
             updatePositionLabels()
-        } else if positionOptionButtonArry.count == 1 && firstPickedPosition != sender {
+        } else if positionOptionButtonArry.count == 1, firstPickedPosition != sender {
             sender.isSelected = true
             sender.backgroundColor = UIColor.rgrgColor3
             secondPickedPosition = sender
@@ -386,7 +600,7 @@ class CreatePartyVC: UIViewController {
     }
     
     func updateConfirmationButton() {
-        if firstPickedPosition != nil && secondPickedPosition != nil && partyNameTextField.text?.isEmpty != true && infoTextView.text.isEmpty != true && infoTextView.text != textViewPlaceholder {
+        if firstPickedPosition != nil, secondPickedPosition != nil, partyNameTextField.text?.isEmpty != true, infoTextView.text.isEmpty != true, infoTextView.text != textViewPlaceholder {
             confirmationButton.isEnabled = true
             confirmationButton.backgroundColor = UIColor.rgrgColor4
         } else {
@@ -394,242 +608,9 @@ class CreatePartyVC: UIViewController {
             confirmationButton.backgroundColor = UIColor.rgrgColor7
         }
     }
-
-    // MARK: - KeyBoard
-
-    var bottomButtonConstraint: NSLayoutConstraint?
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        view.endEditing(true)
-    }
-    
-    func setKeyboardNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            let keyboardHeight = keyboardRectangle.height
-            if infoTextView.isFirstResponder {
-                view.window?.frame.origin.y -= keyboardHeight - 210
-                partyNameTextField.isEnabled = false
-            }
-        }
-    }
-    
-    @objc func keyboardWillHide(notification: NSNotification) {
-        if view.window?.frame.origin.y != 0 {
-            if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-                let keyboardRectangle = keyboardFrame.cgRectValue
-                let keyboardHeight = keyboardRectangle.height
-                if infoTextView.isFirstResponder {
-                    view.window?.frame.origin.y += keyboardHeight - 210
-                    partyNameTextField.isEnabled = true
-                }
-            }
-        }
-    }
-    
-    // MARK: - ViewWillAppear
-    
-    override func viewWillAppear(_ animated: Bool) {
-        navigationController?.navigationBar.isHidden = false
-        
-        if tag == 1 {
-            addPlaceholderToTextView()
-        }
-    }
-    
-    // MARK: - ViewDidLoad
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        partyNameTextField.delegate = self
-        infoTextView.delegate = self
-
-        configureUI()
-        setKeyboardNotification()
-        
-        makeRightBarButton()
-    }
-    
-    @objc func backButtonTapped() {
-        navigationController?.popViewController(animated: true)
-    }
-    
-    // MARK: - configureUI
-    
-    func configureUI() {
-        view.backgroundColor = .white
-        
-        view.addSubview(topFrame)
-        setUIShadow()
-
-        topFrame.addSubview(partyNameLabel)
-        topFrame.addSubview(partyNameTextField)
-        topFrame.addSubview(positionLabel)
-        topFrame.addSubview(positionFramView)
-        positionFramView.addArrangedSubview(topPositionbutton)
-        positionFramView.addArrangedSubview(junglePositionbutton)
-        positionFramView.addArrangedSubview(midPositionbutton)
-        positionFramView.addArrangedSubview(bottomPositionbutton)
-        positionFramView.addArrangedSubview(supportPositionbutton)
-        topFrame.addSubview(positionLabelFramView)
-        positionLabelFramView.addArrangedSubview(topLabel)
-        positionLabelFramView.addArrangedSubview(jungleLabel)
-        positionLabelFramView.addArrangedSubview(midLabel)
-        positionLabelFramView.addArrangedSubview(bottomLabel)
-        positionLabelFramView.addArrangedSubview(supportLabel)
-    
-        topFrame.addSubview(infoTextLabel)
-        topFrame.addSubview(infoTextView)
-        topFrame.addSubview(textCountLabel)
-        topFrame.addSubview(currentTextCountLabel)
-        topFrame.addSubview(confirmationButton)
-        
-        // 네비게이션 타이틀
-        navigationItem.title = "RG 구하기"
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "NotoSansKR-Bold", size: 17)!, NSAttributedString.Key.foregroundColor: UIColor.black]
-
-        // 네비게이션 바 왼쪽 버튼
-        let backButton = UIButton(type: .custom)
-        backButton.setImage(UIImage(named: "chevron.left")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        backButton.tintColor = .rgrgColor4
-        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true // 버튼의 가로 크기
-        backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        backButton.imageEdgeInsets = .init(top: -18, left: -13, bottom: -8, right: -13)
-        
-        let customItem = UIBarButtonItem(customView: backButton)
-        navigationItem.leftBarButtonItem = customItem
-        
-        // 네비게이션바 오른쪽 버튼
-        let rightButton = UIBarButtonItem(title: "임시 저장", style: .plain, target: self, action: #selector(backButtonTapped))
-        rightButton.isHidden = true
-        navigationItem.rightBarButtonItem = rightButton
-        
-        topFrame.snp.makeConstraints {
-            $0.left.right.top.equalTo(view.safeAreaLayoutGuide)
-            $0.bottom.equalToSuperview()
-        }
-        
-        partyNameLabel.snp.makeConstraints {
-            $0.top.equalTo(topFrame.snp.top).offset(32)
-            $0.leading.equalToSuperview().offset(28)
-        }
-        
-        partyNameTextField.snp.makeConstraints {
-            $0.top.equalTo(partyNameLabel.snp.bottom).offset(7)
-            $0.height.equalTo(45)
-            $0.leading.equalToSuperview().offset(28)
-            $0.trailing.equalToSuperview().offset(-28)
-        }
-        
-        textCountLabel.snp.makeConstraints {
-            $0.top.equalTo(partyNameTextField.snp.bottom).offset(5)
-            $0.height.equalTo(18)
-            $0.width.equalTo(50)
-            $0.trailing.equalToSuperview().offset(-28)
-        }
-        
-        positionLabel.snp.makeConstraints {
-            $0.top.equalTo(partyNameTextField.snp.bottom).offset(25)
-            $0.leading.equalToSuperview().offset(28)
-        }
-
-        positionFramView.snp.makeConstraints {
-            $0.top.equalTo(positionLabel.snp.bottom).offset(12)
-            $0.height.equalTo(50)
-            $0.leading.equalToSuperview().offset(28)
-            $0.trailing.equalToSuperview().offset(-28)
-        }
-        
-        positionLabelFramView.snp.makeConstraints {
-            $0.top.equalTo(positionFramView.snp.bottom).offset(2)
-            $0.height.equalTo(15)
-            $0.leading.equalToSuperview().offset(28)
-            $0.trailing.equalToSuperview().offset(-28)
-        }
-        
-        infoTextLabel.snp.makeConstraints {
-            $0.top.equalTo(positionFramView.snp.bottom).offset(36)
-            $0.leading.equalToSuperview().offset(28)
-        }
-        
-        infoTextView.snp.makeConstraints {
-            $0.top.equalTo(infoTextLabel.snp.bottom).offset(12)
-            $0.height.equalTo(226)
-            $0.leading.equalToSuperview().offset(28)
-            $0.trailing.equalToSuperview().offset(-28)
-        }
-        
-        currentTextCountLabel.snp.makeConstraints {
-            $0.top.equalTo(infoTextView.snp.bottom).offset(5)
-            $0.height.equalTo(18)
-            $0.width.equalTo(80)
-            $0.trailing.equalToSuperview().offset(-28)
-        }
-        
-        confirmationButton.snp.makeConstraints {
-            $0.top.equalTo(infoTextView.snp.bottom).offset(40)
-            $0.leading.equalToSuperview().offset(28)
-            $0.trailing.equalToSuperview().offset(-28)
-            $0.height.equalTo(60)
-            $0.centerX.equalTo(view)
-        }
-    }
-    
-    func addPlaceholderToTextView() {
-        infoTextView.text = textViewPlaceholder
-        infoTextView.textColor = UIColor(hex: "#ADADAD")
-    }
 }
 
-extension CreatePartyVC {
-    func makeRightBarButton() {
-        // 액션 만들기 >> 메뉴 만들기 >> UIBarButtonItem 만들기
-
-        rightBarButtonItem.title = "초기화"
-        rightBarButtonItem.target = self
-        rightBarButtonItem.action = #selector(tappedResetButton)
-
-        navigationItem.rightBarButtonItem?.changesSelectionAsPrimaryAction = false
-
-        rightBarButtonItem.tintColor = UIColor.rgrgColor3
-        navigationItem.rightBarButtonItem = rightBarButtonItem
-    }
-
-    @objc func tappedResetButton(_ sender: UIBarButtonItem) {
-        partyNameTextField.text = nil
-        infoTextView.text = textViewPlaceholder
-        infoTextView.textColor = UIColor(hex: "#ADADAD")
-        for button in positionOptionButtonArry {
-            button.backgroundColor = .rgrgColor6
-            button.layer.borderColor = UIColor.white.cgColor
-        }
-        positionOptionButtonArry.removeAll()
-        firstPickedPosition = nil
-        secondPickedPosition = nil
-        updatePositionLabels()
-        updateSecondPositionLabels()
-        updateConfirmationButton()
-        
-        textCountLabel.text = "\(0)/25"
-        currentTextCountLabel.text = "\(0)/200"
-
-        partyNameTextField.resignFirstResponder()
-        infoTextView.resignFirstResponder()
-    }
-    
-    func setUIShadow() {
-        partyNameTextField.setupShadow(alpha: 0.05, offset: CGSize(width: 2, height: 3), radius: 12, opacity: 1)
-        infoTextView.setupShadow(alpha: 0.05, offset: CGSize(width: 2, height: 3), radius: 12, opacity: 1)
-        confirmationButton.setupShadow(alpha: 0.2, offset: CGSize(width: 2, height: 3), radius: 4, opacity: 1)
-    }
-}
+// MARK: - UITextFieldDelegate
 
 extension CreatePartyVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -666,6 +647,8 @@ extension CreatePartyVC: UITextFieldDelegate {
         return newLength <= 20
     }
 }
+
+// MARK: - UITextViewDelegate
 
 extension CreatePartyVC: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -706,5 +689,38 @@ extension CreatePartyVC: UITextViewDelegate {
         currentTextCountLabel.text = "\(currentTextViewCount)/200"
 
         return currentTextViewCount < 200
+    }
+}
+
+// MARK: - KeyBoard
+
+extension CreatePartyVC {
+    func setKeyboardNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            if infoTextView.isFirstResponder {
+                view.window?.frame.origin.y -= keyboardHeight - 210
+                partyNameTextField.isEnabled = false
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if view.window?.frame.origin.y != 0 {
+            if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+                let keyboardRectangle = keyboardFrame.cgRectValue
+                let keyboardHeight = keyboardRectangle.height
+                if infoTextView.isFirstResponder {
+                    view.window?.frame.origin.y += keyboardHeight - 210
+                    partyNameTextField.isEnabled = true
+                }
+            }
+        }
     }
 }

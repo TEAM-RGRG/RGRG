@@ -8,46 +8,7 @@
 import SnapKit
 import UIKit
 
-// MARK: 프로퍼티 생성
-
 class MainViewController: UIViewController, SendSelectedOptionDelegate {
-    func sendSelectedOption(tier: String, position: String) {
-        updateOptionLabel(tier: tier, position: position)
-        if tier == "" {
-            if position == "" {
-                PartyManager.shared.updateParty(tier: tierName, position: positionName, iBlocked: currentUser?.iBlocked ?? [], youBlocked: currentUser?.youBlocked ?? []) { [weak self] parties in
-                    self?.partyList = parties // [PartyInfo] = [PartyInfo]
-                    DispatchQueue.main.async {
-                        self?.patryListTable.reloadData()
-                    }
-                }
-            } else {
-                PartyManager.shared.updateParty(tier: tierName, position: [position], iBlocked: currentUser?.iBlocked ?? [], youBlocked: currentUser?.youBlocked ?? []) { [weak self] parties in
-                    self?.partyList = parties // [PartyInfo] = [PartyInfo]
-                    DispatchQueue.main.async {
-                        self?.patryListTable.reloadData()
-                    }
-                }
-            }
-        } else {
-            if position == "" {
-                PartyManager.shared.updateParty(tier: [tier], position: positionName, iBlocked: currentUser?.iBlocked ?? [], youBlocked: currentUser?.youBlocked ?? []) { [weak self] parties in
-                    self?.partyList = parties // [PartyInfo] = [PartyInfo]
-                    DispatchQueue.main.async {
-                        self?.patryListTable.reloadData()
-                    }
-                }
-            } else {
-                PartyManager.shared.updateParty(tier: [tier], position: [position], iBlocked: currentUser?.iBlocked ?? [], youBlocked: currentUser?.youBlocked ?? []) { [weak self] parties in
-                    self?.partyList = parties // [PartyInfo] = [PartyInfo]
-                    DispatchQueue.main.async {
-                        self?.patryListTable.reloadData()
-                    }
-                }
-            }
-        }
-    }
- 
     var tempList: [String] = []
     let testButton = CustomButton(frame: .zero)
     
@@ -171,7 +132,7 @@ class MainViewController: UIViewController, SendSelectedOptionDelegate {
 
     let contentView = UIView()
     
-    lazy var patryListTable: UITableView = {
+    lazy var partyListTableView: UITableView = {
         var tableView = UITableView()
         tableView.backgroundColor = .rgrgColor5
         tableView.separatorStyle = .none
@@ -179,24 +140,20 @@ class MainViewController: UIViewController, SendSelectedOptionDelegate {
     }()
 }
 
-// MARK: ViewController 생명주기
+// MARK: - ViewController 생명 주기
 
 extension MainViewController {
-    // MARK: - ViewWillAppear
-    
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.navigationController?.navigationBar.isHidden = true
         task()
     }
     
-    // MARK: - ViewDidLoad
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        patryListTable.register(PartyTableViewCell.self, forCellReuseIdentifier: "PartyTableViewCell")
-        patryListTable.delegate = self
-        patryListTable.dataSource = self
+        partyListTableView.register(PartyTableViewCell.self, forCellReuseIdentifier: "PartyTableViewCell")
+        partyListTableView.delegate = self
+        partyListTableView.dataSource = self
         
         PartyManager.shared.updatePartyStatus {
             self.task()
@@ -204,9 +161,75 @@ extension MainViewController {
     }
 }
 
-// MARK: UI 구성
+// MARK: - UI 구성
 
 extension MainViewController {
+    func configureUI() {
+        view.backgroundColor = .rgrgColor5
+        
+        view.addSubview(topFrame)
+    
+        topFrame.addSubview(pageTitleLabel)
+        topFrame.addSubview(noticePagebutton)
+        
+        topFrame.addSubview(optionFrame)
+        
+        optionFrame.addArrangedSubview(tierOptionLabel)
+        optionFrame.addArrangedSubview(positionOptionLabel)
+        
+        view.addSubview(contentView)
+        contentView.addSubview(partyListTableView)
+        view.addSubview(createPartybutton)
+        
+        topFrame.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(144)
+        }
+        
+        pageTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(topFrame.snp.top).offset(56)
+            $0.leading.equalTo(topFrame.snp.leading).offset(20)
+        }
+        
+        noticePagebutton.snp.makeConstraints {
+            $0.top.equalTo(pageTitleLabel.snp.top).offset(0)
+            $0.trailing.equalToSuperview().offset(-20)
+            $0.height.width.equalTo(24)
+        }
+        
+        createPartybutton.snp.makeConstraints {
+            $0.bottom.equalToSuperview().offset(-112)
+            $0.trailing.equalToSuperview().offset(-29)
+            $0.height.equalTo(44)
+            $0.width.equalTo(44)
+        }
+ 
+        optionFrame.snp.makeConstraints {
+            $0.top.equalTo(pageTitleLabel.snp.bottom).offset(15)
+            $0.height.equalTo(30)
+            $0.leading.equalTo(topFrame.snp.leading).offset(20)
+            $0.trailing.equalTo(topFrame.snp.trailing).offset(-165)
+        }
+        
+        tierOptionLabel.snp.makeConstraints {
+            $0.width.greaterThanOrEqualTo(78)
+        }
+        
+        contentView.snp.makeConstraints {
+            $0.top.equalTo(topFrame.snp.bottom).offset(0)
+            $0.bottom.equalTo(view.snp.bottom).offset(-45)
+            $0.leading.equalToSuperview().offset(0)
+            $0.trailing.equalToSuperview().offset(-0)
+        }
+        
+        partyListTableView.snp.makeConstraints {
+            $0.top.equalTo(contentView.snp.top).offset(6)
+            $0.leading.equalTo(contentView.snp.leading).offset(0)
+            $0.trailing.equalTo(contentView.snp.trailing).offset(-0)
+            $0.bottom.equalTo(contentView.snp.bottom).offset(-5)
+        }
+    }
+    
     func updateOptionLabel(tier: String, position: String) {
         if tier != "", position != "" {
             tierOptionLabel.setTitle(" \(tier) ", for: .normal)
@@ -271,72 +294,6 @@ extension MainViewController {
             selectedPosition = ["Top", "Jungle", "Mid", "Bottom", "Support"]
         }
     }
-
-    func configureUI() {
-        view.backgroundColor = .rgrgColor5
-        
-        view.addSubview(topFrame)
-    
-        topFrame.addSubview(pageTitleLabel)
-        topFrame.addSubview(noticePagebutton)
-        
-        topFrame.addSubview(optionFrame)
-        
-        optionFrame.addArrangedSubview(tierOptionLabel)
-        optionFrame.addArrangedSubview(positionOptionLabel)
-        
-        view.addSubview(contentView)
-        contentView.addSubview(patryListTable)
-        view.addSubview(createPartybutton)
-        
-        topFrame.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(144)
-        }
-        
-        pageTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(topFrame.snp.top).offset(56)
-            $0.leading.equalTo(topFrame.snp.leading).offset(20)
-        }
-        
-        noticePagebutton.snp.makeConstraints {
-            $0.top.equalTo(pageTitleLabel.snp.top).offset(0)
-            $0.trailing.equalToSuperview().offset(-20)
-            $0.height.width.equalTo(24)
-        }
-        
-        createPartybutton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-112)
-            $0.trailing.equalToSuperview().offset(-29)
-            $0.height.equalTo(44)
-            $0.width.equalTo(44)
-        }
- 
-        optionFrame.snp.makeConstraints {
-            $0.top.equalTo(pageTitleLabel.snp.bottom).offset(15)
-            $0.height.equalTo(30)
-            $0.leading.equalTo(topFrame.snp.leading).offset(20)
-            $0.trailing.equalTo(topFrame.snp.trailing).offset(-165)
-        }
-        
-        tierOptionLabel.snp.makeConstraints {
-            $0.width.greaterThanOrEqualTo(78)
-        }
-        
-        contentView.snp.makeConstraints {
-            $0.top.equalTo(topFrame.snp.bottom).offset(0)
-            $0.bottom.equalTo(view.snp.bottom).offset(-45)
-            $0.leading.equalToSuperview().offset(0)
-            $0.trailing.equalToSuperview().offset(-0)
-        }
-        
-        patryListTable.snp.makeConstraints {
-            $0.top.equalTo(contentView.snp.top).offset(6)
-            $0.leading.equalTo(contentView.snp.leading).offset(0)
-            $0.trailing.equalTo(contentView.snp.trailing).offset(-0)
-            $0.bottom.equalTo(contentView.snp.bottom).offset(-5)
-        }
-    }
 }
 
 // MARK: - 함수
@@ -352,7 +309,7 @@ extension MainViewController {
                 self?.partyList = parties
                     
                 DispatchQueue.main.async {
-                    self?.patryListTable.reloadData()
+                    self?.partyListTableView.reloadData()
                 }
             }
         })
@@ -460,5 +417,44 @@ extension MainViewController {
         
         alert.addAction(ok)
         present(alert, animated: true)
+    }
+}
+
+extension MainViewController {
+    func sendSelectedOption(tier: String, position: String) {
+        updateOptionLabel(tier: tier, position: position)
+        if tier == "" {
+            if position == "" {
+                PartyManager.shared.updateParty(tier: tierName, position: positionName, iBlocked: currentUser?.iBlocked ?? [], youBlocked: currentUser?.youBlocked ?? []) { [weak self] parties in
+                    self?.partyList = parties // [PartyInfo] = [PartyInfo]
+                    DispatchQueue.main.async {
+                        self?.partyListTableView.reloadData()
+                    }
+                }
+            } else {
+                PartyManager.shared.updateParty(tier: tierName, position: [position], iBlocked: currentUser?.iBlocked ?? [], youBlocked: currentUser?.youBlocked ?? []) { [weak self] parties in
+                    self?.partyList = parties // [PartyInfo] = [PartyInfo]
+                    DispatchQueue.main.async {
+                        self?.partyListTableView.reloadData()
+                    }
+                }
+            }
+        } else {
+            if position == "" {
+                PartyManager.shared.updateParty(tier: [tier], position: positionName, iBlocked: currentUser?.iBlocked ?? [], youBlocked: currentUser?.youBlocked ?? []) { [weak self] parties in
+                    self?.partyList = parties // [PartyInfo] = [PartyInfo]
+                    DispatchQueue.main.async {
+                        self?.partyListTableView.reloadData()
+                    }
+                }
+            } else {
+                PartyManager.shared.updateParty(tier: [tier], position: [position], iBlocked: currentUser?.iBlocked ?? [], youBlocked: currentUser?.youBlocked ?? []) { [weak self] parties in
+                    self?.partyList = parties // [PartyInfo] = [PartyInfo]
+                    DispatchQueue.main.async {
+                        self?.partyListTableView.reloadData()
+                    }
+                }
+            }
+        }
     }
 }

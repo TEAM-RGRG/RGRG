@@ -7,6 +7,8 @@
 
 import UIKit
 
+// MARK: - 4면 Corner Radius 주는 코드 - 1
+
 extension UIBezierPath {
     convenience init(shouldRoundRect rect: CGRect, topLeftRadius: CGSize = .zero, topRightRadius: CGSize = .zero, bottomLeftRadius: CGSize = .zero, bottomRightRadius: CGSize = .zero) {
         self.init()
@@ -57,6 +59,8 @@ extension UIBezierPath {
     }
 }
 
+// MARK: - 4면 Corner Radius 주는 코드 - 2
+
 extension UIImage {
     func resize(to newSize: CGSize) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
@@ -66,6 +70,8 @@ extension UIImage {
         return newImage!
     }
 }
+
+// MARK: - 4면 Corner Radius 주는 코드 - 3
 
 extension UIView {
     func roundCorners(topLeft: CGFloat = 0, topRight: CGFloat = 0, bottomLeft: CGFloat = 0, bottomRight: CGFloat = 0) { // (topLeft: CGFloat, topRight: CGFloat, bottomLeft: CGFloat, bottomRight: CGFloat) {
@@ -78,6 +84,8 @@ extension UIView {
         shape.path = maskPath.cgPath
         layer.mask = shape
     }
+
+    // MARK: - 그림자 주는 코드
 
     func setupShadow(alpha: CGFloat, offset: CGSize, radius: CGFloat, opacity: Float) {
         layer.shadowColor = CGColor(red: 0, green: 0, blue: 0, alpha: alpha)

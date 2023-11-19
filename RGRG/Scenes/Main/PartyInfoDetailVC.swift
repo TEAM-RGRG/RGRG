@@ -253,19 +253,15 @@ class PartyInfoDetailVC: UIViewController {
         button.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
         return button
     }()
-    
-    // MARK: - ViewDidLoad
-    
+}
+
+// MARK: - View Life Cycle
+
+extension PartyInfoDetailVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        channels.removeAll()
-    }
-    
-    // MARK: - ViewWillAppear
     
     override func viewWillAppear(_ animated: Bool) {
         channels.removeAll()
@@ -287,43 +283,15 @@ class PartyInfoDetailVC: UIViewController {
             print("##### 현재 \(self.existcount)")
         }
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        channels.removeAll()
+    }
+}
 
-    @objc func backButtonTapped() {
-        navigationController?.popViewController(animated: true)
-    }
-    
-    @objc func menuButtonTapped() {
-        if userNameLabel.text == "알 수 없음" {
-            let alert = UIAlertController(title: "탈퇴한 유저", message: "해당 유저는 탈퇴한 유저입니다.", preferredStyle: .alert)
-            let ok = UIAlertAction(title: "확인", style: .default)
-            alert.addAction(ok)
-            
-            present(alert, animated: true)
-        } else {
-            if existcount == 0 {
-                // 유저 없음
-                
-                if let user = user {
-                    // 자기 자신 user의 uid 필드 필요
-                    FireStoreManager.shared.addChannel(channelTitle: party?.writer ?? "n/a", guest: party?.writer ?? "n/a", host: user.uid, channelID: party?.writer ?? "", date: FireStoreManager.shared.dateFormatter(value: Date.now), users: [party?.writer ?? "n/a", user.uid], guestProfile: party?.profileImage ?? "n/a", hostProfile: user.profilePhoto, hostSender: false, guestSender: false) { channel in
-                        print("### 채널 추가 하기 :: \(channel)")
-                    }
-                    navigationController?.popViewController(animated: true)
-                }
-            } else {
-                // 유저 있음
-                showAlert()
-            }
-        }
-    }
-    
-    func showAlert() {
-        let alert = UIAlertController(title: "해당 유저와 채팅 중입니다.", message: "", preferredStyle: .alert)
-        let confirmAlert = UIAlertAction(title: "확인", style: .default)
-        alert.addAction(confirmAlert)
-        present(alert, animated: true)
-    }
-    
+// MARK: - Setting UI
+
+extension PartyInfoDetailVC {
     func setupUI() {
         if party?.writer == user?.uid {
             confirmationButton.isHidden = true
@@ -589,6 +557,48 @@ class PartyInfoDetailVC: UIViewController {
     }
 }
 
+// MARK: - Functions
+
+extension PartyInfoDetailVC {
+    @objc func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func menuButtonTapped() {
+        if userNameLabel.text == "알 수 없음" {
+            let alert = UIAlertController(title: "탈퇴한 유저", message: "해당 유저는 탈퇴한 유저입니다.", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "확인", style: .default)
+            alert.addAction(ok)
+            
+            present(alert, animated: true)
+        } else {
+            if existcount == 0 {
+                // 유저 없음
+                
+                if let user = user {
+                    // 자기 자신 user의 uid 필드 필요
+                    FireStoreManager.shared.addChannel(channelTitle: party?.writer ?? "n/a", guest: party?.writer ?? "n/a", host: user.uid, channelID: party?.writer ?? "", date: FireStoreManager.shared.dateFormatter(value: Date.now), users: [party?.writer ?? "n/a", user.uid], guestProfile: party?.profileImage ?? "n/a", hostProfile: user.profilePhoto, hostSender: false, guestSender: false) { channel in
+                        print("### 채널 추가 하기 :: \(channel)")
+                    }
+                    navigationController?.popViewController(animated: true)
+                }
+            } else {
+                // 유저 있음
+                showAlert()
+            }
+        }
+    }
+    
+    func showAlert() {
+        let alert = UIAlertController(title: "해당 유저와 채팅 중입니다.", message: "", preferredStyle: .alert)
+        let confirmAlert = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(confirmAlert)
+        present(alert, animated: true)
+    }
+}
+
+// MARK: - Right Bar Button
+
 extension PartyInfoDetailVC {
     func makeMyRightBarButton() {
         // 액션 만들기 >> 메뉴 만들기 >> UIBarButtonItem 만들기
@@ -683,6 +693,8 @@ extension PartyInfoDetailVC {
         present(alert, animated: true)
     }
 }
+
+// MARK: - 옆으로 제스처해서 뒤로가기
 
 extension PartyInfoDetailVC {
     func swipeRecognizer() {
