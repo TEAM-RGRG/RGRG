@@ -8,6 +8,8 @@
 import SnapKit
 import UIKit
 
+// MARK: - 선택 값 이전 페이지로 넘기는 프로토콜
+
 protocol SendSelectedOptionDelegate {
     func sendSelectedOption(tier: String, position: String)
 }
@@ -66,11 +68,15 @@ extension SearchOptionViewController {
         tierCollectionView.reloadData()
         positionCollectionView.reloadData()
         if let sheetPresentationController = sheetPresentationController {
-            sheetPresentationController.detents = [
-                .custom { _ in
-                    305
-                }
-            ]
+            if #available(iOS 16.0, *) {
+                sheetPresentationController.detents = [
+                    .custom { _ in
+                        305
+                    }
+                ]
+            } else {
+                // Fallback on earlier versions
+            }
         }
     }
 }

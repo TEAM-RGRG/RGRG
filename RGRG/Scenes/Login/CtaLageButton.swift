@@ -6,28 +6,28 @@
 //
 
 import Foundation
-import UIKit
 import SnapKit
+import UIKit
 
-class CtaLargeButton : UIButton {
-    
+class CtaLargeButton: UIButton {
     let title: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: AppFontName.bold, size: 15)
         return label
     }()
         
- init(titleText: String) {
+    init(titleText: String) {
         self.title.text = titleText
-        super.init(frame:  CGRect())
-        setupUI()
+        super.init(frame: CGRect())
+        self.setupUI()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupUI(){
+    func setupUI() {
         self.layer.cornerRadius = 10
         self.setupShadow(alpha: 0.25, offset: CGSize(width: 2, height: 3), radius: 4, opacity: 1)
         
@@ -35,12 +35,11 @@ class CtaLargeButton : UIButton {
             make.height.equalTo(60)
         }
         
-        self.addSubview(title)
-        title.textColor = UIColor.white
-        title.snp.makeConstraints { make in
+        self.addSubview(self.title)
+        self.title.textColor = UIColor.white
+        self.title.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
         }
     }
 }
-

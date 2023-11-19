@@ -5,25 +5,25 @@
 //  Created by kiakim on 11/7/23.
 //
 
-import Foundation
-import UIKit
-import SnapKit
 import FirebaseAuth
-
+import Foundation
+import SnapKit
+import UIKit
 
 class resetPassword: UIViewController {
-    
     var emailPass: Bool = false
     
     let bodyContainer = {
         let view = UIView()
         return view
     }()
+
     let emailLabel = {
         let label = UILabel()
         label.text = "Email을 입력해주세요"
         return label
     }()
+
     let emailLine = {
         let line = CustomMemberInfoBox(id: .resetPW, conditionText: "Email 형식 확인", passText: "사용가능 한 email입니다.", placeHolder: "Email", condition: "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]+$", style: "resetPW")
         return line
@@ -45,10 +45,9 @@ class resetPassword: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = false
-       
     }
     
-    func checkEmailPass(){
+    func checkEmailPass() {
         emailLine.passHandler = { pass in
             self.emailPass = pass
             self.sendButton.isHidden = pass ? false : true
@@ -56,7 +55,7 @@ class resetPassword: UIViewController {
         }
     }
     
-    @objc func sendResetPWemail(){
+    @objc func sendResetPWemail() {
         let userEmail = emailLine.inputBox.text
         print("check", userEmail) // 옵셔널이니까 언래핑 후 사용해야겠다.
         
@@ -67,14 +66,11 @@ class resetPassword: UIViewController {
                 print("\(userEmail) 주소로 비밀번호 재설정 이메일이 전송되었습니다.")
             }
         }
-        
-        
     }
 }
 
-
 extension resetPassword {
-    func setupUI(){
+    func setupUI() {
         view.addSubview(bodyContainer)
         bodyContainer.addSubview(emailLabel)
         bodyContainer.addSubview(emailLine)
@@ -105,6 +101,5 @@ extension resetPassword {
             make.top.equalTo(emailLine.snp.bottom).offset(40)
             make.left.right.equalToSuperview()
         }
-        
     }
 }

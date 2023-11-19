@@ -3,20 +3,18 @@
 //  RGRG
 //  Created by kiakim on 2023/10/13.
 
-import Foundation
-import UIKit
-import SnapKit
 import Firebase
 import FirebaseFirestore
-
+import Foundation
+import SnapKit
+import UIKit
 
 var pwBringValue: String = ""
 
-class CustomMemberInfoBox : UIView {
-    
-    var passHandler:((Bool)->Void)?
-    var conditon : String
-    var cellHeightValue : Int
+class CustomMemberInfoBox: UIView {
+    var passHandler: ((Bool) -> Void)?
+    var conditon: String
+    var cellHeightValue: Int
     var cellID: MemberInfoBox
     
     let stackView = {
@@ -70,36 +68,38 @@ class CustomMemberInfoBox : UIView {
         return text
     }()
     
-    init(id:MemberInfoBox, conditionText:String? = nil, passText:String? = nil, placeHolder: String, condition: String, cellHeight:Int = 52 , style: String = "SignUp") {
+    init(id: MemberInfoBox, conditionText: String? = nil, passText: String? = nil, placeHolder: String, condition: String, cellHeight: Int = 52, style: String = "SignUp") {
         self.conditon = condition
         self.cellHeightValue = cellHeight
         self.conditionText.text = conditionText
-        self.inputBox.placeholder = placeHolder
+        inputBox.placeholder = placeHolder
         self.cellID = id
         super.init(frame: CGRect())
         setupUI()
         styleSort(style: style)
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: Method
+    // MARK: Method
+
     @objc func checkInputValue() {
         let inputText = inputBox.text ?? ""
         var cellID = self.cellID
         let validationCheck = isValid(text: inputText, condition: conditon)
         
-        func updateUIvalid(validation: Bool = validationCheck, passView: UIView? = nil, nonPassView:UIView? = nil) {
+        func updateUIvalid(validation: Bool = validationCheck, passView: UIView? = nil, nonPassView: UIView? = nil) {
             if inputText.isEmpty {
                 conditionText.isHidden = true
                 passView?.isHidden = true
                 nonPassView?.isHidden = true
                 duplicationMessage.isHidden = true
                 passHandler?(false)
-            }else if validation {
-                //pass
+            } else if validation {
+                // pass
                 switch cellID {
                 case .email:
                     duplicationCheckEmail { [self] isUnique in
@@ -110,7 +110,6 @@ class CustomMemberInfoBox : UIView {
                             duplicationMessage.isHidden = true
                             passHandler?(true)
                         } else {
-                            
                             passView?.isHidden = true
                             duplicationMessage.isHidden = false
                             duplicationMessage.text = "사용불가"
@@ -126,7 +125,7 @@ class CustomMemberInfoBox : UIView {
                             nonPassView?.isHidden = true
                             duplicationMessage.isHidden = true
                             passHandler?(true)
-                        } else  {
+                        } else {
                             passView?.isHidden = true
                             duplicationMessage.isHidden = false
                             duplicationMessage.text = "사용불가"
@@ -137,7 +136,7 @@ class CustomMemberInfoBox : UIView {
                 case .resetPW:
                     duplicationCheckEmail { [self] isUnique in
                         if isUnique {
-                            //unique
+                            // unique
                             passView?.isHidden = true
                             duplicationMessage.isHidden = false
                             duplicationMessage.text = "없는 계정"
@@ -145,7 +144,7 @@ class CustomMemberInfoBox : UIView {
                             passHandler?(false)
                             
                         } else {
-                            //Not unique
+                            // Not unique
                             passView?.isHidden = false
                             passMessage.text = "계정확인됨"
                             nonPassView?.isHidden = true
@@ -154,13 +153,13 @@ class CustomMemberInfoBox : UIView {
                         }
                     }
                     
-                default :
+                default:
                     passView?.isHidden = false
                     nonPassView?.isHidden = true
                     passHandler?(true)
                 }
             } else {
-                //nonPass
+                // nonPass
                 passView?.isHidden = true
                 nonPassView?.isHidden = false
                 passHandler?(false)
@@ -168,13 +167,13 @@ class CustomMemberInfoBox : UIView {
         }
         
         switch cellID {
-        case .loginEmail :
-            updateUIvalid(passView: self.checkIcon)
-        case .loginPW :
+        case .loginEmail:
+            updateUIvalid(passView: checkIcon)
+        case .loginPW:
             isSecureControllView.isHidden = false
-            updateUIvalid(passView: self.checkIcon)
+            updateUIvalid(passView: checkIcon)
         case .email:
-            updateUIvalid(passView: passMessage, nonPassView: self.conditionText)
+            updateUIvalid(passView: passMessage, nonPassView: conditionText)
         case .pw:
             isSecureControllView.isHidden = false
             updateUIvalid(passView: checkIcon, nonPassView: conditionText)
@@ -185,19 +184,19 @@ class CustomMemberInfoBox : UIView {
             let pwCheckValue = pwBringValue == pwCheckInputValue
             updateUIvalid(validation: pwCheckValue, passView: checkIcon, nonPassView: conditionText)
         case .userName:
-            updateUIvalid(passView: passMessage, nonPassView: self.conditionText)
+            updateUIvalid(passView: passMessage, nonPassView: conditionText)
         case .resetPW:
             updateUIvalid(passView: passMessage)
         }
     }
     
-    func isValid(text:String, condition:String) -> Bool {
-        let  condition = condition
-        let compare = NSPredicate(format:"SELF MATCHES %@",  condition)
+    func isValid(text: String, condition: String) -> Bool {
+        let condition = condition
+        let compare = NSPredicate(format: "SELF MATCHES %@", condition)
         return compare.evaluate(with: text)
     }
     
-    //email 중복확인 [2]
+    // email 중복확인 [2]
     func duplicationCheckEmail(completion: @escaping (Bool) -> Void) {
         let email = inputBox.text ?? ""
         let db = Firestore.firestore()
@@ -246,41 +245,42 @@ class CustomMemberInfoBox : UIView {
         }
     }
     
-    func savePasswordValue (){
+    func savePasswordValue() {
         if cellID == .pw {
             let pwValue = inputBox.text
             pwBringValue = pwValue ?? ""
         }
     }
     
-    @objc func switchisSecure (){
-        self.inputBox.isSecureTextEntry.toggle()
+    @objc func switchisSecure() {
+        inputBox.isSecureTextEntry.toggle()
         
-        self.eyesIcon.image = self.inputBox.isSecureTextEntry ? UIImage(systemName: "eye.slash") :            UIImage(systemName: "eye")
+        eyesIcon.image = inputBox.isSecureTextEntry ? UIImage(systemName: "eye.slash") : UIImage(systemName: "eye")
     }
     
-    func styleSort(style : String){
+    func styleSort(style: String) {
         switch style {
-        case "Login" :
-            self.layer.borderColor = UIColor.rgrgColor3.cgColor
-            self.checkIcon.tintColor = UIColor.white
-            self.eyesIcon.tintColor = UIColor.white
+        case "Login":
+            layer.borderColor = UIColor.rgrgColor3.cgColor
+            checkIcon.tintColor = UIColor.white
+            eyesIcon.tintColor = UIColor.white
         case "SignUp":
-            self.layer.borderColor = UIColor.white.cgColor
-            self.backgroundColor = UIColor.white
-            self.inputBox.textColor = UIColor(hex: "505050")
-            self.eyesIcon.tintColor = UIColor.gray
-        case "resetPW" :
-            self.layer.borderColor = UIColor.rgrgColor3.cgColor
-            self.inputBox.textColor = UIColor(hex: "505050")
+            layer.borderColor = UIColor.white.cgColor
+            backgroundColor = UIColor.white
+            inputBox.textColor = UIColor(hex: "505050")
+            eyesIcon.tintColor = UIColor.gray
+        case "resetPW":
+            layer.borderColor = UIColor.rgrgColor3.cgColor
+            inputBox.textColor = UIColor(hex: "505050")
         default:
             break
         }
     }
     
-    //MARK: UI
-    func setupUI(){
-        self.addSubview(stackView)
+    // MARK: UI
+
+    func setupUI() {
+        addSubview(stackView)
         stackView.addArrangedSubview(inputBox)
         stackView.addArrangedSubview(conditionText)
         stackView.addArrangedSubview(isSecureControllView)
@@ -293,10 +293,10 @@ class CustomMemberInfoBox : UIView {
         isSecureControllView.addTarget(self, action: #selector(switchisSecure), for: .touchUpInside)
         inputBox.attributedPlaceholder = NSAttributedString(string: inputBox.placeholder ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.rgrgColor7])
         
-        self.setupShadow(alpha: 0.25, offset: CGSize(width: 2, height: 3), radius: 4, opacity: 0.5)
-        self.layer.borderWidth = 2
-        self.layer.cornerRadius = 10
-        self.snp.makeConstraints { make in
+        setupShadow(alpha: 0.25, offset: CGSize(width: 2, height: 3), radius: 4, opacity: 0.5)
+        layer.borderWidth = 2
+        layer.cornerRadius = 10
+        snp.makeConstraints { make in
             make.height.equalTo(cellHeightValue)
         }
         stackView.snp.makeConstraints { make in
@@ -333,6 +333,3 @@ class CustomMemberInfoBox : UIView {
         duplicationMessage.textColor = UIColor.systemRed
     }
 }
-
-
-

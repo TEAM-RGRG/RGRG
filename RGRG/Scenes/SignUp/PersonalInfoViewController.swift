@@ -9,9 +9,8 @@ import SnapKit
 import UIKit
 
 class PersonalInfoViewController: UIViewController {
-    
-    var chekcHandler:((Bool)->Void)?
-    
+    var chekcHandler: ((Bool) -> Void)?
+
     let contents: UITextView = {
         let textView = UITextView()
         textView.isEditable = false
@@ -141,13 +140,10 @@ extension PersonalInfoViewController {
 
     @objc func agreePrivacy() {
         checkValue.toggle()
-        
+
         navigationController?.popViewController(animated: true)
-        
+
         chekcHandler?(true)
-        
-   
-            
     }
 }
 
