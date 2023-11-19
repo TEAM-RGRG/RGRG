@@ -64,8 +64,67 @@ class resetPassword: UIViewController {
                 print("비밀번호 재설정 이메일 보내기 오류: \(error.localizedDescription)")
             } else {
                 print("\(userEmail) 주소로 비밀번호 재설정 이메일이 전송되었습니다.")
+                self.showAlert(title: "이메일이 발송되었습니다", message: "")
+                
             }
         }
+    }
+    
+    
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+}
+extension resetPassword {
+    func hideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(SignUpViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    func setupKeyboardEvent() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+
+    @objc func keyboardWillShow(_ sender: Notification) {
+        guard let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        let keyboardHeight = keyboardFrame.cgRectValue.height
+        
+        if view.frame.origin.y == 0 {
+            view.frame.origin.y -= keyboardHeight - 180
+        }
+    }
+
+    @objc func keyboardWillHide(_ notification: Notification) {
+        if view.frame.origin.y != 0 {
+            view.frame.origin.y = 0
+        }
+    }
+    
+    func hideKeyboardEvent() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(SignUpViewController.dismissKeyboardSignup))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboardSignup() {
+        view.endEditing(true)
     }
 }
 
@@ -76,7 +135,7 @@ extension resetPassword {
         bodyContainer.addSubview(emailLine)
         bodyContainer.addSubview(sendButton)
         
-//        bodyContainer.layer.borderWidth = 1
+
         bodyContainer.layer.cornerRadius = 10
         bodyContainer.snp.makeConstraints { make in
             make.height.equalToSuperview().dividedBy(2)
@@ -96,6 +155,7 @@ extension resetPassword {
             make.left.right.equalToSuperview()
         }
         
+        sendButton.backgroundColor = UIColor.rgrgColor3
         sendButton.addTarget(self, action: #selector(sendResetPWemail), for: .touchUpInside)
         sendButton.snp.makeConstraints { make in
             make.top.equalTo(emailLine.snp.bottom).offset(40)
