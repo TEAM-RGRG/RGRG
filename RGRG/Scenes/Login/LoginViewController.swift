@@ -109,7 +109,6 @@ extension LoginViewController {
     @objc func tapLogin() {
         loginButton.isEnabled = false
         signInUser()
-        
     }
     
     func signInUser() {
@@ -129,7 +128,11 @@ extension LoginViewController {
                     print(errorCode)
                 }
             } else if authResult != nil {
+                let activityIndicator = ActivityIndicator(view: view, navigationController: navigationController, tabBarController: nil)
+
+                activityIndicator.showActivityIndicator(text: "로딩 중")
                 moveToMain()
+                activityIndicator.stopActivityIndicator()
             }
         }
     }
@@ -283,7 +286,7 @@ extension LoginViewController {
         signupButton.setAttributedTitle(attributedTitleSignup, for: .normal)
         signupButton.setTitleColor(UIColor.white, for: .normal)
         signupButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
-        signupButton.snp.makeConstraints { make in
+        signupButton.snp.makeConstraints { _ in
         }
         resetPW.setAttributedTitle(attributedTitleResetPW, for: .normal)
         resetPW.setTitleColor(UIColor.white, for: .normal)
