@@ -28,6 +28,10 @@ class ChatListViewController: UIViewController {
 
 extension ChatListViewController {
     func task(tag: Int) {
+        let activityIndicator = ActivityIndicator(view: view, navigationController: navigationController, tabBarController: nil)
+
+        activityIndicator.showActivityIndicator(text: "로딩 중")
+
         FirebaseUserManager.shared.getUserInfo { [weak self] user in
             guard let self = self else { return }
             currentUser = user
@@ -47,6 +51,7 @@ extension ChatListViewController {
                 DispatchQueue.main.async {
                     if tag == 1 {
                         self.tableView.reloadData()
+                        activityIndicator.stopActivityIndicator()
                     }
                 }
             }
@@ -56,6 +61,7 @@ extension ChatListViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+
         FireStoreManager.shared.loadWholeChannels()
         FireStoreManager.shared.updateChannelsStatus { value in
 
@@ -101,10 +107,6 @@ extension ChatListViewController {
 
         task(tag: 1)
     }
-
-    override func viewDidDisappear(_ animated: Bool) {
-//        channels.removeAll()
-    }
 }
 
 // MARK: - Setting UI
@@ -112,10 +114,12 @@ extension ChatListViewController {
 extension ChatListViewController {
     func setupUI() {
         view.backgroundColor = UIColor(hex: "#FFFFFF")
+
         confirmNavigation()
         confirmTableView()
         registerCell()
         showBlankListMessage()
+        confirmActivityIndicator()
     }
 }
 
@@ -194,6 +198,8 @@ extension ChatListViewController {
     func makeBlankLeftButton() {
         tabBarController?.navigationItem.leftBarButtonItem = .init(title: "", style: .plain, target: nil, action: nil)
     }
+
+    func confirmActivityIndicator() {}
 }
 
 // MARK: - UITableViewDataSource
