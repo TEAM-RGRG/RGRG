@@ -56,6 +56,7 @@
 		1DEB00E92B01BD2500FA8D29 /* PersonalInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DEB00E82B01BD2500FA8D29 /* PersonalInfoViewController.swift */; };
 		4E0BF7BD2AECED6B00D74836 /* ChatAlertCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0BF7BC2AECED6B00D74836 /* ChatAlertCell.swift */; };
 		4E1264BE2ADF6E2700A4E602 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1264BD2ADF6E2700A4E602 /* CustomTextField.swift */; };
+		4E23DE552B13298B00964044 /* ChatProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E23DE542B13298B00964044 /* ChatProfileViewController.swift */; };
 		4E562AB32AE79BCB00E9A916 /* CustomBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E562AB22AE79BCB00E9A916 /* CustomBackButton.swift */; };
 		4E593C4E2AF0DA0700043C7C /* CustomTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E593C4D2AF0DA0700043C7C /* CustomTextView.swift */; };
 		4E8195EA2ADD299000881C88 /* CustomTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8195E92ADD299000881C88 /* CustomTableView.swift */; };
@@ -150,6 +151,7 @@
 		1DEB00E82B01BD2500FA8D29 /* PersonalInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoViewController.swift; sourceTree = "<group>"; };
 		4E0BF7BC2AECED6B00D74836 /* ChatAlertCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAlertCell.swift; sourceTree = "<group>"; };
 		4E1264BD2ADF6E2700A4E602 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		4E23DE542B13298B00964044 /* ChatProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatProfileViewController.swift; sourceTree = "<group>"; };
 		4E562AB22AE79BCB00E9A916 /* CustomBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBackButton.swift; sourceTree = "<group>"; };
 		4E593C4D2AF0DA0700043C7C /* CustomTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextView.swift; sourceTree = "<group>"; };
 		4E8195E92ADD299000881C88 /* CustomTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableView.swift; sourceTree = "<group>"; };
@@ -316,6 +318,14 @@
 			path = ChatSetting;
 			sourceTree = "<group>";
 		};
+		4E23DE532B13297400964044 /* ChatProfile */ = {
+			isa = PBXGroup;
+			children = (
+				4E23DE542B13298B00964044 /* ChatProfileViewController.swift */,
+			);
+			path = ChatProfile;
+			sourceTree = "<group>";
+		};
 		4E8B84CA2AD81184009BCF4B = {
 			isa = PBXGroup;
 			children = (
@@ -478,6 +488,7 @@
 		4E8B85062AD8120E009BCF4B /* ChatDetail */ = {
 			isa = PBXGroup;
 			children = (
+				4E23DE532B13297400964044 /* ChatProfile */,
 				4E8B85072AD8120E009BCF4B /* ChatDetailViewController.swift */,
 				4E0BF7BC2AECED6B00D74836 /* ChatAlertCell.swift */,
 				4ECD01E82ADE9405003EA65C /* MyFeedCell.swift */,
@@ -727,6 +738,7 @@
 				4E8B851F2AD8120E009BCF4B /* LoginViewController.swift in Sources */,
 				4E8B85172AD8120E009BCF4B /* SignUpViewController.swift in Sources */,
 				1D9889172AFA03190074A860 /* SearchOptionViewController.swift in Sources */,
+				4E23DE552B13298B00964044 /* ChatProfileViewController.swift in Sources */,
 				4EF3A7182AE6511100A1D32D /* Channel.swift in Sources */,
 				4E1264BE2ADF6E2700A4E602 /* CustomTextField.swift in Sources */,
 				1DB94CE02AE8024000851A18 /* FirebaseUserManager.swift in Sources */,

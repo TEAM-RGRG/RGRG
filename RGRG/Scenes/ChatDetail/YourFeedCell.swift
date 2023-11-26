@@ -63,6 +63,7 @@ extension YourFeedCell {
         contentView.addSubview(yourProfileImage)
         yourProfileImage.layer.cornerRadius = 17
         yourProfileImage.layer.masksToBounds = true
+
         yourProfileImage.snp.makeConstraints { make in
             make.bottom.equalTo(baseView)
             make.leading.equalTo(contentView).offset(12)
