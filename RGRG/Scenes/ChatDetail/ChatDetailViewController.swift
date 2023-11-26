@@ -24,6 +24,7 @@ class ChatDetailViewController: UIViewController {
     var thread = ""
     var channelInfo: Channel?
     var chats: [ChatInfo] = []
+
     var fetchingMore = false
     var count = 1
 
@@ -36,40 +37,16 @@ class ChatDetailViewController: UIViewController {
     }
 }
 
+// MARK: - View Life Cycle
+
 extension ChatDetailViewController {
-    func task() {
-        Task {
-            await FireStoreManager.shared.loadChatting(channelName: "channels", thread: thread, startIndex: count) { [weak self] data in
-                guard let self = self else { return }
-
-                self.chats = data
-
-                if chats.isEmpty == true {
-                    blankMessage.isHidden = false
-                } else {
-                    blankMessage.isHidden = true
-                }
-
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-
-                    if self.chats.isEmpty != true {
-                        let endexIndex = IndexPath(row: self.chats.count - 1, section: 0)
-                        self.tableView.scrollToRow(at: endexIndex, at: .bottom, animated: true)
-                    }
-                }
-
-                FireStoreManager.shared.updateChannel(currentMessage: self.chats.last?.content ?? "", thread: thread, sender: currentUserUid, host: channelInfo?.host ?? "n/a", guest: channelInfo?.guest ?? "n/a")
-            }
-        }
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        setupUI()
         showBlankListMessage()
         task()
     }
@@ -78,10 +55,6 @@ extension ChatDetailViewController {
         currentUserUid = ""
         view.endEditing(true)
     }
-
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        textView.becomeFirstResponder()
-//    }
 }
 
 // MARK: - SetUp UI
@@ -112,6 +85,35 @@ extension ChatDetailViewController {
         navigationController?.navigationBar.standardAppearance.backgroundColor = UIColor(hex: "#FFFFFF")
         navigationController?.navigationBar.standardAppearance.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "NotoSansKR-Bold", size: 24)!, NSAttributedString.Key.foregroundColor: UIColor.rgrgColor4]
         navigationController?.navigationBar.shadowImage = nil
+    }
+}
+
+// MARK: - Load Data
+
+extension ChatDetailViewController {
+    func task() {
+        FireStoreManager.shared.loadChatting(channelName: "channels", thread: thread, startIndex: count) { [weak self] data in
+            guard let self = self else { return }
+
+            self.chats = data
+
+            if chats.isEmpty == true {
+                blankMessage.isHidden = false
+            } else {
+                blankMessage.isHidden = true
+            }
+
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+
+                if self.chats.isEmpty != true {
+                    let endexIndex = IndexPath(row: self.chats.count - 1, section: 0)
+                    self.tableView.scrollToRow(at: endexIndex, at: .bottom, animated: true)
+                }
+            }
+
+            FireStoreManager.shared.updateChannel(currentMessage: self.chats.last?.content ?? "", thread: thread, sender: currentUserUid, host: channelInfo?.host ?? "n/a", guest: channelInfo?.guest ?? "n/a")
+        }
     }
 }
 
@@ -304,6 +306,7 @@ extension ChatDetailViewController: UITableViewDataSource {
             background.backgroundColor = .clear
             cell.selectedBackgroundView = background
             return cell
+
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: YourFeedCell.identifier, for: indexPath) as? YourFeedCell else { return UITableViewCell() }
 
@@ -320,12 +323,25 @@ extension ChatDetailViewController: UITableViewDataSource {
                 cell.setupUI()
             }
 
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedYourProfileImage))
+            cell.yourProfileImage.isUserInteractionEnabled = true
+            cell.yourProfileImage.addGestureRecognizer(tapGesture)
+
             cell.backgroundColor = .clear
             let background = UIView()
             background.backgroundColor = .clear
             cell.selectedBackgroundView = background
             return cell
         }
+    }
+
+    ////  상대 이미지 클릭했을 때, 작동하는 코드
+    ////  -  <#Parameter Explain : Comment#>
+    @objc func tappedYourProfileImage() {
+        let vc = ChatProfileViewController()
+        vc.channelInfo = self.channelInfo
+        vc.currentUserID = self.currentUserUid
+        present(vc, animated: true)
     }
 }
 
@@ -341,6 +357,7 @@ extension ChatDetailViewController: UITableViewDelegate {
         textView.resignFirstResponder()
     }
 
+    // TODO: 무한 스크롤링 구현
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
@@ -352,6 +369,7 @@ extension ChatDetailViewController: UITableViewDelegate {
         }
     }
 
+    // TODO: 무한 스크롤링 구현
     func beginBatchFetch() {
         fetchingMore = true
         tableView.reloadSections(IndexSet(integer: 0), with: .none)
@@ -367,6 +385,8 @@ extension ChatDetailViewController: UITableViewDelegate {
     }
 }
 
+// MARK: - Custom Back Button
+
 extension ChatDetailViewController {
     func makeBackButton() {
         let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "chevron.left"), style: .plain, target: self, action: #selector(tappedBackButton))
@@ -379,7 +399,7 @@ extension ChatDetailViewController {
     }
 }
 
-// MARK: - TextView
+// MARK: - UITextViewDelegate
 
 extension ChatDetailViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -414,10 +434,6 @@ extension ChatDetailViewController: UITextViewDelegate {
 
             } else {
                 textView.isScrollEnabled = true
-//                if chats.isEmpty != true {
-//                    let endexIndex = IndexPath(row: chats.count - 1, section: 0)
-//                    tableView.scrollToRow(at: endexIndex, at: .bottom, animated: true)
-//                }
             }
         }
     }
@@ -562,6 +578,8 @@ extension ChatDetailViewController {
         return dateFormatter.string(from: date)
     }
 }
+
+// MARK: - Swipe Gesture To PopNavigation
 
 extension ChatDetailViewController {
     func swipeRecognizer() {

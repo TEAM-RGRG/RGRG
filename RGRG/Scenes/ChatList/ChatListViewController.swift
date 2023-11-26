@@ -27,37 +27,6 @@ class ChatListViewController: UIViewController {
 }
 
 extension ChatListViewController {
-    func task(tag: Int) {
-        let activityIndicator = ActivityIndicator(view: view, navigationController: navigationController, tabBarController: nil)
-
-        activityIndicator.showActivityIndicator(text: "로딩 중")
-
-        FirebaseUserManager.shared.getUserInfo { [weak self] user in
-            guard let self = self else { return }
-            currentUser = user
-
-            guard let currentUser = currentUser else { return }
-
-            FireStoreManager.shared.loadChannels(collectionName: "channels", filter: currentUser.uid) { channel, _ in
-
-                self.channels = channel
-
-                if self.channels.isEmpty == true {
-                    self.blankMessage.isHidden = false
-                } else {
-                    self.blankMessage.isHidden = true
-                }
-
-                DispatchQueue.main.async {
-                    if tag == 1 {
-                        self.tableView.reloadData()
-                        activityIndicator.stopActivityIndicator()
-                    }
-                }
-            }
-        }
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -119,7 +88,6 @@ extension ChatListViewController {
         confirmTableView()
         registerCell()
         showBlankListMessage()
-        confirmActivityIndicator()
     }
 }
 
@@ -198,8 +166,43 @@ extension ChatListViewController {
     func makeBlankLeftButton() {
         tabBarController?.navigationItem.leftBarButtonItem = .init(title: "", style: .plain, target: nil, action: nil)
     }
+}
 
-    func confirmActivityIndicator() {}
+// MARK: - Request Data
+
+extension ChatListViewController {
+    func task(tag: Int) {
+        let activityIndicator = ActivityIndicator(view: view, navigationController: navigationController, tabBarController: nil)
+
+        activityIndicator.showActivityIndicator(text: "로딩 중")
+
+        FirebaseUserManager.shared.getUserInfo { [weak self] user in
+            guard let self = self else { return }
+            currentUser = user
+
+            guard let currentUser = currentUser else { return }
+
+            FireStoreManager.shared.loadChannels(collectionName: "channels", filter: currentUser.uid) { channel, _ in
+
+                self.channels = channel
+
+                if self.channels.isEmpty == true {
+                    self.blankMessage.isHidden = false
+                } else {
+                    self.blankMessage.isHidden = true
+                }
+
+                DispatchQueue.main.async {
+                    if tag == 1 {
+                        self.tableView.reloadData()
+                        activityIndicator.stopActivityIndicator()
+                    } else {
+                        activityIndicator.stopActivityIndicator()
+                    }
+                }
+            }
+        }
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -281,13 +284,5 @@ extension ChatListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         88
-    }
-}
-
-// MARK: - Timer
-
-extension ChatListViewController {
-    @objc func updateChannelsStatus(_ sender: Timer) {
-        tableView.reloadData()
     }
 }
