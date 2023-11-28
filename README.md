@@ -2,7 +2,7 @@
 
 <img width="1372" alt="AppStoreImage" src="https://github.com/NBCAMP-FINAL-TEAM12/RGRG/assets/100465645/c290e3dc-2b80-4b3d-8a33-17f6f49b054b">
 
-## 기획
+## 1. 기획
 
 E스포츠의 대중화와 영상플랫폼의 발전으로 게임 인구가 늘어나고 있습니다.
 
@@ -14,12 +14,12 @@ E스포츠의 대중화와 영상플랫폼의 발전으로 게임 인구가 늘�
 
 수요가 충분하고, 유저들의 니즈 또한 충족할 수 있는 서비스이라고 여겨서 기획하였습니다.
 
-## App 간단 소개
+## 2. App 간단 소개
 랜덤으로 매칭되는 롤, 더 이상 트롤로 고통받고 싶지 않은 분들을 위한 서비스를 만들었습니다.
 
 이제 RGRG를 통해서 함께 게임할 파티원을 찾아보세요
 
-## Time frame & Developer
+## 3. Time frame & Developer
 2023.10.10 - 2023.11.17 (6주간)
 <table>
   <tbody>
@@ -82,7 +82,7 @@ E스포츠의 대중화와 영상플랫폼의 발전으로 게임 인구가 늘�
   </tbody>
 </table>
 
-## Development environment and Libraries
+## 4. Development environment and Libraries
 <div> <img src="https://img.shields.io/badge/ UIKit - iOS -lightgrey.svg?{ style(optional) }" />
 <img src="https://img.shields.io/badge/ Xcode - 15.0.1 -0099E5.svg?{ style(optional) }" />
 <img src="https://img.shields.io/badge/ Swift - 5.9 -success.svg?{ style(optional) }" />
@@ -96,7 +96,7 @@ E스포츠의 대중화와 영상플랫폼의 발전으로 게임 인구가 늘�
 
 
 
-## 주요 기능
+## 5. 주요 기능
 
 ### 1. 파티 모집 기능
 
@@ -121,13 +121,13 @@ RGRG는 신뢰할 수 있는 사람들과 게임을 할 수 있는 서비스를 
 빠른 피드백은 더 신뢰할 수 있는 사람들과 게임할 수 있도록 만들어줄 수 있습니다!
 <br>
 
-## 역할분담
+## 6. 역할분담
 * 김준우 : 채팅 기능
 * 이수현 : 프로필 수정 기능
 * 김귀아 : 로그인 / 회원가입 기능
 * 이시영 : 파티 매칭 리스트 / 파티 매칭 상세 기능
 
-## File Structures
+## 7. File Structures
 ```
 RGRG
 ├── Models
