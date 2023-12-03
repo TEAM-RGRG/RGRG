@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D421D2D2B1C5EFB00FF4F44 /* ChampionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D421D2C2B1C5EFB00FF4F44 /* ChampionManager.swift */; };
 		1D67388F2AFB821F000B0E83 /* PartyInfoIWroteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D67388E2AFB821F000B0E83 /* PartyInfoIWroteViewController.swift */; };
 		1D9889132AF9F3580074A860 /* TierCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9889122AF9F3580074A860 /* TierCell.swift */; };
 		1D9889152AF9F3800074A860 /* PositionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9889142AF9F3800074A860 /* PositionCell.swift */; };
@@ -129,6 +130,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1D421D2C2B1C5EFB00FF4F44 /* ChampionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChampionManager.swift; sourceTree = "<group>"; };
 		1D67388E2AFB821F000B0E83 /* PartyInfoIWroteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartyInfoIWroteViewController.swift; sourceTree = "<group>"; };
 		1D9889122AF9F3580074A860 /* TierCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TierCell.swift; sourceTree = "<group>"; };
 		1D9889142AF9F3800074A860 /* PositionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionCell.swift; sourceTree = "<group>"; };
@@ -409,6 +411,7 @@
 				1DB94CDD2AE760AB00851A18 /* FirebaseStorageManager.swift */,
 				4EE5E9D72AEBCAFB00B7849E /* PartyManager.swift */,
 				1DADB7212B031231001D5725 /* BlockManager.swift */,
+				1D421D2C2B1C5EFB00FF4F44 /* ChampionManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -728,6 +731,7 @@
 				4E0BF7BD2AECED6B00D74836 /* ChatAlertCell.swift in Sources */,
 				4E8195EE2ADD404000881C88 /* CustomImageView.swift in Sources */,
 				4E593C4E2AF0DA0700043C7C /* CustomTextView.swift in Sources */,
+				1D421D2D2B1C5EFB00FF4F44 /* ChampionManager.swift in Sources */,
 				4EFC9C8B2AF7755200A17FC3 /* FirebaseUpdateManager.swift in Sources */,
 				4E8B85352AD81411009BCF4B /* Extension.swift in Sources */,
 				4EE296202AFA32310039B45E /* DeveloperInfoViewController.swift in Sources */,
