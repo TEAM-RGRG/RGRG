@@ -90,6 +90,7 @@ extension ChooseChampViewController {
         setupCollectionView()
         configureUI()
         setupSearchController()
+        setImageTapGesture()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -138,6 +139,39 @@ extension ChooseChampViewController {
         }
     }
     
+    func setImageTapGesture() {
+        let firstTapGesture = UITapGestureRecognizer(target: self, action: #selector(editFirstSelectedChamp))
+        let secondTapGesture = UITapGestureRecognizer(target: self, action: #selector(editSecondSelectedChamp))
+        let thirdTapGesture = UITapGestureRecognizer(target: self, action: #selector(editThirdSelectedChamp))
+        firstImage.addGestureRecognizer(firstTapGesture)
+        firstImage.isUserInteractionEnabled = true
+        secondImage.addGestureRecognizer(secondTapGesture)
+        secondImage.isUserInteractionEnabled = true
+        thirdImage.addGestureRecognizer(thirdTapGesture)
+        thirdImage.isUserInteractionEnabled = true
+    }
+    
+    @objc func editFirstSelectedChamp() {
+        if selectedChamp.count > 0 {
+            selectedChamp.remove(at: 0)
+            selectingChamp()
+        }
+    }
+
+    @objc func editSecondSelectedChamp() {
+        if selectedChamp.count > 1 {
+            selectedChamp.remove(at: 1)
+            selectingChamp()
+        }
+    }
+
+    @objc func editThirdSelectedChamp() {
+        if selectedChamp.count > 2 {
+            selectedChamp.remove(at: 2)
+            selectingChamp()
+        }
+    }
+    
     func setupButton() {
         selectButton.backgroundColor = .rgrgColor4
         selectButton.layer.cornerRadius = 10
@@ -150,6 +184,11 @@ extension ChooseChampViewController {
         firstImage.image = UIImage(named: presentChamp?[0] ?? "None")
         secondImage.image = UIImage(named: presentChamp?[1] ?? "None")
         thirdImage.image = UIImage(named: presentChamp?[2] ?? "None")
+        for i in 0 ... 2 {
+            if presentChamp?[i] != "None" {
+                selectedChamp.append(presentChamp?[i] ?? "Garen")
+            }
+        }
     }
     
     @objc func selectButtonPressed() {
@@ -260,12 +299,18 @@ extension ChooseChampViewController: UICollectionViewDelegate, UICollectionViewD
     func selectingChamp() {
         if selectedChamp.count > 2 {
             thirdImage.image = UIImage(named: selectedChamp[2])
+        } else {
+            thirdImage.image = UIImage(named: "None")
         }
         if selectedChamp.count > 1 {
             secondImage.image = UIImage(named: selectedChamp[1])
+        } else {
+            secondImage.image = UIImage(named: "None")
         }
         if selectedChamp.count > 0 {
             firstImage.image = UIImage(named: selectedChamp[0])
+        } else {
+            firstImage.image = UIImage(named: "None")
         }
     }
 }
