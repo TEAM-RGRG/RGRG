@@ -273,15 +273,18 @@ extension ChooseChampViewController: UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let cell = collectionView.cellForItem(at: indexPath) {
-            if filteredChamp.isEmpty == false {
-                if !selectedChamp.contains(champName[champNameKor.firstIndex(of: filteredChamp[indexPath.row]) ?? 0]) {
-                    selectedChamp.append(champName[champNameKor.firstIndex(of: filteredChamp[indexPath.row]) ?? 0])
-                }
-            } else {
-                if !selectedChamp.contains(champName[indexPath.row]) {
-                    selectedChamp.append(champName[indexPath.row])
+            if selectedChamp.count < 3 {
+                if filteredChamp.isEmpty == false {
+                    if !selectedChamp.contains(champName[champNameKor.firstIndex(of: filteredChamp[indexPath.row]) ?? 0]) {
+                        selectedChamp.append(champName[champNameKor.firstIndex(of: filteredChamp[indexPath.row]) ?? 0])
+                    }
+                } else {
+                    if !selectedChamp.contains(champName[indexPath.row]) {
+                        selectedChamp.append(champName[indexPath.row])
+                    }
                 }
             }
+            print("~~~~~~~~~~~~\(selectedChamp)")
             selectingChamp()
         }
     }
