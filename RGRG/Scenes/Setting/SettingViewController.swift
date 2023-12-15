@@ -115,6 +115,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         cell.textLabel?.text = settingList[indexPath.row]
         cell.backgroundColor = .white
         cell.textLabel?.textColor = .black
+        cell.selectionStyle = .none
         return cell
     }
 
