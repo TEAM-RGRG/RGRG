@@ -206,7 +206,7 @@ extension ChatDetailViewController {
         textView.snp.makeConstraints { make in
             make.leading.equalTo(bottomBaseView).offset(8)
             make.bottom.equalTo(bottomBaseView).offset(-38)
-            make.width.equalTo(334)
+            make.width.equalTo(322)
             make.height.greaterThanOrEqualTo(35)
         }
     }
@@ -339,8 +339,8 @@ extension ChatDetailViewController: UITableViewDataSource {
     ////  -  <#Parameter Explain : Comment#>
     @objc func tappedYourProfileImage() {
         let vc = ChatProfileViewController()
-        vc.channelInfo = self.channelInfo
-        vc.currentUserID = self.currentUserUid
+        vc.channelInfo = channelInfo
+        vc.currentUserID = currentUserUid
         present(vc, animated: true)
     }
 }

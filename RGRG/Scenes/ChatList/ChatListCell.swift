@@ -99,7 +99,7 @@ extension ChatListCell {
         chatAlert.snp.makeConstraints { make in
             make.top.equalTo(baseView).offset(36)
             make.leading.equalTo(baseView).offset(354)
-            make.trailing.equalTo(baseView).offset(-12)
+            make.trailing.equalTo(baseView).offset(-18)
             make.bottom.equalTo(baseView).offset(-36)
             make.width.equalTo(8)
         }
