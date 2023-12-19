@@ -305,7 +305,7 @@ extension LoginViewController {
     func createVersionLabel() {
         view.addSubview(versionLable)
         
-        versionLable.text = "Ver.1.0.4"
+        versionLable.text = VersionService.info
         versionLable.textAlignment = .center
         versionLable.setupLabelColor(color: .white)
         
