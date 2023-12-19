@@ -20,6 +20,8 @@ enum MemberInfoBox: String {
 }
 
 class LoginViewController: UIViewController {
+    var versionLable = CustomLabel(frame: .zero)
+    
     var loginIdPass: Bool = false
     var loginPwPass: Bool = false
     
@@ -223,6 +225,8 @@ extension LoginViewController {
         underLineArea.addArrangedSubview(signupButton)
         underLineArea.addArrangedSubview(resetPW)
         
+        createVersionLabel()
+        
         loginButton.addTarget(self, action: #selector(tapLogin), for: .touchUpInside)
         signupButton.addTarget(self, action: #selector(gotoSignupPage), for: .touchUpInside)
         
@@ -292,5 +296,24 @@ extension LoginViewController {
         resetPW.setTitleColor(UIColor.white, for: .normal)
         resetPW.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         resetPW.addTarget(self, action: #selector(gotoResetPassword), for: .touchUpInside)
+    }
+}
+
+// MARK: - 버전 정보 표시
+
+extension LoginViewController {
+    func createVersionLabel() {
+        view.addSubview(versionLable)
+        
+        versionLable.text = VersionService.info
+        versionLable.textAlignment = .center
+        versionLable.setupLabelColor(color: .white)
+        
+        versionLable.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.height.equalTo(60)
+            make.width.equalTo(150)
+            make.top.equalTo(resetPW.snp.bottom).offset(-10)
+        }
     }
 }

@@ -15,7 +15,7 @@ class SettingViewController: UIViewController {
     let reportVC = ReportViewController()
 
     let settingList = [
-        "차단목록 관리", "로그아웃", "회원탈퇴", "신고하기", "개발자 정보"
+        "차단목록 관리", "로그아웃", "회원탈퇴", "신고하기", "개발자 정보", "버전 정보 : \(VersionService.info)"
     ]
     var user: User?
     let settingTable: UITableView = {
