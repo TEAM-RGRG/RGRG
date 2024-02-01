@@ -18,10 +18,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         var rootViewController = UIViewController()
 
         if Auth.auth().currentUser != nil {
-            rootViewController = TabBarController()
+            rootViewController = TabBarVC()
             rootViewController.viewWillAppear(true)
         } else {
-            rootViewController = LoginViewController()
+            rootViewController = LoginVC()
         }
 
         let rootNavigationController = UINavigationController(rootViewController: rootViewController)

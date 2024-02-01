@@ -1,16 +1,17 @@
 //
-//  CustomLoginCell.swift
+//  CustomMemberInfoBox.swift
 //  RGRG
 //  Created by kiakim on 2023/10/13.
 
 import Firebase
 import FirebaseFirestore
-import Foundation
 import SnapKit
 import UIKit
 
-var pwBringValue: String = ""
+var pwBringValue: String = "" // 이건 여기 왜 있음?
 
+#warning("UI 코드 중복 제거 및 공용 컴포넌트 사용할 것")
+// CustomMemberInfoBox 가 뭐임?
 class CustomMemberInfoBox: UIView {
     var passHandler: ((Bool) -> Void)?
     var conditon: String
