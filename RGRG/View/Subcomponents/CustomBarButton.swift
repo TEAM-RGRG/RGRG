@@ -18,6 +18,8 @@ final class CustomBarButton: UIBarButtonItem {
     }
 }
 
+//MARK: - Make Image Bar Button
+
 extension CustomBarButton {
     func makeBarButtonItem(imageName: String, target: Any, action: Selector) -> UIBarButtonItem {
         let item = UIBarButtonItem(image: UIImage(systemName: imageName), style: .plain, target: target, action: action)
