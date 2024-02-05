@@ -11,6 +11,7 @@ import UIKit
 
 #warning("UI 코드 중복 제거 및 공용 컴포넌트 활용할 것")
 class PartyCell: UITableViewCell {
+    // TODO: 공용 컴포넌트 작업
     let cellFrameView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -18,6 +19,7 @@ class PartyCell: UITableViewCell {
         return view
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let profileImage: UIImageView = {
         var imageView = UIImageView()
         if let image = UIImage(named: "profileImageIcon") {
@@ -33,6 +35,7 @@ class PartyCell: UITableViewCell {
         return imageView
     }()
 
+    // TODO: 공용 컴포넌트 작업
     let positionImageFrame: UIView = {
         let view = UIView()
         view.clipsToBounds = true
@@ -45,6 +48,7 @@ class PartyCell: UITableViewCell {
         return view
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let positionImage: UIImageView = {
         var imageView = UIImageView()
         if let image = UIImage(named: "미드w") {
@@ -56,6 +60,7 @@ class PartyCell: UITableViewCell {
         return imageView
     }()
 
+    // TODO: 공용 컴포넌트 작업
     let userNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -65,6 +70,7 @@ class PartyCell: UITableViewCell {
         return label
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let tierLabelFrame: UIView = {
         let View = UIView()
         View.frame = CGRect(x: 0, y: 0, width: 85, height: 24)
@@ -75,6 +81,7 @@ class PartyCell: UITableViewCell {
         return View
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let tierLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -84,11 +91,13 @@ class PartyCell: UITableViewCell {
         return label
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let positionFrame: UIView = {
         let View = UIView()
         return View
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let fitstRequiredPositionFrame: UIView = {
         let view = UIView()
         view.clipsToBounds = true
@@ -98,6 +107,7 @@ class PartyCell: UITableViewCell {
         return view
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let firstPositionImage: UIImageView = {
         var imageView = UIImageView()
         if let image = UIImage(named: "미드w") {
@@ -108,6 +118,7 @@ class PartyCell: UITableViewCell {
         return imageView
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let secondRequiredPositionFrame: UIView = {
         let view = UIView()
         view.clipsToBounds = true
@@ -117,6 +128,7 @@ class PartyCell: UITableViewCell {
         return view
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let secondPositionImage: UIImageView = {
         var imageView = UIImageView()
         if let image = UIImage(named: "미드w") {

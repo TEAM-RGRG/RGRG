@@ -18,12 +18,14 @@ class CustomMemberInfoBox: UIView {
     var cellHeightValue: Int
     var cellID: MemberInfoBox
     
+    // TODO: 공용 컴포넌트 작업
     let stackView = {
         let view = UIStackView()
         view.axis = .horizontal
         return view
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let inputBox = {
         let box = UITextField()
         box.autocapitalizationType = .none
@@ -31,6 +33,7 @@ class CustomMemberInfoBox: UIView {
         return box
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let conditionText = {
         let text = UILabel()
         text.isHidden = true
@@ -38,12 +41,14 @@ class CustomMemberInfoBox: UIView {
         return text
     }()
     
+    // TODO: 공용 컴포넌트 작업
     lazy var checkIcon = {
         let icon = UIImageView()
         icon.isHidden = true
         return icon
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let isSecureControllView = {
         let view = UIButton()
         view.isHidden = true
@@ -55,6 +60,7 @@ class CustomMemberInfoBox: UIView {
         return icon
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let passMessage = {
         let text = UILabel()
         text.isHidden = true
@@ -62,6 +68,7 @@ class CustomMemberInfoBox: UIView {
         return text
     }()
     
+    // TODO: 공용 컴포넌트 작업
     lazy var duplicationMessage = {
         let text = UILabel()
         text.isHidden = true

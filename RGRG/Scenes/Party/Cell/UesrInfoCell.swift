@@ -9,6 +9,7 @@ import UIKit
 
 #warning("UI 코드 중복 제거 및 공용 컴포넌트 활용할 것")
 class UserInfoCell: UITableViewCell {
+    // TODO: 공용 컴포넌트 작업
     let cellFrameView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -21,6 +22,7 @@ class UserInfoCell: UITableViewCell {
         return view
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let profileImage: UIImageView = {
         var imageView = UIImageView()
         if let image = UIImage(named: "profileImageIcon") {
@@ -33,6 +35,7 @@ class UserInfoCell: UITableViewCell {
         return imageView
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let positionImageFrame: UIView = {
         let view = UIView()
         view.clipsToBounds = true
@@ -45,6 +48,7 @@ class UserInfoCell: UITableViewCell {
         return view
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let positionImage: UIImageView = {
         var imageView = UIImageView()
         if let image = UIImage(named: "미드w") {
@@ -56,6 +60,7 @@ class UserInfoCell: UITableViewCell {
         return imageView
     }()
 
+    // TODO: 공용 컴포넌트 작업
     let userNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -65,6 +70,7 @@ class UserInfoCell: UITableViewCell {
         return label
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let tierLabelFrame: UIView = {
         let View = UIView()
         View.translatesAutoresizingMaskIntoConstraints = false
@@ -74,6 +80,7 @@ class UserInfoCell: UITableViewCell {
         return View
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let tierLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -83,11 +90,13 @@ class UserInfoCell: UITableViewCell {
         return label
     }()
 
+    // TODO: 공용 컴포넌트 작업
     let mostChampionFrame: UIView = {
         let View = UIView()
         return View
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let firstMostChampionImage: UIImageView = {
         var imageView = UIImageView()
         if let image = UIImage(named: "profileImageIcon") {
@@ -101,6 +110,7 @@ class UserInfoCell: UITableViewCell {
         return imageView
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let secondMostChampionImage: UIImageView = {
         var imageView = UIImageView()
         if let image = UIImage(named: "profileImageIcon") {
@@ -114,6 +124,7 @@ class UserInfoCell: UITableViewCell {
         return imageView
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let thirdMostChampionImage: UIImageView = {
         var imageView = UIImageView()
         if let image = UIImage(named: "profileImageIcon") {
@@ -127,6 +138,7 @@ class UserInfoCell: UITableViewCell {
         return imageView
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let acceptRequestButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)

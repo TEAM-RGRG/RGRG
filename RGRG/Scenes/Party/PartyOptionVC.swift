@@ -29,6 +29,7 @@ class PartyOptionVC: UIViewController {
 
     let tierTitleLabel = CustomLabel()
 
+    // TODO: 공용 컴포넌트 작업
     let tierCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -42,6 +43,7 @@ class PartyOptionVC: UIViewController {
 
     let positionTitleLabel = CustomLabel()
 
+    // TODO: 공용 컴포넌트 작업
     let positionCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical

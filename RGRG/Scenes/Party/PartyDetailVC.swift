@@ -24,26 +24,30 @@ class PartyDetailVC: UIViewController {
     
     var eventHandler: ((String) -> ())?
     
+    // TODO: 공용 컴포넌트 작업
     let topFrame: UIView = {
         let view = UIView()
         view.backgroundColor = .rgrgColor5
         return view
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let backButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 17, weight: .bold)
         button.setTitle("Back", for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
-        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didTapBackBarButton), for: .touchUpInside)
         return button
     }()
     
+    // TODO: 공용 컴포넌트 작업
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         return scrollView
     }()
     
+    // TODO: 공용 컴포넌트 작업
     lazy var contentView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -51,6 +55,7 @@ class PartyDetailVC: UIViewController {
         return stackView
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let topframeView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -59,18 +64,21 @@ class PartyDetailVC: UIViewController {
         return view
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let midframeView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
         return view
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let bottomframeView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
         return view
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let profileImage: UIImageView = {
         var imageView = UIImageView()
         if let image = UIImage(named: "profileImageIcon") {
@@ -83,6 +91,7 @@ class PartyDetailVC: UIViewController {
         return imageView
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let positionImageFrame: UIView = {
         let view = UIView()
         view.clipsToBounds = true
@@ -95,6 +104,7 @@ class PartyDetailVC: UIViewController {
         return view
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let positionImage: UIImageView = {
         var imageView = UIImageView()
         if let image = UIImage(named: "미드w") {
@@ -106,6 +116,7 @@ class PartyDetailVC: UIViewController {
         return imageView
     }()
 
+    // TODO: 공용 컴포넌트 작업
     let userNameLabel: UILabel = {
         let label = UILabel()
         label.text = "페이커짱"
@@ -116,6 +127,7 @@ class PartyDetailVC: UIViewController {
         return label
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let tierLabelFrame: UIView = {
         let View = UIView()
         View.translatesAutoresizingMaskIntoConstraints = false
@@ -125,6 +137,7 @@ class PartyDetailVC: UIViewController {
         return View
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let tierLabel: UILabel = {
         let label = UILabel()
         label.text = "bronze"
@@ -135,6 +148,7 @@ class PartyDetailVC: UIViewController {
         return label
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let textTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "국밥탑 등반 듀오구합니다@@  • • •"
@@ -144,6 +158,7 @@ class PartyDetailVC: UIViewController {
         return label
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let timeLabel: UILabel = {
         let label = UILabel()
         label.text = "3분 전"
@@ -152,6 +167,7 @@ class PartyDetailVC: UIViewController {
         return label
     }()
 
+    // TODO: 공용 컴포넌트 작업
     let textView: UITextView = {
         let textView = UITextView()
         textView.text = "듀오 하실 분 구합니다!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!@ 현재 플레 1이구요. 든든하게 국밥챔프 위주로만 플레이 합니다,.. 간절하신 분이였으면 좋겠어요\n다이아,,.. 가봅시다요ㅠㅠ 최고 티어는 다이아 3까지 갔었습니다. 같이 다이아 등반 하실 분 구합니다"
@@ -162,6 +178,7 @@ class PartyDetailVC: UIViewController {
         return textView
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let championLabel: UILabel = {
         let label = UILabel()
         label.text = "주 챔피언"
@@ -170,11 +187,13 @@ class PartyDetailVC: UIViewController {
         return label
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let mostChampionFrame: UIView = {
         let View = UIView()
         return View
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let firstMostChampionImage: UIImageView = {
         var imageView = UIImageView()
         if let image = UIImage(named: "profileImageIcon") {
@@ -188,6 +207,7 @@ class PartyDetailVC: UIViewController {
         return imageView
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let secondMostChampionImage: UIImageView = {
         var imageView = UIImageView()
         if let image = UIImage(named: "profileImageIcon") {
@@ -201,6 +221,7 @@ class PartyDetailVC: UIViewController {
         return imageView
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let thirdMostChampionImage: UIImageView = {
         var imageView = UIImageView()
         if let image = UIImage(named: "profileImageIcon") {
@@ -214,6 +235,7 @@ class PartyDetailVC: UIViewController {
         return imageView
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let requiredPositionLabel: UILabel = {
         let label = UILabel()
         label.text = "듀오 희망 포지션"
@@ -222,6 +244,7 @@ class PartyDetailVC: UIViewController {
         return label
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let fitstRequiredPositionFrame: UIView = {
         let view = UIView()
         view.clipsToBounds = true
@@ -233,6 +256,7 @@ class PartyDetailVC: UIViewController {
         return view
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let requiredPositionImage: UIImageView = {
         var imageView = UIImageView()
         if let image = UIImage(named: "미드w") {
@@ -244,6 +268,7 @@ class PartyDetailVC: UIViewController {
         return imageView
     }()
 
+    // TODO: 공용 컴포넌트 작업
     let confirmationButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 15, weight: .bold)
@@ -251,7 +276,7 @@ class PartyDetailVC: UIViewController {
         button.setTitleColor(UIColor.white, for: .normal)
         button.backgroundColor = UIColor.rgrgColor4
         button.layer.cornerRadius = 10
-        button.addTarget(self, action: #selector(menuButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didTapMenuButton), for: .touchUpInside)
         return button
     }()
 }
@@ -367,20 +392,19 @@ extension PartyDetailVC {
             confirmationButton.backgroundColor = UIColor.rgrgColor6
         }
 
+        addView()
         configureUI()
         makeBackButton()
         swipeRecognizer()
         
         if user?.uid == party?.writer {
-            makeMyRightBarButton()
+            makeRightBarButton()
         } else {
             makeOtherRightBarButton()
         }
     }
     
-    func configureUI() {
-        view.backgroundColor = .white
-        
+    private func addView() {
         view.addSubview(topFrame)
         topFrame.addSubview(contentView)
         
@@ -407,6 +431,10 @@ extension PartyDetailVC {
         
         contentView.addSubview(bottomframeView)
         bottomframeView.addSubview(confirmationButton)
+    }
+    
+    func configureUI() {
+        view.backgroundColor = .white
         
         topFrame.snp.makeConstraints {
             $0.top.left.right.equalTo(view.safeAreaLayoutGuide)
@@ -561,11 +589,11 @@ extension PartyDetailVC {
 // MARK: - Functions
 
 extension PartyDetailVC {
-    @objc func backButtonTapped() {
+    @objc func didTapBackButton() {
         navigationController?.popViewController(animated: true)
     }
     
-    @objc func menuButtonTapped() {
+    @objc func didTapMenuButton() {
         if userNameLabel.text == "알 수 없음" {
             let alert = UIAlertController(title: "탈퇴한 유저", message: "해당 유저는 탈퇴한 유저입니다.", preferredStyle: .alert)
             let ok = UIAlertAction(title: "확인", style: .default)
@@ -585,12 +613,12 @@ extension PartyDetailVC {
                 }
             } else {
                 // 유저 있음
-                showAlert()
+                willShowAlert()
             }
         }
     }
     
-    func showAlert() {
+    func willShowAlert() {
         let alert = UIAlertController(title: "해당 유저와 채팅 중입니다.", message: "", preferredStyle: .alert)
         let confirmAlert = UIAlertAction(title: "확인", style: .default)
         alert.addAction(confirmAlert)
@@ -601,7 +629,7 @@ extension PartyDetailVC {
 // MARK: - Right Bar Button
 
 extension PartyDetailVC {
-    func makeMyRightBarButton() {
+    func makeRightBarButton() {
         // 액션 만들기 >> 메뉴 만들기 >> UIBarButtonItem 만들기
         let latestSortAction = rightBarButtonItem.makeSingleAction(title: "게시글 수정", attributes: .keepsMenuPresented, state: .off) { _ in
             print("### 수정하기 알파입니다.")
@@ -648,7 +676,7 @@ extension PartyDetailVC {
     func makeOtherRightBarButton() {
         // 액션 만들기 >> 메뉴 만들기 >> UIBarButtonItem 만들기
         let latestSortAction = rightBarButtonItem.makeSingleAction(title: "차단하기", attributes: .destructive, state: .off) { _ in
-            self.showBenAlert()
+            self.willShowBenAlert()
             print("차단하기")
         }
 
@@ -665,18 +693,18 @@ extension PartyDetailVC {
     }
     
     func makeBackButton() {
-        let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "chevron.left"), style: .plain, target: self, action: #selector(tappedBackButton))
+        let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "chevron.left"), style: .plain, target: self, action: #selector(didTapBackBarButton))
         backBarButtonItem.tintColor = UIColor(hex: "#0C356A")
         navigationItem.leftBarButtonItem = backBarButtonItem
     }
 
-    @objc func tappedBackButton(_ sender: UIBarButtonItem) {
+    @objc func didTapBackBarButton(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
     }
 }
 
 extension PartyDetailVC {
-    func showBenAlert() {
+    func willShowBenAlert() {
         let alert = UIAlertController(title: "차단하시겠습니까?", message: "차단 하시면 차단된 친구의 글 정보 볼 수 없습니다.", preferredStyle: .alert)
         let confirmAlert = UIAlertAction(title: "차단", style: .destructive, handler: { _ in
             UserBlockManager.shared.blockUser(uid: self.party?.writer ?? "")

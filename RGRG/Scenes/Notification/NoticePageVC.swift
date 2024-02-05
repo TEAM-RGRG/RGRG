@@ -77,7 +77,7 @@ extension NoticePageVC {
         
         let backButton = UIButton(type: .custom)
         backButton.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
-        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        backButton.addTarget(self, action: #selector(didTapBackBarButton), for: .touchUpInside)
         backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true // 버튼의 가로 크기
         backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         backButton.imageEdgeInsets = .init(top: -18, left: -18, bottom: -18, right: -18)
@@ -106,7 +106,7 @@ extension NoticePageVC {
         }
     }
     
-    @objc func backButtonTapped() {
+    @objc func didTapBackBarButton() {
         navigationController?.popViewController(animated: true)
     }
 }

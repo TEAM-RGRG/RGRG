@@ -300,16 +300,16 @@ extension SignUpVC {
     
     func setupKeyboardEvent() {
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow),
+                                               selector: #selector(willShowKeyboard),
                                                name: UIResponder.keyboardWillShowNotification,
                                                object: nil)
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillHide),
+                                               selector: #selector(willHideKeyboard),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
     }
 
-    @objc func keyboardWillShow(_ sender: Notification) {
+    @objc func willShowKeyboard(_ sender: Notification) {
         guard let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         let keyboardHeight = keyboardFrame.cgRectValue.height
         
@@ -318,7 +318,7 @@ extension SignUpVC {
         }
     }
 
-    @objc func keyboardWillHide(_ notification: Notification) {
+    @objc func willHideKeyboard(_ notification: Notification) {
         if view.frame.origin.y != 0 {
             view.frame.origin.y = 0
         }

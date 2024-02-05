@@ -9,6 +9,7 @@ import UIKit
 
 #warning("UI 코드 중복 제거 및 공용 컴포넌트 활용할 것")
 class TierCell: UICollectionViewCell {
+    // TODO: 공용 컴포넌트 작업
     let cellFrameView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.white
@@ -16,6 +17,7 @@ class TierCell: UICollectionViewCell {
         return view
     }()
 
+    // TODO: 공용 컴포넌트 작업
     let tierLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false

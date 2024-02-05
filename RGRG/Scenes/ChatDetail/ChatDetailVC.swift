@@ -335,8 +335,6 @@ extension ChatDetailVC: UITableViewDataSource {
         }
     }
 
-    ////  상대 이미지 클릭했을 때, 작동하는 코드
-    ////  -  <#Parameter Explain : Comment#>
     @objc func tappedYourProfileImage() {
         let vc = ChatProfileVC()
         vc.channelInfo = channelInfo
@@ -389,12 +387,12 @@ extension ChatDetailVC: UITableViewDelegate {
 
 extension ChatDetailVC {
     func makeBackButton() {
-        let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "chevron.left"), style: .plain, target: self, action: #selector(tappedBackButton))
+        let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "chevron.left"), style: .plain, target: self, action: #selector(didTapBackBarButton))
         backBarButtonItem.tintColor = UIColor(hex: "#0C356A")
         navigationItem.leftBarButtonItem = backBarButtonItem
     }
 
-    @objc func tappedBackButton(_ sender: UIBarButtonItem) {
+    @objc func didTapBackBarButton(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
     }
 }
@@ -457,13 +455,13 @@ extension ChatDetailVC {
 
 extension ChatDetailVC {
     func keyboardCheck() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(willShowKeyboard), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(willHideKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow), name: UIResponder.keyboardDidShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didShowKeyboard), name: UIResponder.keyboardDidShowNotification, object: nil)
     }
 
-    @objc func keyboardWillShow(notification: NSNotification) {
+    @objc func willShowKeyboard(notification: NSNotification) {
         print("#### \(#function)")
         if chats.isEmpty != true {
             let endexIndex = IndexPath(row: chats.count - 1, section: 0)
@@ -500,7 +498,7 @@ extension ChatDetailVC {
         }
     }
 
-    @objc func keyboardDidShow(notification: NSNotification) {
+    @objc func didShowKeyboard(notification: NSNotification) {
         print("#### \(#function)")
 
         if chats.isEmpty != true {
@@ -538,7 +536,7 @@ extension ChatDetailVC {
         }
     }
 
-    @objc func keyboardWillHide(notification: NSNotification) {
+    @objc func willHideKeyboard(notification: NSNotification) {
         print("#### \(#function)")
 
         blankMessage.snp.remakeConstraints { make in

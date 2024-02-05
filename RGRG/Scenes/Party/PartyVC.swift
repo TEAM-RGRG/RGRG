@@ -39,6 +39,7 @@ class PartyVC: UIViewController, SendSelectedOptionDelegate {
         print("### NotificationViewController deinitialized")
     }
     
+    // TODO: 공용 컴포넌트 작업
     let topFrame: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -52,6 +53,7 @@ class PartyVC: UIViewController, SendSelectedOptionDelegate {
         return view
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let pageTitleLabel: UILabel = {
         var label = UILabel()
         label.text = "RGRG"
@@ -60,6 +62,7 @@ class PartyVC: UIViewController, SendSelectedOptionDelegate {
         return label
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let createButtonFrame: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -69,6 +72,7 @@ class PartyVC: UIViewController, SendSelectedOptionDelegate {
         return stackView
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let createPartybutton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "PlusInCircle")?.withRenderingMode(.alwaysTemplate), for: .normal)
@@ -82,6 +86,7 @@ class PartyVC: UIViewController, SendSelectedOptionDelegate {
         return button
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let noticePagebutton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "bell")?.withRenderingMode(.alwaysTemplate), for: .normal)
@@ -92,6 +97,7 @@ class PartyVC: UIViewController, SendSelectedOptionDelegate {
         return button
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let optionFrame: UIStackView = {
         let view = UIStackView()
         view.axis = .horizontal
@@ -100,6 +106,7 @@ class PartyVC: UIViewController, SendSelectedOptionDelegate {
         return view
     }()
     
+    // TODO: 공용 컴포넌트 작업
     var tierOptionLabel: UIButton = {
         var button = UIButton()
         button.titleLabel?.font = .myBoldSystemFont(ofSize: 16)
@@ -115,6 +122,7 @@ class PartyVC: UIViewController, SendSelectedOptionDelegate {
         return button
     }()
     
+    // TODO: 공용 컴포넌트 작업
     var positionOptionLabel: UIButton = {
         var button = UIButton()
         button.titleLabel?.font = .myBoldSystemFont(ofSize: 16)
@@ -131,8 +139,10 @@ class PartyVC: UIViewController, SendSelectedOptionDelegate {
         return button
     }()
 
+    // TODO: 공용 컴포넌트 작업
     let contentView = UIView()
     
+    // TODO: 공용 컴포넌트 작업
     lazy var partyListTableView: UITableView = {
         var tableView = UITableView()
         tableView.backgroundColor = .rgrgColor5

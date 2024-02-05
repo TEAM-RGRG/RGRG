@@ -35,22 +35,26 @@ class PartyCreateVC: UIViewController {
     
     var bottomButtonConstraint: NSLayoutConstraint?
     
+    // TODO: 공용 컴포넌트 작업
     let scrollView: UIScrollView = {
         let view = UIScrollView()
         return view
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let contentView: UIView = {
         let view = UIView()
         return view
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let topFrame: UIView = {
         let view = UIView()
         view.backgroundColor = .rgrgColor5
         return view
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let partyNameLabel: UILabel = {
         let label = UILabel()
         label.text = "제목"
@@ -59,6 +63,7 @@ class PartyCreateVC: UIViewController {
         return label
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let partyNameTextField: UITextField = {
         let textField = UITextField()
         textField.backgroundColor = .white
@@ -73,6 +78,7 @@ class PartyCreateVC: UIViewController {
         return textField
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let positionLabel: UILabel = {
         let label = UILabel()
         label.text = "구하는 포지션"
@@ -81,6 +87,7 @@ class PartyCreateVC: UIViewController {
         return label
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let positionFramView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -90,6 +97,7 @@ class PartyCreateVC: UIViewController {
         return stackView
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let topPositionbutton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "Top"), for: .normal)
@@ -102,6 +110,7 @@ class PartyCreateVC: UIViewController {
         return button
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let junglePositionbutton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "Jungle"), for: .normal)
@@ -114,6 +123,7 @@ class PartyCreateVC: UIViewController {
         return button
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let midPositionbutton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "Mid"), for: .normal)
@@ -126,6 +136,7 @@ class PartyCreateVC: UIViewController {
         return button
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let bottomPositionbutton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "Bottom"), for: .normal)
@@ -138,6 +149,7 @@ class PartyCreateVC: UIViewController {
         return button
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let supportPositionbutton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "Support"), for: .normal)
@@ -150,6 +162,7 @@ class PartyCreateVC: UIViewController {
         return button
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let positionLabelFramView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -159,6 +172,7 @@ class PartyCreateVC: UIViewController {
         return stackView
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let topLabel: UILabel = {
         let label = UILabel()
         label.text = ""
@@ -167,6 +181,7 @@ class PartyCreateVC: UIViewController {
         return label
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let jungleLabel: UILabel = {
         let label = UILabel()
         label.text = ""
@@ -175,6 +190,7 @@ class PartyCreateVC: UIViewController {
         return label
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let midLabel: UILabel = {
         let label = UILabel()
         label.text = ""
@@ -183,6 +199,7 @@ class PartyCreateVC: UIViewController {
         return label
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let bottomLabel: UILabel = {
         let label = UILabel()
         label.text = ""
@@ -191,6 +208,7 @@ class PartyCreateVC: UIViewController {
         return label
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let supportLabel: UILabel = {
         let label = UILabel()
         label.text = ""
@@ -199,6 +217,7 @@ class PartyCreateVC: UIViewController {
         return label
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let infoTextLabel: UILabel = {
         let label = UILabel()
         label.text = "소개글"
@@ -207,6 +226,7 @@ class PartyCreateVC: UIViewController {
         return label
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let infoTextView: UITextView = {
         let textView = UITextView()
         textView.backgroundColor = .white
@@ -217,6 +237,7 @@ class PartyCreateVC: UIViewController {
         return textView
     }()
     
+    // TODO: 공용 컴포넌트 작업
     var textCountLabel: UILabel = {
         var label = UILabel()
         label.font = UIFont.myMediumSystemFont(ofSize: 15)
@@ -226,6 +247,7 @@ class PartyCreateVC: UIViewController {
         return label
     }()
     
+    // TODO: 공용 컴포넌트 작업
     var currentTextCountLabel: UILabel = {
         var label = UILabel()
         label.font = UIFont.myMediumSystemFont(ofSize: 15)
@@ -235,6 +257,7 @@ class PartyCreateVC: UIViewController {
         return label
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let confirmationButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .myBoldSystemFont(ofSize: 15)
@@ -316,7 +339,7 @@ extension PartyCreateVC {
         let backButton = UIButton(type: .custom)
         backButton.setImage(UIImage(named: "chevron.left")?.withRenderingMode(.alwaysTemplate), for: .normal)
         backButton.tintColor = .rgrgColor4
-        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        backButton.addTarget(self, action: #selector(didTapBackBarButton), for: .touchUpInside)
         backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true // 버튼의 가로 크기
         backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         backButton.imageEdgeInsets = .init(top: -18, left: -13, bottom: -8, right: -13)
@@ -325,7 +348,7 @@ extension PartyCreateVC {
         navigationItem.leftBarButtonItem = customItem
         
         // 네비게이션바 오른쪽 버튼
-        let rightButton = UIBarButtonItem(title: "임시 저장", style: .plain, target: self, action: #selector(backButtonTapped))
+        let rightButton = UIBarButtonItem(title: "임시 저장", style: .plain, target: self, action: #selector(didTapBackBarButton))
         if #available(iOS 16.0, *) {
             rightButton.isHidden = true
         } else {
@@ -409,7 +432,7 @@ extension PartyCreateVC {
         infoTextView.textColor = UIColor(hex: "#ADADAD")
     }
     
-    @objc func backButtonTapped() {
+    @objc func didTapBackBarButton() {
         navigationController?.popViewController(animated: true)
     }
 }
@@ -697,11 +720,11 @@ extension PartyCreateVC: UITextViewDelegate {
 
 extension PartyCreateVC {
     func setKeyboardNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(willShowKeyboard), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(willHideKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    @objc func keyboardWillShow(notification: NSNotification) {
+    @objc func willShowKeyboard(notification: NSNotification) {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
@@ -712,7 +735,7 @@ extension PartyCreateVC {
         }
     }
     
-    @objc func keyboardWillHide(notification: NSNotification) {
+    @objc func willHideKeyboard(notification: NSNotification) {
         if view.window?.frame.origin.y != 0 {
             if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
                 let keyboardRectangle = keyboardFrame.cgRectValue

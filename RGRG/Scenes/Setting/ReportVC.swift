@@ -169,7 +169,7 @@ extension ReportVC {
             showComment()
 
         } else {
-            showAlert()
+            willShowAlert()
         }
     }
 }
@@ -349,7 +349,7 @@ extension ReportVC: UITextViewDelegate {
 }
 
 extension ReportVC {
-    func showAlert() {
+    func willShowAlert() {
         let alert = UIAlertController(title: "빈칸이 있습니다. 내용을 작성해주세요.", message: "", preferredStyle: .alert)
 
         let confirmAlert = UIAlertAction(title: "확인", style: .default) { _ in
@@ -362,12 +362,12 @@ extension ReportVC {
 
 extension ReportVC {
     func keyboardCheck() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow), name: UIResponder.keyboardDidShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(willShowKeyboard), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(willHideKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didShowKeyboard), name: UIResponder.keyboardDidShowNotification, object: nil)
     }
 
-    @objc func keyboardWillShow(notification: NSNotification) {
+    @objc func willShowKeyboard(notification: NSNotification) {
         print("#### \(#function)")
 
         if reportDescriptionTextView.isFirstResponder {
@@ -379,7 +379,7 @@ extension ReportVC {
         }
     }
 
-    @objc func keyboardDidShow(notification: NSNotification) {
+    @objc func didShowKeyboard(notification: NSNotification) {
         print("#### \(#function)")
 
         if reportDescriptionTextView.isFirstResponder {
@@ -391,7 +391,7 @@ extension ReportVC {
         }
     }
 
-    @objc func keyboardWillHide(notification: NSNotification) {
+    @objc func willHideKeyboard(notification: NSNotification) {
         print("#### \(#function)")
         if reportDescriptionTextView.frame.origin.y != textViewPosY {
             view.frame.origin.y = textViewPosY

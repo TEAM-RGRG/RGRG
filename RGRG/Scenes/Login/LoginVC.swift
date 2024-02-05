@@ -27,42 +27,50 @@ class LoginVC: UIViewController {
     var loginIdPass: Bool = false
     var loginPwPass: Bool = false
     
+    // TODO: 공용 컴포넌트 작업
     let bodyContainer = {
         let stactview = UIView()
         return stactview
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let imageArea = {
         let view = UIView()
         return view
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let mainImage = {
         let title = UIImageView()
         return title
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let methodArea = {
         let view = UIView()
         return view
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let emailLine = {
         let line = CustomMemberInfoBox(id: .loginEmail, placeHolder: "Email", condition: "^[A-Za-z0-9+_.-]+@(.+)$", cellHeight: 60, style: "Login")
         return line
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let passwordLine = {
         let line = CustomMemberInfoBox(id: .loginPW, placeHolder: "Password", condition: "^[a-zA-Z0-9]{7,}$", cellHeight: 60, style: "Login")
         line.inputBox.isSecureTextEntry = true
         return line
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let loginButton = {
         let button = CtaLargeButton(titleText: "로그인")
         return button
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let underLineArea = {
         let view = UIStackView()
         view.axis = .vertical
@@ -70,11 +78,13 @@ class LoginVC: UIViewController {
         
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let signupButton = {
         let button = UIButton()
         return button
     }()
     
+    // TODO: 공용 컴포넌트 작업
     let resetPW = {
         let button = UIButton()
         return button
@@ -167,11 +177,11 @@ extension LoginVC {
 
 extension LoginVC {
     func makeBackButton() {
-        let backButton = CustomBackButton(title: "Back", style: .plain, target: self, action: #selector(tappedBackButton))
+        let backButton = CustomBackButton(title: "Back", style: .plain, target: self, action: #selector(didTapBackBarButton))
         navigationItem.backBarButtonItem = backButton
     }
     
-    @objc func tappedBackButton(_ sender: UIBarButtonItem) {
+    @objc func didTapBackBarButton(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
     }
 }
@@ -179,16 +189,16 @@ extension LoginVC {
 extension LoginVC {
     func setupKeyboardEvent() {
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow),
+                                               selector: #selector(willShowKeyboard),
                                                name: UIResponder.keyboardWillShowNotification,
                                                object: nil)
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillHide),
+                                               selector: #selector(willHideKeyboard),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
     }
     
-    @objc func keyboardWillShow(_ sender: Notification) {
+    @objc func willShowKeyboard(_ sender: Notification) {
         guard let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         let keyboardHeight = keyboardFrame.cgRectValue.height
         
@@ -197,7 +207,7 @@ extension LoginVC {
         }
     }
     
-    @objc func keyboardWillHide(_ notification: Notification) {
+    @objc func willHideKeyboard(_ notification: Notification) {
         if view.frame.origin.y != 0 {
             view.frame.origin.y = 0
         }
