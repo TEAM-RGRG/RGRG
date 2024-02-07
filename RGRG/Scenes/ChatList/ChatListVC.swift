@@ -220,7 +220,7 @@ extension ChatListVC: UITableViewDataSource {
         // 내가 호스트일 때,
         if currentUser?.uid == item.host {
             cell.setupUI()
-            FBUserManager.shared.getUserInfo(searchUser: item.guest) { guest in
+            FBUserManager.shared.requestUserInfo(searchUser: item.guest) { guest in
                 cell.userProfileName.text = guest.userName
                 cell.userProfileImage.image = UIImage(named: guest.profilePhoto)
             }
@@ -236,7 +236,7 @@ extension ChatListVC: UITableViewDataSource {
             // 내가 게스트일 때,
         } else {
             cell.setupUI()
-            FBUserManager.shared.getUserInfo(searchUser: item.host) { host in
+            FBUserManager.shared.requestUserInfo(searchUser: item.host) { host in
                 cell.userProfileName.text = host.userName
                 cell.userProfileImage.image = UIImage(named: host.profilePhoto)
             }
@@ -269,12 +269,12 @@ extension ChatListVC: UITableViewDelegate {
         vc.currentUserUid = currentUser?.uid ?? "N/A"
 
         if currentUser?.uid == item.host {
-            FBUserManager.shared.getUserInfo(searchUser: item.guest) { guest in
+            FBUserManager.shared.requestUserInfo(searchUser: item.guest) { guest in
                 self.vc.navigationItem.title = guest.userName
             }
 
         } else {
-            FBUserManager.shared.getUserInfo(searchUser: item.host) { host in
+            FBUserManager.shared.requestUserInfo(searchUser: item.host) { host in
                 self.vc.navigationItem.title = host.userName
             }
         }

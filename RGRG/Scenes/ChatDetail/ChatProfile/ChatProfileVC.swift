@@ -225,7 +225,7 @@ extension ChatProfileVC {
             user = channelInfo?.host ?? "n/a"
         }
 
-        FBUserManager.shared.getUserInfo(searchUser: user) { [weak self] requestUser in
+        FBUserManager.shared.requestUserInfo(searchUser: user) { [weak self] requestUser in
             guard let self = self else { return }
             print("#### ChatProfileVC Search: \(requestUser)")
             userInfo = requestUser

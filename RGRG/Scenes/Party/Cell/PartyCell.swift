@@ -5,17 +5,28 @@
 //  Created by t2023-m0064 on 10/31/23.
 //
 
-import Foundation
 import SnapKit
 import UIKit
 
-#warning("UI 코드 중복 제거 및 공용 컴포넌트 활용할 것")
-class PartyCell: UITableViewCell {
+final class PartyCell: UITableViewCell {
     // TODO: 공용 컴포넌트 작업
     let cellFrameView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 10
+        return view
+    }()
+    
+    // TODO: 공용 컴포넌트 작업
+    let positionImageFrame: UIView = {
+        let view = UIView()
+        view.clipsToBounds = true
+        view.backgroundColor = .rgrgColor8
+        view.contentMode = .scaleToFill
+        view.layer.cornerRadius = 8.5
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.rgrgColor4.cgColor
+        view.frame = CGRect(x: 0, y: 0, width: 5, height: 5)
         return view
     }()
     
@@ -33,19 +44,6 @@ class PartyCell: UITableViewCell {
         imageView.layer.borderColor = UIColor.rgrgColor4.cgColor
         imageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         return imageView
-    }()
-
-    // TODO: 공용 컴포넌트 작업
-    let positionImageFrame: UIView = {
-        let view = UIView()
-        view.clipsToBounds = true
-        view.backgroundColor = .rgrgColor8
-        view.contentMode = .scaleToFill
-        view.layer.cornerRadius = 8.5
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.rgrgColor4.cgColor
-        view.frame = CGRect(x: 0, y: 0, width: 5, height: 5)
-        return view
     }()
     
     // TODO: 공용 컴포넌트 작업

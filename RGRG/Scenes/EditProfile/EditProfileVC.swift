@@ -401,7 +401,7 @@ extension EditProfileVC {
 
     @objc func checkAvailable() {
         if user?.userName != userNameTextField.text {
-            FBUserManager.shared.checkUserNameRepeat(inputText: userNameTextField.text ?? "", completion: { boolean in
+            FBUserManager.shared.checkExistUserName(inputText: userNameTextField.text ?? "", completion: { boolean in
                 if boolean == true {
                     self.noticeLabel.text = "중복된 닉네임입니다!"
                 } else {

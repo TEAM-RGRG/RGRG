@@ -154,11 +154,6 @@ class PartyVC: UIViewController, SendSelectedOptionDelegate {
 // MARK: - ViewController 생명 주기
 
 extension PartyVC {
-    override func viewWillAppear(_ animated: Bool) {
-        tabBarController?.navigationController?.navigationBar.isHidden = true
-        task()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -167,8 +162,13 @@ extension PartyVC {
         partyListTableView.dataSource = self
         
         FBPartyManager.shared.updatePartyStatus {
-            self.task()
+            self.requestUserData()
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.navigationController?.navigationBar.isHidden = true
+//        requestUserData()
     }
 }
 
@@ -310,21 +310,41 @@ extension PartyVC {
 // MARK: - 함수
 
 extension PartyVC {
-    func task() {
-        FBUserManager.shared.getUserInfo(complition: { user in
-            self.currentUser = user
-            
-            guard let currentUser = self.currentUser else { return }
+    func requestUserData() {
+        Task {
+            do {
+                self.currentUser = try await FBUserManager.shared.requestUserInfo()
                 
-            FBPartyManager.shared.loadParty(iBlocked: currentUser.iBlocked, youBlocked: currentUser.youBlocked) { [weak self] parties in
-                self?.partyList = parties
-                    
-                DispatchQueue.main.async {
-                    self?.partyListTableView.reloadData()
+                guard let currentUser = self.currentUser else { return }
+                
+                FBPartyManager.shared.loadParty(iBlocked: currentUser.iBlocked, youBlocked: currentUser.youBlocked) { [weak self] parties in
+                    self?.partyList = parties
+                        
+                    DispatchQueue.main.async {
+                        self?.partyListTableView.reloadData()
+                    }
                 }
+            } catch {
+                print("#### User의 데이터를 불러오지 못했습니다.")
             }
-        })
+        }
     }
+    
+//    func task() {
+//        FBUserManager.shared.getUserInfo(complition: { user in
+//            self.currentUser = user
+//
+//            guard let currentUser = self.currentUser else { return }
+//
+//            FBPartyManager.shared.loadParty(iBlocked: currentUser.iBlocked, youBlocked: currentUser.youBlocked) { [weak self] parties in
+//                self?.partyList = parties
+//
+//                DispatchQueue.main.async {
+//                    self?.partyListTableView.reloadData()
+//                }
+//            }
+//        })
+//    }
     
     @objc func createPartybuttonTapped() {
         let CreatePartyVC = PartyCreateVC()

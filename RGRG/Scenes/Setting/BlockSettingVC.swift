@@ -89,7 +89,7 @@ extension BlockSettingVC: UITableViewDelegate, UITableViewDataSource {
 
         let item = blockList[indexPath.row]
 
-        FBUserManager.shared.getUserInfo(searchUser: item, complition: { user in
+        FBUserManager.shared.requestUserInfo(searchUser: item, complition: { user in
             cell.textLabel?.text = user.userName
         })
 

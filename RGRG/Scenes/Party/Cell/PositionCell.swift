@@ -4,11 +4,10 @@
 //
 //  Created by 이수현 on 11/7/23.
 //
-import SwiftUI
+
 import UIKit
 
-class PositionCell: UICollectionViewCell {
-    // TODO: 공용 컴포넌트 작업
+final class PositionCell: UICollectionViewCell {
     let cellFrameView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.white
@@ -16,7 +15,6 @@ class PositionCell: UICollectionViewCell {
         return view
     }()
 
-    // TODO: 공용 컴포넌트 작업
     let positionFrame: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 12
