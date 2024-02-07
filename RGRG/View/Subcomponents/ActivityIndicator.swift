@@ -15,10 +15,12 @@ struct ActivityIndicator {
     let tabBarController: UITabBarController?
     let activityIndicatorView = UIActivityIndicatorView()
     let loadingTextLabel = UILabel()
-    
+
     var navigationBarHeight: CGFloat { return navigationController?.navigationBar.frame.size.height ?? 0.0 }
     var tabBarHeight: CGFloat { return tabBarController?.tabBar.frame.height ?? 0.0 }
-    
+}
+
+extension ActivityIndicator {
     func showActivityIndicator(text: String) {
         viewForActivityIndicator.frame = CGRect(x: 0.0, y: 0.0, width: 100, height: 100)
         viewForActivityIndicator.center = CGPoint(x: view.frame.size.width / 2.0, y: (view.frame.size.height - tabBarHeight - navigationBarHeight) / 2.0)

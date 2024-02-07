@@ -159,6 +159,17 @@ class UserInfoCell: UITableViewCell {
         
         contentView.backgroundColor = .rgrgColor5
         
+        setupUI()
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension UserInfoCell {
+    func setupUI() {
         contentView.addSubview(cellFrameView)
         cellFrameView.addSubview(profileImage)
         cellFrameView.addSubview(positionImageFrame)
@@ -250,10 +261,5 @@ class UserInfoCell: UITableViewCell {
             $0.bottom.equalTo(cellFrameView.snp.bottom).offset(-22)
             $0.width.equalTo(73)
         }
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

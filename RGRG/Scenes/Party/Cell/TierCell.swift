@@ -39,7 +39,9 @@ class TierCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
 
+extension TierCell {
     private func setupUI() {
         contentView.backgroundColor = .clear
 

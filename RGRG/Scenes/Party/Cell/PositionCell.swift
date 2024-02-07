@@ -4,6 +4,7 @@
 //
 //  Created by 이수현 on 11/7/23.
 //
+import SwiftUI
 import UIKit
 
 class PositionCell: UICollectionViewCell {
@@ -24,23 +25,8 @@ class PositionCell: UICollectionViewCell {
         return view
     }()
 
-    // TODO: 공용 컴포넌트 작업
-    let positionLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.myBoldSystemFont(ofSize: 15)
-        label.textColor = .rgrgColor7
-        label.textAlignment = .center
-        return label
-    }()
-
-    // TODO: 공용 컴포넌트 작업
-    let positionImage: UIImageView = {
-        var imageView = UIImageView()
-        imageView.tintColor = .rgrgColor7
-        imageView.contentMode = .scaleToFill
-        return imageView
-    }()
+    let positionLabel = CustomLabel(frame: .zero)
+    let positionImage = CustomImageView(frame: .zero)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -51,29 +37,59 @@ class PositionCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
 
+// MARK: - SetUP UI
+
+extension PositionCell {
     private func setupUI() {
         contentView.backgroundColor = .clear
+        addView()
+        createCellFrameView()
+        createPositionFrame()
+        createPositionLabel()
+        createPositionImage()
+    }
 
+    private func addView() {
         contentView.addSubview(cellFrameView)
         cellFrameView.addSubview(positionFrame)
         positionFrame.addSubview(positionLabel)
         positionFrame.addSubview(positionImage)
+    }
+}
 
+// MARK: - Create Components And Make Constraints
+
+extension PositionCell {
+    private func createCellFrameView() {
         cellFrameView.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(5)
         }
+    }
 
+    private func createPositionFrame() {
         positionFrame.snp.makeConstraints {
             $0.height.equalTo(24)
             $0.width.equalTo(85)
             $0.top.equalTo(cellFrameView.snp.top).offset(0)
         }
+    }
+
+    private func createPositionLabel() {
+        positionLabel.font = UIFont.myBoldSystemFont(ofSize: 15)
+        positionLabel.textColor = .rgrgColor7
+        positionLabel.textAlignment = .center
 
         positionLabel.snp.makeConstraints {
             $0.top.equalTo(positionFrame.snp.top).offset(2)
             $0.leading.equalTo(positionFrame.snp.leading).offset(19)
         }
+    }
+
+    private func createPositionImage() {
+        positionImage.tintColor = .rgrgColor7
+        positionImage.contentMode = .scaleToFill
 
         positionImage.snp.makeConstraints {
             $0.top.equalTo(positionFrame.snp.top).offset(2)
